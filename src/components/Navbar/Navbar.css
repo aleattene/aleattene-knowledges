@@ -1,0 +1,26 @@
+
+.navbar {
+    background-color: #242424;
+    color: #fff;
+    padding: 1rem;
+    display: flex;
+    justify-content: center;
+}
+
+.navbar ul {
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    padding: 0;
+    margin: 0;
+}
+
+.navbar li {
+    cursor: pointer;
+    margin: 0 1rem;
+}
+
+.navbar li a {
+    color: #fff;
+    text-decoration: none;
+}
