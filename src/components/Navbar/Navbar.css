@@ -20,6 +20,11 @@
     margin: 0 1rem;
 }
 
+.navbar li.active a {
+    font-weight: bold;
+    color: mediumvioletred;
+}
+
 .navbar li a {
     color: #fff;
     text-decoration: none;
