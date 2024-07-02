@@ -1,0 +1,10 @@
+.terminal-code {
+    background-color: #1e1e1e;
+    color: #d4d4d4;
+    padding: 1rem;
+    border-radius: 5px;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 1rem;
+    overflow: auto;
+    white-space: pre-wrap;
+}
