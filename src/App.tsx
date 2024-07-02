@@ -8,7 +8,7 @@ import Database from "./pages/it/Database/Database.tsx";
 import Docker from "./pages/it/Docker/Docker.tsx";
 import Git from "./pages/it/Git/Git.tsx";
 import {BrowserRouter, Route, Routes} from "react-router-dom";
-import AlgoSorting from "./pages/it/Algorithms/Sorting/AlgoSorting.tsx";
+import AlgoSorting from "./pages/it/Algorithms/Algorithms.tsx";
 
 const App: React.FC = () => {
 
