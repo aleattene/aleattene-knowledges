@@ -10,7 +10,8 @@ const sections: Record<string, string[]> = {
     backend: ['Js', 'NodeJs', 'Express', 'Fastify', 'NestJs', 'Mercurius'],
     database: ['SQLite', 'MySQL', 'PostgreSQL', 'MongoDB'],
     docker: [],
-    git: []
+    git: [],
+    algoritmi: ['Bubble Sort', 'Quick Sort', 'Merge Sort', 'Insertion Sort', 'Selection Sort']
 };
 
 const Sidebar: React.FC<SidebarProps> = ({ section }) => {
