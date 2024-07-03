@@ -1,5 +1,5 @@
 import React from 'react';
-import TerminalCode from "../../../components/TerminalCode/TerminalCode.tsx";
+import TerminalCode from "../../../components/Code/TerminalCode/TerminalCode.tsx";
 
 //
 const createEmptyLocalRepository: string = `git init`;

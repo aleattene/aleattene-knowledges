@@ -12,6 +12,9 @@ import DataScience from "./pages/it/DataScience/DataScience.tsx";
 import Docker from "./pages/it/Docker/Docker.tsx";
 import Git from "./pages/it/Git/Git.tsx";
 import Python from "./pages/it/Languages/Python/Python.tsx";
+import DataStructures from "./pages/it/DataStructures/DataStructures.tsx";
+import Javascript from "./pages/it/Languages/Javascript/Javascript.tsx";
+import Typescript from "./pages/it/Languages/Typescript/Typescript.tsx";
 
 
 const App: React.FC = () => {
@@ -36,15 +39,18 @@ const App: React.FC = () => {
                     </div>
                 <div className="main-content">
                     <Routes>
-                        <Route path="/linguaggi" element={<Languages/>} />
-                        <Route path={"/linguaggi/python"} element={<Python/>} />
-                        <Route path="/algoritmi" element={<Algorithms/>} />
-                        <Route path="/frontend" element={<Frontend/>} />
-                        <Route path="/backend" element={<Backend/>} />
-                        <Route path="/database" element={<Database/>} />
-                        <Route path="/data-science" element={<DataScience/>} />
-                        <Route path="/git" element={<Git/>} />
-                        <Route path="/docker" element={<Docker/>} />
+                        <Route path="/it/languages" element={<Languages/>} />
+                        <Route path="/it/languages/javascript" element={<Javascript/>} />
+                        <Route path="/it/languages/typescript" element={<Typescript/>} />
+                        <Route path="/it/languages/python" element={<Python/>} />
+                        <Route path="/it/algorithms" element={<Algorithms/>} />
+                        <Route path="/it/datastructures" element={<DataStructures/>} />
+                        <Route path="/it/frontend" element={<Frontend/>} />
+                        <Route path="/it/backend" element={<Backend/>} />
+                        <Route path="/it/database" element={<Database/>} />
+                        <Route path="/it/datascience" element={<DataScience/>} />
+                        <Route path="/it/git" element={<Git/>} />
+                        <Route path="/it/docker" element={<Docker/>} />
                         <Route path="/" element={
                             <div>
                                 <h1>Benvenuto!</h1>
