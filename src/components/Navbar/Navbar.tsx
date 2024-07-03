@@ -13,7 +13,18 @@ const Navbar: React.FC<NavbarProps> = ({ onSectionChange }) => {
     return (
         <nav className="navbar">
             <ul>
-
+                <li
+                    className={location.pathname === '/linguaggi' ? 'active' : ''}
+                    onClick={() => onSectionChange('linguaggi')}
+                >
+                    <Link to="/linguaggi">Linguaggi</Link>
+                </li>
+                <li
+                    className={location.pathname === '/algoritmi' ? 'active' : ''}
+                    onClick={() => onSectionChange('algoritmi')}
+                >
+                    <Link to="/algoritmi">Algoritmi</Link>
+                </li>
                 <li
                     className={location.pathname === '/frontend' ? 'active' : ''}
                     onClick={() => onSectionChange('frontend')}
@@ -33,10 +44,10 @@ const Navbar: React.FC<NavbarProps> = ({ onSectionChange }) => {
                     <Link to="/database">Database</Link>
                 </li>
                 <li
-                    className={location.pathname === '/docker' ? 'active' : ''}
-                    onClick={() => onSectionChange('docker')}
+                    className={location.pathname === '/data-science' ? 'active' : ''}
+                    onClick={() => onSectionChange('datascience')}
                 >
-                    <Link to="/docker">Docker</Link>
+                    <Link to="/data-science">DataScience</Link>
                 </li>
                 <li
                     className={location.pathname === '/git' ? 'active' : ''}
@@ -45,10 +56,10 @@ const Navbar: React.FC<NavbarProps> = ({ onSectionChange }) => {
                     <Link to="/git">Git</Link>
                 </li>
                 <li
-                    className={location.pathname === '/algoritmi' ? 'active' : ''}
-                    onClick={() => onSectionChange('algoritmi')}
+                    className={location.pathname === '/docker' ? 'active' : ''}
+                    onClick={() => onSectionChange('docker')}
                 >
-                    <Link to="/algoritmi">Algoritmi</Link>
+                    <Link to="/docker">Docker</Link>
                 </li>
             </ul>
         </nav>

@@ -1,12 +1,12 @@
 import React from 'react';
 
-const Backend: React.FC = () => {
+const Algorithms: React.FC = () => {
     return (
         <div>
-            <h1>Algoritmi Ordinamento</h1>
-            <p>Contenuti relativi agli Algoritmi di Ordinamento.</p>
+            <h1>Algoritmi</h1>
+            <p>Contenuti relativi agli Algoritmi.</p>
         </div>
     );
 };
 
-export default Backend;
+export default Algorithms;

@@ -1,14 +1,18 @@
 import './App.css'
 import React from "react";
+import {BrowserRouter, Route, Routes} from "react-router-dom";
 import Navbar from "./components/Navbar/Navbar.tsx";
 import Sidebar from "./components/Sidebar/Sidebar.tsx";
-import Frontend from "./pages/it/Frontend/HomePage.tsx";
-import Backend from "./pages/it/Backend/HomePage.tsx";
+import Languages  from "./pages/it/Languages/Languages.tsx";
+import Algorithms from "./pages/it/Algorithms/Algorithms.tsx";
+import Frontend from "./pages/it/Frontend/Frontend.tsx";
+import Backend from "./pages/it/Backend/Backend.tsx";
 import Database from "./pages/it/Database/Database.tsx";
+import DataScience from "./pages/it/DataScience/DataScience.tsx";
 import Docker from "./pages/it/Docker/Docker.tsx";
 import Git from "./pages/it/Git/Git.tsx";
-import {BrowserRouter, Route, Routes} from "react-router-dom";
-import AlgoSorting from "./pages/it/Algorithms/Algorithms.tsx";
+import Python from "./pages/it/Languages/Python/Python.tsx";
+
 
 const App: React.FC = () => {
 
@@ -32,12 +36,15 @@ const App: React.FC = () => {
                     </div>
                 <div className="main-content">
                     <Routes>
+                        <Route path="/linguaggi" element={<Languages/>} />
+                        <Route path={"/linguaggi/python"} element={<Python/>} />
+                        <Route path="/algoritmi" element={<Algorithms/>} />
                         <Route path="/frontend" element={<Frontend/>} />
                         <Route path="/backend" element={<Backend/>} />
                         <Route path="/database" element={<Database/>} />
-                        <Route path="/docker" element={<Docker/>} />
+                        <Route path="/data-science" element={<DataScience/>} />
                         <Route path="/git" element={<Git/>} />
-                        <Route path="/algoritmi" element={<AlgoSorting/>} />
+                        <Route path="/docker" element={<Docker/>} />
                         <Route path="/" element={
                             <div>
                                 <h1>Benvenuto!</h1>

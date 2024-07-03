@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import './Sidebar.css';
 
 interface SidebarProps {
@@ -6,12 +7,14 @@ interface SidebarProps {
 }
 
 const sections: Record<string, string[]> = {
-    frontend: ['Js', 'React', 'NextJs'],
-    backend: ['Js', 'NodeJs', 'Express', 'Fastify', 'NestJs', 'Mercurius'],
+    linguaggi: ['Javascript', 'Typescript', 'Python'], // C,C++,PHP
+    algoritmi: ['Bubble Sort', 'Quick Sort', 'Merge Sort', 'Insertion Sort', 'Selection Sort'],
+    frontend: ['React'], // NextJs
+    backend: ['NodeJs', 'Express', 'Fastify', 'NestJs', 'Django', 'Symfony'], // Mercurius
     database: ['SQLite', 'MySQL', 'PostgreSQL', 'MongoDB'],
-    docker: [],
+    datascience: ['Pandas', 'Numpy', 'Matplotlib'],
     git: [],
-    algoritmi: ['Bubble Sort', 'Quick Sort', 'Merge Sort', 'Insertion Sort', 'Selection Sort']
+    docker: [],
 };
 
 const Sidebar: React.FC<SidebarProps> = ({ section }) => {
@@ -19,7 +22,9 @@ const Sidebar: React.FC<SidebarProps> = ({ section }) => {
         <aside className="sidebar">
             <ul>
                 {sections[section]?.map(subsection => (
-                    <li key={subsection}>{subsection}</li>
+                    <li key={subsection}>
+                        <Link to={`/${section.toLowerCase()}/${subsection.toLowerCase()}`}>{subsection}</Link>
+                    </li>
                 ))}
             </ul>
         </aside>
@@ -27,3 +32,4 @@ const Sidebar: React.FC<SidebarProps> = ({ section }) => {
 };
 
 export default Sidebar;
+
