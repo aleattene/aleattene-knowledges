@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {Link, useLocation} from 'react-router-dom';
 import './Sidebar.css';
 
@@ -18,28 +18,60 @@ export const sections: Record<string, string[]> = {
     docker: [],
 };
 
-const Sidebar: React.FC<SidebarProps> = ({ section }) => {
+export const subSections: Record<string, string[]> = {
+    javascript: ['Variabili', 'Funzioni', 'Array', 'Oggetti', 'Ricorsione', 'Callback', 'Promise', 'Async/Await', 'Event Loop', 'Closure', 'Hoisting', 'This', 'Prototype', 'Class', 'Module'],
+    typescript: ['Tipi', 'Interfacce', 'Classi', 'Moduli', 'Namespace', 'Decoratori'],
+    python: ['Variabili', 'Funzioni', 'Classi', 'Moduli', 'Pacchetti', 'Comprehension', 'Generatori', 'Decoratori'],
+};
 
+const Sidebar: React.FC<SidebarProps> = ({ section }) => {
+    const [expandedSubsection, setExpandedSubsection] = useState<string | null>(null);
     const location = useLocation();
+
+    useEffect(() => {
+        setExpandedSubsection(null);
+    }, [section]);
+
+    const handleSubsectionClick = (subsectionName: string) => {
+        setExpandedSubsection(expandedSubsection === subsectionName ? null : subsectionName);
+    };
+
+    const isActive = (subsection: string) => {
+        const pathParts = location.pathname.split('/');
+        return pathParts.includes(subsection.toLowerCase());
+    };
 
     return (
         <aside className="sidebar">
             <ul>
-                {sections[section]?.map(subsection => (
-                    <li
-                        key={subsection}
-                        className={location.pathname === `/it/${section.toLowerCase()}/${subsection.toLowerCase()}`
-                            ? 'active'
-                            : ''
-                        }
-                    >
-                        <Link to={`/it/${section.toLowerCase()}/${subsection.toLowerCase()}`}>{subsection}</Link>
+                {sections[section]?.map((subsection) => (
+                    <li key={subsection}>
+                        <div
+                            onClick={() => handleSubsectionClick(subsection)}
+                            className={`sidebar-subitem ${isActive(subsection) || expandedSubsection === subsection ? 'active' : ''}`}
+                        >
+                            <Link to={`/it/${section.toLowerCase()}/${subsection.toLowerCase()}`}>{subsection}</Link>
+                        </div>
+                        {(isActive(subsection) || expandedSubsection === subsection) && subSections[subsection.toLowerCase()] && (
+                            <ul className="subsubsection-list">
+                                {subSections[subsection.toLowerCase()].map((subsubsection) => (
+                                    <li
+                                        key={subsubsection}
+                                        className={`subsubsection-item ${location.pathname === `/it/${section.toLowerCase()}/${subsection.toLowerCase()}/${subsubsection.toLowerCase()}` ? 'active' : ''}`}
+                                    >
+                                        <Link to={`/it/${section.toLowerCase()}/${subsection.toLowerCase()}/${subsubsection.toLowerCase()}`}>{subsubsection}</Link>
+                                    </li>
+                                ))}
+                            </ul>
+                        )}
                     </li>
                 ))}
             </ul>
         </aside>
     );
 };
+
+
 
 export default Sidebar;
 

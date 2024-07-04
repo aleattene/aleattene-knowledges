@@ -10,59 +10,63 @@ const Navbar: React.FC<NavbarProps> = ({ onSectionChange }) => {
 
     const location = useLocation();
 
+    const isActive = (path: string) => {
+        return location.pathname.includes(path);
+    };
+
     return (
         <nav className="navbar">
             <ul>
                 <li
-                    className={location.pathname === '/it/languages' ? 'active' : ''}
+                    className={isActive('/it/languages') ? 'active' : ''}
                     onClick={() => onSectionChange('languages')}
                 >
                     <Link to="/it/languages">Linguaggi</Link>
                 </li>
                 <li
-                    className={location.pathname === '/it/algorithms' ? 'active' : ''}
+                    className={isActive('/it/algorithms') ? 'active' : ''}
                     onClick={() => onSectionChange('algorithms')}
                 >
                     <Link to="/it/algorithms">Algoritmi</Link>
                 </li>
                 <li
-                    className={location.pathname === '/it/datastructures' ? 'active' : ''}
+                    className={isActive('/it/datastructures') ? 'active' : ''}
                     onClick={() => onSectionChange('datastructures')}
                 >
                     <Link to="/it/datastructures">StruttureDati</Link>
                 </li>
                 <li
-                    className={location.pathname === '/it/frontend' ? 'active' : ''}
+                    className={isActive('/it/frontend') ? 'active' : ''}
                     onClick={() => onSectionChange('frontend')}
                 >
                     <Link to="/it/frontend">Frontend</Link>
                 </li>
                 <li
-                    className={location.pathname === '/it/backend' ? 'active' : ''}
+                    className={isActive('/it/backend') ? 'active' : ''}
                     onClick={() => onSectionChange('backend')}
                 >
                     <Link to="/it/backend">Backend</Link>
                 </li>
                 <li
-                    className={location.pathname === '/it/database' ? 'active' : ''}
+                    className={isActive('/it/database') ? 'active' : ''}
                     onClick={() => onSectionChange('database')}
                 >
                     <Link to="/it/database">Database</Link>
                 </li>
                 <li
-                    className={location.pathname === '/it/datascience' ? 'active' : ''}
+                    className={isActive('/it/datascience') ? 'active' : ''}
                     onClick={() => onSectionChange('datascience')}
                 >
                     <Link to="/it/datascience">DataScience</Link>
                 </li>
                 <li
-                    className={location.pathname === '/it/git' ? 'active' : ''}
+                    className={isActive('/it/git') ? 'active' : ''}
                     onClick={() => onSectionChange('git')}
                 >
                     <Link to="/it/git">Git</Link>
                 </li>
                 <li
-                    className={location.pathname === '/it/docker' ? 'active' : ''}
+                    className={isActive('/it/docker') ? 'active' : ''}
                     onClick={() => onSectionChange('docker')}
                 >
                     <Link to="/it/docker">Docker</Link>

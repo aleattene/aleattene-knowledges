@@ -8,7 +8,7 @@
 .sidebar ul {
     list-style: none;
     padding: 0;
-    width: 100px;
+    /*width: 100px;*/
 }
 
 .sidebar li {
@@ -16,12 +16,54 @@
     color: lightgray;
 }
 
-.sidebar li.active a {
+.sidebar li.active a, .sidebar-subitem.active {
     font-weight: bold;
     color: mediumvioletred;
 }
 
-.sidebar li a {
+.sidebar li a, .sidebar-subitem a {
     color: #fff;
     text-decoration: none;
+}
+
+.sidebar-subitem {
+    cursor: pointer;
+    padding: 0.5rem 1rem;
+    /*background-color: #333;*/
+    margin-bottom: 0.5rem;
+    /*font-weight: bold;*/
+    display: block;
+}
+
+.sidebar-subitem.active a {
+    /*background-color: #444;*/
+    color: mediumvioletred
+}
+
+.subsubsection-list {
+    list-style: none;
+    padding-left: 1rem;
+    /*margin-top: 0.5rem;*/
+    /*margin-bottom: 0.5rem;*/
+}
+
+.subsubsection-item {
+    /*padding: 0.5rem 0;*/
+    padding-left: 1rem;
+}
+
+.subsubsection-item a {
+    text-decoration: none;
+    color: lightgray;
+}
+
+/*
+.subsubsection-item a:hover {
+    text-decoration: underline;
+}
+ */
+
+.subsubsection-item.active a {
+    font-weight: bold;
+    color: mediumvioletred;
 }
