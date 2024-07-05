@@ -15,6 +15,7 @@ import Python from "./pages/it/Languages/Python/Python.tsx";
 import DataStructures from "./pages/it/DataStructures/DataStructures.tsx";
 import Javascript from "./pages/it/Languages/Javascript/Javascript.tsx";
 import Typescript from "./pages/it/Languages/Typescript/Typescript.tsx";
+import ObjectJs from "./pages/it/Languages/Javascript/Object/ObjectJs.tsx";
 
 
 const App: React.FC = () => {
@@ -41,6 +42,7 @@ const App: React.FC = () => {
                     <Routes>
                         <Route path="/it/languages" element={<Languages/>} />
                         <Route path="/it/languages/javascript" element={<Javascript/>} />
+                        <Route path="/it/languages/javascript/object" element={<ObjectJs/>} />
                         <Route path="/it/languages/typescript" element={<Typescript/>} />
                         <Route path="/it/languages/python" element={<Python/>} />
                         <Route path="/it/algorithms" element={<Algorithms/>} />

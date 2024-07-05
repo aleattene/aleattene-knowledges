@@ -19,10 +19,29 @@ export const sections: Record<string, string[]> = {
 };
 
 export const subSections: Record<string, string[]> = {
-    javascript: ['Variabili', 'Funzioni', 'Array', 'Oggetti', 'Ricorsione', 'Callback', 'Promise', 'Async/Await', 'Event Loop', 'Closure', 'Hoisting', 'This', 'Prototype', 'Class', 'Module'],
+    javascript: ['Variabili', 'Funzioni', 'Array', 'Oggetti', 'Ricorsione', 'Callback', 'Promise', 'AsyncAwait', 'EventLoop', 'Closure', 'Hoisting', 'This', 'Prototype', 'Class', 'Module'],
     typescript: ['Tipi', 'Interfacce', 'Classi', 'Moduli', 'Namespace', 'Decoratori'],
     python: ['Variabili', 'Funzioni', 'Classi', 'Moduli', 'Pacchetti', 'Comprehension', 'Generatori', 'Decoratori'],
 };
+
+export const subSectionsRedirect: Record<string,string> = {
+    variabili: 'variable',
+    funzioni: 'function',
+    array: 'array',
+    oggetti: 'object',
+    ricorsione: 'recursion',
+    callback: 'callback',
+    promise: 'promise',
+    asyncawait: 'asyncawait',
+    eventloop: 'eventloop',
+    closure: 'closure',
+    hoisting: 'hoisting',
+    this: 'this',
+    prototype: 'prototype',
+    class: 'class',
+module: 'module',
+
+}
 
 const Sidebar: React.FC<SidebarProps> = ({ section }) => {
     const [expandedSubsection, setExpandedSubsection] = useState<string | null>(null);
@@ -57,9 +76,9 @@ const Sidebar: React.FC<SidebarProps> = ({ section }) => {
                                 {subSections[subsection.toLowerCase()].map((subsubsection) => (
                                     <li
                                         key={subsubsection}
-                                        className={`subsubsection-item ${location.pathname === `/it/${section.toLowerCase()}/${subsection.toLowerCase()}/${subsubsection.toLowerCase()}` ? 'active' : ''}`}
+                                        className={`subsubsection-item ${location.pathname === `/it/${section.toLowerCase()}/${subsection.toLowerCase()}/${subSectionsRedirect[subsubsection.toLowerCase()]}` ? 'active' : ''}`}
                                     >
-                                        <Link to={`/it/${section.toLowerCase()}/${subsection.toLowerCase()}/${subsubsection.toLowerCase()}`}>{subsubsection}</Link>
+                                        <Link to={`/it/${section.toLowerCase()}/${subsection.toLowerCase()}/${subSectionsRedirect[subsubsection.toLowerCase()]}`}>{subsubsection}</Link>
                                     </li>
                                 ))}
                             </ul>
