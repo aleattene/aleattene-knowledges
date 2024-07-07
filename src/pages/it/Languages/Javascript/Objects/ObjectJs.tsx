@@ -1,5 +1,5 @@
 import React from "react";
-import JavascriptCode from "../../../../../components/Code/JavascriptCode/JavascriptCode.tsx";
+import PythonCode from "../../../../../components/Code/PythonCode/PythonCode.tsx";
 
 const inOperator = `
     const person = {
@@ -32,14 +32,14 @@ const ObjectJs: React.FC = () => {
                     <code className='documentation-link'> in </code>
                 </a>
             </p>
-            <p><JavascriptCode code={inOperator}/></p>
+            <p><PythonCode code={inOperator}/></p>
             <p> oppure il metodo
                 <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Reflect/has"
                    target="_blank" rel="noopener noreferrer">
                     <code className='documentation-link'> has() </code>
                 </a>
             </p>
-            <p><JavascriptCode code={hasMethod}/></p>
+            <p><PythonCode code={hasMethod}/></p>
         </div>
     );
 };

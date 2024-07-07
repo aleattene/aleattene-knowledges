@@ -15,7 +15,20 @@ import Python from "./pages/it/Languages/Python/Python.tsx";
 import DataStructures from "./pages/it/DataStructures/DataStructures.tsx";
 import Javascript from "./pages/it/Languages/Javascript/Javascript.tsx";
 import Typescript from "./pages/it/Languages/Typescript/Typescript.tsx";
-import ObjectJs from "./pages/it/Languages/Javascript/Object/ObjectJs.tsx";
+import ObjectJs from "./pages/it/Languages/Javascript/Objects/ObjectJs.tsx";
+import VariablePy from "./pages/it/Languages/Python/Variables/VariablePy.tsx";
+import ListPy from "./pages/it/Languages/Python/Lists/ListPy.tsx";
+import DictionaryPy from "./pages/it/Languages/Python/Dictionaries/DictionaryPy.tsx";
+import SetPy from "./pages/it/Languages/Python/Sets/SetPy.tsx";
+import StringPy from "./pages/it/Languages/Python/Strings/StringPy.tsx";
+import Html from "./pages/it/Frontend/Html/HtmlFe.tsx";
+import Css from "./pages/it/Frontend/Css/CssFe.tsx";
+import ReactFe from "./pages/it/Frontend/React/ReactFe.tsx";
+import NodeJsBe from "./pages/it/Backend/NodeJs/NodeJsBe.tsx";
+import QANodeJsBe from "./pages/it/Backend/NodeJs/Q&A/QANodeJs.tsx";
+import ErrorFirstCB from "./pages/it/Backend/NodeJs/ErrorFirstCB/ErrorFirstCB.tsx";
+import CoreModuleNodeJs from "./pages/it/Backend/NodeJs/CoreModulesNodeJS/CoreModuleNodeJs.tsx";
+import Php from "./pages/it/Languages/Php/Php.tsx";
 
 
 const App: React.FC = () => {
@@ -45,10 +58,25 @@ const App: React.FC = () => {
                         <Route path="/it/languages/javascript/object" element={<ObjectJs/>} />
                         <Route path="/it/languages/typescript" element={<Typescript/>} />
                         <Route path="/it/languages/python" element={<Python/>} />
+                        <Route path="/it/languages/python/strings" element={<StringPy/>} />
+                        <Route path="/it/languages/python/variables" element={<VariablePy/>} />
+                        <Route path="/it/languages/python/lists" element={<ListPy/>} />
+                        <Route path="/it/languages/python/dictionaries" element={<DictionaryPy/>} />
+                        <Route path="/it/languages/python/sets" element={<SetPy/>} />
+                        <Route path="/it/languages/php" element={<Php/>} />
+
                         <Route path="/it/algorithms" element={<Algorithms/>} />
                         <Route path="/it/datastructures" element={<DataStructures/>} />
                         <Route path="/it/frontend" element={<Frontend/>} />
+                        <Route path="/it/frontend/html" element={<Html/>} />
+                        <Route path="/it/frontend/css" element={<Css/>} />
+                        <Route path="/it/frontend/react" element={<ReactFe/>} />
                         <Route path="/it/backend" element={<Backend/>} />
+                        <Route path="/it/backend/nodejs" element={<NodeJsBe/>} />
+                        <Route path="/it/backend/nodejs/coremodules" element={<CoreModuleNodeJs/>} />
+                        <Route path="/it/backend/nodejs/errorfirst" element={<ErrorFirstCB/>} />
+                        <Route path="/it/backend/nodejs/qa" element={<QANodeJsBe/>} />
+
                         <Route path="/it/database" element={<Database/>} />
                         <Route path="/it/datascience" element={<DataScience/>} />
                         <Route path="/it/git" element={<Git/>} />
