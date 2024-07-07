@@ -36,6 +36,12 @@ const Navbar: React.FC<NavbarProps> = ({ onSectionChange }) => {
                     <Link to="/it/datastructures">StruttureDati</Link>
                 </li>
                 <li
+                    className={isActive('/it/timecomplexity') ? 'active' : ''}
+                    onClick={() => onSectionChange('timecomplexity')}
+                >
+                    <Link to="/it/timecomplexity">ComplessitàTemporale</Link>
+                </li>
+                <li
                     className={isActive('/it/frontend') ? 'active' : ''}
                     onClick={() => onSectionChange('frontend')}
                 >
