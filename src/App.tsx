@@ -29,6 +29,7 @@ import QANodeJsBe from "./pages/it/Backend/NodeJs/Q&A/QANodeJs.tsx";
 import ErrorFirstCB from "./pages/it/Backend/NodeJs/ErrorFirstCB/ErrorFirstCB.tsx";
 import CoreModuleNodeJs from "./pages/it/Backend/NodeJs/CoreModulesNodeJS/CoreModuleNodeJs.tsx";
 import Php from "./pages/it/Languages/Php/Php.tsx";
+import ArrayMethods from "./pages/it/Languages/Javascript/Arrays/Methods/ArrayMethods.tsx";
 
 
 const App: React.FC = () => {
@@ -55,7 +56,8 @@ const App: React.FC = () => {
                     <Routes>
                         <Route path="/it/languages" element={<Languages/>} />
                         <Route path="/it/languages/javascript" element={<Javascript/>} />
-                        <Route path="/it/languages/javascript/object" element={<ObjectJs/>} />
+                        <Route path="/it/languages/javascript/arrays" element={<ArrayMethods/>} />
+                        <Route path="/it/languages/javascript/objects" element={<ObjectJs/>} />
                         <Route path="/it/languages/typescript" element={<Typescript/>} />
                         <Route path="/it/languages/python" element={<Python/>} />
                         <Route path="/it/languages/python/strings" element={<StringPy/>} />

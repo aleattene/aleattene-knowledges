@@ -37,7 +37,7 @@ export const subSections: Record<string, string[]> = {
 export const subSectionsRedirect: Record<string,string> = {
     variabili: 'variables',
     funzioni: 'function',
-    array: 'array',
+    array: 'arrays',
     oggetti: 'object',
     ricorsione: 'recursion',
     callback: 'callback',
