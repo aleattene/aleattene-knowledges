@@ -152,6 +152,45 @@ const ArrayMethods: React.FC = () => {
                 const isUnder50 = ages.every(age => age < 50);
                 console.log(isUnder50); // true
             `}/>
+            // fill
+            <h3> Metodo
+                <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/fill"
+                   target="_blank" rel="noopener noreferrer">
+                    <code className='documentation-link'> fill </code>
+                </a>
+            </h3>
+            <p> Questo metodo riempie tutti gli elementi di un array con un valore statico.
+                La posizione di inizio e fine possono essere specificate come argomenti opzionali.</p>
+            <h2>Sintassi:</h2>
+            <JavascriptCode code={`array.fill(value, start, end)`}/>
+            <p>dove:
+                <ul>
+                    <li><code>value</code> è il valore con cui riempire l'array</li>
+                    <li><code>start</code> (opzionale) è l'indice iniziale da cui iniziare a riempire l'array
+                                           (se non specificato di default ha valore zero mentre se ha valore negativo
+                                            fa riferimento alla fine dell'array)</li>
+                    <li><code>end</code> (opzionale) è l'indice finale (escluso) di riempimento dell'array
+                                         (se non specificato di default è la lunghezza dell'aray mentre se ha valore
+                                            negativo fa riferimento alla fine dell'array)
+                    </li>
+                </ul>
+            </p>
+            <h3>Esempio:</h3>
+            <JavascriptCode code={`
+                const array = [1, 2, 3, 4, 5];
+                array.fill(0, 2, 4);
+                console.log(array); // Output: [1, 2, 0, 0, 5]
+            `}/>
+            <JavascriptCode code={`
+                const array = [1, 2, 3, 4, 5];
+                array.fill(0);
+                console.log(array); // Output: [0, 0, 0, 0, 0]
+            `}/>
+            <JavascriptCode code={`
+                const array = ['apple', 'banana', 'cherry'];
+                array.fill('orange', 1, 2);
+                console.log(array); // Output: ['apple', 'orange', 'cherry']
+            `}/>
         </div>
     );
 };
