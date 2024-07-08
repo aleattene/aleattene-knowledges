@@ -22,7 +22,7 @@ export const sections: Record<string, string[]> = {
 };
 
 export const subSections: Record<string, string[]> = {
-    javascript: ['Variabili', 'Funzioni', 'Array', 'Oggetti', 'Ricorsione', 'Callback', 'Promise', 'AsyncAwait', 'EventLoop', 'Closure', 'Hoisting', 'This', 'Prototype', 'Class', 'Module'],
+    javascript: ['Console','Variabili', 'Funzioni', 'Array', 'Oggetti', 'Ricorsione', 'Callback', 'Promise', 'AsyncAwait', 'EventLoop', 'Closure', 'Hoisting', 'This', 'Prototype', 'Class', 'Module'],
     typescript: ['Tipi', 'Interfacce', 'Classi', 'Moduli', 'Namespace', 'Decoratori'],
     python: ['Stringhe', 'Variabili', 'Liste', 'Dizionari', 'Set', 'Funzioni', 'Classi',
         'Moduli', 'Pacchetti', 'Comprehension', 'Generatori', 'Decoratori'],
@@ -35,6 +35,8 @@ export const subSections: Record<string, string[]> = {
 };
 
 export const subSectionsRedirect: Record<string,string> = {
+    /* Javascript */
+    console: 'console',
     variabili: 'variables',
     funzioni: 'function',
     array: 'arrays',
