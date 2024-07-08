@@ -125,6 +125,33 @@ const ArrayMethods: React.FC = () => {
                  Key: name | Value: Alessandro
                  Key: age | Value: 45
             `}/>
+            // Every
+            <h3> Metodo
+                <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/every"
+                   target="_blank" rel="noopener noreferrer">
+                    <code className='documentation-link'> every </code>
+                </a>
+            </h3>
+            <p> Questo metodo verifica se tutti gli elementi dell'array soddisfano una determinata condizione
+                specificata in una funzione di callback.
+                Restituisce true se tutti gli elementi soddisfano la condizione, altrimenti restituisce false.
+            </p>
+            <h2>Sintassi:</h2>
+            <JavascriptCode code={`array.every(callback)`}/>
+            <p>dove <code>callback</code> è la funzione che viene eseguita per ogni elemento dell'array e che
+                restituisce true o false.
+                Va osservato che a valutazione si interrompe non appena viene trovato un elemento che non soddisfa
+                la condizione, poiché non sarebbe di alcuna utilità continuare a valutare gli altri elementi.
+                Inoltre è bene osservare che il metodo <code>every</code> se applicato ad un array vuoto restituisce
+                sempre true.</p>
+            <h3>Esempio:</h3>
+            <JavascriptCode code={`
+                const ages = [32, 33, 16, 40];
+                const isAdult = ages.every(age => age >= 18);
+                console.log(isAdult); // false
+                const isUnder50 = ages.every(age => age < 50);
+                console.log(isUnder50); // true
+            `}/>
         </div>
     );
 };
