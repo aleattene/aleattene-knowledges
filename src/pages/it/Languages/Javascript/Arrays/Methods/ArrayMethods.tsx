@@ -1,6 +1,7 @@
 import React from 'react';
 import './ArrayMethods.css'
 import JavascriptCode from "../../../../../../components/Code/JavascriptCode/JavascriptCode.tsx";
+import TerminalCode from "../../../../../../components/Code/TerminalCode/TerminalCode.tsx";
 
 const ArrayMethods: React.FC = () => {
     return (
@@ -84,6 +85,46 @@ const ArrayMethods: React.FC = () => {
                 Si tratta di un metodo utile quando si desidera effettuare copie e sovrascritture di elementi
                 all'interno dello stesso array, senza la necessita di crearne uno nuovo.
             </p>
+
+            // entries
+            <h3> Metodo
+                <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/entries"
+                   target="_blank" rel="noopener noreferrer">
+                    <code className='documentation-link'> entries </code>
+                </a>
+            </h3>
+            <p> Questo metodo ritorna un nuovo oggetto Array Iterator che contiene coppie chiave/valore
+                per ogni elemento dell'array. La coppia chiave valore è sostanzialmente composta dalla chiave
+                che è l'indice dell'elemento ed il valore che è l'elemento stesso. </p>
+            <h3>Esempio:</h3>
+            <JavascriptCode code={`
+                const fruits = ['apple', 'banana', 'cherry'];
+                const iterator = fruits.entries();
+                
+                for (const [index, value] of iterator) {
+                    console.log(index, value);
+                }
+            `}/>
+            <p> Output:</p>
+            <TerminalCode code={`
+                0 apple
+                1 banana
+                2 cherry
+            `}/>
+            <h3>Esempio</h3>
+            <JavascriptCode code={`
+            const persona = { name: 'Alessandro', age: 45 };
+            const entries = Object.entries(persona);
+            Object.entries(persona); // [['name', 'Alessandro'], ['age', 45]]
+            Object.entries(persona).forEach(([key, value]) => {
+                console.log(\`Key: \${key} | Value: \${value}\`);
+            });
+            `}/>
+            <p> Output:</p>
+            <TerminalCode code={`
+                 Key: name | Value: Alessandro
+                 Key: age | Value: 45
+            `}/>
         </div>
     );
 };
