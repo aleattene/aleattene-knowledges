@@ -31,6 +31,8 @@ import CoreModuleNodeJs from "./pages/it/Backend/NodeJs/CoreModulesNodeJS/CoreMo
 import Php from "./pages/it/Languages/Php/Php.tsx";
 import ArrayMethods from "./pages/it/Languages/Javascript/Arrays/Methods/ArrayMethods.tsx";
 import ConsoleMethods from "./pages/it/Languages/Javascript/Console/ConsoleMethods.tsx";
+import Http from "./pages/it/HTTP/Http.tsx";
+import HttpStatusCodes from "./pages/it/HTTP/HttpStatusCodes/HttpStatusCodes.tsx";
 
 
 const App: React.FC = () => {
@@ -80,6 +82,8 @@ const App: React.FC = () => {
                         <Route path="/it/backend/nodejs/coremodules" element={<CoreModuleNodeJs/>} />
                         <Route path="/it/backend/nodejs/errorfirst" element={<ErrorFirstCB/>} />
                         <Route path="/it/backend/nodejs/qa" element={<QANodeJsBe/>} />
+                        <Route path="/it/http" element={<Http/>} />
+                        <Route path="/it/http/statuscodes" element={<HttpStatusCodes/>} />
 
                         <Route path="/it/database" element={<Database/>} />
                         <Route path="/it/datascience" element={<DataScience/>} />

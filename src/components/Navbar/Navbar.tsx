@@ -54,6 +54,12 @@ const Navbar: React.FC<NavbarProps> = ({ onSectionChange }) => {
                     <Link to="/it/backend">Backend</Link>
                 </li>
                 <li
+                    className={isActive('/it/http') ? 'active' : ''}
+                    onClick={() => onSectionChange('http')}
+                >
+                    <Link to="/it/http">HTTP</Link>
+                </li>
+                <li
                     className={isActive('/it/database') ? 'active' : ''}
                     onClick={() => onSectionChange('database')}
                 >
