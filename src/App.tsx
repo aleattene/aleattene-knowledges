@@ -33,6 +33,7 @@ import ArrayMethods from "./pages/it/Languages/Javascript/Arrays/Methods/ArrayMe
 import ConsoleMethods from "./pages/it/Languages/Javascript/Console/ConsoleMethods.tsx";
 import Http from "./pages/it/HTTP/Http.tsx";
 import HttpStatusCodes from "./pages/it/HTTP/HttpStatusCodes/HttpStatusCodes.tsx";
+import HttpMethods from "./pages/it/HTTP/HttpMethods/HttpMethods.tsx";
 
 
 const App: React.FC = () => {
@@ -84,6 +85,7 @@ const App: React.FC = () => {
                         <Route path="/it/backend/nodejs/qa" element={<QANodeJsBe/>} />
                         <Route path="/it/http" element={<Http/>} />
                         <Route path="/it/http/statuscodes" element={<HttpStatusCodes/>} />
+                        <Route path="/it/http/methods" element={<HttpMethods/>} />
 
                         <Route path="/it/database" element={<Database/>} />
                         <Route path="/it/datascience" element={<DataScience/>} />
