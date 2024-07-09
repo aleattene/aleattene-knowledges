@@ -86,7 +86,6 @@ const ArrayMethods: React.FC = () => {
                 all'interno dello stesso array, senza la necessita di crearne uno nuovo.
             </p>
 
-            // entries
             <h3> Metodo
                 <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/entries"
                    target="_blank" rel="noopener noreferrer">
@@ -125,7 +124,7 @@ const ArrayMethods: React.FC = () => {
                  Key: name | Value: Alessandro
                  Key: age | Value: 45
             `}/>
-            // Every
+
             <h3> Metodo
                 <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/every"
                    target="_blank" rel="noopener noreferrer">
@@ -152,7 +151,7 @@ const ArrayMethods: React.FC = () => {
                 const isUnder50 = ages.every(age => age < 50);
                 console.log(isUnder50); // true
             `}/>
-            // fill
+
             <h3> Metodo
                 <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/fill"
                    target="_blank" rel="noopener noreferrer">
@@ -191,6 +190,90 @@ const ArrayMethods: React.FC = () => {
                 array.fill('orange', 1, 2);
                 console.log(array); // Output: ['apple', 'orange', 'cherry']
             `}/>
+
+            <h3> Metodo
+                <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/filter"
+                   target="_blank" rel="noopener noreferrer">
+                    <code className='documentation-link'> filter </code>
+                </a>
+            </h3>
+            <p> Questo metodo crea un nuovo array con tutti gli elementi che soddisfano una determinata condizione
+                specificata in una funzione di callback.
+                La funzione di callback viene eseguita per ogni elemento dell'array e restituisce true o false.
+            </p>
+            <h2>Sintassi:</h2>
+            <JavascriptCode code={`array.filter(callback)`}/>
+            <p>dove <code>callback</code> è la funzione che viene eseguita per ogni elemento dell'array e che
+                restituisce true o false.
+                Il nuovo array creato conterrà solo gli elementi per i quali la funzione di callback ha restituito
+                true.
+            </p>
+            <h3>Esempio:</h3>
+            <JavascriptCode code={`
+                const ages = [32, 33, 16, 40];
+                const adults = ages.filter(age => age >= 18);
+                console.log(adults); // [32, 33, 40]
+                console.log(ages); // [32, 33, 16, 40]
+            `}/>
+            <p>E' importante osservare che il metodo <code>filter</code> non modifica l'array originale ma ne crea
+               uno nuovo con solo gli elementi che soddisfano la condizione.</p>
+
+            <h3> Metodo
+                <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/find"
+                   target="_blank" rel="noopener noreferrer">
+                    <code className='documentation-link'> find </code>
+                </a>
+            </h3>
+            <p> Questo metodo ritorna il primo elemento dell'array che soddisfa una determinata condizione
+                specificata in una funzione di callback.
+                La funzione di callback viene eseguita per ogni elemento dell'array e restituisce true o false.
+            </p>
+            <h2>Sintassi:</h2>
+            <JavascriptCode code={`array.find(callback)`}/>
+            <p>dove <code>callback</code> è la funzione che viene eseguita per ogni elemento dell'array e che
+                restituisce true o false.
+                Il metodo <code>find</code> restituisce il primo elemento per il quale la funzione di callback
+                ha restituito true.
+                Se nessun elemento soddisfa la condizione, il metodo restituisce undefined.
+            </p>
+            <h3>Esempio:</h3>
+            <JavascriptCode code={`
+                const ages = [32, 33, 16, 40];
+                const adult = ages.find(age => age >= 18);
+                console.log(adult); // 32
+                console.log(ages); // [32, 33, 16, 40]
+            `}/>
+            <p>E' importante osservare che il metodo <code>find</code> non modifica l'array originale ma restituisce
+               unicamente il primo elemento che soddisfa la condizione.
+            </p>
+
+            <h3> Metodo
+                <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/findIndex"
+                   target="_blank" rel="noopener noreferrer">
+                    <code className='documentation-link'> findIndex </code>
+                </a>
+            </h3>
+            <p> Questo metodo ritorna l'indice del primo elemento dell'array che soddisfa una determinata condizione
+                specificata in una funzione di callback.
+                La funzione di callback viene eseguita per ogni elemento dell'array e restituisce true o false.
+                Se nessun elemento soddisfa la condizione, il metodo restituisce -1.
+            </p>
+            <h2>Sintassi:</h2>
+            <JavascriptCode code={`array.findIndex(callback)`}/>
+            <p>dove <code>callback</code> è la funzione che viene eseguita per ogni elemento dell'array e che
+                restituisce true o false.
+                Il metodo <code>findIndex</code> restituisce l'indice del primo elemento per il quale la funzione di callback
+                ha restituito true; se nessun elemento soddisfa la condizione, il metodo restituisce -1.
+            </p>
+            <h3>Esempio:</h3>
+            <JavascriptCode code={`
+                const ages = [32, 33, 16, 40];
+                const adultIndex = ages.findIndex(age => age >= 18);
+                console.log(adultIndex);    // 0
+                console.log(ages);          // [32, 33, 16, 40]
+            `}/>
+
+
         </div>
     );
 };
