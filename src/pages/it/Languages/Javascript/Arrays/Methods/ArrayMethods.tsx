@@ -6,6 +6,23 @@ import TerminalCode from "../../../../../../components/Code/TerminalCode/Termina
 const ArrayMethods: React.FC = () => {
     return (
         <div>
+            <h1>Accesso ad un Array JS</h1>
+            <p> Sappiamo che un array è una collezione di elementi, e che ogni elemento ha un indice.
+                Per accedere quindi ad un elemento di un array, è possibile quindi usare la sintassi:
+            </p>
+            <JavascriptCode code={'array[index]'}/>
+            <h3>Esempio</h3>
+            <JavascriptCode code={`
+            const array = [1, true, 'hello'];
+            console.log(array[0]); // 1
+            console.log(array[1]); // true
+            console.log(array[2]); // 'hello'
+            `}/>
+            <h3>Lunghezza (numero elementi) Array:</h3>
+            <JavascriptCode code={'array.length;  // 3'}/>
+            <h3>Tipo Array:</h3>
+            <JavascriptCode code={'typeof array;  // object'}/>
+
             <h1>Metodi degli Array</h1>
 
             <h3> Metodo
@@ -59,13 +76,15 @@ const ArrayMethods: React.FC = () => {
             <p>dove:
                 <ul>
                     <li><code>target</code> è l'indice iniziale in cui iniziare a copiare gli elementi
-                                            (se l'indice è negativo fa riferimento alla fine dell'array)</li>
+                        (se l'indice è negativo fa riferimento alla fine dell'array)
+                    </li>
                     <li><code>start</code> (opzionale) è l'indice iniziale da cui selezionare/copiare gli elementi
-                                           (se non specificato di default ha valore zero mentre se ha valore negativo
-                                            fa riferimento alla fine dell'array)</li>
+                        (se non specificato di default ha valore zero mentre se ha valore negativo
+                        fa riferimento alla fine dell'array)
+                    </li>
                     <li><code>end</code> (opzionale) è l'indice finale (escluso) di selezione/copia degli elementi
-                                         (se non specificato di default è la lunghezza dell'aray mentre se ha valore
-                                            negativo fa riferimento alla fine dell'array)
+                        (se non specificato di default è la lunghezza dell'aray mentre se ha valore
+                        negativo fa riferimento alla fine dell'array)
                     </li>
                 </ul>
             </p>
@@ -166,11 +185,12 @@ const ArrayMethods: React.FC = () => {
                 <ul>
                     <li><code>value</code> è il valore con cui riempire l'array</li>
                     <li><code>start</code> (opzionale) è l'indice iniziale da cui iniziare a riempire l'array
-                                           (se non specificato di default ha valore zero mentre se ha valore negativo
-                                            fa riferimento alla fine dell'array)</li>
+                        (se non specificato di default ha valore zero mentre se ha valore negativo
+                        fa riferimento alla fine dell'array)
+                    </li>
                     <li><code>end</code> (opzionale) è l'indice finale (escluso) di riempimento dell'array
-                                         (se non specificato di default è la lunghezza dell'aray mentre se ha valore
-                                            negativo fa riferimento alla fine dell'array)
+                        (se non specificato di default è la lunghezza dell'aray mentre se ha valore
+                        negativo fa riferimento alla fine dell'array)
                     </li>
                 </ul>
             </p>
@@ -216,7 +236,7 @@ const ArrayMethods: React.FC = () => {
                 console.log(ages); // [32, 33, 16, 40]
             `}/>
             <p>E' importante osservare che il metodo <code>filter</code> non modifica l'array originale ma ne crea
-               uno nuovo con solo gli elementi che soddisfano la condizione.</p>
+                uno nuovo con solo gli elementi che soddisfano la condizione.</p>
 
             <h3> Metodo
                 <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/find"
@@ -244,7 +264,7 @@ const ArrayMethods: React.FC = () => {
                 console.log(ages); // [32, 33, 16, 40]
             `}/>
             <p>E' importante osservare che il metodo <code>find</code> non modifica l'array originale ma restituisce
-               unicamente il primo elemento che soddisfa la condizione.
+                unicamente il primo elemento che soddisfa la condizione.
             </p>
 
             <h3> Metodo
@@ -262,7 +282,8 @@ const ArrayMethods: React.FC = () => {
             <JavascriptCode code={`array.findIndex(callback)`}/>
             <p>dove <code>callback</code> è la funzione che viene eseguita per ogni elemento dell'array e che
                 restituisce true o false.
-                Il metodo <code>findIndex</code> restituisce l'indice del primo elemento per il quale la funzione di callback
+                Il metodo <code>findIndex</code> restituisce l'indice del primo elemento per il quale la funzione di
+                callback
                 ha restituito true; se nessun elemento soddisfa la condizione, il metodo restituisce -1.
             </p>
             <h3>Esempio:</h3>
