@@ -7,7 +7,7 @@ interface SidebarProps {
 }
 
 export const sections: Record<string, string[]> = {
-    languages: ['Javascript', 'Typescript', 'Python', `PHP`], // C,C++
+    languages: ['Javascript', 'Typescript', 'Python', `PHP`, 'Java'], // C,C++
     algorithms: ['Ricerca', 'Ordinamento', 'AlberoTrasversale', 'GrafoTrasversale'],
     datastructures: ['BynarySearchTree', 'Hash Table', 'Linked List', 'Queue', 'Array', 'Stack', 'Set',
                     'DirectedAcyclicGraph', 'DoublyLinkedList', 'TrieRadixTree', 'AvlTree', 'Heap'
@@ -28,6 +28,7 @@ export const subSections: Record<string, string[]> = {
     python: ['Stringhe', 'Variabili', 'Liste', 'Dizionari', 'Set', 'Funzioni', 'Classi',
         'Moduli', 'Pacchetti', 'Comprehension', 'Generatori', 'Decoratori'],
     php: [],
+    java: [],
     search: ['Lineare', 'Binaria'],
     sorting: ['SelectionSort', 'BubbleSort', 'InsertionSort', 'MergeSort', 'QuickSort', 'HeapSort', 'RedixSort', 'NNumbersKDigits'],
     tree: ['PreOrder', 'InOrder', 'PostOrder'],
