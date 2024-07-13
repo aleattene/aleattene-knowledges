@@ -962,6 +962,109 @@ const Java: React.FC = () => {
                 double ilDoublePrimitivo = 10.5;
                 System.out.println(ilDouble == ilDoublePrimitivo); // true
             `}/>
+            <h2>ArrayList</h2>
+            <p>ArrayList è una classe di Java che implementa l'interfaccia List.
+                ArrayList memorizza gli elementi in un array dinamico che può essere ridimensionato.
+                ArrayList è simile agli array, ma fornisce metodi per manipolare la dimensione dell'array.
+                Rispetto agli array che accettano come elementi solo tipi di dati primitivi, ArrayList può
+                contenere solo reference.
+            </p>
+            <h3>Dichiarazione ArrayList</h3>
+            <JavaCode code={`
+                // Dichiarazione di un ArrayList di interi
+                ArrayList<Integer>; numeri = new ArrayList<Integer>();
+                // Dichiarazione di un ArrayList di stringhe
+                ArrayList<String> nomi = new ArrayList<String>();
+                // Dichiarazione di un ArrayList di interi
+                ArrayList<int> numeri = new ArrayList<int>(); // Errore - ArrayList non accetta tipi di dato primitivi
+            `}/>
+            <h3>Inizializzazione ArrayList</h3>
+            <JavaCode code={`
+                // Inizializzazione di un ArrayList di interi
+                ArrayList<Integer>t numeri = new ArrayList<Integer>();
+                numeri.add(1);
+                numeri.add(2);
+                numeri.add(3);
+                // Inizializzazione di un ArrayList di stringhe
+                ArrayList<String> nomi = new ArrayList<String>();
+                nomi.add("Alice");
+                nomi.add("Bob");
+                nomi.add("Charlie");
+            `}/>
+            <h3>Accesso Elementi ArrayList</h3>
+            <JavaCode code={`
+                // Accesso al primo elemento dell'ArrayList
+                System.out.println(numeri.get(0)); // 1
+                System.out.println(nomi.get(0)); // Alice
+                // Accesso all'ultimo elemento dell'ArrayList
+                System.out.println(numeri.get(numeri.size() - 1)); // 3
+                System.out.println(nomi.get(nomi.size() - 1)); // Charlie
+                // Accesso a tutti gli elementi dell'ArrayList
+                for (int i = 0; i < numeri.size(); i++) {
+                    System.out.println(numeri.get(i));
+                }
+            `}/>
+            <h3>Modifica Elementi ArrayList</h3>
+            <JavaCode code={`
+                // Modifica del valore del secondo elemento dell'ArrayList
+                numeri.set(1, 10);
+                System.out.println(numeri.get(1)); // 10
+                // Modifica del valore dell'ultimo elemento dell'ArrayList
+                numeri.set(numeri.size() - 1, 50);
+                System.out.println(numeri.get(numeri.size() - 1)); // 50
+            `}/>
+            <h3>Cancellazione Elementi ArrayList</h3>
+            <JavaCode code={`
+                // Rimozione di un elemento dall'ArrayList
+                numeri.remove(1);
+                System.out.println(numeri.get(1));  // 3
+                System.out.println(numeri);         // [1, 3]
+                // Rimozione di tutti gli elementi dall'ArrayList
+                numeri.clear();
+                System.out.println(numeri.size()); // 0
+            `}/>
+            <h3>Iterare su ArrayList</h3>
+            <JavaCode code={`
+                // Iterazione su tutti gli elementi dell'ArrayList
+                for (int i = 0; i < numeri.size(); i++) {
+                    System.out.println(numeri.get(i));
+                }
+                // Iterazione su tutti gli elementi dell'ArrayList
+                for (Integer numero: numeri) {
+                    System.out.println(numero);
+                }
+            `}/>
+            <h3>ArrayList Multidimensionali</h3>
+            <p>Un ArrayList multidimensionale è un ArrayList di ArrayList.
+                Java supporta ArrayList multidimensionali di qualsiasi dimensione.
+            </p>
+            <h3>Esempio:</h3>
+            <JavaCode code={`
+                // Dichiarazione di un ArrayList bidimensionale
+                ArrayList<ArrayList<String>> classi = new ArrayList<ArrayList<String>>();
+                // Creazione di un ArrayList di stringhe
+                ArrayList<String> classe1 = new ArrayList<String>();
+                classe1.add("Mario");
+                classe1.add("Luigi");
+                classe1.add("Alessandro");
+                ArrayList<String> classe2 = new ArrayList<String>();
+                classe2.add("Alice");
+                classe2.add("Bob");
+                classe2.add("Charlie");
+                classi.add(classe1);
+                classi.add(classe2);
+                System.out.println(classi.get(0).get(0)); // Mario
+                System.out.println(classi.get(1).get(2)); // Charlie
+                // Stampa di tutti gli elementi dell'ArrayList bidimensionale
+                for (ArrayList<String> classe: classi) {
+                    for (String studente: classe) {
+                        System.out.print(studente, " ");
+                    }
+                    System.out.println();
+                }
+            `}/>
+            <p>Output</p>
+            <TerminalCode code={`Mario Luigi Alessandro\nAlice Bob Charlie`}/>
         </div>
     );
 };
