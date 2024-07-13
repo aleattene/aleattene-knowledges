@@ -743,9 +743,225 @@ const Java: React.FC = () => {
                         System.out.println(nome.replace("o", "a"));         // Maria
                     `}/>
                 </li>
-
-
             </ul>
+            <h2>Wrapper Class</h2>
+            <p>Le classi wrapper sono utilizzate per incapsulare i tipi di dati primitivi in oggetti.
+                Sostanzialmente ci permettono quindi di trattare i tipi di dati primitivi come reference (oggetti).
+                In Java, ogni tipo di dato primitivo ha una classe wrapper corrispondente.
+                Le classi wrapper sono utilizzate in particolare per:</p>
+            <ul>
+                <li>convertire un tipo di dato primitivo in un oggetto</li>
+                <li>convertire un oggetto in un tipo di dato primitivo</li>
+                <li>passare un tipo di dato primitivo come oggetto</li>
+            </ul>
+            <p>Il vantaggio principale delle classi wrapper è che ci permettono di utilizzare i metodi e le proprietà
+                delle classi stesse (come ad esempio i metodi della classe <code>String</code>).
+                Se così non fosse, dovremmo creare metodi statici per eseguire queste operazioni, poiché i tipi di dati
+                primitivi non dispongono propriamente di metodi e proprietà.
+            </p>
+            <p>Lo svantaggio principale delle classi wrapper è che sono meno efficienti dei tipi di dati primitivi,
+                poiché richiedono più memoria e tempo di esecuzione.
+            </p>
+            <h3>Classi Wrapper Principali:</h3>
+            <ul>
+                <li><code className={'documentation-link'}>Integer</code> - per il tipo di dato primitivo int
+                    <JavaCode code={`
+                        // Creazione di un primitive int
+                        int lInteroPrimitivo = 10;
+                        System.out.println(lInteroPrimitivo); // 10
+                        // Creazione di un oggetto di tipo Integer
+                        Integer lIntero = 10;
+                        System.out.println(lIntero); // 10
+                        // Conversione di un oggetto Integer in un tipo di dato primitivo int
+                        int lInteroPrimitivo = lIntero.intValue();
+                        System.out.println(lInteroPrimitivo); // 10
+                        // Conversione di un tipo di dato primitivo int in un oggetto Integer
+                        Integer lIntero = Integer.valueOf(lInteroPrimitivo);
+                        System.out.println(lIntero); // 10
+                    `}/>
+                </li>
+                <li><code className={'documentation-link'}>Double</code> - per il tipo di dato primitivo double
+                    <JavaCode code={`
+                        // Creazione di un primitive double
+                        double ilDoublePrimitivo = 10.5;
+                        System.out.println(ilDoublePrimitivo); // 10.5
+                        // Creazione di un oggetto di tipo Double
+                        Double ilDouble = 10.5;
+                        System.out.println(ilDouble); // 10.5
+                        // Conversione di un oggetto Double in un tipo di dato primitivo double
+                        double ilDoublePrimitivo = ilDouble.doubleValue();
+                        System.out.println(ilDoublePrimitivo); // 10.5
+                        // Conversione di un tipo di dato primitivo double in un oggetto Double
+                        Double ilDouble = Double.valueOf(ilDoublePrimitivo);
+                        System.out.println(ilDouble); // 10.5
+                    `}/>
+                </li>
+                <li><code className={'documentation-link'}>Character</code> - per il tipo di dato primitivo char
+                    <JavaCode code={`
+                        // Creazione di un primitive char
+                        char ilCaratterePrimitivo = 'a';
+                        System.out.println(ilCaratterePrimitivo); // a
+                        // Creazione di un oggetto di tipo Character
+                        Character ilCarattere = 'a';
+                        System.out.println(ilCarattere); // a
+                        // Conversione di un oggetto Character in un tipo di dato primitivo char
+                        char ilCaratterePrimitivo = ilCarattere.charValue();
+                        System.out.println(ilCaratterePrimitivo); // a
+                        // Conversione di un tipo di dato primitivo char in un oggetto Character
+                        Character ilCarattere = Character.valueOf(ilCaratterePrimitivo);
+                        System.out.println(ilCarattere); // a
+                    `}/>
+                </li>
+                <li><code className={'documentation-link'}>String</code> - per il tipo di dato primitivo String
+                    <JavaCode code={`
+                        // Creazione di un primitive String
+                        String laStringaPrimitiva = "Ciao Mondo";
+                        System.out.println(laStringaPrimitiva); // Ciao Mondo
+                        // Creazione di un oggetto di tipo String
+                        String laStringa = "Ciao Mondo";
+                        System.out.println(laStringa); // Ciao Mondo
+                        // Conversione di un oggetto String in un tipo di dato primitivo String
+                        String laStringaPrimitiva = laStringa.toString();
+                        System.out.println(laStringaPrimitiva); // Ciao Mondo
+                        // Conversione di un tipo di dato primitivo String in un oggetto String
+                        String laStringa = String.valueOf(laStringaPrimitiva);
+                        System.out.println(laStringa); // Ciao Mondo
+                    `}/>
+                </li>
+                <li><code className={'documentation-link'}>Boolean</code> - per il tipo di dato primitivo boolean
+                    <JavaCode code={`
+                        // Creazione di un primitive boolean
+                        boolean ilBooleanPrimitivo = true;
+                        // Creazione di un oggetto di tipo Boolean
+                        Boolean ilBoolean = true;
+                        System.out.println(ilBoolean); // true
+                        // Conversione di un oggetto Boolean in un tipo di dato primitivo boolean
+                        boolean ilBooleanPrimitivo = ilBoolean.booleanValue();
+                        System.out.println(ilBooleanPrimitivo); // true
+                        // Conversione di un tipo di dato primitivo boolean in un oggetto Boolean
+                        Boolean ilBoolean = Boolean.valueOf(ilBooleanPrimitivo);
+                    `}/>
+                </li>
+            </ul>
+            <h3>Boxing, Unboxing e Autoboxing</h3>
+            <p> Prima dell'introduzione dell'autoboxing (da java 1.5), per convertire un tipo di dato primitivo in un
+                oggetto (e viceversa), dovevamo utilizzare il boxing (incapsulamento) e unboxing (estrazione).
+                L'autoboxing è il processo automatico di conversione di un tipo di dato primitivo in un oggetto wrapper
+                corrispondente e viceversa.
+            </p>
+            <h2>Boxing</h2>
+            <p>Il boxing è il processo di incapsulamento di un tipo di dato primitivo in un oggetto wrapper
+                corrispondente.
+                In particolare:</p>
+            <ul>
+                <li>int -&gt; Integer
+                    <JavaCode code={`
+                        int lInteroPrimitivo = 10;
+                        Integer lIntero = Integer.valueOf(lInteroPrimitivo);
+                    `}/>
+                </li>
+                <li>double -&gt; Double
+                    <JavaCode code={`
+                        double ilDoublePrimitivo = 10.5;
+                        Double ilDouble = Double.valueOf(ilDoublePrimitivo);
+                    `}/>
+                </li>
+                <li>char -&gt; Character
+                    <JavaCode code={`
+                        char ilCaratterePrimitivo = 'a';
+                        Character ilCarattere = Character.valueOf(ilCaratterePrimitivo);
+                    `}/>
+                </li>
+                <li>boolean -&gt; Boolean
+                    <JavaCode code={`
+                        boolean ilBooleanPrimitivo = true;
+                        Boolean ilBoolean = Boolean.valueOf(ilBooleanPrimitivo);
+                    `}/>
+                </li>
+            </ul>
+            <h2>Unboxing</h2>
+            <p>L'unboxing è il processo di estrazione di un tipo di dato primitivo da un oggetto wrapper corrispondente.
+                In particolare:</p>
+            <ul>
+                <li>Integer -&gt; int
+                    <JavaCode code={`
+                        Integer lIntero = 10;
+                        int lInteroPrimitivo = lIntero.intValue();
+                    `}/>
+                </li>
+                <li>Double -&gt; double
+                    <JavaCode code={`
+                        Double ilDouble = 10.5;
+                        double ilDoublePrimitivo = ilDouble.doubleValue();
+                    `}/>
+                </li>
+                <li>Character -&gt; char
+                    <JavaCode code={`
+                        Character ilCarattere = 'a';
+                        char ilCaratterePrimitivo = ilCarattere.charValue();
+                    `}/>
+                </li>
+                <li>Boolean -&gt; boolean
+                    <JavaCode code={`
+                        Boolean ilBoolean = true;
+                        boolean ilBooleanPrimitivo = ilBoolean.booleanValue();
+                    `}/>
+                </li>
+            </ul>
+            <h2>Autoboxing</h2>
+            <p>L'autoboxing è il processo automatico di conversione di un tipo di dato primitivo in un oggetto wrapper
+                corrispondente e viceversa.
+                In particolare:</p>
+            <ul>
+                <li>int -&gt; Integer
+                    <JavaCode code={`
+                        int lInteroPrimitivo = 10;
+                        Integer lIntero = lInteroPrimitivo;
+                    `}/>
+                </li>
+                <li>double -&gt; Double
+                    <JavaCode code={`
+                        double ilDoublePrimitivo = 10.5;
+                        Double ilDouble = ilDoublePrimitivo;
+                    `}/>
+                </li>
+                <li>char -&gt; Character
+                    <JavaCode code={`
+                        char ilCaratterePrimitivo = 'a';
+                        Character ilCarattere = ilCaratterePrimitivo;
+                    `}/>
+                </li>
+                <li>boolean -&gt; Boolean
+                    <JavaCode code={`
+                        boolean ilBooleanPrimitivo = true;
+                        Boolean ilBoolean = ilBooleanPrimitivo;
+                    `}/>
+                </li>
+            </ul>
+            <h2>Confronto tra Class/Oggetti Wrapper e Tipi di Dati Primitivi</h2>
+            <p>Esempi:</p>
+            <JavaCode code={`
+                // Integer vs int
+                Integer lIntero = 10;
+                int lInteroPrimitivo = 10;
+                System.out.println(lIntero == lInteroPrimitivo); // true (grazie all'autoboxing -> unboxing)
+                // Character vs char
+                Character ilCarattere = 'a';
+                char ilCaratterePrimitivo = 'a';
+                System.out.println(ilCarattere == ilCaratterePrimitivo); // true 
+                // String vs String
+                String laStringa = "Ciao Mondo";
+                String laStringaPrimitiva = "Ciao Mondo";
+                System.out.println(laStringa == laStringaPrimitiva); // true 
+                // Boolean vs boolean
+                Boolean veroReference = true;
+                boolean veroPrimitivo = true;
+                System.out.println(veroReference == veroPrimitivo); // true
+                // Double vs double
+                Double ilDouble = 10.5;
+                double ilDoublePrimitivo = 10.5;
+                System.out.println(ilDouble == ilDoublePrimitivo); // true
+            `}/>
         </div>
     );
 };
