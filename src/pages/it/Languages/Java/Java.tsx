@@ -136,10 +136,10 @@ const Java: React.FC = () => {
             <h3>Tipi di Dato Primitivi</h3>
             <table>
                 <thead>
-                    <th>Tipo di Dato</th>
-                    <th>Valori Possibili</th>
-                    <th>Occupazione in Memoria</th>
-                    <th>Esempio</th>
+                <th>Tipo di Dato</th>
+                <th>Valori Possibili</th>
+                <th>Occupazione in Memoria</th>
+                <th>Esempio</th>
                 </thead>
                 <tbody>
                 <tr>
@@ -207,20 +207,20 @@ const Java: React.FC = () => {
             <h3>Tipi di Dato Reference</h3>
             <table>
                 <thead>
-                    <th>Tipo di Dato</th>
-                    <th>Valori Possibili</th>
-                    <th>Occupazione in Memoria</th>
-                    <th>Esempio</th>
+                <th>Tipo di Dato</th>
+                <th>Valori Possibili</th>
+                <th>Occupazione in Memoria</th>
+                <th>Esempio</th>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>String</td>
-                        <td>insieme di caratteri tra doppi apici (no singoli apici)</td>
-                        <td>variabile</td>
-                        <td><JavaCode code={`String laStringa = "Ciao Mondo";`}/></td>
-                    </tr>
+                <tr>
+                    <td>String</td>
+                    <td>insieme di caratteri tra doppi apici (no singoli apici)</td>
+                    <td>variabile</td>
+                    <td><JavaCode code={`String laStringa = "Ciao Mondo";`}/></td>
+                </tr>
                 </tbody>
-             </table>
+            </table>
             <p> Da quest'ultimo esempio possiamo notare che la Stringa è un tipo di dato reference e che i dati di tipo
                 reference sono oggetti (istanze di una classe), quindi rispetto a dati primitivi portano con se
                 attributi e metodi propri della classe stessa.
@@ -317,8 +317,9 @@ const Java: React.FC = () => {
                 <li>Moltiplicazione, Divisione e Modulo</li>
                 <li>Somma e Sottrazione</li>
             </ol>
-            <h2>Classe <code className={'documentation-link'}>Math</code> </h2>
-            <p>La classe Math contiene attributi e metodi per eseguire operazioni matematiche come radice quadrata, potenza
+            <h2>Classe <code className={'documentation-link'}>Math</code></h2>
+            <p>La classe Math contiene attributi e metodi per eseguire operazioni matematiche come radice quadrata,
+                potenza
                 esponenziale, logaritmi, ecc.
                 I metodi della classe Math sono tutti statici, quindi non è necessario creare un oggetto Math per
                 utilizzarli.
@@ -378,7 +379,7 @@ const Java: React.FC = () => {
                     <JavaCode code={`System.out.println(a <= b); // true`}/>
                 </li>
             </ol>
-        <h2>Operatori Logici (algebra booleana)</h2>
+            <h2>Operatori Logici (algebra booleana)</h2>
             <p>Come gli operatori di comparazione, gli operatori logici restituiscono un valore booleano (true o false).
                 Anche gli operatori logici vengono utilizzati per controllare il flusso di un programma tramite
                 la creazione di condizioni e strutture di controllo.
@@ -505,7 +506,8 @@ const Java: React.FC = () => {
                     }
                     `}/>
                 </li>
-                <li>for-enhanced/for-each (ciclo determinato - il numero di iterazioni dipende dalla lunghezza dell'array)
+                <li>for-enhanced/for-each (ciclo determinato - il numero di iterazioni dipende dalla lunghezza
+                    dell'array)
                     <JavaCode code={`
                     int[] numeri = {1, 2, 3, 4, 5};
                     for (int numero: numeri) {    // Tipo di dato; Nome variabile; Array
@@ -534,9 +536,9 @@ const Java: React.FC = () => {
                 <h3>Break e Continue</h3>
                 <p>Java supporta le parole chiave <code>break</code> e <code>continue</code> per controllare il flusso
                     di un ciclo. In particolare:</p>
-                    <ul>
-                        <li><code>break</code> interrompe l'esecuzione del ciclo e passa al codice successivo.
-                            <JavaCode code={`
+                <ul>
+                    <li><code>break</code> interrompe l'esecuzione del ciclo e passa al codice successivo.
+                        <JavaCode code={`
                             for (int i = 0; i < 5; i++) {
                                 if (i == 3) {   // Condizione di uscita
                                     break;      // Termina esecuzione del ciclo
@@ -544,9 +546,9 @@ const Java: React.FC = () => {
                                 System.out.println(i);
                             }
                             `}/>
-                        </li>
-                        <li><code>continue</code> interrompe l'iterazione corrente del ciclo e passa alla successiva.
-                            <JavaCode code={`
+                    </li>
+                    <li><code>continue</code> interrompe l'iterazione corrente del ciclo e passa alla successiva.
+                        <JavaCode code={`
                             for (int i = 0; i < 5; i++) {
                                 if (i == 3) {   // Condizione di salto
                                     continue;   // Salta l'iterazione corrente e passa alla successiva
@@ -554,8 +556,8 @@ const Java: React.FC = () => {
                                 System.out.println(i);
                             }
                             `}/>
-                        </li>
-                    </ul>
+                    </li>
+                </ul>
             </ul>
             <h2>Array</h2>
             <p>Gli array sono usati per memorizzare più valori dello stesso tipo in una singola variabile.
@@ -1065,6 +1067,66 @@ const Java: React.FC = () => {
             `}/>
             <p>Output</p>
             <TerminalCode code={`Mario Luigi Alessandro\nAlice Bob Charlie`}/>
+            <h2>Metodi</h2>
+            <p>I metodi in Java sono blocchi di codice che eseguono una specifica funzione. Sono analoghi alla funzioni,
+                ma sono così definiti poiché implementati all'interno di una classe. Come le funzioni anche i metodi
+                sono utilizzati per organizzare il codice in unità riutilizzabili e per eseguire operazioni specifiche.
+                In Java, un metodo è definito all'interno di una classe e può essere chiamato da altre parti del codice
+                ed accettare parametri (valorizzati con gli argomenti passati dal chiamante il metodo stesso, i quali
+                devono essere dello stesso tipo dei parametri dichiarati nel metodo) e restituire o meno un valore.
+            </p>
+            <h3>Sintassi Metodo</h3>
+            <JavaCode code={`
+                Modificatore di accesso - Tipo di ritorno - Nome del metodo (Parametri) {
+                     Blocco di codice
+                }
+                
+                // Esempio Stampa Stringa - Metodo pubblico che non restituisce nulla (void)
+                public void saluta() {
+                    System.out.println("Ciao Mondo!");
+                }
+                string saluto = saluta();       // Ciao Mondo!
+                System.out.println(saluto);     // null (perché il metodo non restituisce nulla)
+                
+                // Esempio Somma - Funzione pubblica che restituisce un intero (int)
+                public int somma(int a, int b) {
+                    return a + b;
+                }
+                
+                // Chiamata alla funzione Somma
+                int risultatoSomma = somma(5, 10);
+                System.out.println(risultatoSomma); // 15        
+            `}/>
+            <h3>Stesso Metodo con Diversi Parametri (diversa signature) - Overloaded Methods</h3>
+            <p>Java supporta la possibilità di definire più metodi con lo stesso nome
+                ma con diversi parametri (diversa signature). Ad esempio:</p>
+            <JavaCode code={`
+                // Metodo somma con due parametri interi
+                public int somma(int a, int b) {
+                    return a + b;
+                }
+                              
+                // Metodo somma con tre parametri interi
+                public int somma(int a, int b, int c) {
+                    return a + b + c;
+                }
+                
+                // Metodo somma con due parametri double
+                public double somma(double a, double b) {
+                    return a + b;
+                }
+                
+                // Chiamata ai metodi somma
+                int risultato1 = somma(5, 10);          // 15
+                int risultato2 = somma(5, 10, 15);      // 30
+                double risultato3 = somma(5.5, 10.5);   // 16.0
+            `}/>
+            <p> Come si può osservare dai risultati ottenuti, Java è in grado di distinguere i metodi da utilizzare in
+                base al numero ed al tipo dei parametri passati alla funzione chiamata (nel nostro caso, la funzione
+                somma).
+            </p>
+
+
         </div>
     );
 };
