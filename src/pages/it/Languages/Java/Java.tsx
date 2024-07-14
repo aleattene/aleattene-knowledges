@@ -1125,7 +1125,95 @@ const Java: React.FC = () => {
                 base al numero ed al tipo dei parametri passati alla funzione chiamata (nel nostro caso, la funzione
                 somma).
             </p>
+            <h2>OOP - Programmazione Orientata agli Oggetti</h2>
+            <p>La programmazione orientata agli oggetti (OOP) è un paradigma di programmazione che si basa sul concetto
+                di Classe ed Oggetti.
+                Gli oggetti sono entità (reali o astratte del dominio che andiamo a modellare) che contengono dati (variabili) e metodi (funzioni) che operano sull'oggetto
+                stesso.
+                In Java, tutto è un oggetto, tranne i tipi di dati primitivi (int, char, boolean, ecc.).
+                L'OOP in Java si basa su quattro principi fondamentali:</p>
+            <ul>
+                <li>Incapsulamento</li>
+                <li>Ereditarietà</li>
+                <li>Polimorfismo</li>
+                <li>Abstract</li>
+            </ul>
+            <h3>Classe</h3>
+            <p>Una classe è un modello che definisce le variabili e i metodi comuni a tutti gli oggetti di quella classe.
+                In Java, una classe è definita con la parola chiave <code>class</code>.
+            </p>
+            <h3>Sintassi Classe</h3>
+            <JavaCode code={`
+                Modificatore di accesso class NomeClasse {
+                    // Variabili di istanza
+                    Tipo variabile1;
+                    Tipo variabile2;
+                    // Costruttore
+                    public NomeClasse(Tipo parametro1, Tipo parametro2, ...) {
+                        // Inizializzazione delle variabili di istanza
+                        this.variabile1 = parametro1;
+                        this.variabile2 = parametro2;
+                        ...
+                    }
+                    // Metodi
+                    public void metodo1() {
+                        // Blocco di codice
+                    }
+                    public Tipo metodo2(Tipo parametro1, Tipo parametro2, ...) {
+                        // Blocco di codice
+                    }
+                }
+            `}/>
+            <h3>Esempio Classe</h3>
+            <JavaCode code={`
+                // Definizione della classe Persona nel file Persona.java
+                public class Persona {
+                    // Variabili di istanza
+                    String nome;
+                    String cognome;
+                    int eta;
+                    // Costruttore della classe Persona (richiamato quando si crea un oggetto tramite la keyword new)
+                    public Persona(String nome, String cognome, int eta) {
+                        this.nome = nome;
+                        this.cognome = cognome;
+                        this.eta = eta;
+                    }
+                    // Metodi
+                    public void saluta() {
+                        System.out.println("Ciao, mi chiamo " + nome + " e ho " + eta + " anni.");
+                    }
+                }
+            `}/>
+            <h3>Oggetto</h3>
+            <p>Un oggetto è un'istanza di una classe. In Java, un oggetto è creato con la parola chiave
+                <code>new</code>.
+                Un oggetto ha attributi (variabili di istanza) e metodi (funzioni).
+            </p>
+            <h3>Sintassi Oggetto</h3>
+            <JavaCode code={`NomeClasse nomeOggetto = new NomeClasse(parametri);`}/>
+            <h3>Esempio Oggetto</h3>
+            <JavaCode code={`
+                // Creazione di un oggetto Persona nel file Main.java
+                public class Main {
 
+                    public static void main(String[] args) {
+                    
+                        // Creazione di due oggetti Persona (istanze della classe Persona)
+                        Persona persona1 = new Persona("Alice", "Rossi", 30);   // Prima Istanza
+                        Persona persona2 = new Persona("Bob", "Verdi", 25);     // Seconda Istanza
+                        
+                        // Chiamata al metodo saluta delle due istanze della classe Persona
+                        persona1.nome = "Alice";
+                        persona1.cognome = "Rossi";
+                        persona1.eta = 30;
+                        persona2.nome = "Bob";
+                        persona2.cognome = "Verdi";
+                        persona2.eta = 25;
+                        persona1.saluta(); // Ciao, mi chiamo Alice e ho 30 anni.
+                        persona2.saluta(); // Ciao, mi chiamo Bob e ho 25 anni.
+                    }
+                }
+            `}/>
 
         </div>
     );
