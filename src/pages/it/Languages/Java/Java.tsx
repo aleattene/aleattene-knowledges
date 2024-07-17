@@ -1214,7 +1214,192 @@ const Java: React.FC = () => {
                     }
                 }
             `}/>
-
+            <h2>Scope delle Variabili</h2>
+            <p>Lo scope di una variabile è la parte del programma in cui la variabile è accessibile.
+                In Java, le variabili possono essere dichiarate in variabili locali, parametri di metodo,
+                campi di classe e campi di istanza.
+            </p>
+            <ul>
+                <li>Le variabili locali sono dichiarate all'interno di un blocco di codice e sono accessibili solo
+                    all'interno di quel blocco.
+                    <JavaCode code={`
+                        public class Main {
+                            public static void main(String[] args) {
+                                // Variabile locale
+                                int numero = 10;
+                                System.out.println(numero); // 10
+                            }
+                            System.out.println(numero); // Errore - numero non è accessibile
+                        }
+                    `}/>
+                </li>
+                <li>I parametri di metodo sono variabili che vengono passate a un metodo e sono accessibili solo
+                    all'interno di quel metodo.
+                    <JavaCode code={`
+                        public class Main {
+                            public static void main(String[] args) {
+                                // Metodo somma con due parametri interi
+                                public int somma(int a, int b) {
+                                    return a + b;
+                                }
+                                System.out.println(a); // Errore - a non è accessibile
+                            }
+                        }
+                    `}/>
+                </li>
+                <li>I campi di classe sono variabili dichiarate all'interno di una classe e sono accessibili
+                    da tutti i metodi della classe.
+                    <JavaCode code={`
+                        public class Main {
+                            // Campo di classe
+                            static int numero = 10;
+                            public static void main(String[] args) {
+                                System.out.println(numero); // 10
+                            }
+                        }
+                    `}/>
+                </li>
+                <li>I campi di istanza sono variabili dichiarate all'interno di una classe e sono accessibili
+                    da tutti i metodi della classe e da tutte le istanze della classe.
+                    <JavaCode code={`
+                        public class Main {
+                            // Campo di istanza
+                            int numero = 10;
+                            public static void main(String[] args) {
+                                Main main = new Main();
+                                System.out.println(main.numero); // 10
+                            }
+                        }
+                    `}/>
+                    <p>La differenza principale tra i campi di classe e i campi di istanza è che i campi di classe è
+                        condiviso da tutte le istanze della classe, mentre i campi di istanza sono specifici per ogni
+                        istanza della classe.
+                    </p>
+                    <li>Le variabili globali sono variabili dichiarate all'interno di una classe e sono accessibili da
+                        tutti i metodi della classe e da tutte le istanze della classe.
+                        <JavaCode code={`
+                            public class Main {
+                                // Variabile globale
+                                static int numero = 10;
+                                public static void main(String[] args) {
+                                    System.out.println(numero); // 10
+                                }
+                            }
+                        `}/>
+                        <p>La differenza principale tra i campi di classe e le variabili globali è che i campi di classe
+                            sono associati a una specifica istanza della classe, mentre le variabili globali sono
+                            associate alla classe stessa.
+                        </p>
+                    </li>
+                </li>
+            </ul>
+            <h2>Overload del Costruttore</h2>
+            <p>Java supporta la possibilità di definire più costruttori con lo stesso nome ma con diversi parametri.
+                Questo è proprio il concetto di overload del costruttore.
+                Esempio:
+            </p>
+            <JavaCode code={`
+                // File Automobile.java
+                public class Automobile {
+                    String marca;
+                    String modello;
+                    Boolean ariaCondizionata;
+                    
+                    // Costruttore con due parametri
+                    public Automobile(String marca, String modello) {
+                        this.marca = marca;
+                        this.modello = modello;
+                    }
+                    
+                    // Costruttore con tre parametri
+                    public Automobile(String marca, String modello, Boolean ariaCondizionata) {
+                        this.marca = marca;
+                        this.modello = modello;
+                        this.ariaCondizionata = ariaCondizionata;
+                    }
+                }
+            `}/>
+            <p>Sarà quindi richiamato il costruttore specifico in base al numero di parametri passati al momento della
+                creazione dell'oggetto tramite la keyword <code>new Automobile</code>
+            </p>
+            <h2>Override di un Metodo</h2>
+            <p>Il metodo <code>toString()</code> restituisce una rappresentazione in forma di stringa dell'oggetto.
+                In Java, il metodo <code>toString()</code> è definito nella classe Object e può essere sovrascritto
+                nelle classi derivate, tramite l'annotazione <code>@Override</code>.
+                Se non si sovrascrive il metodo <code>toString()</code>, verrà utilizzata l'implementazione di default
+                della classe Object.
+            </p>
+            <h3>Esempio:</h3>
+            <JavaCode code={`
+                // Definizione della classe Automobile nel file Automobile.java
+                public class Automobile {
+                    String marca;
+                    String modello;
+                    Boolean ariaCondizionata;
+                    
+                    public Automobile(String marca, String modello, Boolean ariaCondizionata) {
+                        this.marca = marca;
+                        this.modello = modello;
+                        this.ariaCondizionata = ariaCondizionata;
+                    }
+                    
+                    @Override
+                    public String toString() {
+                        return "Automobile{" +
+                                "marca='" + this.marca + '\'' +
+                                ", modello='" + this.modello + '\'' +
+                                ", ariaCondizionata=" + this.ariaCondizionata +
+                                '}';
+                    }
+                }
+                // Creazione di un oggetto Automobile nel file Main.java
+                public class Main {
+                    public static void main(String[] args) {
+                        Automobile automobile = new Automobile("Fiat", "500", true);
+                        // Stampa dell'oggetto Automobile senza sovrascrivere il metodo toString()
+                        System.out.println(automobile); // Automobile@1b6d3586
+                        // Stampa dell'oggetto Automobile sovrascrivendo il metodo toString()
+                        System.out.println(automobile); 
+                        // Automobile{marca='Fiat', modello='500', ariaCondizionata=true}
+                    }
+                }
+            `}/>
+            <h2>Array di Oggetti</h2>
+            <p>Un array di oggetti è un array di riferimenti a oggetti.
+                Esempio:
+            </p>
+            <JavaCode code={`
+                // Creazione di un array di oggetti Automobile nel file Main.java
+                public class Main {
+                    public static void main(String[] args) {
+                        // Creazione di un array di 3 oggetti Automobile
+                        Automobile[] automobili = new Automobile[3];            
+                        automobili[0] = new Automobile("Fiat", "500", true);    
+                        automobili[1] = new Automobile("Ford", "Focus", false);
+                        automobili[2] = new Automobile("Audi", "A3", true);
+                        // Stampa degli oggetti Automobile
+                        for (Automobile automobile: automobili) {
+                            System.out.println(automobile);
+                        }
+                    }
+                }
+                 // Creazione alternativa di un array di 3 oggetti Automobile nel file Main.java
+                public class Main {
+                    public static void main(String[] args) {
+                        // Creazione di un array di 3 oggetti Automobile
+                        Automobile automobile1 = new Automobile("Fiat", "500", true);
+                        Automobile automobile2 = new Automobile("Ford", "Focus", false);
+                        Automobile automobile3 = new Automobile("Audi", "A3", true);
+                        Automobile[] automobili = {automobile1, automobile2, automobile3};
+                    }
+                }
+            `}/>
+            <h3>Output:</h3>
+            <TerminalCode code={`
+                Automobile{marca='Fiat', modello='500', ariaCondizionata=true}
+                Automobile{marca='Ford', modello='Focus', ariaCondizionata=false}
+                Automobile{marca='Audi', modello='A3', ariaCondizionata=true}
+            `}/>
         </div>
     );
 };
