@@ -1400,6 +1400,35 @@ const Java: React.FC = () => {
                 Automobile{marca='Ford', modello='Focus', ariaCondizionata=false}
                 Automobile{marca='Audi', modello='A3', ariaCondizionata=true}
             `}/>
+            <h2>Oggetti passati come Parametri</h2>
+            <p>Gli oggetti possono essere passati come parametri ai metodi.</p>
+            <h3>Esempio:</h3>
+            <JavaCode code={`
+                // Definizione della classe Automobile nel file Automobile.java
+                public class Automobile {
+                    String marca;
+                    String modello;
+                         
+                    public Automobile(String marca, String modello) {
+                        this.marca = marca;
+                        this.modello = modello;
+                    }
+                }
+                // Creazione di un oggetto Automobile nel file Main.java
+                public class Main {
+                    public static void main(String[] args) {
+                        Automobile automobile = new Automobile("Fiat", "500");
+                        // Chiamata al metodo stampaAutomobile passando l'oggetto Automobile come parametro
+                        stampaAutomobile(automobile);
+                    }
+                    // Metodo stampaAutomobile che accetta un oggetto Automobile come parametro
+                    public static void stampaAutomobile(Automobile automobile) {
+                        System.out.println(automobile.marca);       // Fiat
+                        System.out.println(automobile.modello);     // 500
+                    }
+                }
+            `}/>
+
         </div>
     );
 };
