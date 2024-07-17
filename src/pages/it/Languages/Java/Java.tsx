@@ -1428,7 +1428,276 @@ const Java: React.FC = () => {
                     }
                 }
             `}/>
+            <h2>Keywords final e static</h2>
+            <p>Le keywords <code>final</code> e <code>static</code> sono utilizzate per definire costanti e metodi
+                statici. Nello specifico:
+            </p>
+            <ul>
+                <li>La keyword <code>final</code> viene utilizzata per definire costanti, variabili, metodi e classi
+                    che non possono essere modificati o estesi.
+                    Ad esempio:
+                    <JavaCode code={`
+                        public class Main {
+                            // Costante
+                            final int COSTANTE = 10;
+                            COSTANTE = 20; // Errore - COSTANTE che non può essere riassegnata
+                            // Metodo final
+                            final void metodo() {
+                                // Blocco di codice
+                            }
+                            // Classe final
+                            final class Classe {
+                                // Blocco di codice
+                            }
+                        }
+                    `}/>
+                </li>
+                <li>La keyword <code>static</code> viene invece utilizzata per definire metodi e variabili che
+                    appartengono alla classe e non alle istanze della classe, quindi per tutte le istanze saranno
+                    univoci. Ad esempio:
+                    <JavaCode code={`
+                        // Classe Persona nel file Persona.java
+                        public class Persona {
+                            String nome;
+                            static int numPersone = 0;
+                            public Persona(String nome) {
+                                this.nome = nome;
+                                numPersone++;
+                            }
+                        }
+                        
+                        // Creazione di oggetti Persona nel file Main.java
+                        public class Main {
+                            public static void main(String[] args) {
+                                // Creazione di due oggetti Persona
+                                Persona persona1 = new Persona("Alice");
+                                Persona persona2 = new Persona("Bob");
+                                // Stampa del numero di persone (variabile condivisa da tutte le istanze della classe)
+                                System.out.println(Persona.numPersone); // 2
+                            }
+                        }
+                    `}/>
+                    <h2>Ereditarietà (Inheritance)</h2>
+                    <p>L'ereditarietà è un meccanismo in cui una nuova classe (sottoclasse) eredita i campi e i metodi
+                        di una classe esistente (superclasse).
+                        In Java, una classe può ereditare da una sola classe padre, ma può essere estesa da più classi
+                        figlie.
+                        La classe figlia eredita i campi e i metodi della classe padre e può aggiungere nuovi campi e
+                        metodi.
+                    </p>
+                    <h3>Sintassi Ereditarietà</h3>
+                    <JavaCode code={`
+                        class NomeClassePadre {
+                            // Variabili di istanza
+                            Tipo variabile1;
+                            Tipo variabile2;
+                            // Costruttore
+                            public NomeClassePadre(Tipo parametro1, Tipo parametro2, ...) {
+                                // Inizializzazione delle variabili di istanza
+                                this.variabile1 = parametro1;
+                                this.variabile2 = parametro2;
+                                ...
+                            }
+                            // Metodi
+                            public void metodo1() {
+                                // Blocco di codice
+                            }
+                            public Tipo metodo2(Tipo parametro1, Tipo parametro2, ...) {
+                                // Blocco di codice
+                            }
+                        }
+                    
+                        class NomeClasseFiglia extends NomeClassePadre {
+                            // Eventuali Attributi Aggiuntivi
+                            Tipo variabile3;
 
+                            // Costruttore
+                            NomeClasseFiglia(Tipo parametro1, Tipo parametro2, Tipo parametro3...) {
+                                // Chiamata al costruttore della classe padre
+                                super(parametro1, parametro2, ...); 
+                                // Inizializzazione Attributi della Classe Figlia
+                                this.variabile3 = parametro1;
+                                ...
+                            }
+                            // Override dei Metodi della Classe Padre
+                            @Override
+                            public void metodo1() {
+                                // Blocco di codice (override del metodo della classe padre)
+                            }
+                            @Override
+                            public Tipo metodo2(Tipo parametro1, Tipo parametro2, ...) {
+                                // Blocco di codice (override del metodo della classe padre)
+                            }
+                            // Eventuali Metodi Aggiuntivi
+                            public void metodo3() {
+                                // Blocco di codice
+                            }
+                        }               
+                    `}/>
+                    <h3>Esempio:</h3>
+                    <JavaCode code={`
+                        // Classe Persona nel file Persona.java
+                        public class Persona {
+                            String nome;
+                            int eta;
+                            public Persona(String nome, int eta) {
+                                this.nome = nome;
+                                this.eta = eta;
+                            }
+                            public void saluta() {
+                                System.out.println("Mi chiamo " + this.nome + " e ho " + this.eta + " anni.");
+                            }
+                        }
+                        
+                        // Classe Studente (che estende Persona) nel file Studente.java
+                        public class Studente extends Persona {
+                            String corso;
+                            // Costruttore della classe Studente
+                            public Studente(String nome, int eta, String corso) {
+                                super(nome, eta);   // Chiamata al costruttore della classe padre
+                                this.corso = corso;
+                            }
+                            // Override del metodo saluta della classe Persona
+                            @Override 
+                            public void saluta() {
+                                System.out.println("Frequento il corso di " + this.corso + ".");
+                            }
+                            // Metodo aggiuntivo
+                            public void salutaCompagni() {
+                                System.out.println("Ciao compagni!");
+                            }
+                        }
+                    
+                        // Classe Insegnante (che estende Persona) nel file Insegnante.java
+                        public class Insegnante extends Persona {
+                            String materia;
+                            // Costruttore della classe Insegnante
+                            public Insegnante(String nome, int eta, String materia) {
+                                super(nome, eta);       // Chiamata al costruttore della classe padre
+                                this.materia = materia;
+                            }
+                            // Override del metodo saluta
+                            public void saluta() {
+                                System.out.println("Insegno " + this.materia + ".");
+                            }
+                            // Metodo aggiuntivo
+                            public void salutaStudenti() {
+                                System.out.println("Buongiorno studenti!");
+                            }
+                        }
+                        
+                        // Creazione di oggetti Persona, Studente e Insegnante nel file Main.java
+                        public class Main {
+                        
+                            public static void main(String[] args) {
+                                // Creazione di tre istanze (persona, studente, insegnante)
+                                Persona persona = new Persona("Alice", 30);
+                                Studente studente = new Studente("Bob", 25, "Informatica");
+                                Insegnante insegnante = new Insegnante("Charlie", 40, "Programmazione");
+                                
+                                // Chiamata al metodo saluta delle tre istanze
+                                persona.saluta();               // Mi chiamo Alice e ho 30 anni.
+                                studente.saluta();              // Frequento il corso di Informatica.
+                                insegnante.saluta();            // Insegno Programmazione.
+                                
+                                // Chiamata ai metodi aggiuntivi
+                                studente.salutaCompagni();      // Ciao compagni!
+                                insegnante.salutaStudenti();    // Buongiorno studenti!
+                            }
+                        }
+                    `}/>
+
+                </li>
+            </ul>
+            <h2>Classi Astratte</h2>
+            <p>Una classe astratta è una classe che non può essere istanziata, non può cioè istanziare nuovo oggetti,
+                ma può essere solo ereditata.
+                In Java, una classe astratta è definita con la parola chiave <code>abstract</code>.
+                Una classe astratta può contenere metodi astratti (senza corpo) che devono essere implementati
+                dalle classi derivate.
+            </p>
+            <h3>Sintassi Classe Astratta</h3>
+            <JavaCode code={`
+                public abstract class NomeClasse {
+                    // Variabili di istanza
+                    Tipo variabile1;
+                    // Costruttore
+                    public NomeClasse(Tipo parametro1, ...) {
+                        // Inizializzazione delle variabili di istanza
+                        this.variabile1 = parametro1;
+                        ...
+                    }
+                    // Metodo astratto
+                    public abstract void metodo1();
+                    public abstract Tipo metodo2(Tipo parametro1, ...);
+                }
+            `}/>
+            <h3>Esempio:</h3>
+            // Veicolo è una classe astratta
+            <JavaCode code={`
+                public abstract class Veicolo {
+                    // Variabili di istanza
+                    String marca;
+                    String modello;
+                    int numeroRuote;
+                    // Costruttore
+                    public Veicolo(String marca, String modello, int numeroRuote) {
+                        this.marca = marca;
+                        this.modello = modello;
+                        this.numeroRuote = numeroRuote;
+                    }
+                    // Metodo astratto
+                    public abstract void accelera();
+                    public abstract void decelera();
+                }
+                
+                // Classe Automobile che estende Veicolo
+                public class Automobile extends Veicolo {
+                    // Costruttore
+                    public Automobile(String marca, String modello, int numeroRuote) {
+                        super(marca, modello, numeroRuote);
+                    }
+                    // Implementazione dei metodi astratti
+                    @Override
+                    public void accelera() {
+                        System.out.println("L'automobile accelera.");
+                    }
+                    @Override
+                    public void decelera() {
+                        System.out.println("L'automobile decelera.");
+                    }
+                }
+                // Classe Moto che estende Veicolo
+                public class Moto extends Veicolo {
+                    // Costruttore
+                    public Moto(String marca, String modello, int numeroRuote) {
+                        super(marca, modello, numeroRuote);
+                    }
+                    // Implementazione dei metodi astratti
+                    @Override
+                    public void accelera() {
+                        System.out.println("La moto accelera.");
+                    }
+                    @Override
+                    public void decelera() {
+                        System.out.println("La moto decelera.");
+                    }
+                }
+                
+                // Creazione di oggetti Automobile e Moto nel file Main.java
+                public class Main {
+                    public static void main(String[] args) {
+                        // Creazione di un oggetto Automobile
+                        Automobile automobile = new Automobile("Fiat", "500", 4);
+                        automobile.accelera();  // L'automobile accelera.
+                        automobile.decelera();  // L'automobile decelera.
+                        // Creazione di un oggetto Moto
+                        Moto moto = new Moto("Yamaha", "R1", 2);
+                        moto.accelera();        // La moto accelera.
+                        moto.decelera();        // La moto decelera.
+                    }
+                }
+            `}/>
         </div>
     );
 };
