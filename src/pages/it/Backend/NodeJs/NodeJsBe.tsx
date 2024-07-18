@@ -65,6 +65,38 @@ const NodeJsBe: React.FC = () => {
                 espressioni hanno senso (fare la spesa al supermercato, fare un bonifico in banca) e quali no (fare un
                 bonifico al supermercato, fare la spesa in banca).
             </p>
+            <p>Un aspetto che sicuramente necessita di un chiarimento è quello che riguarda il concetto di
+                <strong>runtime environment</strong>; abbiamo
+                infatti osservato che l'environment è l'ambiente dove viene esegito il codice JS, ma allora per runtime
+                environment cosa si intende?
+                Da un punto di vista letterario dovremmo considerare il runtime environment come l'intero ambiente
+                di esecuzione, quindi inclusivo di tutto quanto concerne l'hardware e software coinvolto (CPU, memoria,
+                Sistema Operativo, stc), di fatto però in questa casistica per <strong>runtime environment</strong>
+                si intende l'<strong>ambiente di esecuzione</strong> di JS offerto da NodeJS.
+            </p>
+            <p> Come abbiamo già visto NodeJs si basa sul Motore V8 di Google Chrome. E' possibile affermare questo
+                perché in effetti NodeJS delega l'esecuzione del codice JS all'engine (appunto il motore V8) che si
+                trova al suo interno.
+                Il motore V8 è un motore di esecuzione open source sviluppato da Google per il browser Chrome (ad oggi
+                è utilizzato anche da altri software) che permette di eseguire codice JS in modo molto veloce ed
+                efficiente; di fatto il suo scopo è quindi quello di eseguire il codice JS che riceve in input.
+                Ma non solo, durante questo processo infatti non solo compila ed esegue il codice JS, ma si occupa
+                anche di allocare la memoria necessaria per gli oggetti e di liberare in modo automatico quella non
+                più utilizzata (garbage collection).
+            </p>
+            <p>Come abbiamo appena detto, NodeJS utilizza quindi V8 al suo interno e comunica con esso attraverso il
+                linguaggio C++, ovvero con il linguaggio con il quale è scritto il motore V8 stesso.
+                NodeJS, definisce quindi come deve essere fatto l'ambiente in cui V8 esegue il codice JS, aggiungendo
+                tutti gli oggetti e le funzioni caratteristiche di NodeJS stesso, come ad esempio l'istruzione
+                <strong> require </strong> che abbiamo visto in precedenza.
+                Questo ci fa quindi comprendere che potremmo vedere NodeJS come un'applicazione C++ contenente al suo
+                interno il motore V8, verso il quale espone un'elevato numero di API, utilizzabile dai programmi JS che
+                potranno essere eseguiti attraverso esso.
+                <u>Banalmente, conoscendo il linguaggio C++, si potrebbe avere  la possibilità di realizzare NodeJS
+                ex-novo, ovvero una applicazione C++ che contenga al suo interno il motore V8 e che sia in grado di
+                    eseguire del codice al suo interno.</u>
+            </p>
+            <p> File JS =&gt; NodeJS [C++] [ V8 esegue Js + API NodeJS (http, fs, etc) ]</p>
         </div>
     );
 };
