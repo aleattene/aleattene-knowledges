@@ -147,6 +147,41 @@ const NodeJsBe: React.FC = () => {
                 etc), ma di fatto solo NodeJs ha messo un <strong>Event Loop</strong> al centro di tutte le sue
                 funzionalità.
             </p>
+            <p>Succede infatti che nel momento in cui avviamo NodeJs con in input un file Js, il codice in esso
+                contenuto viene eseguito e viene avviato l'Event Loop.
+                Sarà poi lui ad occuparsi di fare eseguire tutte le funzioni di callback presenti nel codice.
+                Ed infine una volta che l'Event Loop vede che non ci sono più callback in attesa, NodeJs termina
+                l'esecuzione.
+            </p>
+            <p>Leggermente diverso il discorso legato ad un server web, perché in qual caso ci sarà sempre una callback
+                in attesa che è quella relativa all'evento di una nuova possibile connessione ricevuta.
+                Ecco allora che in tal caso a meno di non terminare manualmente il server, NodeJs rimarrà costantemente
+                in esecuzione, in attesa di nuove connessioni.
+            </p>
+            <p>Altro aspetto fondamentale da considerare è che non possiamo controllare l'esecuzione dell'event loop,
+                tutto il codice infatti che scriviamo e che viene eseguito al suo interno deve sottostare alle sue
+                regole ad ai suoi meccanismi.
+            </p>
+            <p>Il meccanismo delle callback viene sfruttato appieno per le operazioni I/O (che come abbiamo già visto
+                sono le più lente) e quelle che richiedono tempo per essere completate.
+                Tutte quelle supportate da NodeJs possono essere eseguite in modo <strong>asincrono</strong> e
+                <strong>non bloccante</strong>, poiché delegate alla libreria
+                <code className={'documentation-link'}>libuv</code>, la quale è usata al suo interno per fornire
+                l'event loop e le operazioni di I/O non bloccanti.
+                Di fatto poi è proprio questa libreria che rende NodeJS più di un semplice ambiente di esecuzione JS e
+                ne permette le elevate prestazioni.
+            </p>
+            <p>[IMG to fix] Architettura interna di NodeJS</p>
+            <p>Node JS utilizza un solo thread principale (single-thread) in cui viene eseguito tutto il codice.
+                Nonostante questo, grazie alla sua architettura dove le operazioni I/O non bloccanti sono delegate
+                ad altri thread (invisibili e non controllabili dall'applicazione) permette di soddisfare un numero
+                elevato di richieste consumando un quantitativo limitato di risorse.
+                L'uso di un solo thread non è pero da considerarsi nè un limite nè che non sia possibile sfruttare al
+                massimo la potenza della CPU moderne poiché se necessario è possibile sfruttare meccanismi di
+                distribuzione del carico di lavoro anche al di fuori del main thread. (to fix il collegamento)
+            </p>
+
+
         </div>
     );
 };
