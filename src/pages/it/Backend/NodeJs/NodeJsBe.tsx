@@ -54,8 +54,8 @@ const NodeJsBe: React.FC = () => {
                 dall'ambiente di esecuzione. E' in sostanza l'ambiente di esecuzione che fornisce le API disponibili
                 per l'interazione con il sistema.
             </p>
-            <p> BROWSER = JS + DOM API (document, windows, ... )</p>
-            <p> NODEJS = JS + NODE API (fs, http, require, ... )</p>
+            <p> [IMG to fix] BROWSER = JS + DOM API (document, windows, ... )</p>
+            <p> [IMG to fix] NODEJS = JS + NODE API (fs, http, require, ... )</p>
             <p> Per comprendere meglio questo punto si prova a pensare al fatto che se andate al supermercato e chiedete
                 al cassiere di fare un bonifico, vi risponderà che non è possibile, in quanto il suo ambiente di lavoro
                 (il supermercato) non fornisce tale servizio. Allo stesso modo, se andate in banca e chiedete al
@@ -92,11 +92,61 @@ const NodeJsBe: React.FC = () => {
                 Questo ci fa quindi comprendere che potremmo vedere NodeJS come un'applicazione C++ contenente al suo
                 interno il motore V8, verso il quale espone un'elevato numero di API, utilizzabile dai programmi JS che
                 potranno essere eseguiti attraverso esso.
-                <u>Banalmente, conoscendo il linguaggio C++, si potrebbe avere  la possibilità di realizzare NodeJS
-                ex-novo, ovvero una applicazione C++ che contenga al suo interno il motore V8 e che sia in grado di
-                    eseguire del codice al suo interno.</u>
+                <i>Banalmente, ma per nulla semplice, conoscendo il linguaggio C++, si potrebbe avere la possibilità
+                    di realizzare NodeJS ex-novo, ovvero una applicazione C++ che contenga al suo interno il motore V8
+                    e che sia in grado di eseguire del codice al suo interno.</i>
             </p>
-            <p> File JS =&gt; NodeJS [C++] [ V8 esegue Js + API NodeJS (http, fs, etc) ]</p>
+            <p>[IMG to fix] File JS =&gt; NodeJS [C++] [ V8 esegue Js + API NodeJS (http, fs, etc) ]</p>
+            <h2>NodeJS: eventi ed esecuzione non bloccante</h2>
+            <p>Un'interessante osservazione per poter affrontare questo capitolo è quella di ricorrere alla descrizione
+                che riportava la homepage di NodeJs ai suoi albori (2009):
+                <strong>Evented I/O for V8 Javascript</strong>.
+                [... TO FIX ...]
+            </p>
+            <h2>NodeJS: motivi della nascita</h2>
+            <p>Prima di NodeJs, la maggior parte della applicazioni di rete usva i <strong>thread</strong> per
+                gestire più connessioni da parte dei client: in sostanza ogni volta che il server web riceveva una
+                richiesta da un client, creava un nuovo thread per eseguire il codice necessario a gestire la
+                connessione.
+                Il problema di questo approccio è che i thread possono gestire una sola richiesta alla volta, e
+                fin quando non è conclusa la richiesta corrente, il thread rimane bloccato senza poterne gestire altre.
+                In sostanza se abbiamo ad esempio che un thread impiega mediamente 2 secondi per servire una richiesta,
+                con 10 richieste già ricevute dal server, sappiamo che l'undicesima dovrà attendere almeno 20 secondi
+                per essere servita; va da sè che è molto probabile che il client non ricevendo risposta entro un
+                tempo ragionevole, interrompa la connessione, generando un <strong>timeout error</strong> ed una
+                conseguente esperienza utente negativa.
+            </p>
+            <p>
+                Ecco allora che per risolvere questa problematica vengono creati più thread in modo da distribuire le
+                richiesta tra essi e diminuire conseguentemente i tempi di attesa.
+                Anche in questo caso si tratta comunque di una soluzione non efficientissima, in quanto se il numero di
+                richieste (o connessioni) da gestire è molto elevato, il numero di thread necessari per gestirle
+                in tempi ragionevoli potrebbe divenire troppo elevato da mettere in crisi le risorse del sistema
+                disponibili, dato che comunque ogni thread occupa una parte delle risorse disponibili (alias CPU, RAM,
+                etc).
+            </p>
+            <p>Thread e Thread poll [To Fix] </p>
+            <p>Apache / Nginx [To Fix] </p>
+            <p>NodeJs ha quindi introdotto un nuovo paradigma per la gestione delle richieste, basato su un'architettura
+                <strong>event-driven</strong> e <strong>non-blocking</strong>
+            </p>
+            <p>Prima di proseguire è importante tenere a mente che solitamente le operazioni di I/O (Input/Output) sono
+                le più lente in un'applicazione, in quanto richiedono l'accesso a risorse esterne al sistema (dischi,
+                etc) ed è per questo che è facile diventino il collo di bottiglia delle performance.
+                Ecco allora ad esempio che se durante l'invio di un risposta al client, il thread che la sta inviando
+                passa ad occuparsi di un'altra richiesta, senza rimanere bloccato sulla precedente (dove
+                magari il client è anche lento nel ricevere la risposta) otteniamo una situazione non bloccante
+                (non-blocking).
+                Dopodiché nel momento in cui l'invio della risposta è completato, verrà generata una notifica che
+                permetterà al thread di tornare ad occuparsi (se necessario) di quella specifica richiesta.
+                Questo ciclo di esecuzione (si fa qualcosa, si passa ad altro, si torna su operazione precedente al
+                verificarsi di un evento) è quello che viene gestito attraverso un <strong>Event Loop</strong> ed il
+                meccanismo delle <strong>Callback</strong>.
+                Prima di Node altre librerie avevano messo a disposizione sistemi basati su eventi per lo sviluppo di
+                applicazioni di rete con modelli di concorrenza efficienti (EventMachine per Ruby, Twisted per Python,
+                etc), ma di fatto solo NodeJs ha messo un <strong>Event Loop</strong> al centro di tutte le sue
+                funzionalità.
+            </p>
         </div>
     );
 };
