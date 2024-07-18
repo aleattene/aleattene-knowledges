@@ -180,7 +180,85 @@ const NodeJsBe: React.FC = () => {
                 massimo la potenza della CPU moderne poiché se necessario è possibile sfruttare meccanismi di
                 distribuzione del carico di lavoro anche al di fuori del main thread. (to fix il collegamento)
             </p>
+            <h2>NPM - Node Package Manager</h2>
+            <p>Nel 2010, ad opera di Isaac Z. Schlueter, pochi mesi dopo il rilascio di NodeJs viene rilasciato anche
+                <code className={'documentation-link'}>npm</code>, il package manager di NodeJs.
+                Npm è un gestore di pacchetti che permette di installare, aggiornare e rimuovere pacchetti NodeJs,
+                utilizzabili nelle nostre applicazioni.
+                Npm è uno dei più grandi registry (in alcuni casi definiti anche repository) pubblici di moduli JS disponibili, un po' come lo sono PyPi per Python e
+                Packagist per PHP.
+                In sostanza grazie a NPM è possibile aggiungere librerie esterne (chiamate anche dipendenza) ai notri
+                progetti, cosi da rendere più semplice e veloce lo sviluppo.
+                Nel tempo è diventato uno strumento fondaentale per la comunità NodeJs, tanto che è stato integrato
+                direttamente nell'installazione standard di NodeJs.
+            </p>
+            <p>History (to fix):</p>
+            <ul>
+                <li>2010: npm viene rilasciato</li>
+                <li>2012: R.Dahl lascia la guida del progetto</li>
+                <li>2014: prende vita il progetto io.js</li>
+                <li>2015: Node Foundation</li>
+                <li>2019: OpenJs Foundation</li>
+            </ul>
+            Ad oggi (15 anni dalla sua creazione) NodeJS può quindi ormai considerarsi una tecnologia stabile,
+            supportata, ampiamente diffusa, con un vasto ecosistema ma sempre in continua evoluzione.
+            <h2>Deno (to fix)</h2>
+            <h2>Italiani in Node e progetto OpenSource (to fix)</h2>
+            <h2>Installazione</h2>
+            <p>Una cosa cui fare attenzione al momento dell'installazione di NodeJS è il tipo di versione disponibile,
+                abbiamo infatti due versioni disponibili:
+                <ul>
+                    <li> LTS (Long Term Support): versione stabile, supportata a lungo termine, consigliata per la
+                        produzione
+                    </li>
+                    <li> Current: versione più recente, con le ultime funzionalità, ma non supportata a lungo termine
+                    </li>
+                </ul>
+                Il fatto di avere due versioni altro non è che un compromesso tra stabilità e velocità di evoluzione.
+            </p>
+            <p>Per installare NodeJs, seguire i seguenti passaggi:</p>
+            <ol>
+                <li>Andare sul sito <a href="https://nodejs.org/it/">https://nodejs.org/it/</a></li>
+                <li>Scaricare la versione di NodeJs per il proprio sistema operativo</li>
+                <li>Installare NodeJs</li>
+                <li>Verificare l'installazione eseguendo il comando <code>node -v</code> e <code>npm -v</code></li>
+            </ol>
+            <h2>Ciclo di Vita dello Sviluppo di NodeJS (to fix)</h2>
+            <p>Di base quello che bisogna ricordare è:
+                <ul>
+                    <li>Le versioni di NodeJS con numero dispari hanno una vita di circa 6/8 mesi</li>
+                    <li>Le versioni di NodeJS con numero pari (LTS) hanno una vita di circa 36 mesi, ovvero un periodo
+                        sufficientemente lungo anche per chi realizza applicazioni con un ciclo di vita molto lungo e ad
+                        a cui si quindi richiesto un solo aggiornamento critico (passaggio da una versione LTS
+                        ad un'altra) ogni due anni e mezzo
+                    </li>
+                </ul>
+            <h2>Piattaforme Supportate</h2>
+                <p>NodeJs è disponibile su molti sistemi operativi ed architetture diverse e viene rilasciato in formato
+                    binario già compilato per la piattaforma di destinazione, ma non tutte le piattaforme sono
+                    supportate allo stesso modo, infatti esistono tre livelli di supporto:
+                    <ul>
+                        <li>Tier1: è il supporto alle piattaforme più comuni e popolari; ad esse viene dedicata la
+                            massima attenzione ed infatti i rilasci di nuove versioni vengono bloccati se ci sono errori
+                            durante la compilazione del progetto.
+                        </li>
+                        <li>Tier2: è il supporto alle piattaforme con un numero più ristretto di utenti; in questo caso
+                            è comunque garantita la massima attenzione, ma i loro rilasci potrebbero essere rimandati
+                            in caso di problemi.
+                        </li>
+                        <li>Tier3: è il supporto alle piattaforme sperimentali le quali ovviamente ricevono meno
+                            attenzione; non vengono in questo caso fornite versioni già compilate dell'applicazione ed
+                            è pertanto necessario farlo da sè, tenendo presente che questa procedura potrebbe avere dei
+                            problemi o non funzionare affatto.
+                        </li>
+                    </ul>
+                    <h2>Lanciare Node (to fix)</h2>
+                    <p>Modalità Interattiva (REPL) (to fix)</p>
+                    <p>Esecuzione di uno script (to fix)</p>
 
+
+                </p>
+            </p>
 
         </div>
     );
