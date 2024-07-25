@@ -233,6 +233,7 @@ const NodeJsBe: React.FC = () => {
                         ad un'altra) ogni due anni e mezzo
                     </li>
                 </ul>
+            </p>
             <h2>Piattaforme Supportate</h2>
                 <p>NodeJs è disponibile su molti sistemi operativi ed architetture diverse e viene rilasciato in formato
                     binario già compilato per la piattaforma di destinazione, ma non tutte le piattaforme sono
@@ -284,10 +285,11 @@ const NodeJsBe: React.FC = () => {
                         A tale scopo utilizziamo quindi la funzioni
                         <a href={'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/random'}>
                             <code className={'documentation-link'}> Math.random() </code>
-                        </a> e
+                        </a> che restituisce un numero tra 0 e 1 (escluso) come ad esempio 0.123456789 e
                         <a href={'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/floor'}>
                         <code className={'documentation-link'}> Math.floor() </code>
-                        </a>.
+                        </a> che estrae la parte intera del numero generato (doveroso in quando gli indici degli array
+                            come sappiamo sono rappresentati da numeri interi.
                     </p>
                     <JavascriptCode code={`
                         const colors = ["red", "green", "blue", "yellow", "purple"]
@@ -311,8 +313,138 @@ const NodeJsBe: React.FC = () => {
                             <code className={'documentation-link'}> crypto.getRandomValues() </code>
                         </a> fornita dal modulo crypto di NodeJs.
                     </p>
+                    <h2>Dati e JSON</h2>
+                    <p>Capita a volte di dover manipolare dati in formato JSON in modo da mantenerli divisi dal codice.
+                        Quando ci troviamo a fare ciò dobbiamo però considerare che le specifiche del formato
+                        <a href={'https://www.json.org/'}>
+                            <code className={'documentation-link'}> JSON </code>
+                        </a>(JavaScript Object Notation) non permettono nè di
+                        avere stringhe multilinea nè di usare i template literals. Per tale motivo è bene quindi
+                        ricordare che vanno usati le sequenze di escape per i caratteri speciali e \n per gli a capo.
+                    </p>
+                    <h3>Serializzazione e Deserializzazione</h3>
+                    <p>La serializzazione è il processo di conversione di un oggetto in una stringa, mentre la
+                        deserializzazione è il processo inverso, ovvero la conversione di una stringa in un oggetto.
+                        In JS possiamo utilizzare i metodi <code>JSON.stringify()</code> e <code>JSON.parse()</code>
+                        per effettuare queste operazioni.
+                    </p>
+                    <p>Va osservato a questo punto che sino ad un certo punto ha senso gestire i dati in formato JSON
+                        ma oltre un certo limite, meglio sfruttare i file di testo o i database.
+                        Sappiamo che la funzione <code className={'documentation-link'}>rquire()</code> in questo caso
+                        non può fare al caso nostro, poiché fatta per caricare moduli JS e non file normali (i file
+                        JSON rappresentano solo un'eccezione alla regola).
+                        Per tale motivo necessitiamo quindi di appoggiarci alle API di NodeJs per interagire con il
+                        file system.
+                    </p>
+                    <h2>Node e File System</h2>
+                    <p>NodeJS fornisce molte API (tutte risiedenti nel modulo
+                        <code className={'documentation-link'}>fs </code> per interagire con il file system, tra cui:
+                        <ul>
+                            <li>fs.readFile()</li>
+                            <li>fs.writeFile()</li>
+                            <li>fs.appendFile()</li>
+                            <li>fs.unlink()</li>
+                            <li>fs.rename()</li>
+                            <li>fs.mkdir()</li>
+                            <li>fs.readdir()</li>
+                        </ul>
+                        e molte altre.
+                    </p>
+                    <h3>Leggere il Contenuto di un File</h3>
+                    <p>In NodeJS caricare l'intero contenuto di un file in memoria e stamparlo a video è un'operazione
+                        veloce e poco complessa.
+                        Per farlo possiamo utilizzare la funzione <code>fs.readFile()</code> che accetta come parametri:
+                        <ul>
+                            <li>il path (relativo a partire dalla directory dove viene lanciato Node o assoluto)
+                                del file da leggere</li>
+                            <li>le opzioni di decodifica del file (di default utf8); possiamo anche passare un oggetto
+                                del tipo <code>{'{encoding: "utf8", flag: "r"}'}</code>
+                            </li>
+                            <li>una funzione di callback (da eseguire a lettura completata) che accetta a sua volta
+                                due oggetti come parametri (il cui nome è comunque arbitrario):
+                                <ul>
+                                    <li>un oggetto errore (se presente)</li>
+                                    <li>un oggetto data con i dati letti dal file</li>
+                                </ul>
+                                Per ciò che riguarda la callback è importante osservare che è uno dei meccanismi
+                                standard che possono essere utilizzati con NodeJs per gestire l'asincronicità delle
+                                operazioni.
+                            </li>
+                        </ul>
+                    </p>
+                    <JavascriptCode code={`
+                        const fs = require('fs')  // Import modulo fs ed assegnazione contenuto alla variabile fs
+                        const file = 'file.txt'
+                        fs.readFile(file, 'utf8', (err, data) => {
+                            if (err) {
+                                console.error("Errore nella lettura del file \$\{file\}: \$\{err\}")
+                                return
+                            }
+                            console.log(data)
+                        })
+                    `}/>
+                    <p>Output:</p>
+                    <TerminalCode code={`Contenuto del file.txt`}/>
+                    <p>Tutto bene ma è doverosa una piccola annotazione a livello di performance, infatti la funzione
+                        <code className={'documentation-link'}>fs.readFile()</code> legge l'intero contenuto del file
+                        e solo dopo esegue la funzione di callback passandogli il contenuto del file.
+                        Ecco allora che sporge spontaneo il dubbio circa il fatto che la lettura di un file molto grande
+                        possa effettivamente impattare sulle performance di NodeJs.
+                        Ed in effetti, se il file ha dimensione pari o superiore a 512 kb verrà letto realmente in una
+                        sola operazione, viceversa NodeJS leggerà 512 kb alla volta evitando di saturare i thread
+                        (libuv) che si occupano della effettiva lettura dal disco così da garantire prestazioni eque
+                        alle altri parti di un'applicazione.
+                        Va da se quindi, come conseguenza negativa, che seppur noi abbiamo l'illusione che venga fatto
+                        tutto in una sola operazione in realtà la lettura e caricamento del file in memoria avverrà
+                        in più fasi e conseguentemente questo richiederà più tempo.
+                        Ecco allora che quando si ha la necessità di leggere l'intero contenuto di un file il più
+                        velocemente possibile, è meglio utilizzare la funzione <code>fs.read()</code> che permette
+                        di specificare manualmente quanti byte di un file leggere durante una singola operazione.
+                    </p>
+                    <h3>Elenco File in un Directory</h3>
+                    <p>Per elencare i file in una directory possiamo utilizzare la funzione <code>fs.readdir()</code>,
+                        fornita dal modulo fs e che accetta i seguenti parametri:
+                        <ul>
+                            <li>il path della directory da leggere</li>
+                            <li>una funzione di callback (da eseguire a lettura completata) che accetta a sua volta
+                                due oggetti come parametri (il cui nome è comunque arbitrario):
+                                <ul>
+                                    <li>un oggetto errore (se presente)</li>
+                                    <li>un array con i nomi dei file presenti nella directory</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </p>
+                    <JavascriptCode code={`
+                        const fs = require('fs');
+                        const directory= './data';
+                        fs.readdir(directory, (err, files) => {
+                            if (err) {
+                                console.error("Errore nella lettura della directory \$\{directory\}: \$\{err\}")
+                                return
+                            }
+                            console.log(files)
+                        })
+                    `}/>
+                    <p>Output:</p>
+                    <TerminalCode code={`[ 'file1.txt', 'file2.txt', 'file3.txt' ]`}/>
+                    <p>Ci si potrebbe chiedere a questo punto il motivo per il quale durante la fase di controllo
+                        dell'errore non si sia utilizzato il metodo <code>throw</code> per generare un'eccezione.
+                        Ebbene la risposta è che sollevando l'eccezione NodeJs terminerebbe comunque l'esecuzione dello
+                        script, ma ci informerebbe dell'errore in modo decisamente meno chiaro e pulito.
+                        Avremo in sostanza un qualcosa del genere:
+                        <TerminalCode code={`
+                            '[Error: ENOENT: no such file or directory, scandir \'./data\'] {\n'
+                            '  errno: -2,\n' 
+                            '  code: \'ENOENT\',\n' 
+                            '  syscall: \'scandir\',\n' 
+                            '  path: \'./data\'\n'
+                        `}/>
+                        Per evitare questo dovremmo teoricamente aggiungere un blocco <code>try...catch</code> attorno
+                        alla funzione di callback, ma questo renderebbe il codice più complesso, duplicato e
+                        sicuramente meno leggibile.
+                    </p>
                 </p>
-            </p>
         </div>
     );
 };
