@@ -1,7 +1,8 @@
 
 .navbar {
     /*background-color: #242424;*/
-    background-color: #242630
+    background-color: #1C1E25;
+
     color: #fff;
     padding: 1rem;
     display: flex;
@@ -23,7 +24,8 @@
 
 .navbar li.active a {
     font-weight: bold;
-    color: mediumvioletred;
+    /*color: mediumvioletred;*/
+    color: #ff571a;
 }
 
 .navbar li a {

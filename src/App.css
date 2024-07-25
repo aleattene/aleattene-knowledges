@@ -25,7 +25,8 @@
 .main-content {
   display: flex;
   flex: 1;
-  background-color: #333333;
+  /*background-color: #333333;*/
+    background-color: #262D34;
   color: lightgray;
   padding: 1rem;
 }

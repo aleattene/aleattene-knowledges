@@ -1,6 +1,7 @@
 .sidebar {
     width: 15%;
-    background-color: #242424;
+    /*background-color: #242424;*/
+    background-color: #1C1E25;
     color: #fff;
     padding: 1rem;
 }
@@ -18,7 +19,9 @@
 
 .sidebar li.active a, .sidebar-subitem.active {
     font-weight: bold;
-    color: mediumvioletred;
+    /*color: mediumvioletred;*/
+    color: #ff571a;
+
 }
 
 .sidebar li a, .sidebar-subitem a {
@@ -37,7 +40,8 @@
 
 .sidebar-subitem.active a {
     /*background-color: #444;*/
-    color: mediumvioletred
+    /*color: mediumvioletred*/
+    color: #ff571a;
 }
 
 .subsubsection-list {
