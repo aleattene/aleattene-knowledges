@@ -255,11 +255,64 @@ const NodeJsBe: React.FC = () => {
                     <h2>Lanciare Node (to fix)</h2>
                     <p>Modalità Interattiva (REPL) (to fix)</p>
                     <p>Esecuzione di uno script (to fix)</p>
-
-
+                    <h2>Template Literals</h2>
+                    <p>Template literals sono una nuova feature introdotta in ES6 che permette di scrivere stringhe in
+                        modo più semplice e leggibile (rispetto all'uso di apici, doppi apici e caratteri di escape).
+                        Sono delimitate da backticks (``) [Option+9][Alt+96] e possono contenere anche espressioni
+                        interpolabili, ovvero espresse tra parentesi graffe ({}) e precedute dal simbolo del dollaro
+                        ($). Quando incontrano un'espressione interpolabile, le template literals valutano l'espressione
+                        e la sostituiscono con il risultato, che può essere una stringa, un numero, un booleano, un
+                        oggetto, un array, una funzione, ecc.
+                    </p>
+                    <h3>Esempio:</h3>
+                    <JavascriptCode code={`
+                        const author = "Jeff Atwood"
+                        const atwood_quote = \`Qualsiasi applicazione che può essere scritta in JavaScript, 
+                        prima o poi verrà scritta in JavaScript (\${author}).\`
+                        console.log(atwood_quote)
+                    `}/>
+                    <p>Output:</p>
+                    <TerminalCode code={`
+                        Qualsiasi applicazione che può essere scritta in JavaScript, 
+                        prima o poi verrà scritta in JavaScript (Jeff Atwood).
+                    `}/>
+                    <h2>Tagged Templates (to fix)</h2>
+                    <h2>Accesso Casuale ad un Array</h2>
+                    <p>La tecnica più comunemente utilizzata per accedere casualmente ad un elemento di un array è
+                        quella di generare un numero casuale tra 0 e la lunghezza dell'array meno uno e utilizzarlo
+                        come indice per accedere all'elemento corrispondente.
+                        A tale scopo utilizziamo quindi la funzioni
+                        <a href={'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/random'}>
+                            <code className={'documentation-link'}> Math.random() </code>
+                        </a> e
+                        <a href={'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/floor'}>
+                        <code className={'documentation-link'}> Math.floor() </code>
+                        </a>.
+                    </p>
+                    <JavascriptCode code={`
+                        const colors = ["red", "green", "blue", "yellow", "purple"]
+                        const randomIndex = Math.floor(Math.random() * colors.length)
+                        const random_color = colors[randomIndex]
+                        console.log(random_color)
+                    `}/>
+                    <p>Output (for example):</p>
+                    <TerminalCode code={`green`}/>
+                    <p>Osserviamo al riguardo che le funzioni <code>Math.random()</code> e <code>Math.floor()</code>
+                        non fanno parte delle API di NodeJS, ma sono parte delle API di JS, quindi fornite direttamente
+                        dal motore V8 nell'ambiente di esecuzione; è per tale motivo che infatti non dobbiamo importare
+                        alcun modulo per poterle utilizzare.
+                    </p>
+                    <p>Un'altra importante osservazione da fare riguarda la casualità dei valori restituiti, che in
+                        realtà non lo sono veramente, infatti sono valori che si basano su uno stato interno e per tale
+                        motivo è più corretto definirli come pseudo-casuali.
+                        Qualora volessimo ottenere valori veramente casuali (come quelli richiesti per applicazioni
+                        crittografiche e di sicurezza) potremmo far affidamento alla funzione
+                        <a href={'https://developer.mozilla.org/en-US/docs/Web/API/Crypto/getRandomValues'}>
+                            <code className={'documentation-link'}> crypto.getRandomValues() </code>
+                        </a> fornita dal modulo crypto di NodeJs.
+                    </p>
                 </p>
             </p>
-
         </div>
     );
 };
