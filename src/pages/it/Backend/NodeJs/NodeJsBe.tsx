@@ -401,6 +401,12 @@ const NodeJsBe: React.FC = () => {
                         velocemente possibile, è meglio utilizzare la funzione <code>fs.read()</code> che permette
                         di specificare manualmente quanti byte di un file leggere durante una singola operazione.
                     </p>
+                    <h3>Solo file di Testo</h3>
+                    <p>Un'altra annotazione importante da fare è che la funzione <code>fs.readFile()</code> è in grado
+                        di leggere solo file di testo, se si tenta di leggere un file binario (come ad esempio
+                        un'immagine) il risultato sarà un buffer di byte (in console potremmo anche trovarci una
+                        sequenza di caratteri e simboli incomprensibili).
+                    </p>
                     <h3>Elenco File in un Directory</h3>
                     <p>Per elencare i file in una directory possiamo utilizzare la funzione <code>fs.readdir()</code>,
                         fornita dal modulo fs e che accetta i seguenti parametri:
@@ -444,7 +450,149 @@ const NodeJsBe: React.FC = () => {
                         alla funzione di callback, ma questo renderebbe il codice più complesso, duplicato e
                         sicuramente meno leggibile.
                     </p>
+                    <p>Sappiamo che la funzione <code>fs.readFile()</code> legge l'intero contenuto di un file di testo,
+                        ma nella conversione in stringa ha problemi con file non di testo.
+                        Se volessimo allora ottenere solo l'elenco dei file di testo (e non degli altri e/o di altre
+                        directory) presenti in una directory possiamo utilizzare la funzione
+                        <code>fs.readdir()</code> la quale attraverso l'opzione <code>withFileTypes: true</code> ci
+                        permette di ottenere un array di oggetti di tipo <code>Dirent</code> che rappresentano
+                        i file e le directory presenti nella directory.
+                        QUesti oggetti hanno diverse proprietà e metodo interessanti, tra cui:
+                        <ul>
+                            <li>name: il nome del file o della directory</li>
+                            <li>isFile(): ritorna true se l'oggetto è un file</li>
+                            <li>isDirectory(): ritorna true se l'oggetto è una directory</li>
+                        </ul>
+                        <h3>Esempio:</h3>
+                        <JavascriptCode code={`
+                            const fs = require('fs');
+                            const directory = './data';
+                            fs.readdir(directory, {withFileTypes: true}, (err, files) => {
+                                if (err) {
+                                    console.error("Errore nella lettura della directory \$\{directory\}: \$\{err\}")
+                                    process.exitCode = 1;
+                                    return
+                                }
+                                const textFiles = files
+                                .filter(file => file.isFile() && file.name.endsWith('.txt'))
+                                .map(file => file.name);
+                            })
+                        `}/>
+                    </p>
                 </p>
+            <h2>Codici di Uscita</h2>
+            <p>Quando un sistema operativo esegue un processo (script, programma, etc) ne legge anche il suo
+                exit code (o codice di uscita) che è un valore numerico positivo che permette al processo di comunicare
+                al sistema operativo se è terminato correttamente o viceversa ha incontrato un errore; in particolare:
+                <ul>
+                    <li>0: indica che il processo è terminato correttamente</li>
+                    <li>1-255: indica che il processo ha incontrato un errore</li>
+                </ul>
+                Negli ambienti POSIX (Linux, Mac, WSL, etc) per visualizzare il codice di uscita di un processo appena
+                terminato possiamo utilizzare la variabile standard della console <code>$?</code> poiché è in essa
+                che viene memorizzato questo valore.
+                <h3>Esempio:</h3>
+                <TerminalCode code={`
+                    $ ls
+                    file1.txt file2.txt file3.txt
+                    
+                    $ echo $?
+                    0
+                    
+                    $ ls file4.txt
+                    ls: cannot access 'file4.txt': No such file or directory
+                    
+                    $ echo $?
+                    2
+                `}/>
+                <p>In definitiva quello che possiamo osservare è che ogni codice ha un suo significato specifico
+                    definito dall'applicazione dhe lo restituisce. Esisto però alcuni codici che sono standardizzati:
+                    <ul>
+                        <li>0: successo</li>
+                        <li>1: errore generico</li>
+                        <li>2: errore di sintassi</li>
+                        <li>126: permesso negato</li>
+                        <li>127: comando non trovato</li>
+                        <li>128: errore di uscita</li>
+                        <li>130: terminazione forzata</li>
+                        <li>255: errore sconosciuto</li>
+                    </ul>
+                </p>
+                <h3>Esempio:</h3>
+                <JavascriptCode code={`
+                    const fs = require('fs');
+                    const file = 'file.txt';
+                    fs.readFile(file, 'utf8', (err, data) => {
+                        if (err) {
+                            console.error("Errore nella lettura del file \$\{file\}: \$\{err\}")
+                            process.exit(1)
+                        }
+                        console.log(data)
+                        process.exit(0)
+                    }
+                `}/>
+                <p>Osserviamo in questo codice la presenza dell'oggetto <code>process</code> che è un oggetto globale
+                    fornito da NodeJs, contenente la variabile <code>exidCode</code> che permette di interagire con il
+                    processo in esecuzione.
+                    A differenza per esempio dell'oggetto Math, process non fa parte dello standard JS ma è un modulo
+                    di NodeJS esposto globalmente e per questo sempre disponibile.
+                    In particolare la funzione <code>process.exit()</code> permette di terminare immediatamente il
+                    processo in esecuzione e restituire il codice di uscita presente in <code>process.exitCode</code>
+                    (viene restituito l'ultimo valore assegnato).
+                    Se il programma termina senza aver assegnato un valore a <code>process.exitCode</code> il valore
+                    di default sarà 0, viceversa se il programma termina con un errore il valore di default sarà 1.
+                    E' comunque possibile passare anche un valore alla funzione <code>process.exit()</code> per
+                    specificare il codice di uscita desiderato anziché utilizzare il valore di default o comunque quello
+                    presente in <code>process.exitCode</code>.
+                </p>
+            </p>
+            <h2>Console.error()</h2>
+            <p>La funzione <code>console.error()</code> è una funzione di console che permette di stampare un messaggio
+                di errore in rosso su stderr (standard error), ovvero un canale di output dedicato agli errori,
+                e non su stdout (standard output).
+                Solitamente il canale stderr corrisponde alla console ma in alcuni casi può anche essere diverso.
+                Per esempio se stiamo eseguendo un programma da terminale possiamo indirizzare stdout e stderr in due
+                destinazioni differenti:
+                <ul>
+                    <li>stdout: console</li>
+                    <li>stderr: file di log</li>
+                </ul>
+            </p>
+            <h2>Parametri in Console</h2>
+            <p>Quando si esegue uno script JS da terminale (o riga di comando, CLI - Command Line Interface)
+                è possibile passare dei parametri al programma, i quali saranno disponibili come stringhe all'interno
+                dello script attraverso l'array <code>process.argv</code>.
+                <h3>Esempio:</h3>
+                <TerminalCode code={`
+                    $ node script.js arg1 arg2 arg3
+                `}/>
+                <JavascriptCode code={`
+                    console.log(process.argv)
+                `}/>
+                <p>Output:</p>
+                <TerminalCode code={`
+                    [
+                        '/usr/bin/node',
+                        '/path/to/script.js',
+                        'arg1',
+                        'arg2',
+                        'arg3'
+                    ]
+                `}/>
+                <JavascriptCode code={`
+                    console.log(process.argv[0])  // '/usr/bin/node'
+                    console.log(process.argv[1])  // '/path/to/script.js'
+                    console.log(process.argv[2])  // 'arg1'
+                    console.log(process.argv.slice(2))  // ['arg1', 'arg2', 'arg3']
+                `}/>
+                <p>L'array ha quindi le seguenti caratteristiche:
+                    <ul>
+                        <li>il primo elemento è il percorso del programma NodeJs</li>
+                        <li>il secondo elemento è il percorso dello script in esecuzione</li>
+                        <li>gli elementi successivi sono i parametri passati allo script</li>
+                    </ul>
+                </p>
+            </p>
         </div>
     );
 };
