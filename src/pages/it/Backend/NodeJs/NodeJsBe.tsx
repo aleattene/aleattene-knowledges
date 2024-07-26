@@ -725,6 +725,132 @@ const NodeJsBe: React.FC = () => {
                 Ed infine sopra le Promise è stato costruito il meccanismo di async/await per poter usare le Promise
                 in maniera ancora più semplice e leggibile.
             </p>
+            <h2>Server HTTP</h2>
+            <p>In NodeJS è possibile creare un http server utilizzando il modulo <code>http</code> che permette di
+                creare un server HTTP (sfruttando il <code className={'documentation-link'}>protocollo HTTP</code>)
+                che ascolta le richieste HTTP e restituisce le risposte.
+                Va detto che solitamente non si utilizza il modulo <code>http</code> direttamente, ma si fa uso di
+                librerie e framework più avanzati come ad esempio
+                <code className={'documentation-link'}>Express</code> e
+                <code className={'documentation-link'}>Fastify</code>.
+                Naturalmente con questi framework si opera a livelli di astrazione più elevati ma è facile comprendere
+                come questi di fatto dietro le quinte, ad un livello più basso, utilizzino proprio le API esposte da
+                NodeJS.
+            </p>
+            <h2>Creazione Server</h2>
+            <JavascriptCode code={`
+                // File server.js
+                const http = require('http');
+                
+                const server = http.createServer((req, res) => {
+                    res.end('Benvenuto nel mio server!');
+                });
+                
+                server.listen(3000, () => {
+                    console.log('Server in ascolto sulla porta 3000...');
+                });
+            `}/>
+            <TerminalCode code={`
+                $ node server.js
+                Server in ascolto sulla porta 3000...
+            `}/>
+            <p>Abbiamo creato un server HTTP che risponde a tutte le richieste con il messaggio
+                <code>Benvenuto nel mio server!</code> e che ascolta sulla porta 3000.
+                Per testare il server possiamo aprire il browser e digitare
+                <code>http://localhost:3000</code> nella barra degli indirizzi.
+            </p>
+            <p>Una cosa importante che dobbiamo notare è che il server non è un normale programma che viene eseguito
+                e termina immediatamente, il suo compito è ricevere richieste dai client (naturalmente anche rispondere)
+                e quindi per poterlo fare deve rimanere in esecuzione.
+            </p>
+            <p>Per quanto riguarda il codice scritto per la creazione del server possiamo notare che:
+                <ul>
+                    <li>la funzione <code>http.createServer()</code> quando invocata restituisce un'istanza di
+                        <code>http.Server</code> che rappresenta il server stesso in grado di ricevere richieste ed
+                        inviare risposte.
+                    </li>
+                    <li>la gestione del flusso di request/response è delegata alla funzione passata come parametro a
+                        <code>http.createServer()</code>, la quale viene invocata ogni volta che il server riceve una
+                        richiesta.
+                    </li>
+                    <li>alla funzione <code>http.createServer()</code> vengono passati due parametri (oggetti):
+                        <ul>
+                            <li>req: rappresenta l'oggetto della richiesta HTTP in entrata ed è un'istanza della classe
+                                <code>http.IncomingMessage</code>
+                            </li>
+                            <li>res: rappresenta l'oggetto della risposta HTTP che sarà inviata dal server al client
+                                ed è un'istanza della classe <code>http.ServerResponse</code>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>la funzione <code>end()</code> disponibile nell'oggetto <code>res</code> permette di inviare
+                        del testo come risposta al client.
+                    </li>
+                    <li>la funzione <code>listen()</code> disponibile nell'oggetto <code>server</code> permette di
+                        far partire il server e farlo ascoltare su una porta specifica (passata come parametro),
+                        che nel nostro caso è la porta 3000. Inoltre accetta un secondo parametro che è una funzione
+                        di callback che viene invocata una sola volta quando il server si è messo in ascolto sulla porta
+                        con successo.
+                    </li>
+                </ul>
+            <i>Se per puro caso dovesse capitare che il programma termina subito con un errore <code>EADDRINUSE</code>
+                (Address already in use) significa che la porta 3000 è già in uso e quindi dobbiamo cambiare porta
+                oppure terminare il processo che la sta utilizzando. Nel caso in cui volessimo cambiare la porta, ne
+                possiamo scegliere una a piacimento ricordando però che per poter utilizzare porte con numero
+                inferiore a 1024 è necessario avere i permessi di amministratore.
+                Lo stesso identico errore capita anche quando avviamo la stessa applicazione da due terminali diversi
+                (avremo in tal caso l'errore sul secondo terminale).
+            </i>
+            </p>
+            <p>[IMG] Inspector e Status Code Restituito dal Server (to fix)</p>
+            <p>Una cosa interessante da osservare (ad esempio all'interno dell'inspector del browser) è che lo status
+                code restituito da nostro server è stato 200, indicante cioè una risposta positiva da parte del server,
+                nonostante noi non avessimo indicato nulla all'interno di res.send() che quindi ha restituito una
+                risposta vuota.
+                Questo accade perché è NodeJS stesso che si occupa di inviare una risposta di default con status code
+                200 se durante l'esecuzione della funzione che gestisce la richiesta HTTP non si verificano errori.
+                L'unica regola da rispettare è quella di chiamare la funzione res.end() per indicare a NodeJs che la
+                gestione della richiesta è terminata e quindi la risposta può essere inviata al client, altrimenti
+                la richiesta rimarrebbe in sospeso fino al raggiungimento del timeout del client che ha effettuato
+                la richiesta.
+                Tale timeout potrebbe essere anche di diversi minuti, ma se il client non ha un tempo limite da
+                rispettare questa potrebbe rimanere in sospeso per un tempo indefinito e l'unico modo per terminarla,
+                se non lo fa il client, è terminare il server.
+                Per quanto riguarda lo status code se lo volessimo scegliere in modo esplicito possiamo farlo
+                impostando la proprietà <code>statusCode</code> dell'oggetto <code>res</code>.
+            </p>
+            <h3>Esempio:</h3>
+            <JavascriptCode code={`
+                const http = require('http');
+                
+                const host = '127.0.0.1';
+                const port = 3000;
+                
+                const server = http.createServer((req, res) => {
+                    res.statusCode = 404;
+                    res.end('Pagina non trovata');
+                });
+                
+                server.listen(port, host, () => {
+                    console.log('Server in ascolto su http://\$host:\$port');
+                });
+            `}/>
+            <p>Output:</p>
+            <TerminalCode code={`
+                $ node server.js
+                Server in ascolto su http://127.0.0.1:3000
+                
+                $ curl http://127.0.0.1:3000
+                Pagina non trovata
+            `}/>
+            <p> Osserviamo in questo caso che che la funzione listen() accetta anche il parametro host, che è l'indirizzo
+                IP del server su cui il server deve ascoltare. Se non specificato, di default il server si metterà in
+                ascolto sull'host 0.0.0.0 (o :: se IPv6) accettando così richieste da tutte le interfacce di rete attive
+                sulla macchina.
+                In questo nostro caso scegliendo come host 127.0.0.1 stiamo dicendo al server di ascoltare solo le
+                richieste provenienti da client locali i quali sono gli unici a poter accedere attraverso l'interfaccia
+                di rete di loopback come definito dallo standard IANA (Internet Assigned Numbers Authority).
+            </p>
         </div>
     );
 };
