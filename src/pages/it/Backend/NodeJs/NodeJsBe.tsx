@@ -593,6 +593,138 @@ const NodeJsBe: React.FC = () => {
                     </ul>
                 </p>
             </p>
+            <h2>FS Promises</h2>
+            <p>In NodeJS una funzione asincrona accetta una funzione di callback a cui passare il risultato e
+                continuare l'esecuzione. Quando però la sequenza di operazioni diventa troppo lunga e complessa
+                l'uso delle callback può diventare complicato e portare a situazioni di <code>callback hell</code>
+                (o <code>pyramid of doom</code>).
+                <h3>Esempio:</h3>
+                <TerminalCode code={`
+                    step1((result) => {
+                        step2((result) => {
+                            step3((result) => {
+                                step4((result) => {
+                                    // ...
+                                })
+                            })
+                        })
+                    }
+                `}/>
+            </p>
+            <p>Una delle prime soluzioni che vengono in mente per risolvere questo problem è quello di riscrivere
+                tutte le funzioni asincrone in sequenza senza annidamento, sbagliando, poiché infatti l'ordine di
+                esecuzione delle operazioni non sarebbe più garantito. Potremmo infatti trovarci in una situazione
+                in cui la funzione step4() venga eseguita prima della funzione step1() e così via.
+            </p>
+            <p>La vera soluzione risiede nelle API che Node espone nel modulo fs ma in versione Promise, ovvero il
+                modulo <code>fs.promises</code>.
+                Si tratta infatti di funzioni che hanno lo stesso nome delle precedenti ma con la differenza che
+                restituiscono una Promise invece di accettare una callback.
+            </p>
+            <h3>Esempio:</h3>
+            <JavascriptCode code={`
+                const fs = require('fs').promises;
+                cont directory = process.argv[2];
+                fs.readdir(directory, {withFileTypes: true})
+                    .then(files => {
+                        const textFiles = files
+                            .filter(file => file.isFile() && file.name.endsWith('.txt'))
+                            .map(file => file.name);
+                        const randomIndex = Math.floor(Math.random() * textFiles.length);
+                        const randomFile = textFiles[randomIndex];
+                        return fs.readFile(randomFile, 'utf8').
+                            .then(data => { console.log(data) })
+                    })
+                    // Punto in cui vengono intercettati e gestiti gli eventuali errori
+                    .catch(err => {
+                        console.error("Errore nella lettura della directory \$\{directory\}: \$\{err\}")
+                        process.exitCode = 1;
+                        return;
+                    })
+            `}/>
+            <p>Il codice in questo caso sembra molto più chiaro e comprensibile poiché lo visualizziamo nello stesso
+                modo lineare con cui lo rappresentiamo nella nostra mente, ovvero:
+                <ul>
+                    <li>leggere i file presenti nella directory</li>
+                    <li>filtrare i file di testo</li>
+                    <li>selezionare un file pseudo-casualmente</li>
+                    <li>leggere e stampare il contenuto del file</li>
+                    <li>se riscontriamo un errore stamparlo a video, tramite l'oggetto error e la sua proprietà
+                        message che ne descrive il problema.
+                    </li>
+                </ul>
+            </p>
+            <p>Osserviamo infine che NodeJs fornisce anche delle API per accedere al file system in modo sincrono,
+                scrivendo quindi del codice sequenziale, ma il problema è che il loro utilizzo è sconsigliato poiché
+                bloccano il main thread, quindi l'event loop e di conseguenza qualsiasi altra istruzione JS.
+            </p>
+            <h2>Async/Await</h2>
+            <p>Le Promise sono un'ottima soluzione per gestire le operazioni asincrone in modo più pulito e leggibile,
+                ma possono comunque portare a situazioni di promise hell quando si hanno molte operazioni asincrone
+                annidate.
+                Per risolvere questo problema NodeJs ha introdotto le parole chiave <code>async</code> e
+                <code>await</code> che permettono di scrivere codice asincrono avendo l'illusione che sia sincrono.
+            </p>
+            <h3>Esempio:</h3>
+            <JavascriptCode code={`
+                // File async-await.mjs
+                // ES Module
+                import fs from 'fs/promises';
+                const directory = process.argv[2];
+                try {
+                    const files = await fs.readdir(directory, {withFileTypes: true});
+                    const textFiles = files
+                        .filter(file => file.isFile() && file.name.endsWith('.txt'))
+                        .map(file => file.name);
+                    const randomIndex = Math.floor(Math.random() * textFiles.length);
+                    const randomFile = textFiles[randomIndex];
+                    const data = await fs.readFile(randomFile, 'utf8');
+                    console.log(data);
+                } catch (err) {
+                    console.error("Errore nella lettura della directory \$\{directory\}: \$\{err.message\}");
+                    process.exitCode = 1;
+                }
+            `}/>
+            <p>Osserviamo in questo caso che abbiamo volutamente utilizzato un file con estensione <code>.mjs</code>
+                proprio per segnalare a NodeJs che si tratta di un modulo ES (ECMAScript) e non di un modulo CommonJS.
+                Abbiamo fatto ciò poiché questo tipo di moduli permette l'uso delle parole chiave <code>await</code>
+                al livello più alto del codice senza doverle utilizzare all'interno di una funzione asincrona (keyword
+                <code>async</code>).
+            </p>
+            <h2>ES Module vs CommonJS</h2>
+            <p>NodeJs supporta due tipi di moduli: ES Module e CommonJS.
+                I moduli ES sono il nuovo standard per l'importazione e l'esportazione di moduli in JS, introdotto
+                con ES6 (ECMAScript 2015) e supportato da tutti i browser moderni. Si usa la parola chiave
+                <code>import</code> per importare moduli e <code>export</code> per esportarli.
+                I moduli CommonJS sono il sistema di moduli utilizzato da NodeJs sin dalla sua nascita e che permette
+                di importare e esportare moduli utilizzando le parole chiave
+                <code>require()</code> e <code>module.exports</code>.
+                <h3>Esempio:</h3>
+                <JavascriptCode code={`
+                    // ES Module
+                    import fs from 'fs/promises';
+                    
+                    export default function sum(a, b) {
+                        return a + b;
+                    }
+                    
+                    
+                    // CommonJS
+                    const fs = require('fs').promises;
+                    
+                    const sum = () => {
+                        return a + b;
+                    }
+                    
+                    module.exports = sum;
+                `}/>
+            </p>
+            <h2>Summary: Callback, Promise, and Async/Await</h2>
+            <p>E' importante ricordare che alla base di tutto ci sono sempre le callback.
+                Sopra di esse è stato costruito il meccanismo delle Promise per migliorarne la leggibilità.
+                Ed infine sopra le Promise è stato costruito il meccanismo di async/await per poter usare le Promise
+                in maniera ancora più semplice e leggibile.
+            </p>
         </div>
     );
 };
