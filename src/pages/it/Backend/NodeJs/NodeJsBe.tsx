@@ -851,6 +851,99 @@ const NodeJsBe: React.FC = () => {
                 richieste provenienti da client locali i quali sono gli unici a poter accedere attraverso l'interfaccia
                 di rete di loopback come definito dallo standard IANA (Internet Assigned Numbers Authority).
             </p>
+            <h2>JSON Response</h2>
+            <p>Il protocollo HTTP non prescrive un formato specifico per il contenuto (la/e risorsa/e) che viene
+                scambiato tra client e server, seppur HTML, XML, JSON e testo semplice siano i formati più comuni.
+                In particolare il formato JSON è molto utilizzato per scambiare dati strutturati tra client e server.
+            </p>
+            <h3>Esempio:</h3>
+            <JavascriptCode code={`
+                // ...
+                
+                const server = http.createServer((req, res) => {
+                    res.statusCode = 200;
+                    res.end('{"message": "Benvenuto nel mio server!"}');
+                });
+                
+                // ...
+            `}/>
+            <p>Questa è una prima possibile soluzione, ma è sicuramente consigliato affidarsi alla funzione
+                <code className={'documentation-link'}>JSON.stringify()</code> che permette di convertire un oggetto JS
+                in un JSON.
+            </p>
+            <JavascriptCode code={`
+                // ...
+                
+                const server = http.createServer((req, res) => {
+                    res.statusCode = 200;
+                    res.end(JSON.stringify({message: 'Benvenuto nel mio server!'}));
+                });
+                
+                // ...
+            `}/>
+            <p>Output:</p>
+            <TerminalCode code={`
+                $ curl http://127.0.0.1:3000
+                {"message": "Benvenuto nel mio server!"}
+            `}/>
+            <p>Se ci fermassimo qui dal punto di vista HTTP sempre del testo stiamo restituendo.
+                Ecco allora che dobbiamo far uso degli header.
+                Si tratta di campi inviati prima del contenuto sia nelle richieste che nelle risposte HTTP, in formato
+                testuale secondo la struttura <code>&lt;nome-header&gt;: &lt;valore&gt;</code>.
+                Il loro nome è case-insensitive, ovvero non fa differenza se scritti in maiuscolo o minuscolo e ogni
+                richiesta (o risposta) può contenerne un numero variabile.
+                Il loro scopo è appunto quello di aggiungere maggiori informazioni riguardo ciò che si sta comunicando
+                all'altra parte.
+                Alcuni header hanno un significato standard (https://www.iana.org/assignments/http-fields/) tra cui
+                troviamo uno dei più conosciuto che è <code>Content-Type</code> normalmente utilizzato per specificare
+                il tipo di contenuto che si sta inviando. Si tratta di un header molto importante che merita di essere
+                gestito con la dovuta attenzione poiché un valore non coerente con il contenuto inviato potrebbe
+                portare il browser a non accettarne il contenuto o comunque a visualizzarlo in modo errato.
+            </p>
+            <h3>Esempio:</h3>
+            <JavascriptCode code={`
+                // ...
+                
+                const server = http.createServer((req, res) => {
+                    res.statusCode = 200;
+                    res.setHeader('Content-Type', 'application/json');
+                    res.end(JSON.stringify({message: 'Benvenuto nel mio server!'}));
+                });
+                
+                // ...
+            `}/>
+            <p>Così facendo stiamo dicendo al client che il contenuto che stiamo inviando è di tipo JSON per cui lui
+                potrà interpretarlo di conseguenza.
+            </p>
+            <p><i>Al riguardo va anche detto che per semplificarci la vita alcuni header sono inviati automaticamente
+                da NodeJS, come ad esempio <code>Content-Length</code> che indica la lunghezza (in byte) del contenuto
+                inviato nel body della response (che nel nostro caso è la stringa che rappresenta in JSON).</i>
+            </p>
+            <h3>Media Type</h3>
+            <p>I tipi con cui descrivere il tipo di contenuto di un messaggio sono conosciuti come
+                <a href={'https://www.iana.org/assignments/media-types/'}>
+                    <code>media type</code>
+                </a>
+                e definiti in un RFC (Request for Comments), condiviso da HTTP ed altri
+                protocolli.
+                I media type sono composti da due parti:
+                <ul>
+                    <li>type: indica il tipo generale del contenuto, la categoria comune comune a tutti i subtype </li>
+                    <li>subtype: indica il tipo specifico del contenuto</li>
+                </ul>
+                Alcuni esempi di media type sono:
+                <ul>
+                    <li>text/html</li>
+                    <li>application/json</li>
+                    <li>image/jpeg</li>
+                    <li>audio/mpeg</li>
+                    <li>video/mp4</li>
+                </ul>
+                C'è poi il tipo <code>*/*</code> che indica che il contenuto può essere di qualsiasi tipo.
+                Mentre il tipo <code>type/*</code> indica qualunque subtype del tipo specificato; quindi ad esempio:
+                <code>text/*</code> indica qualsiasi subtype di tipo text, ovvero text/plain, text/html, etc.
+            </p>
+
         </div>
     );
 };
