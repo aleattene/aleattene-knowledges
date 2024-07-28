@@ -185,7 +185,8 @@ const NodeJsBe: React.FC = () => {
                 <code className={'documentation-link'}>npm</code>, il package manager di NodeJs.
                 Npm è un gestore di pacchetti che permette di installare, aggiornare e rimuovere pacchetti NodeJs,
                 utilizzabili nelle nostre applicazioni.
-                Npm è uno dei più grandi registry (in alcuni casi definiti anche repository) pubblici di moduli JS disponibili, un po' come lo sono PyPi per Python e
+                Npm è uno dei più grandi registry (in alcuni casi definiti anche repository) pubblici di moduli JS
+                disponibili, un po' come lo sono PyPi per Python e
                 Packagist per PHP.
                 In sostanza grazie a NPM è possibile aggiungere librerie esterne (chiamate anche dipendenza) ai notri
                 progetti, cosi da rendere più semplice e veloce lo sviluppo.
@@ -235,144 +236,145 @@ const NodeJsBe: React.FC = () => {
                 </ul>
             </p>
             <h2>Piattaforme Supportate</h2>
-                <p>NodeJs è disponibile su molti sistemi operativi ed architetture diverse e viene rilasciato in formato
-                    binario già compilato per la piattaforma di destinazione, ma non tutte le piattaforme sono
-                    supportate allo stesso modo, infatti esistono tre livelli di supporto:
-                    <ul>
-                        <li>Tier1: è il supporto alle piattaforme più comuni e popolari; ad esse viene dedicata la
-                            massima attenzione ed infatti i rilasci di nuove versioni vengono bloccati se ci sono errori
-                            durante la compilazione del progetto.
-                        </li>
-                        <li>Tier2: è il supporto alle piattaforme con un numero più ristretto di utenti; in questo caso
-                            è comunque garantita la massima attenzione, ma i loro rilasci potrebbero essere rimandati
-                            in caso di problemi.
-                        </li>
-                        <li>Tier3: è il supporto alle piattaforme sperimentali le quali ovviamente ricevono meno
-                            attenzione; non vengono in questo caso fornite versioni già compilate dell'applicazione ed
-                            è pertanto necessario farlo da sè, tenendo presente che questa procedura potrebbe avere dei
-                            problemi o non funzionare affatto.
-                        </li>
-                    </ul>
-                    <h2>Lanciare Node (to fix)</h2>
-                    <p>Modalità Interattiva (REPL) (to fix)</p>
-                    <p>Esecuzione di uno script (to fix)</p>
-                    <h2>Template Literals</h2>
-                    <p>Template literals sono una nuova feature introdotta in ES6 che permette di scrivere stringhe in
-                        modo più semplice e leggibile (rispetto all'uso di apici, doppi apici e caratteri di escape).
-                        Sono delimitate da backticks (``) [Option+9][Alt+96] e possono contenere anche espressioni
-                        interpolabili, ovvero espresse tra parentesi graffe ({}) e precedute dal simbolo del dollaro
-                        ($). Quando incontrano un'espressione interpolabile, le template literals valutano l'espressione
-                        e la sostituiscono con il risultato, che può essere una stringa, un numero, un booleano, un
-                        oggetto, un array, una funzione, ecc.
-                    </p>
-                    <h3>Esempio:</h3>
-                    <JavascriptCode code={`
+            <p>NodeJs è disponibile su molti sistemi operativi ed architetture diverse e viene rilasciato in formato
+                binario già compilato per la piattaforma di destinazione, ma non tutte le piattaforme sono
+                supportate allo stesso modo, infatti esistono tre livelli di supporto:
+                <ul>
+                    <li>Tier1: è il supporto alle piattaforme più comuni e popolari; ad esse viene dedicata la
+                        massima attenzione ed infatti i rilasci di nuove versioni vengono bloccati se ci sono errori
+                        durante la compilazione del progetto.
+                    </li>
+                    <li>Tier2: è il supporto alle piattaforme con un numero più ristretto di utenti; in questo caso
+                        è comunque garantita la massima attenzione, ma i loro rilasci potrebbero essere rimandati
+                        in caso di problemi.
+                    </li>
+                    <li>Tier3: è il supporto alle piattaforme sperimentali le quali ovviamente ricevono meno
+                        attenzione; non vengono in questo caso fornite versioni già compilate dell'applicazione ed
+                        è pertanto necessario farlo da sè, tenendo presente che questa procedura potrebbe avere dei
+                        problemi o non funzionare affatto.
+                    </li>
+                </ul>
+                <h2>Lanciare Node (to fix)</h2>
+                <p>Modalità Interattiva (REPL) (to fix)</p>
+                <p>Esecuzione di uno script (to fix)</p>
+                <h2>Template Literals</h2>
+                <p>Template literals sono una nuova feature introdotta in ES6 che permette di scrivere stringhe in
+                    modo più semplice e leggibile (rispetto all'uso di apici, doppi apici e caratteri di escape).
+                    Sono delimitate da backticks (``) [Option+9][Alt+96] e possono contenere anche espressioni
+                    interpolabili, ovvero espresse tra parentesi graffe ({}) e precedute dal simbolo del dollaro
+                    ($). Quando incontrano un'espressione interpolabile, le template literals valutano l'espressione
+                    e la sostituiscono con il risultato, che può essere una stringa, un numero, un booleano, un
+                    oggetto, un array, una funzione, ecc.
+                </p>
+                <h3>Esempio:</h3>
+                <JavascriptCode code={`
                         const author = "Jeff Atwood"
                         const atwood_quote = \`Qualsiasi applicazione che può essere scritta in JavaScript, 
                         prima o poi verrà scritta in JavaScript (\${author}).\`
                         console.log(atwood_quote)
                     `}/>
-                    <p>Output:</p>
-                    <TerminalCode code={`
+                <p>Output:</p>
+                <TerminalCode code={`
                         Qualsiasi applicazione che può essere scritta in JavaScript, 
                         prima o poi verrà scritta in JavaScript (Jeff Atwood).
                     `}/>
-                    <h2>Tagged Templates (to fix)</h2>
-                    <h2>Accesso Casuale ad un Array</h2>
-                    <p>La tecnica più comunemente utilizzata per accedere casualmente ad un elemento di un array è
-                        quella di generare un numero casuale tra 0 e la lunghezza dell'array meno uno e utilizzarlo
-                        come indice per accedere all'elemento corrispondente.
-                        A tale scopo utilizziamo quindi la funzioni
-                        <a href={'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/random'}>
-                            <code className={'documentation-link'}> Math.random() </code>
-                        </a> che restituisce un numero tra 0 e 1 (escluso) come ad esempio 0.123456789 e
-                        <a href={'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/floor'}>
+                <h2>Tagged Templates (to fix)</h2>
+                <h2>Accesso Casuale ad un Array</h2>
+                <p>La tecnica più comunemente utilizzata per accedere casualmente ad un elemento di un array è
+                    quella di generare un numero casuale tra 0 e la lunghezza dell'array meno uno e utilizzarlo
+                    come indice per accedere all'elemento corrispondente.
+                    A tale scopo utilizziamo quindi la funzioni
+                    <a href={'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/random'}>
+                        <code className={'documentation-link'}> Math.random() </code>
+                    </a> che restituisce un numero tra 0 e 1 (escluso) come ad esempio 0.123456789 e
+                    <a href={'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/floor'}>
                         <code className={'documentation-link'}> Math.floor() </code>
-                        </a> che estrae la parte intera del numero generato (doveroso in quando gli indici degli array
-                            come sappiamo sono rappresentati da numeri interi.
-                    </p>
-                    <JavascriptCode code={`
+                    </a> che estrae la parte intera del numero generato (doveroso in quando gli indici degli array
+                    come sappiamo sono rappresentati da numeri interi.
+                </p>
+                <JavascriptCode code={`
                         const colors = ["red", "green", "blue", "yellow", "purple"]
                         const randomIndex = Math.floor(Math.random() * colors.length)
                         const random_color = colors[randomIndex]
                         console.log(random_color)
                     `}/>
-                    <p>Output (for example):</p>
-                    <TerminalCode code={`green`}/>
-                    <p>Osserviamo al riguardo che le funzioni <code>Math.random()</code> e <code>Math.floor()</code>
-                        non fanno parte delle API di NodeJS, ma sono parte delle API di JS, quindi fornite direttamente
-                        dal motore V8 nell'ambiente di esecuzione; è per tale motivo che infatti non dobbiamo importare
-                        alcun modulo per poterle utilizzare.
-                    </p>
-                    <p>Un'altra importante osservazione da fare riguarda la casualità dei valori restituiti, che in
-                        realtà non lo sono veramente, infatti sono valori che si basano su uno stato interno e per tale
-                        motivo è più corretto definirli come pseudo-casuali.
-                        Qualora volessimo ottenere valori veramente casuali (come quelli richiesti per applicazioni
-                        crittografiche e di sicurezza) potremmo far affidamento alla funzione
-                        <a href={'https://developer.mozilla.org/en-US/docs/Web/API/Crypto/getRandomValues'}>
-                            <code className={'documentation-link'}> crypto.getRandomValues() </code>
-                        </a> fornita dal modulo crypto di NodeJs.
-                    </p>
-                    <h2>Dati e JSON</h2>
-                    <p>Capita a volte di dover manipolare dati in formato JSON in modo da mantenerli divisi dal codice.
-                        Quando ci troviamo a fare ciò dobbiamo però considerare che le specifiche del formato
-                        <a href={'https://www.json.org/'}>
-                            <code className={'documentation-link'}> JSON </code>
-                        </a>(JavaScript Object Notation) non permettono nè di
-                        avere stringhe multilinea nè di usare i template literals. Per tale motivo è bene quindi
-                        ricordare che vanno usati le sequenze di escape per i caratteri speciali e \n per gli a capo.
-                    </p>
-                    <h3>Serializzazione e Deserializzazione</h3>
-                    <p>La serializzazione è il processo di conversione di un oggetto in una stringa, mentre la
-                        deserializzazione è il processo inverso, ovvero la conversione di una stringa in un oggetto.
-                        In JS possiamo utilizzare i metodi <code>JSON.stringify()</code> e <code>JSON.parse()</code>
-                        per effettuare queste operazioni.
-                    </p>
-                    <p>Va osservato a questo punto che sino ad un certo punto ha senso gestire i dati in formato JSON
-                        ma oltre un certo limite, meglio sfruttare i file di testo o i database.
-                        Sappiamo che la funzione <code className={'documentation-link'}>rquire()</code> in questo caso
-                        non può fare al caso nostro, poiché fatta per caricare moduli JS e non file normali (i file
-                        JSON rappresentano solo un'eccezione alla regola).
-                        Per tale motivo necessitiamo quindi di appoggiarci alle API di NodeJs per interagire con il
-                        file system.
-                    </p>
-                    <h2>Node e File System</h2>
-                    <p>NodeJS fornisce molte API (tutte risiedenti nel modulo
-                        <code className={'documentation-link'}>fs </code> per interagire con il file system, tra cui:
-                        <ul>
-                            <li>fs.readFile()</li>
-                            <li>fs.writeFile()</li>
-                            <li>fs.appendFile()</li>
-                            <li>fs.unlink()</li>
-                            <li>fs.rename()</li>
-                            <li>fs.mkdir()</li>
-                            <li>fs.readdir()</li>
-                        </ul>
-                        e molte altre.
-                    </p>
-                    <h3>Leggere il Contenuto di un File</h3>
-                    <p>In NodeJS caricare l'intero contenuto di un file in memoria e stamparlo a video è un'operazione
-                        veloce e poco complessa.
-                        Per farlo possiamo utilizzare la funzione <code>fs.readFile()</code> che accetta come parametri:
-                        <ul>
-                            <li>il path (relativo a partire dalla directory dove viene lanciato Node o assoluto)
-                                del file da leggere</li>
-                            <li>le opzioni di decodifica del file (di default utf8); possiamo anche passare un oggetto
-                                del tipo <code>{'{encoding: "utf8", flag: "r"}'}</code>
-                            </li>
-                            <li>una funzione di callback (da eseguire a lettura completata) che accetta a sua volta
-                                due oggetti come parametri (il cui nome è comunque arbitrario):
-                                <ul>
-                                    <li>un oggetto errore (se presente)</li>
-                                    <li>un oggetto data con i dati letti dal file</li>
-                                </ul>
-                                Per ciò che riguarda la callback è importante osservare che è uno dei meccanismi
-                                standard che possono essere utilizzati con NodeJs per gestire l'asincronicità delle
-                                operazioni.
-                            </li>
-                        </ul>
-                    </p>
-                    <JavascriptCode code={`
+                <p>Output (for example):</p>
+                <TerminalCode code={`green`}/>
+                <p>Osserviamo al riguardo che le funzioni <code>Math.random()</code> e <code>Math.floor()</code>
+                    non fanno parte delle API di NodeJS, ma sono parte delle API di JS, quindi fornite direttamente
+                    dal motore V8 nell'ambiente di esecuzione; è per tale motivo che infatti non dobbiamo importare
+                    alcun modulo per poterle utilizzare.
+                </p>
+                <p>Un'altra importante osservazione da fare riguarda la casualità dei valori restituiti, che in
+                    realtà non lo sono veramente, infatti sono valori che si basano su uno stato interno e per tale
+                    motivo è più corretto definirli come pseudo-casuali.
+                    Qualora volessimo ottenere valori veramente casuali (come quelli richiesti per applicazioni
+                    crittografiche e di sicurezza) potremmo far affidamento alla funzione
+                    <a href={'https://developer.mozilla.org/en-US/docs/Web/API/Crypto/getRandomValues'}>
+                        <code className={'documentation-link'}> crypto.getRandomValues() </code>
+                    </a> fornita dal modulo crypto di NodeJs.
+                </p>
+                <h2>Dati e JSON</h2>
+                <p>Capita a volte di dover manipolare dati in formato JSON in modo da mantenerli divisi dal codice.
+                    Quando ci troviamo a fare ciò dobbiamo però considerare che le specifiche del formato
+                    <a href={'https://www.json.org/'}>
+                        <code className={'documentation-link'}> JSON </code>
+                    </a>(JavaScript Object Notation) non permettono nè di
+                    avere stringhe multilinea nè di usare i template literals. Per tale motivo è bene quindi
+                    ricordare che vanno usati le sequenze di escape per i caratteri speciali e \n per gli a capo.
+                </p>
+                <h3>Serializzazione e Deserializzazione</h3>
+                <p>La serializzazione è il processo di conversione di un oggetto in una stringa, mentre la
+                    deserializzazione è il processo inverso, ovvero la conversione di una stringa in un oggetto.
+                    In JS possiamo utilizzare i metodi <code>JSON.stringify()</code> e <code>JSON.parse()</code>
+                    per effettuare queste operazioni.
+                </p>
+                <p>Va osservato a questo punto che sino ad un certo punto ha senso gestire i dati in formato JSON
+                    ma oltre un certo limite, meglio sfruttare i file di testo o i database.
+                    Sappiamo che la funzione <code className={'documentation-link'}>rquire()</code> in questo caso
+                    non può fare al caso nostro, poiché fatta per caricare moduli JS e non file normali (i file
+                    JSON rappresentano solo un'eccezione alla regola).
+                    Per tale motivo necessitiamo quindi di appoggiarci alle API di NodeJs per interagire con il
+                    file system.
+                </p>
+                <h2>Node e File System</h2>
+                <p>NodeJS fornisce molte API (tutte risiedenti nel modulo
+                    <code className={'documentation-link'}>fs </code> per interagire con il file system, tra cui:
+                    <ul>
+                        <li>fs.readFile()</li>
+                        <li>fs.writeFile()</li>
+                        <li>fs.appendFile()</li>
+                        <li>fs.unlink()</li>
+                        <li>fs.rename()</li>
+                        <li>fs.mkdir()</li>
+                        <li>fs.readdir()</li>
+                    </ul>
+                    e molte altre.
+                </p>
+                <h3>Leggere il Contenuto di un File</h3>
+                <p>In NodeJS caricare l'intero contenuto di un file in memoria e stamparlo a video è un'operazione
+                    veloce e poco complessa.
+                    Per farlo possiamo utilizzare la funzione <code>fs.readFile()</code> che accetta come parametri:
+                    <ul>
+                        <li>il path (relativo a partire dalla directory dove viene lanciato Node o assoluto)
+                            del file da leggere
+                        </li>
+                        <li>le opzioni di decodifica del file (di default utf8); possiamo anche passare un oggetto
+                            del tipo <code>{'{encoding: "utf8", flag: "r"}'}</code>
+                        </li>
+                        <li>una funzione di callback (da eseguire a lettura completata) che accetta a sua volta
+                            due oggetti come parametri (il cui nome è comunque arbitrario):
+                            <ul>
+                                <li>un oggetto errore (se presente)</li>
+                                <li>un oggetto data con i dati letti dal file</li>
+                            </ul>
+                            Per ciò che riguarda la callback è importante osservare che è uno dei meccanismi
+                            standard che possono essere utilizzati con NodeJs per gestire l'asincronicità delle
+                            operazioni.
+                        </li>
+                    </ul>
+                </p>
+                <JavascriptCode code={`
                         const fs = require('fs')  // Import modulo fs ed assegnazione contenuto alla variabile fs
                         const file = 'file.txt'
                         fs.readFile(file, 'utf8', (err, data) => {
@@ -383,45 +385,45 @@ const NodeJsBe: React.FC = () => {
                             console.log(data)
                         })
                     `}/>
-                    <p>Output:</p>
-                    <TerminalCode code={`Contenuto del file.txt`}/>
-                    <p>Tutto bene ma è doverosa una piccola annotazione a livello di performance, infatti la funzione
-                        <code className={'documentation-link'}>fs.readFile()</code> legge l'intero contenuto del file
-                        e solo dopo esegue la funzione di callback passandogli il contenuto del file.
-                        Ecco allora che sporge spontaneo il dubbio circa il fatto che la lettura di un file molto grande
-                        possa effettivamente impattare sulle performance di NodeJs.
-                        Ed in effetti, se il file ha dimensione pari o superiore a 512 kb verrà letto realmente in una
-                        sola operazione, viceversa NodeJS leggerà 512 kb alla volta evitando di saturare i thread
-                        (libuv) che si occupano della effettiva lettura dal disco così da garantire prestazioni eque
-                        alle altri parti di un'applicazione.
-                        Va da se quindi, come conseguenza negativa, che seppur noi abbiamo l'illusione che venga fatto
-                        tutto in una sola operazione in realtà la lettura e caricamento del file in memoria avverrà
-                        in più fasi e conseguentemente questo richiederà più tempo.
-                        Ecco allora che quando si ha la necessità di leggere l'intero contenuto di un file il più
-                        velocemente possibile, è meglio utilizzare la funzione <code>fs.read()</code> che permette
-                        di specificare manualmente quanti byte di un file leggere durante una singola operazione.
-                    </p>
-                    <h3>Solo file di Testo</h3>
-                    <p>Un'altra annotazione importante da fare è che la funzione <code>fs.readFile()</code> è in grado
-                        di leggere solo file di testo, se si tenta di leggere un file binario (come ad esempio
-                        un'immagine) il risultato sarà un buffer di byte (in console potremmo anche trovarci una
-                        sequenza di caratteri e simboli incomprensibili).
-                    </p>
-                    <h3>Elenco File in un Directory</h3>
-                    <p>Per elencare i file in una directory possiamo utilizzare la funzione <code>fs.readdir()</code>,
-                        fornita dal modulo fs e che accetta i seguenti parametri:
-                        <ul>
-                            <li>il path della directory da leggere</li>
-                            <li>una funzione di callback (da eseguire a lettura completata) che accetta a sua volta
-                                due oggetti come parametri (il cui nome è comunque arbitrario):
-                                <ul>
-                                    <li>un oggetto errore (se presente)</li>
-                                    <li>un array con i nomi dei file presenti nella directory</li>
-                                </ul>
-                            </li>
-                        </ul>
-                    </p>
-                    <JavascriptCode code={`
+                <p>Output:</p>
+                <TerminalCode code={`Contenuto del file.txt`}/>
+                <p>Tutto bene ma è doverosa una piccola annotazione a livello di performance, infatti la funzione
+                    <code className={'documentation-link'}>fs.readFile()</code> legge l'intero contenuto del file
+                    e solo dopo esegue la funzione di callback passandogli il contenuto del file.
+                    Ecco allora che sporge spontaneo il dubbio circa il fatto che la lettura di un file molto grande
+                    possa effettivamente impattare sulle performance di NodeJs.
+                    Ed in effetti, se il file ha dimensione pari o superiore a 512 kb verrà letto realmente in una
+                    sola operazione, viceversa NodeJS leggerà 512 kb alla volta evitando di saturare i thread
+                    (libuv) che si occupano della effettiva lettura dal disco così da garantire prestazioni eque
+                    alle altri parti di un'applicazione.
+                    Va da se quindi, come conseguenza negativa, che seppur noi abbiamo l'illusione che venga fatto
+                    tutto in una sola operazione in realtà la lettura e caricamento del file in memoria avverrà
+                    in più fasi e conseguentemente questo richiederà più tempo.
+                    Ecco allora che quando si ha la necessità di leggere l'intero contenuto di un file il più
+                    velocemente possibile, è meglio utilizzare la funzione <code>fs.read()</code> che permette
+                    di specificare manualmente quanti byte di un file leggere durante una singola operazione.
+                </p>
+                <h3>Solo file di Testo</h3>
+                <p>Un'altra annotazione importante da fare è che la funzione <code>fs.readFile()</code> è in grado
+                    di leggere solo file di testo, se si tenta di leggere un file binario (come ad esempio
+                    un'immagine) il risultato sarà un buffer di byte (in console potremmo anche trovarci una
+                    sequenza di caratteri e simboli incomprensibili).
+                </p>
+                <h3>Elenco File in un Directory</h3>
+                <p>Per elencare i file in una directory possiamo utilizzare la funzione <code>fs.readdir()</code>,
+                    fornita dal modulo fs e che accetta i seguenti parametri:
+                    <ul>
+                        <li>il path della directory da leggere</li>
+                        <li>una funzione di callback (da eseguire a lettura completata) che accetta a sua volta
+                            due oggetti come parametri (il cui nome è comunque arbitrario):
+                            <ul>
+                                <li>un oggetto errore (se presente)</li>
+                                <li>un array con i nomi dei file presenti nella directory</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </p>
+                <JavascriptCode code={`
                         const fs = require('fs');
                         const directory= './data';
                         fs.readdir(directory, (err, files) => {
@@ -432,39 +434,39 @@ const NodeJsBe: React.FC = () => {
                             console.log(files)
                         })
                     `}/>
-                    <p>Output:</p>
-                    <TerminalCode code={`[ 'file1.txt', 'file2.txt', 'file3.txt' ]`}/>
-                    <p>Ci si potrebbe chiedere a questo punto il motivo per il quale durante la fase di controllo
-                        dell'errore non si sia utilizzato il metodo <code>throw</code> per generare un'eccezione.
-                        Ebbene la risposta è che sollevando l'eccezione NodeJs terminerebbe comunque l'esecuzione dello
-                        script, ma ci informerebbe dell'errore in modo decisamente meno chiaro e pulito.
-                        Avremo in sostanza un qualcosa del genere:
-                        <TerminalCode code={`
+                <p>Output:</p>
+                <TerminalCode code={`[ 'file1.txt', 'file2.txt', 'file3.txt' ]`}/>
+                <p>Ci si potrebbe chiedere a questo punto il motivo per il quale durante la fase di controllo
+                    dell'errore non si sia utilizzato il metodo <code>throw</code> per generare un'eccezione.
+                    Ebbene la risposta è che sollevando l'eccezione NodeJs terminerebbe comunque l'esecuzione dello
+                    script, ma ci informerebbe dell'errore in modo decisamente meno chiaro e pulito.
+                    Avremo in sostanza un qualcosa del genere:
+                    <TerminalCode code={`
                             '[Error: ENOENT: no such file or directory, scandir \'./data\'] {\n'
                             '  errno: -2,\n' 
                             '  code: \'ENOENT\',\n' 
                             '  syscall: \'scandir\',\n' 
                             '  path: \'./data\'\n'
                         `}/>
-                        Per evitare questo dovremmo teoricamente aggiungere un blocco <code>try...catch</code> attorno
-                        alla funzione di callback, ma questo renderebbe il codice più complesso, duplicato e
-                        sicuramente meno leggibile.
-                    </p>
-                    <p>Sappiamo che la funzione <code>fs.readFile()</code> legge l'intero contenuto di un file di testo,
-                        ma nella conversione in stringa ha problemi con file non di testo.
-                        Se volessimo allora ottenere solo l'elenco dei file di testo (e non degli altri e/o di altre
-                        directory) presenti in una directory possiamo utilizzare la funzione
-                        <code>fs.readdir()</code> la quale attraverso l'opzione <code>withFileTypes: true</code> ci
-                        permette di ottenere un array di oggetti di tipo <code>Dirent</code> che rappresentano
-                        i file e le directory presenti nella directory.
-                        QUesti oggetti hanno diverse proprietà e metodo interessanti, tra cui:
-                        <ul>
-                            <li>name: il nome del file o della directory</li>
-                            <li>isFile(): ritorna true se l'oggetto è un file</li>
-                            <li>isDirectory(): ritorna true se l'oggetto è una directory</li>
-                        </ul>
-                        <h3>Esempio:</h3>
-                        <JavascriptCode code={`
+                    Per evitare questo dovremmo teoricamente aggiungere un blocco <code>try...catch</code> attorno
+                    alla funzione di callback, ma questo renderebbe il codice più complesso, duplicato e
+                    sicuramente meno leggibile.
+                </p>
+                <p>Sappiamo che la funzione <code>fs.readFile()</code> legge l'intero contenuto di un file di testo,
+                    ma nella conversione in stringa ha problemi con file non di testo.
+                    Se volessimo allora ottenere solo l'elenco dei file di testo (e non degli altri e/o di altre
+                    directory) presenti in una directory possiamo utilizzare la funzione
+                    <code>fs.readdir()</code> la quale attraverso l'opzione <code>withFileTypes: true</code> ci
+                    permette di ottenere un array di oggetti di tipo <code>Dirent</code> che rappresentano
+                    i file e le directory presenti nella directory.
+                    QUesti oggetti hanno diverse proprietà e metodo interessanti, tra cui:
+                    <ul>
+                        <li>name: il nome del file o della directory</li>
+                        <li>isFile(): ritorna true se l'oggetto è un file</li>
+                        <li>isDirectory(): ritorna true se l'oggetto è una directory</li>
+                    </ul>
+                    <h3>Esempio:</h3>
+                    <JavascriptCode code={`
                             const fs = require('fs');
                             const directory = './data';
                             fs.readdir(directory, {withFileTypes: true}, (err, files) => {
@@ -478,8 +480,8 @@ const NodeJsBe: React.FC = () => {
                                 .map(file => file.name);
                             })
                         `}/>
-                    </p>
                 </p>
+            </p>
             <h2>Codici di Uscita</h2>
             <p>Quando un sistema operativo esegue un processo (script, programma, etc) ne legge anche il suo
                 exit code (o codice di uscita) che è un valore numerico positivo che permette al processo di comunicare
@@ -793,14 +795,16 @@ const NodeJsBe: React.FC = () => {
                         con successo.
                     </li>
                 </ul>
-            <i>Se per puro caso dovesse capitare che il programma termina subito con un errore <code>EADDRINUSE</code>
-                (Address already in use) significa che la porta 3000 è già in uso e quindi dobbiamo cambiare porta
-                oppure terminare il processo che la sta utilizzando. Nel caso in cui volessimo cambiare la porta, ne
-                possiamo scegliere una a piacimento ricordando però che per poter utilizzare porte con numero
-                inferiore a 1024 è necessario avere i permessi di amministratore.
-                Lo stesso identico errore capita anche quando avviamo la stessa applicazione da due terminali diversi
-                (avremo in tal caso l'errore sul secondo terminale).
-            </i>
+                <i>Se per puro caso dovesse capitare che il programma termina subito con un
+                    errore <code>EADDRINUSE</code>
+                    (Address already in use) significa che la porta 3000 è già in uso e quindi dobbiamo cambiare porta
+                    oppure terminare il processo che la sta utilizzando. Nel caso in cui volessimo cambiare la porta, ne
+                    possiamo scegliere una a piacimento ricordando però che per poter utilizzare porte con numero
+                    inferiore a 1024 è necessario avere i permessi di amministratore.
+                    Lo stesso identico errore capita anche quando avviamo la stessa applicazione da due terminali
+                    diversi
+                    (avremo in tal caso l'errore sul secondo terminale).
+                </i>
             </p>
             <p>[IMG] Inspector e Status Code Restituito dal Server (to fix)</p>
             <p>Una cosa interessante da osservare (ad esempio all'interno dell'inspector del browser) è che lo status
@@ -843,7 +847,8 @@ const NodeJsBe: React.FC = () => {
                 $ curl http://127.0.0.1:3000
                 Pagina non trovata
             `}/>
-            <p> Osserviamo in questo caso che che la funzione listen() accetta anche il parametro host, che è l'indirizzo
+            <p> Osserviamo in questo caso che che la funzione listen() accetta anche il parametro host, che è
+                l'indirizzo
                 IP del server su cui il server deve ascoltare. Se non specificato, di default il server si metterà in
                 ascolto sull'host 0.0.0.0 (o :: se IPv6) accettando così richieste da tutte le interfacce di rete attive
                 sulla macchina.
@@ -928,7 +933,7 @@ const NodeJsBe: React.FC = () => {
                 protocolli.
                 I media type sono composti da due parti:
                 <ul>
-                    <li>type: indica il tipo generale del contenuto, la categoria comune comune a tutti i subtype </li>
+                    <li>type: indica il tipo generale del contenuto, la categoria comune comune a tutti i subtype</li>
                     <li>subtype: indica il tipo specifico del contenuto</li>
                 </ul>
                 Alcuni esempi di media type sono:
@@ -943,6 +948,316 @@ const NodeJsBe: React.FC = () => {
                 Mentre il tipo <code>type/*</code> indica qualunque subtype del tipo specificato; quindi ad esempio:
                 <code>text/*</code> indica qualsiasi subtype di tipo text, ovvero text/plain, text/html, etc.
             </p>
+            <h2>Negoziare Formato Response</h2>
+            <p>Il protocollo HTTP prevede la possibilità di negoziare il formato della response tra client e server.
+                Il client che effettua la richiesta può infatti inviare l'header <code>Accept</code> specificando quali
+                sono i tipi di contenuto che è in grado di accettare in risposta.
+            </p>
+            <h3>Esempio:</h3>
+            <TerminalCode code={`
+                $ curl http://127.0.0.1:3000
+                {"message": "Benvenuto nel mio server!"}
+            `}/>
+            <p>A questo punto se oltre al messaggio volessimo visualizzare anche tutti gli header scambiati:</p>
+            <TerminalCode code={`
+                $ curl -v http://127.0.0.1:3000
+                // Log generati da Curl in relazione alla connessione tra le due parti
+                *   Trying 127.0.0.1:3000...
+                *   Connected to 127.0.0.1:3000
+                // Richiesta comprensiva di metodo, protocollo ed headers
+                >   GET / HTTP/1.1
+                >   Host: 127.0.0.1:3000
+                >   User-Agent: curl/7.68.0
+                // Disponibilità client accettare qualsiasi contenuto in response (default curl)
+                >   Accept: */*      
+                >    
+                <   // Risposta Server
+                <   HTTP/1.1 200 OK
+                <   Content-Type: application/json
+                <   Date: Sun, 29 Aug 2021 20:00:00 GMT
+                <   // ...
+                // Log generati da Curl in relazione alla disconnessione tra le due parti
+                *  Connection #0 to host 127.0.0.1:3000 left intact
+                // Corpo della response
+                {"message": "Benvenuto nel mio server!"}
+            `}/>
+            <p><i>In questo caso degno di notazione è curl, ovvero un client multi-protocollo open-source (MIT)
+                del 1998 che permette da riga di comando di gestire e modificare dati da inviare ad un server e di
+                visualizzare altresì i dati ricevuti dal server stesso.</i>
+            </p>
+            <p>Sempre tramite curl possiamo a questo punto modificare l'header <code>Accept</code> per negoziare il
+                formato della response, attraverso l'opzione <code>-H</code> (o <code>--header</code>).
+            </p>
+            <h3>Esempio:</h3>
+            <TerminalCode code={`
+                $ curl -H "Accept: application/json" http://127.0.0.1:3000
+                {"message": "Benvenuto nel mio server!"}
+            `}/>
+            <p>In questo momento in realtà nulla cambierebbe poiché il server da noi precedentemente creato non legge
+                gli header ricevuti dal client. Bisogna quindi saper che NodeJs inserisce tutti gli header ricevuti
+                con la richiesta all'interno dell'oggetto <code>req.headers</code>, il quale ha una proprietà
+                corrispondente ad ogni header ricevuto, con il nome sempre in minuscolo.
+                Pertanto nel caso della proprietà <code>Accept</code> possiamo accedere al suo valore accedendo a
+                <code>req.headers.accept</code>.
+            </p>
+            <h3>Esempio:</h3>
+            <JavascriptCode code={`
+                // ...
+                
+                const server = http.createServer((req, res) => {
+                    const acceptJson = req.headers.accept === 'application/json';
+                    const acceptText = req.headers.accept === 'text/plain';
+                    if(acceptJson) {        
+                        res.statusCode = 200;
+                        res.setHeader('Content-Type', 'application/json');
+                        res.end(JSON.stringify({message: 'Benvenuto nel mio server!'}));
+                    } else if(acceptText) {
+                        res.statusCode = 200;
+                        res.setHeader('Content-Type', 'text/plain');
+                        res.end('Benvenuto nel mio server!');
+                    } else {
+                        res.statusCode = 406;
+                        res.end('Not Acceptable');
+                    }
+                });
+                
+                // ...
+            `}/>
+            <p>Il codice appena descritto sostanzialmente:
+                <ul>
+                    <li>se il client richiede un contenuto di tipo JSON allora il server restituirà un JSON</li>
+                    <li>se il client richiede un contenuto di tipo text allora il server restituirà un testo</li>
+                    <li>in tutti gli altri casi il server restituirà un errore 406 (Not Acceptable)</li>
+                </ul>
+            </p>
+            <TerminalCode code={`
+                $ curl -v -H "Accept: text/plain" http://127.0.0.1:3000
+                *  Trying 127.0.0.1:3000...
+                *  Connected to 127.0.0.1 (127.0.0.1) port 3000 (#0)
+                >  GET / HTTP/1.1
+                > ...
+                >  Accept: text/plain
+                >
+                <  HTTP/1.1 200 OK
+                <  Content-Type: text/plain
+                <  ...
+                Benvenuto nel mio server!
+            `}/>
+            <p>Analogamente possiamo provare a vedere come risponderebbe il server qualora chiedessimo un contenuto
+                in un formato non consentito:
+            </p>
+            <TerminalCode code={`
+                $ $ curl -v -H "Accept: video/mp4" http://127.0.0.1:3000
+                * ...
+                > GET / HTTP/1.1
+                > ...
+                > Accept: video/mp4
+                >
+                < HTTP/1.1 406 Not Acceptable
+                ...
+            `}/>
+            <p>Teoricamente funziona tutto, ma in realtà non è esattamente così, poiché se non inviamo esattamente
+                il tipo di contenuto che il server si aspetta, il server restituirà un errore 406 (Not Acceptable).
+            </p>
+            <h3>Esempio:</h3>
+            <TerminalCode code={`
+                $ curl -v -H "Accept: */*" http://127.0.0.1:3000
+                * ...
+                > GET / HTTP/1.1
+                > Accept: */*
+                > ...
+                < HTTP/1.1 406 Not Acceptable
+                ...
+            `}/>
+            <p>Succede questo perché non abbiamo istruito il server a gestire queste casistiche. Proviamo quindi
+            ad aggiornare l'implementazione precedente:
+            </p>
+            <JavascriptCode code={`
+                // ...
+                
+                const server = http.createServer((req, res) => {
+                    const acceptJson = req.headers.accept === 'application/json';
+                    const acceptText = req.headers.accept === 'text/plain';
+                    const acceptAnyType = req.headers.accept === '*/*';
+                    const acceptAnyText = req.headers.accept === 'text/*';
+                });
+                if(acceptJson) {
+                    res.statusCode = 200;
+                    res.setHeader('Content-Type', 'application/json');
+                    res.end(JSON.stringify({message: 'Benvenuto nel mio server!'}));
+                } else if(acceptText || acceptAnyText || acceptAnyType) {
+                    res.statusCode = 200;
+                    res.setHeader('Content-Type', 'text/plain');
+                    res.end('Benvenuto nel mio server!');
+                } else {
+                    res.statusCode = 406;
+                    res.end('Not Acceptable');
+                }
+            `}/>
+            <p>Anche in questo sembrerebbe tutto corretto, ma tra curl e browser abbiamo delle differenze:</p>
+            <TerminalCode code={`
+                $ curl -v -H "Accept: */*" http://127.0.0.1:3000
+                * ...
+                > GET / HTTP/1.1
+                > Accept: */*
+                > ...
+                < Benvenuto nel mio server!
+                
+                $ curl -v -H "Accept: text/*" http://127.0.0.1:3000
+                * ...
+                > GET / HTTP/1.1
+                > Accept: text/*
+                > ...
+                < Benvenuto nel mio server!
+                
+                $ curl -v -H "Accept: text/plain" http://127.0.0.1:3000
+                * ...
+                > GET / HTTP/1.1
+                > Accept: text/plain
+                > ...
+                < Benvenuto nel mio server!
+                
+                $ curl -v -H "Accept: application/json" http://127.0.0.1:3000
+                * ...
+                > GET / HTTP/1.1
+                > Accept: application/json
+                > ...
+                < {"message": "Benvenuto nel mio server!"}
+            `}/>
+            <p>Il server risponde correttamente a tutte le richieste fatte con curl, ma se proviamo ad aprire il
+                browser e digitare <code>http://127.0.0.1:3000</code> vedremo che il server restituisce un errore 406.
+                Questo accade perché il browser invia all'interno di <code>Accept</code> tutti i tipi principali che
+                supporta separati da una virgola.
+                Inoltre è anche osservabile il fatto che in alcuni tipi sono presenti punti e virgola seguiti dalla
+                stringa <code>q=numero</code>, dove il numero è un valore compreso tra 0 e 1 (default) ne indica il
+                grado di preferenza da parte del client. Sulla base di tale numero quindi il server sceglierà quello
+                più idonei compatibilmente con quelli che lui è impostato a poter servire.
+                Sapendo questo, ecco allora che è bene conformarsi allo standard HTTP dividendo la sequenza di
+                possibili valori presenti nell'header dividendoli anche dai loro eventuali parametri (sfruttando la
+                funzione <code>split()</code> della classe <code>String</code>).
+            </p>
+            <h3>Esempio:</h3>
+            <JavascriptCode code={`
+                // ...
+                
+                const server = http.createServer((req, res) => {
+                    // 'text/plain, application/json;q=0.9, ...'
+                    const acceptList = req.headers.accept.split(',');  
+                    // ['text/plain', 'application/json;q=0,9', ...]
+                    const acceptTypes = acceptList.map(type => type.split(';')[0]);  
+                    // ['text/plain', 'application/json', ...]               
+                    
+                    const acceptJson = acceptTypes.includes('application/json');
+                    const acceptText = acceptTypes.includes('text/plain');
+                    const acceptAnyType = acceptTypes.includes('*/*');
+                    const acceptAnyText = acceptTypes.includes('text/*');
+                    if(acceptJson) {
+                        res.statusCode = 200;
+                        res.setHeader('Content-Type', 'application/json');
+                        res.end(JSON.stringify({message: 'Benvenuto nel mio server!'}));
+                    } else if(acceptText || acceptAnyText || acceptAnyType) {
+                        res.statusCode = 200;
+                        res.setHeader('Content-Type', 'text/plain');
+                        res.end('Benvenuto nel mio server!');
+                    } else {
+                        res.statusCode = 406;
+                        res.end('Not Acceptable');
+                    }
+                });
+                
+                // ...
+            `}/>
+            <p>Per il momento questo codice non prende in considerazione i parametri di preferenza (per esempio q),
+                ma è bene comunque sapere che tenerne conto è richiesto dalla standard HTTP.
+                Nonostante questo, se ora provassimo ad aprire il browser e digitare <code> http://127.0.0.1:3000</code>
+                questa volta il risultato sarebbe corretto.
+            </p>
+            <p>
+                <i>Piccola nota a margine: come abbiamo visto effettuare il parsing dell'header <code>Accept</code> è
+                tutt'altro che banale, per questo motivo è consigliato utilizzare librerie come ad esempio
+                <a href={'https://github.com/jshttp/accepts'}>
+                    <code className={'documentation-link'}>accepts</code>
+                </a>.
+                </i>
+                <p>Refactoring (to fix)</p>
+            </p>
+            <h2>Routing</h2>
+            <p>Sino a questo momento abbiamo sempre dialogato con il server richiedendo la risorsa presente
+                all'indirizzo base (root) del server stesso. E' però possibile richiedere risorse anche su path
+                differenti, come ad esempio <code>http://127.0.0.1/athletes</code>.
+                Senza un meccanismo di routing il server risponderebbe sempre con le stesse informazioni dello URL base.
+            </p>
+            <h3>Esempio:</h3>
+            <JavascriptCode code={`
+                // routing.js
+                const reservationRooms = {
+                    // Messaggio da mostrare nella root
+                    message: "Benvenuto nella sezione atleti",
+                    // Elenco degli atleti da mostrare sul path /athletes
+                    athletes: [
+                        {name: 'Usain Bolt', country: 'Giamaica'},
+                        {name: 'Michael Phelps', country: 'Stati Uniti'},
+                        {name: 'Simone Biles', country: 'Stati Uniti'}
+                    ]
+                };
+               
+                const routes = {
+                    '/': {
+                        (to fix)
+                    },
+                    '/athletes': (req, res) => {
+                        (to fix))
+                    }
+                };
+            `}/>
+            <p>L'oggetto routes ha una struttura che ricalca esattamente quella degli URL da gestire, ovverosia le due
+                proprietà presenti corrispondono a due path che vogliamo gestire.
+            </p>
+            <JavascriptCode code={`
+                // routing.js
+                // ...
+                const server = http.createServer((req, res) => {
+                    // Controllo se esiste un path ("/athletes") o siamo nella root ("/")
+                    const route = routes[req.url];
+                    if(!route) {
+                        res.statusCode = 404;
+                        res.end('Not Found');
+                        return;
+                    }
+                    
+                    const accepts = getAcceptedTypes(req);
+                    if(accepts.json) {
+                        resJson(res, route.getJson());
+                    } else if(accepts.textPlain || accepts.text || accepts.any) {
+                        resText(res, route.getText());
+                    } else {
+                        res.statusCode = 406;
+                        res.end('Not Acceptable');
+                    }
+                })
+           `}/>
+            Possiamo ora provare da terminale la correttezza del nostro codice:
+            <TerminalCode code={`
+                $ node routing.js
+                
+                $ curl -v H "Accept: text/plain" http://127.0.0.1:3000/athletes
+                * ...
+                > GET /athletes HTTP/1.1
+                > Accept: text/plain
+                > ...
+                < HTTP/1.1 200 OK
+                < Content-Type: text/plain
+                < ...
+                Usain Bolt - Giamaica
+                Michael Phelps - Stati Uniti
+                Simone Biles - Stati Uniti
+                
+                $ curl -v http://127.0.0.1:3000/athletesxyz
+                * ...
+                > GET /athletesxyz HTTP/1.1
+                > ...
+                < HTTP/1.1 404 Not Found
+            `}/>
 
         </div>
     );
