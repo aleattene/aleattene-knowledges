@@ -275,6 +275,146 @@ const Typescript: React.FC = () => {
                     // Specifica la cartella di output della transpilazione (directory di build)
                     outDir: "./dist",   
             `}/>
+            <h2>Classi</h2>
+            <TypescriptCode code={`
+                class User {
+                    // Proprietà tipizzate
+                    name: string;
+                    age: number;
+                    
+                    constructor(name: string, age: number) {
+                        this.name = name;
+                        this.age = age;
+                    }
+                    
+                    // Metodi
+                    getDetails(): string {
+                        return \`Name: \${this.name} - Age: \${this.age}\`;
+                    }
+                }
+                
+                // Creazione due istanze (oggetti) della classe User
+                const user1: User = new User('Mario', 30);
+                const user2: User = new User('Luigi', 25);
+                
+                // Utilizzo dei metodi delle istanze della classe User
+                user1.getDetails(); // Name: Mario - Age: 30
+                user2.getDetails(); // Name: Luigi - Age: 25
+            `}/>
+            <h3>Modificatori di Accesso</h3>
+            <p>Una delle cose da evitare quando si lavora con le classi è l'accesso diretto alle proprietà della classe,
+                quindi cose del tipo <code>user.name = 'Mario'</code> o <code>user.age = 30</code> sono da evitare.
+                Per tale motivo TS ci mette a disposizione dei modificatori dei accesso:
+                <ul>
+                    <li>public (default) - proprietà accessibile da qualsiasi parte del codice (da evitare)</li>
+                    <li>protected - proprietà accessibile solo all'interno della classe e delle sue sottoclassi</li>
+                    <li>private - proprietà accessibile solo all'interno della classe</li>
+                    <li>readonly - proprietà che non può essere modificata dopo la sua inizializzazione</li>
+                </ul>
+            </p>
+            <h3>Esempi:</h3>
+            <TypescriptCode code={`
+                user.name = 'Mario';    // Accesso diretto (da evitare)
+                
+                // Modifichiamo l'accesso alla proprietà name
+                private name: string;
+                
+                user...name.. // Errore - Property 'name' is private and only accessible within class 'User'
+            `}/>
+            <h3>ShortHand Costruttore</h3>
+            <p>TS ci permette di definire le proprietà della classe direttamente nel costruttore, evitando duplicazioni
+                di codice:</p>
+            <TypescriptCode code={`
+                class User {
+                    // Definizioni delle proprietà che saranno inizializzate nel costruttore come private
+                    constructor(private name: string, private age: number, private readonly sex: string) {}
+                    
+                    getDetails(): string {
+                        return \`Name: \${this.name} - Age: \${this.age} (sex: \${this.sec})\`;
+                    }
+                }
+            `}/>
+            <h3>Ereditarietà</h3>
+            <TypescriptCode code={`
+                class Person {
+                    constructor(private name: string, private age: number) { 
+                        this.name = name;
+                        this.age = age;
+                    }
+                    
+                    getDetails(): string {
+                        return \`Name: \${this.name} - Age: \${this.age}\`;
+                    }
+                }
+                
+                class User extends Person {
+                    constructor(name: string, age: number, private role: string) {
+                        // Richiamo del costruttore della classe padre
+                        super(name, age);
+                        // Inizializzazione della proprietà role della classe figlia (User)
+                        this.role = role;
+                    }
+                    
+                    // Override del metodo getDetails
+                    getDetails(): string {
+                        return super.getDetails() + \` - Role: \${this.role}\`;
+                    }
+                }
+                
+                const user: User = new User('Mario', 30, 'admin');
+                (???)
+                user.name; // Non consentito perché la proprietà è private (se fosse stata protected avrei potuto)
+                user.getDetails(); // Name: Mario - Age: 30 - Role: admin
+            `}/>
+            <h3>Metodi e Proprietà Statiche</h3>
+            <p>Si tratta di metodi e proprietà accessibili direttamente dalla classe senza la necessità di creare
+                oggetti (istanze).
+            </p>
+            <TypescriptCode code={`
+                // Accesso ad una proprietà statica: NomeClasse.nomeProprietà;
+                Math.PI;        // 3.141592653589793
+                
+                // Accesso ad un metodo statico: NomeClasse.nomeMetodo();
+                Math.random();  // 0.123456789
+            `}/>
+            <p>Come si può osservare in entrambi i casi non è stato necessario creare alcuna istanza della classe Math
+                per accedere alle sue proprietà statiche ed ai suoi metodi statici.</p>
+            <h3>Classi Astratte</h3>
+            <p>Questo genere di classi fungono solo da riferimento strutturale per altre classi che ne ereditano le
+                proprietà ed i metodi, ma esse stesse non possono essere istanziate.
+                Pensiamo ad esempio alla classe Persona, difficilmente esisterà la necessità di creare un'istanza di
+                Persona, ma molto più probabile sarà la necessità di creare un'istanza di Studente, Insegnante, etc.
+            </p>
+            <TypescriptCode code={`
+                // Dichiarazione di una classe astratta (keyword abstract)
+                abstract class Person {
+                    constructor(private name: string, private age: number) {
+                        this.name = name;
+                        this.age = age;
+                    }
+                    
+                    abstract getDetails(): string;
+                }
+                
+                class User extends Person {
+                    constructor(name: string, age: number, private role: string) {
+                        super(name, age);
+                        this.role = role;
+                    }
+                    
+                    // Obbligo di implementare il metodo astratto getDetails
+                    getDetails(): string {
+                        return \`Name: \${this.name} - Age: \${this.age} - Role: \${this.role}\`;
+                    }
+                }
+                
+                
+                const persona: Person = new Person('Mario', 30); // Errore - Cannot create instance of abstract class
+                
+                const user: User = new User('Mario', 30, 'admin');
+                user.getDetails(); // Name: Mario - Age: 30 - Role: admin
+            
+            `}/>
         </div>
     );
 };
