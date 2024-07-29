@@ -227,6 +227,54 @@ const Typescript: React.FC = () => {
                 const prova: (a: number, b: number) => number = somma;  // assignment specifico
                 (???)
             `}/>
+            <h2>Compilatore</h2>
+            <p>Il compilatore di TS è chiamato <code>tsc</code> (transcompiler) e ci permette di trasformare il
+                nostro codice TS in JS (eseguibile poi o nel browser o in NodeJs).</p>
+            <TypescriptCode code={`
+                // Compilazione di un file TS
+                tsc file.ts
+                
+                // Compilazione di un file TS in un file JS
+                tsc file.ts -outFile file.js
+                
+                // Compilazione continuativa di un file TS (similmente al comportamento di nodemon in NodeJS)
+                tsc file.ts -watch  // Ogni modifica comporta la ri-transpilazione del file
+                tsc file.ts -w
+            `}/>
+            <p>
+            Sicuramente utilizzare watch mode per ogni singolo file è poco conveniente, meglio utilizzarlo a livello di
+                progetto:</p>
+            <TypescriptCode code={`
+                // Inizializzazione di un progetto TS
+                tsc --init
+                // Compilazione di tutti i file TS del progetto
+                tsc -w  // mette in watch mode tutti i file TS del progetto
+                // File di configurazione tsconfig.json
+                {
+                    ....,
+                    "exclude": ["./server.ts", ... ],   // File esclusi dal watch mode
+                }
+            `}/>
+            <TypescriptCode code={`
+                // File di configurazione tsconfig.json
+                { 
+                    ...
+                    // Specifica al trans-compiler quali direttive seguire (es6/2016)
+                    target: "es2016"    
+                    
+                    // Specifica di controllare le funzionalità dei file JS oltre a quelli TS
+                    allowJs: true,      
+                    checkJs: true,   
+                    
+                    // Permette di visualizzare nella console del browser (source) file JS e TS
+                    sourceMap: true,  
+                    
+                    // Specifica la directory di input dei file TS da transpilare verso la directory di output (outDir)
+                    rootDir: "./src",   
+                    
+                    // Specifica la cartella di output della transpilazione (directory di build)
+                    outDir: "./dist",   
+            `}/>
         </div>
     );
 };
