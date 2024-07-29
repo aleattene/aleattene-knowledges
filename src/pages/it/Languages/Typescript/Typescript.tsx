@@ -185,6 +185,48 @@ const Typescript: React.FC = () => {
                 Object.keys(Roles)[1]    // USER
                 Object.keys(Roles)[2]    // GUEST
             `}/>
+            <h2>Funzioni</h2>
+            <TypescriptCode code={`
+                // Parametri e ritorno tipizzati
+                function somma(a: number, b: number): number { ... };
+                
+                // Parametri opzionali e tipizzati e ritorno tipizzato
+                function somma(a: number, b?: number): number { ... };
+                
+                // Parametri con valore di default e ritorno tipizzato
+                function somma(a: number, b: number = 5): number { ... };
+                somma(3, 4);    // 7
+                somma(3);       // 8
+                somma(1, .."ciao"..);   // Errore - Type 'string' is not assignable to type 'number'
+                                
+                // Parametri rest e ritorno tipizzato
+                function somma(a: number, ...rest: number[]): number { ... };
+                
+                // Parametri inferiti e ritorno tipizzato
+                function somma(a, b): number { ... };
+                
+                // Parametri inferti con valore di default e ritorno tipizzato
+                function somma(a, b = 5): number { ... };
+                
+                // Parametri tipizzati e ritorno any (ovvero possiamo ritornare qualsiasi tipo)
+                function somma(a: number, b: number): any { ... };
+                
+                // Parametri tipizzati e ritorno void (ovvero non ritorniamo nulla)
+                function somma(a: number, b: number): void { ... };
+                somma(3, 4);    // undefined (???)
+                
+                // Parametri tipizzati e ritorno undefined (ovvero ritorniamo undefined)
+                function somma(a: number, b: number): undefined { ... };
+                somma(3, 4);    // undefined  (???)
+            `}/>
+            <p>Osserviamo che in TS una funzione può anche essere un tipo di dato per una variabile.</p>
+            <TypescriptCode code={`
+                const somma: (a: number, b: number) => number;
+                const variable: function = somma;                       // assignment poco specifico
+                const otherVariable = somma;                            // inferenza del tipo
+                const prova: (a: number, b: number) => number = somma;  // assignment specifico
+                (???)
+            `}/>
         </div>
     );
 };
