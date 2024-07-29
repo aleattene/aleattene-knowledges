@@ -108,9 +108,83 @@ const Typescript: React.FC = () => {
                 // Any Type (viene accettato qualsiasi tipo)
                 const array: any[] = ['Mario', 30, true];
             `}/>
+            <h3>Tuple</h3>
+            <p>Le tuple sono array di lunghezza fissa, dove ogni elemento ha un tipo definito in fase di
+                dichiarazione ed inizializzazione.</p>
+            <TypescriptCode code={`
+                const array: [string, number, boolean] = ['Mario', 30, true];
+                
+                array[0] // Mario
+                array[1] // 30
+                array[2] // true
+                
+                array[3] // Errore - Element at index 3 is missing
+                
+                array[0] = 30; // Errore - Type '30' is not assignable to type 'string'
+                
+                const array2: [string, number] = [30, 'Rossi']; // Errore - Type '30' is not assignable to type 'string'              
+            `}/>
+            <p>Come è facilmente osservabile i requisiti imposti dalle tuple per ciò che riguarda numero di elementi
+                e tipologia degli stessi sono molto stringenti. Una qualunque minima loro violazione genera
+                immediatamente un errore.
+            </p>
+            <h3>ANY</h3>
+            <p>Il tipo any è un tipo speciale che ci permette di essere il più generici possibile. Accettando qualsiasi
+                tipo di dato, è l'equivalente di non avere tipizzazione e per tale motivo è consigliabile usarlo con
+                estrema accrtezza.
+            </p>
+            <h3>UNION</h3>
+            <p>Il tipo union ci permette di definire un tipo che può essere appartenente ad un insieme di più  tipi.</p>
+            <TypescriptCode code={`
+                // Array che può contenere stringhe o numeri, ma non altri tipi
+                const value: (string | number)[] = ['Mario', 30, 'Rossi', 40];
+                
+                // La variabile può essere di tipo stringa o numero (non di altro tipo)
+                let prova: string | number = 'Mario';     // string
+                prova = 30;     // number
+                
+                // La variabile può essere un numero o un array di numeri (non altro tipo)
+                let point: number | number[] = 5;   // number
+                point = [5, 10];    // array di number
+                point = 'ciao';     // Errore - Type 'string' is not assignable to type 'number | number[]'
+            `}/>
+            <h3>Custom Type</h3>
+            <p>TS ci permette anche di definire tipi personalizzati, utilizzando la parola chiave <code>type</code>.</p>
+            <TypescriptCode code={`
+                type Point = {
+                    x: number,
+                    y: number
+                };
+                const point: Point = { x: 5, y: 10 };
+            `}/>
+            <h3>ENUM</h3>
+            <TypescriptCode code={`
+                enum Roles {    
+                    ADMIN = 'admin',
+                    USER = 'user',
+                    GUEST = 'guest'
+                }
 
-
-
+                const user = {
+                    name: 'Mario',
+                    role: Roles.ADMIN
+                };
+                
+                // Accesso ai valori dell'enum tramite la chiave
+                if (user.role === Roles.ADMIN) {
+                    console.log('Admin');
+                }
+                
+                // Accesso agli indici dell'enum tramite il valore
+                Object.keys(Roles).indexOf('admin')     // 0
+                Object.keys(Roles).indexOf('user')      // 1
+                Object.keys(Roles).indexOf('guest')     // 2
+                
+                // Accesso alle chiavi dell'enum tramite l'indice
+                Object.keys(Roles)[0]    // ADMIN
+                Object.keys(Roles)[1]    // USER
+                Object.keys(Roles)[2]    // GUEST
+            `}/>
         </div>
     );
 };
