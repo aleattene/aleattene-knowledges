@@ -415,6 +415,171 @@ const Typescript: React.FC = () => {
                 user.getDetails(); // Name: Mario - Age: 30 - Role: admin
             
             `}/>
+            <h3>Singleton (advanced)</h3>
+            <p>Il Singleton è un design pattern che ci permette di creare una sola istanza di una classe e di fornire
+                un punto di accesso globale a tale istanza.</p>
+            <TypescriptCode code={`
+                class Preside {
+                    private static instance: Preside;
+                    private constructor(private name: string, private cognome: string) {
+                        this.name = name;
+                        this.cognome = cognome;
+                    }
+                    
+                    static getInstance(): Preside {
+                        if (Preside.instance) {
+                            return this.instance;
+                        }
+                        this.instance = new Preside('Mario', 'Rossi');
+                        return this.instance;
+                    }
+                    
+                    getDetails(): string {
+                        return \`Name: \${this.name} - Cognome: \${this.cognome}\`;
+                    }
+                }
+                
+                Preside.getInstance().getDetails(); // Name: Mario - Cognome: Rossi
+            `}/>
+            <h2>Interfacce</h2>
+            <p>Le interfacce sono generalmente utilizzate per essere implementate all'interno delle classi in modo
+                trasversale, ad esempio potremmo avere una classe astratta Dispositivo con classi figlie come
+                Telefono, Tablet, Smartphone, etc, che implementano l'interfaccia Connessione.
+                Sono infatti tutte classi differenti che però condividono la stessa interfaccia di connessione alla
+                rete Internet.
+            </p>
+            <TypescriptCode code={`
+                // Interfaccia
+                interface Persona {
+                    name: string;
+                    // Da tratta come un metodo astratto nella classe (o nelle classi) che implementerà l'interfaccia
+                    saluta(): void;
+                }
+            `}/>
+            <p>Attenzione al fatto che le interfacce sono differenti rispetto ai custom type, i quali sono da
+                utilizzare per definire tipi di dato personalizzati e complessi e non per essere implementati
+                all'interno delle classi al fine di aggiungere funzionalità (cosa che invece avviene con le interfacce).
+            </p>
+            <TypescriptCode code={`
+                // Custom Type
+                type Persona = {
+                    name: string;
+                    saluta(): void;
+                }
+            `}/>
+            <TypescriptCode code={`
+                (???)
+                // Implementazione dell'interfaccia Persona
+                class X implements Persona {
+                    // Proprietà obbligatoria da inizializzare perché non inizializzata nell'interfaccia (può essere
+                    // ReadOnly), non vanno usati i modificatori di accesso (public, private, protected) e non vanno
+                    // usati gli shortHand constructor
+                    name: string;   
+                    
+                    constructor(name: string) {
+                        this.name = name;
+                    }
+                    
+                    saluta(): void {
+                        console.log(\`Ciao, sono \${this.name}\`);
+                    }
+                }
+                
+                // Interfaccia Qwerty
+                interface Qwerty {
+                    scrivi(): void;
+                }
+                
+                // Implementazione contestuale sia dell'interfaccia Qwerty che Persona
+                class Y implements Persona, Qwerty { ... }
+                
+                // Estensioni di più interfacce (possibile) ma non di più classi (non permesso)
+                class Z extends X implements Persona, Qwerty { ... }
+            `}/>
+            <TypescriptCode code={`
+                (???)
+                // Interfaccia Internet
+                interface Internet {
+                    ip: string;
+                    connettiInternet(): void;
+                }
+                
+                // Classe Astratta Dispositivo
+                abstract class Dispositivo {
+                    constructor(protected nome: string, protected anno: number) {
+                        ... (???)
+                    }
+                    
+                    abstract accendi(): void;
+                    abstract spegni(): void;
+                }
+                
+                // Classe Telefono che estende Dispositivo
+                class Telefono extends Dispositivo {
+                    accendi(): void { ... }
+                    spegni(): void { ... }
+                }
+                
+                // Classe Smartphone che estende Telefono e implementa l'interfaccia Internet
+                class Smartphone extends Telefono implements Internet {
+                    ip: string;
+                    
+                    constructor (nome: string, anno: number, ip: string) {
+                        super(nome, anno);
+                        this.ip = ip;
+                    }
+                    
+                    accendi(): void { ... }
+                    spegni(): void { ... }
+                    
+                    connettiInternet(): void { ... }
+                } 
+            `}/>
+            <TypescriptCode code={`
+                (???)
+                // Interfaccia X
+                interface X { 
+                    name: string; 
+                }
+                
+                // Interfaccia Y che estende interfaccia X 
+                interface Y extends X { 
+                    cognome: string;
+                    respira(): void; 
+                }
+                
+                // Interfaccia Z
+                interface Z { 
+                    telefono: string;
+                    saluta(): void; 
+                }
+                
+                // Interfaccia W che estende le interfacce Y e Z (estensione di più interfacce)
+                interface W extends Y, Z { 
+                    eta: number; 
+                    mangia(): void;
+                }
+                
+                // Classe Persona che implementa l'interfaccia W
+                class Persona implements W { 
+                    via: string;
+                    name: string; 
+                    cognome: string; 
+                    telefono: string; 
+                   
+                    
+                    constructor(via: string, name: string, cognome: string, telefono: string) {
+                        this.via = via;
+                        this.name = name;
+                        this.cognome = cognome;
+                        this.telefono = telefono;
+                    }
+                    
+                    respira(): void { ... }
+                    saluta(): void { ... }
+                    mangia(): void { ... }
+                }
+            `}/>
         </div>
     );
 };
