@@ -580,6 +580,182 @@ const Typescript: React.FC = () => {
                     mangia(): void { ... }
                 }
             `}/>
+            <h2>Generics</h2>
+            <p>I generics sono un utile strumento che ci permette di mettere in relazione più tipi di dati tra loro
+                andando a creare una sorta di data composto.</p>
+            <TypescriptCode code={`
+                // Array di stringhe
+                const arr = Array&lt;string&gt; = ['Mario', 'Luigi', 'Rossi'];
+                
+                // Generics (T è un tipo generico)
+                const arr1: Array&lt;T&gt; = ['Mario', 'Luigi', 'Rossi'];
+                const arr2: Array&lt;T&gt; = [1, 2, 3];
+                
+                // Funzione
+                function creaArray(items: any[]): any[] {
+                    return new Array().concat(items);   // Non è il modo migliore di gestire la situazione
+                }
+                
+                const arr1 = creaArray([1, 2, 3]);    // [1, 2, 3]
+                const arr2 = creaArray(['Mario', 'Luigi', 'Rossi']); // ['Mario', 'Luigi', 'Rossi']
+                arr1.push('Rossi'); (???)
+                
+                // Generics Function
+                function creaArray&lt;T&gt;(items: T[]): T[] {
+                    return new Array().concat(items);
+                }
+                
+                const arr1 = creaArray([1, 2, 3]);    // [1, 2, 3] - Inference :number[]
+                const arr2 = creaArray(['Mario', 'Luigi']); // ['Mario', 'Luigi'] - Inference :string[]
+                arr1.push('Rossi'); // Errore - Argument type 'string' is not assignable to parameter of type 'number'
+                arr2.push(4); // Errore - Argument type 'number' is not assignable to parameter of type 'string'
+                
+                const arr1 = creaArray&lt;number&gt;([1, 2, "a"]);    // Errore - 'string' not assignable 'number'
+                const arr2 = creaArray&lt;string&gt;(['Mario', 'Luigi']); // OK
+                
+                function creaArray&lt;T, U, W&gt;(items: T, items2: U, items3: W): Array&lt;T | U | W&gt; {
+                    return new Array().concat(items, items2, items3);
+                }
+                const arr1 = creaArray&lt;number, string, boolean&gt;(1, 'Mario', true); // [1, 'Mario', true]
+                
+                function creaArray&lt;T extends number | string&gt(items: T[]): T[] {
+                    return new Array().concat(items);
+                }
+                const arr1 = creaArray&lt;boolean&gt;([1,2,3]); // Errore (???)
+            `}/>
+            <h3>Generics Class</h3>
+            <TypescriptCode code={`
+                class Prova&lt;T&gt; {
+                    private lista: T[] = [];
+                    
+                    aggiungiItem(item: T) {
+                        this.lista.push(item);
+                    }
+                    
+                    rimuoviItem(item: T) {
+                        this.lista = this.lista.splice(this.lista.indexOf(item), 1);
+                    }
+                }
+                
+                const listaStringhe = new Prova&lt;string&gt;();
+                listaStringhe.aggiungiItem('Mario');
+                listaStringhe.aggiungiItem(10); // Errore - Argument type 'number' not assignable to type 'string'
+                listaStringhe.rimuoviItem('Mario');
+            `}/>
+            <p>Tutto questo ci fa di fatto capire che in generics sono di fatto una sorta di componenti di codice che
+                è possibile riutilizzare per più situazioni con diversi tipi di dati.</p>
+            <h2>Decorators</h2>
+            <p>I decorators sono delle funzioni create per essere applicate alle classi (anche all'interno) con il
+                semplice prefisso <code>@</code> (at o chiocciola).
+                Queste vengono lanciate in fase di definizione della classe senza che vi sia la necessità di istanziare
+                un oggetto.</p>
+            <TypescriptCode code={`
+                function logger(constructor: any) {     // constructor passato di default (non ci sono altri parametri)
+                    console.log("Logger Avviato");
+                    console.log(constructor);
+                }
+                
+                @logger
+                class Prova {
+                    constructor() {
+                        console.log("Classe Richiamata");
+                    }
+                }
+                
+                (???)
+            `}/>
+            <h3>Decorators Factory</h3>
+            <p>In questo caso vengono passati dei parametri al Decorator</p>
+            <TypescriptCode code={`
+                function logger(log: string) {
+                    return function (constructor: any) {
+                        console.log(\`Logger Avviato: \${log}\`);
+                        console.log(constructor);
+                    }
+                }
+                
+                @logger('Sono il Logger della Classe Prova')
+                class Prova {
+                    constructor() {
+                        console.log("Classe Richiamata");
+                    }
+                }
+                (???)
+            `}/>
+            <p><i>Piccola nota a margine: nel file tsconfig.json è necessario abilitare la voce
+                "experimentalDecorators" impostandola a true.</i></p>
+            <h2>Template</h2>
+            <TypescriptCode code={`
+                (???)
+                // index.html
+                &lt;script src='file.js'&gt;
+                
+                // app.ts
+                function creaElemento(elemento: string, id: string, name: string): string {
+                    return function (constructor: any) {
+                        const container = document.getElementById('container');
+                        const persona = new constructor(name);
+                        
+                        if (container) {
+                            container.innerHTML = elemento;
+                            container.querySelector('h1')!.textContent = persona.name;
+                        }
+                    }
+                }
+                
+                @creaElemento('&lt;h1&gt;&lt;/h1&gt;', 'container', 'Mario')
+                class Persona {
+                    constructor(public name: string) {
+                        console.log('Oggetto Persona Creato');
+                    }
+                }
+            `}/>
+            <h2>Import dei Moduli</h2>
+            <TypescriptCode code={`
+                // File functions.ts
+                export function somma(a: number, b: number): number { return a + b; }
+                export function sottrazione(a: number, b: number): number { return a - b; }
+                export function moltiplicazione(a: number, b: number): number { return a * b; }
+                export function divisione(a: number, b: number): number { return a / b; }
+       
+                // file app.ts
+                // Import di uno o più moduli
+                import { somma, sottrazione, moltiplicazione, divisione } from './functions';
+                somma(3, 5);                // 8
+                sottrazione(10, 5);         // 5
+                moltiplicazione(2, 5);      // 10
+                
+                // Import di un modulo con alias
+                import { somma as add } from './functions';
+                add(3, 5);  // 8
+                
+                // Import di tutto il modulo con alias
+                import * as functions from './functions';
+                functions.somma(3, 5);              // 8
+                functions.sottrazione(10, 5);       // 5
+                functions.moltiplicazione(2, 5);    // 10
+                functions.divisione(10, 2);         // 5
+            `}/>
+            <p>L'esperienza insegna che molto spesso si hanno problemi con i moduli; per tale motivo spesso e
+                volentieri tornano utili alcune impostazioni:
+            </p>
+            <TypescriptCode code={`
+                // File tsconfig.json
+                {
+                    ...
+                    "module": "es6",            // Specifica il modulo da utilizzare (commonjs, es6, umd, etc.)
+                    "target": "es2022",         // Specifica la versione di ECMAScript da utilizzare
+                    "moduleResolution": "node", // Specifica come risolvere i moduli (node, classic)
+                    "baseUrl": "./",            // Specifica la directory di base per la risoluzione dei moduli
+                    "paths": {                  // Specifica i percorsi dei moduli
+                        "@/*": ["src/*"]
+                    }
+                }
+                
+                // File index.html
+                &lt;script type=module src='file.js'&gt;&lt;/script&gt;
+            `}/>
+
         </div>
     );
 };
