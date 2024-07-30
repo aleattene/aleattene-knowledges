@@ -38,7 +38,85 @@ const Sql: React.FC = () => {
                     FOREIGN KEY (classe) REFERENCES Classi (classe)
                 `}/>
             </ul>
-
+            <h3>Creazione Tabella</h3>
+            <p>Si vogliono memorizzare i dati relativi ai concerti eseguiti da diverse orchestre in varie sale.</p>
+            <SqlCode code={`
+                // Creazione Tabella Orchestre
+                CREATE TABLE Orchestre (
+                id_orchestra INTEGER NOT NULL,
+                nome_orchestra CHAR(20) NOT NULL,
+                nome_direttore CHAR(20) NOT NULL,
+                num_elementi INTEGER,
+                PRIMARY KEY (id_orchestra, nome_direttore))
+                    
+                // Creazione Tabella Sale
+                CREATE TABLE Sale (
+                id_sala INTEGER NOT NULL PRIMARY KEY,
+                nome_sala CHAR(20) NOT NULL,
+                citta CHAR(20),
+                provincia CHAR(2),
+                capienza INTEGER )
+                
+                // Creazione Tabella Concerti
+                CREATE TABLE Concerti (
+                id_concerto INTEGER NOT NULL UNIQUE,
+                data DATE NOT NULL,
+                id_orchestra INTEGER NOT NULL,
+                direttore CHAR(20) NOT NULL,
+                id_sala INTEGER NOT NULL,
+                prezzo_biglietto NUMERIC,
+                PRIMARY KEY (data, id_orchestra),
+                UNIQUE (data,direttore),
+                INDEX (id_orchestra, direttore),
+                FOREIGN KEY (id_orchestra, direttore) REFERENCES Orchestre (id_orchestra, nome_direttore))
+                
+                // TO FIX -> Show Table Image
+            `}/>
+            <h3>Modifica di una Tabella</h3>
+            <p>Aggiungere alla tabella Mansioni il campo data_mansione.</p>
+            <SqlCode code={`
+                // Aggiunta Colonna
+                ALTER TABLE Mansioni 
+                ADD COLUMN data_mansione DATE
+            `}/>
+            <p>Eliminare il campo data_mansione dalla tabella Mansioni.</p>
+            <SqlCode code={`
+                // Rimozione Colonna
+                ALTER TABLE Mansioni 
+                DROP COLUMN data_mansione
+            `}/>
+            <p>Far divenire la colonna data_mansione della tabella Mansioni la chiave primaria.</p>
+            <SqlCode code={`
+                // Modifica Colonna
+                ALTER TABLE Mansioni 
+                ADD PRIMARY KEY (data_mansione)
+            `}/>
+            <p>Rinominare la tabella Mansioni in MansioniPersonale.</p>
+            <SqlCode code={`
+                // Rinomina Tabella
+                ALTER TABLE Mansioni 
+                RENAME TO MansioniPersonale
+            `}/>
+            <p>Eliminare la tabella MansioniPersonale.</p>
+            <SqlCode code={`
+                // Elimina Tabella
+                DROP TABLE MansioniPersonale
+            `}/>
+            <p>Aggiungere una chiave secondaria alla tabella Voti (integrità referenziale).</p>
+            <SqlCode code={`
+                // Aggiunta Chiave Esterna
+                ALTER TABLE Voti 
+                ADD FOREIGN KEY (matricola) 
+                    REFERENCES Alunni (matricola)
+                    ON DELETE CASCADE
+                    ON UPDATE CASCADE
+            `}/>
+            <p>Eliminare la chiave esterna dalla tabella Voti.</p>
+            <SqlCode code={`
+                // Elimina Chiave Esterna
+                ALTER TABLE Voti 
+                DROP FOREIGN KEY matricola
+            `}/>
         </div>
     );
 };
