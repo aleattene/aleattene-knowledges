@@ -3,6 +3,7 @@ import './ArrayMethods.css'
 import JavascriptCode from "../../../../../../components/Code/JavascriptCode/JavascriptCode.tsx";
 import TerminalCode from "../../../../../../components/Code/TerminalCode/TerminalCode.tsx";
 
+
 const ArrayMethods: React.FC = () => {
     return (
         <div>
@@ -13,10 +14,10 @@ const ArrayMethods: React.FC = () => {
             <JavascriptCode code={'array[index]'}/>
             <h3>Esempio</h3>
             <JavascriptCode code={`
-            const array = [1, true, 'hello'];
-            console.log(array[0]); // 1
-            console.log(array[1]); // true
-            console.log(array[2]); // 'hello'
+                const array = [1, true, 'hello'];
+                console.log(array[0]); // 1
+                console.log(array[1]); // true
+                console.log(array[2]); // 'hello'
             `}/>
             <h3>Lunghezza (numero elementi) Array:</h3>
             <JavascriptCode code={'array.length;  // 3'}/>
@@ -89,11 +90,11 @@ const ArrayMethods: React.FC = () => {
                 </ul>
             </p>
             <h3>Esempio:</h3>
-            <JavascriptCode code={
-                `const array = ['apple', 'banana', 'cherry', 'date', 'elderberry'];
-                 array.copyWithin(2, 0, 3);
+            <JavascriptCode code={`
+                const array = ['apple', 'banana', 'cherry', 'date', 'elderberry'];
+                array.copyWithin(2, 0, 3);
 
-                 console.log(array);  // Output: ['apple', 'banana', 'apple', 'banana', 'cherry']
+                console.log(array);  // Output: ['apple', 'banana', 'apple', 'banana', 'cherry']
             `}/>
             <p>
                 In questo esempio, il metodo <code>copyWithin</code> copia gli elementi dall'indice 0 all'indice 3
