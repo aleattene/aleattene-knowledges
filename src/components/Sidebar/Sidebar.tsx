@@ -42,7 +42,7 @@ export const subSectionsRedirect: Record<string,string> = {
     variabili: 'variables',
     funzioni: 'function',
     array: 'arrays',
-    oggetti: 'object',
+    oggetti: 'objects',
     ricorsione: 'recursion',
     callback: 'callback',
     promise: 'promise',

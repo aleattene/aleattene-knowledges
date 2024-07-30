@@ -1,5 +1,5 @@
 import React from "react";
-import PythonCode from "../../../../../components/Code/PythonCode/PythonCode.tsx";
+import JavascriptCode from "../../../../../components/Code/JavascriptCode/JavascriptCode.tsx";
 
 const inOperator = `
     const person = {
@@ -7,8 +7,8 @@ const inOperator = `
         age: 45
     };
     
-    name in person // true
-    surname in person; // false
+    name in person      // true
+    surname in person;  // false
 `;
 
 const hasMethod = `
@@ -32,14 +32,39 @@ const ObjectJs: React.FC = () => {
                     <code className='documentation-link'> in </code>
                 </a>
             </p>
-            <p><PythonCode code={inOperator}/></p>
+            <p><JavascriptCode code={inOperator}/></p>
             <p> oppure il metodo
                 <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Reflect/has"
                    target="_blank" rel="noopener noreferrer">
                     <code className='documentation-link'> has() </code>
                 </a>
             </p>
-            <p><PythonCode code={hasMethod}/></p>
+            <p><JavascriptCode code={hasMethod}/></p>
+            <h2>Freeze</h2>
+            <p>Questo metodo statico consente di congelare un oggetto, cioè di impedirne la modifica.</p>
+            <JavascriptCode code={`
+                // Creazione di un Literal Object
+                const person = {
+                    name: 'Alessandro',
+                    age: 45
+                };
+                
+                // Congelamento dell'oggetto
+                Object.freeze(person);
+                
+                // Tentativo (inefficace) di modifica dell'oggetto
+                person.age = 46;                
+                console.log(person.age);        // 45
+                
+                // Tentativo (inefficace) di aggiungere una nuova proprietà all'oggetto
+                person.surname = 'Attene';      
+                console.log(person.surname);    // undefined
+                
+                // Tentativo (inefficace) di eliminare una proprietà dell'oggetto
+                delete person.age;              
+                console.log(person.age);        // 45
+                (???)
+            `}/>
         </div>
     );
 };
