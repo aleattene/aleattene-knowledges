@@ -35,6 +35,7 @@ import Http from "./pages/it/HTTP/Http.tsx";
 import HttpStatusCodes from "./pages/it/HTTP/HttpStatusCodes/HttpStatusCodes.tsx";
 import HttpMethods from "./pages/it/HTTP/HttpMethods/HttpMethods.tsx";
 import Java from "./pages/it/Languages/Java/Java.tsx";
+import Sql from "./pages/it/Languages/Sql/Sql.tsx";
 
 
 const App: React.FC = () => {
@@ -73,6 +74,7 @@ const App: React.FC = () => {
                         <Route path="/it/languages/python/sets" element={<SetPy/>} />
                         <Route path="/it/languages/php" element={<Php/>} />
                         <Route path="/it/languages/java" element={<Java/>} />
+                        <Route path="/it/languages/sql" element={<Sql/>} />
 
                         <Route path="/it/algorithms" element={<Algorithms/>} />
                         <Route path="/it/datastructures" element={<DataStructures/>} />

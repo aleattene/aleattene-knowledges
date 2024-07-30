@@ -1,6 +1,6 @@
 import React from 'react';
 import TerminalCode from "../../../../components/Code/TerminalCode/TerminalCode.tsx";
-import JavaCode from "../../../../components/Code/Java/JavaCode.tsx";
+import JavaCode from "../../../../components/Code/JavaCode/JavaCode.tsx";
 
 
 const Java: React.FC = () => {
