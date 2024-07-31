@@ -106,10 +106,7 @@ const Sql: React.FC = () => {
             <SqlCode code={`
                 // Aggiunta Chiave Esterna
                 ALTER TABLE Voti 
-                ADD FOREIGN KEY (matricola) 
-                    REFERENCES Alunni (matricola)
-                    ON DELETE CASCADE
-                    ON UPDATE CASCADE
+                ADD FOREIGN KEY (matricola) REFERENCES Alunni (matricola) ON DELETE CASCADE ON UPDATE CASCADE
             `}/>
             <p>Eliminare la chiave esterna dalla tabella Voti.</p>
             <SqlCode code={`
@@ -117,8 +114,75 @@ const Sql: React.FC = () => {
                 ALTER TABLE Voti 
                 DROP FOREIGN KEY matricola
             `}/>
+            <h2>Inserimento Nuove Righe in una Tabella</h2>
+            <p>Sintassi:</p>
+            <SqlCode code={`
+                // Sintassi Generale
+                INSERT INTO nome_tabella (lista campi; se non specificata, vengono considerati tutti i campi) 
+                VALUES (lista valori, che devono coincidere numericamente e di tipo con la lista campi)
+            `}/>
+            <p>Inserire un nuovo record nella tabella Alunni.</p>
+            <SqlCode code={`
+                // Inserimento Nuova Riga (campi specifici)
+                INSERT INTO Alunni (matricola, cognome, nome, classe)
+                VALUES (1, 'Rossi', 'Mario', '4A')
+                
+                // Inserimento Nuova Riga (tutti i campi)
+                INSERT INTO Alunni
+                VALUES (2, 'Verdi', 'Anna', '3B')
+            `}/>
+            <h2>Sostituzione Righe in una Tabella</h2>
+            <p>Sintassi:</p>
+            <SqlCode code={`
+                // Sintassi Generale
+                REPLACE INTO nome_tabella (lista campi; se non specificata, vengono considerati tutti i campi) 
+                VALUES (lista valori, che devono coincidere numericamente e di tipo con la lista campi)
+            `}/>
+            <p>Modificare il cognome dell'alunno con matricola 1.</p>
+            <SqlCode code={`
+                // Sostituzione Riga
+                REPLACE INTO Alunni (matricola, cognome, nome, classe)
+                VALUES (1, 'Bianchi', 'Mario', '4A')
+                
+                // Sostituzione Riga (tutti i campi)
+                REPLACE INTO Alunni
+                VALUES (2, 'Verdi', 'Anna', '3B')
+            `}/>
+            <h2>Eliminazione Righe da una Tabella</h2>
+            <p>Sintassi:</p>
+            <SqlCode code={`
+                // Sintassi Generale
+                DELETE FROM nome_tabella
+                WHERE condizione      // facoltativa
+                LIMIT numero righe    // facoltativa
+            `}/>
+            <p>Eliminare l'alunno con matricola 2.</p>
+            <SqlCode code={`
+                // Eliminazione Riga
+                DELETE FROM Alunni
+                WHERE matricola = 2     
+                
+                // Eliminazione Tutte le Righe (massimo 5)
+                DELETE FROM Alunni
+                LIMIT 5
+            `}/>
+            <h2>Aggiornamento Righe in una Tabella</h2>
+            <p>Sintassi:</p>
+            <SqlCode code={`
+                // Sintassi Generale
+                UPDATE nome_tabella
+                SET campo1 = valore1, campo2 = valore2, ...
+                WHERE condizione    // facoltativa
+            `}/>
+            <p>Modificare la classe dell'alunno con matricola 1.</p>
+            <SqlCode code={`
+                // Aggiornamento Riga
+                UPDATE Alunni
+                SET classe = '5A'
+                WHERE matricola = 1
+            `}/>
         </div>
-    );
+    );  
 };
 
 export default Sql;
