@@ -36,6 +36,7 @@ import HttpStatusCodes from "./pages/it/HTTP/HttpStatusCodes/HttpStatusCodes.tsx
 import HttpMethods from "./pages/it/HTTP/HttpMethods/HttpMethods.tsx";
 import Java from "./pages/it/Languages/Java/Java.tsx";
 import Sql from "./pages/it/Languages/Sql/Sql.tsx";
+import Express from "./pages/it/Backend/Express/Express.tsx";
 
 
 const App: React.FC = () => {
@@ -82,11 +83,15 @@ const App: React.FC = () => {
                         <Route path="/it/frontend/html" element={<Html/>} />
                         <Route path="/it/frontend/css" element={<Css/>} />
                         <Route path="/it/frontend/react" element={<ReactFe/>} />
+
                         <Route path="/it/backend" element={<Backend/>} />
                         <Route path="/it/backend/nodejs" element={<NodeJsBe/>} />
                         <Route path="/it/backend/nodejs/coremodules" element={<CoreModuleNodeJs/>} />
                         <Route path="/it/backend/nodejs/errorfirst" element={<ErrorFirstCB/>} />
                         <Route path="/it/backend/nodejs/qa" element={<QANodeJsBe/>} />
+
+                        <Route path="/it/backend/express" element={<Express/>} />
+
                         <Route path="/it/http" element={<Http/>} />
                         <Route path="/it/http/statuscodes" element={<HttpStatusCodes/>} />
                         <Route path="/it/http/methods" element={<HttpMethods/>} />

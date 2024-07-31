@@ -35,6 +35,7 @@ export const subSections: Record<string, string[]> = {
     tree: ['PreOrder', 'InOrder', 'PostOrder'],
     graph: ['DepthFirstSearch', 'BreadthFirstSearch'],
     nodejs: ['CoreModules', 'ErrorFirst','Chaining','Concorrenza','QA'],
+    express: [],
 };
 
 export const subSectionsRedirect: Record<string,string> = {
@@ -66,6 +67,8 @@ export const subSectionsRedirect: Record<string,string> = {
     errorfirst: 'errorfirst',
     chaining: 'chaining',
     qa: 'qa',
+    /* Express */
+    express: 'express',
 
 }
 
