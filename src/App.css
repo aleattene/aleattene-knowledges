@@ -17,18 +17,27 @@
   height: 100vh;
 }
 
+h1, h2 {
+  text-align: center;
+}
+
+p {
+  text-align: justify;
+}
+
 .body-container {
   display: flex;
-    flex: 1;
+  flex: 1;
 }
 
 .main-content {
   display: flex;
   flex: 1;
   /*background-color: #333333;*/
-    background-color: #262D34;
+  background-color: #262D34;
   color: lightgray;
   padding: 1rem;
+  text-align: left;
 }
 
 @media(min-width: 768px) {

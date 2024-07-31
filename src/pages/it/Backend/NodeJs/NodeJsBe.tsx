@@ -1258,6 +1258,144 @@ const NodeJsBe: React.FC = () => {
                 > ...
                 < HTTP/1.1 404 Not Found
             `}/>
+            <p>A questo punto altro step interessante è quello relativo all'inserimento del supporto al metodo HEAD
+            </p>
+            <JavascriptCode code={`
+                // head.js
+                // ...
+                const server = http.createServer((req, res) => {
+                    // Controllo se esiste un path ("/athletes") o siamo nella root ("/")
+                    const route = routes[req.url];
+                    if(!route) {
+                        // ...
+                    }
+                    // Usiamo la proprietà method dell'oggetto req per controllare il metodo della richiesta
+                    if(req.method === 'HEAD') {
+                        // Il metodo HEAD prevede che il server restituisca solo gli header e non il body
+                        res.statusCode = 204;
+                        res.end();
+                    } else if (req.method === 'GET') {
+                        const accepts = getAcceptedTypes(req);
+                        if(accepts.json) {
+                            resJson(res, route.getJson());
+                        } else if(accepts.textPlain || accepts.text || accepts.any) {
+                            resText(res, route.getText());
+                        } else {
+                            res.statusCode = 406;
+                            res.end('Not Acceptable');
+                        }
+                    } else {
+                        res.statusCode = 405;
+                        res.end('Method Not Allowed');
+                    }
+                })
+            `}/>
+            <p>Per testare il metodo HEAD possiamo utilizzare ancora una volta curl:</p>
+            <TerminalCode code={`
+                $ curl -v -X HEAD http://127.0.0.1:3000
+                * ...
+                > HEAD / HTTP/1.1
+                > ...
+                < HTTP/1.1 204 No Content
+                < ...
+                
+                $ curl -v -X POST http://127.0.0.1:3000
+                * ...
+                > POST / HTTP/1.1
+                > ...
+                < HTTP/1.1 405 Method Not Allowed
+                < ...    
+            `}/>
+            <h2>Parametri URL</h2>
+            <p>la sezione dello URL che segue il simbolo <code>?</code> è chiamata query string (o stringa di ricerca)
+                e contiene una serie di coppie parametro-valore separate da <code>&</code>, come ad esempio
+                <code>https://www.miosito.it/par1=val1&par2=val2</code>.
+                Bisogna comunque fare attenzione al fatto che il protocollo HTTP prevede che la sezione query dello
+                URL (esempio <code>?q=mondo</code>) debba essere usata insieme al path (esempio <code>/athletes</code>)
+                per identificare la risorsa richiesta. Uno degli usi più comuni della query string è infatti quello
+                relativo alle ricerche.
+                Ad esempio se volessimo cercare tutti gli atleti che hanno partecipato alle olimpiadi del 2000
+                potremmo scrivere <code>https://www.miosito.it/athletes?year=2000</code>.
+            </p>
+            <h3>Esempio:</h3>
+            <TerminalCode code={`
+                $ curl -v https://www.miosito.it/athletes?year=2000
+                * ...
+                > GET /athletes?year=2000 HTTP/1.1
+                > ...
+                < HTTP/1.1 404 Not Found
+            `}/>
+            <p> Contrariamente a quanto ci si aspetterebbe abbiamo ricevuto come response un errore 404. Questo accade
+                perché il nostro server non è ancora in grado di gestire correttamente la query string, infatti
+                all'interno di <code>req.url</code> è presente l'intero URL compresa la query string.
+                Conseguentemente <code>routes[req.url]</code> verrà tradotto in
+                <code>routes['/athletes?year=2000']</code> e non trovando corrispondenza (undefined) restituirà un
+                errore 404.
+                Ecco allora che bisogna avvalersi della classe <code className={'documentation-link'}>URL</code>
+                fornita direttamente da NodeJS per poter estrarre il path e la query dallo URL. Si tratta di una classe
+                conforme allo standard <code className={'documentation-link'}>WHATWG URL</code>(Web Hypertext
+                Application Technology Working Group) che permette di manipolare gli URL con maggior facilità.
+                Come piccola nota a margine va detto che WHATWG nasce nel 2004 come consorzio di aziende che si oppose
+                alla decisione del W3C di abbandonare lo sviluppo di HTML a favore di XML, per arrivare poi sino al 2019
+                dove proprio a WHATWG viene riconosciuto il controllo dello sviluppo dello standard HTML e del DOM.
+            </p>
+            <h3>Esempio oggetto URL</h3>
+            <JavascriptCode code={`
+                URL {
+                    href: 'https://www.miosito.it/athletes?year=2000',
+                    origin: 'https://www.miosito.it',
+                    protocol: 'https:',
+                    username: '',
+                    password: '',
+                    host: 'www.miosito.it',
+                    hostname: 'www.miosito.it',
+                    port: '',
+                    pathname: '/athletes',
+                    search: '?year=2000',
+                    searchParams: URLSearchParams { 'year' => '2000' },
+                    hash: ''
+                }
+            `}/>
+            <p>Come si può facilmente osservare l'oggetto URL contiene tutte le informazioni relative allo URL stesso
+                già organizzate e suddivise in proprietà, tra cui <code>pathname</code> e <code>search</code> che
+                contengono rispettivamente il path e la query string.
+                Vediamo allora come è possibile gestire la query string all'interno del nostro server:
+            </p>
+            <JavascriptCode code={`
+                // ...
+                
+                const server = http.createServer((req, res) => {
+                    // Creiamo un oggetto URL a partire da req.url ed estraiamo le proprietà pathname e searchParams
+                    const { pathname, searchParams } = new URL(req.url, 'https://\${req.headers.host}');
+                    const route = routes[pathname];
+                    if(!route) {
+                        // ...
+                    }
+                    
+                    if req.method === 'HEAD') {
+                        // ...
+                    } else if (req.method === 'GET') {
+                        const accepts = getAcceptedTypes(req);
+                        // Estraiamo il parametro year dalla query string
+                        const year = searchParams.get('year');
+                        // ...
+                    } else {
+                        // ...
+                    }
+                })
+                
+                // ...
+            `}/>
+            <p>[TO FIX] Fixare funzioni per gestione new params (???)</p>
+            <h3>HTML</h3>
+            <p>HTML è il formato principale con cui i dati vengono scambiati attraverso il protocollo HTTP.
+                Da questo è possibile dedurre che possiamo aggiungere tale formato tra quelli supportati dal nostro
+                server.
+                In particolar modo è bene creare una pagina html dedita alla struttura principale della pagina HTML:
+            </p>
+            <p>[TO FIX] Fixare codice HTML</p>
+            <p>[TO FIX] Connessioni via TELNET (più a basso livello di HTTP)</p>
+            <p>[TO FIX] TCP ed eventuale Chat</p>
 
         </div>
     );
