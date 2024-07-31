@@ -1565,6 +1565,125 @@ const NodeJsBe: React.FC = () => {
                 listener continuano ad essere eseguiti sempre in modo sincrono. La differenza è appunto che la presenza
                 di setImmediate fa in modo che tale operazione termini subito dopo la sua esecuzione (???).
             </p>
+            <h3>Eventi ed Errori</h3>
+            <p>La maggior parte degli EventEmitter utilizza l'evento <code>error</code> per segnalare problemi: per tale
+                motivo questo evento è trattato in modo speciale. Non a caso infatti, quando si verifica un errore e non
+                c'è nessun listener in ascolto per esso, NodeJs termina il processo con un messaggio di errore.
+            </p>
+            <JavascriptCode code={`
+                // File clock-broken.js
+                // ...
+                const clock = new Clock();
+                
+                clock.on('tick', () => {
+                    // ..
+                });
+                
+                setInterval(() => {
+                    clock.emit('tick');
+                    // ...
+                }, 1000);
+                
+                setTimeout(() => {
+                    clock.emit('error', new Error('Clock Broken Event Emitted'));
+                });
+            `}/>
+            <p>Output:</p>
+            <TerminalCode code={`
+                $ node clock-broken.js
+                Tick [1]: 12:34:56:562
+                Tick [2]: 12:34:56:584
+                Tick [3]: 12:34:56:584
+                Post Emit Event Tick at 12:34:56:585
+                Clock Broken Event Emitted
+                node:events:489
+                    throw er; // Unhandled 'error' event
+                    ^
+                Error: An error
+                    at Timeout.setTimeout [clock-broken.js: 23:25] (...)
+                    ...
+                Emitted 'error' event on Clock:
+                    at Timeout.setTimeout [clock-broken.js: 23:11] (...)
+                    ...
+            `}/>
+            <p>Per evitare che il processo termini in modo inaspettato è possibile aggiungere un listener per l'evento
+                <code>error</code> esattamente come per gli altri listener:
+            </p>
+            <JavascriptCode code={`
+                // File clock-fixed.js
+                // ...
+                          
+                // Listener per l'evento error              
+                clock.on('error', (err) => {
+                    console.error(err.message);
+                });
+                
+                setTimeout(() => {
+                    clock.emit('error', new Error('Clock Broken Event Emitted'));
+                }, 3000);
+            `}/>
+            <p>Output:</p>
+            <TerminalCode code={`
+                $ node clock-fixed.js
+                Tick [1]: 12:34:56:562
+                Tick [2]: 12:34:56:584
+                Tick [3]: 12:34:56:584
+                Post Emit Event Tick at 12:34:56:585
+                Clock Broken Event Emitted
+                Tick [1]: 12:34:56:585
+                Tick [2]: 12:34:56:586
+                Tick [3]: 12:34:56:586
+                Post Emit Event Tick at 12:34:56:586
+                ...
+            `}/>
+            <p>Naturalmente le funzioni listener potrebbero anche essere asincrone. Di fatto se non di fossero di mezzo
+                gli errori non ci sarebbero particolari differenze, ma essendoci succede che ovviamente qualora un
+                listener asincrono generi un errore il comportamento di NodeJs cambia.
+            </p>
+            <JavascriptCode code={`
+                // File clock-async-broken.js
+                // ...
+                
+                clock.on('tick', async () => {
+                      throw new Error('Broken Listener');
+                });
+                
+                click.on('error', (err) => { console.error(err.message); });
+            `}/>
+            <p>Output:</p>
+            <TerminalCode code={`
+                $ node clock-async-broken.js
+                Post Emit Event Tick at 12:34:56:562
+                clock-async-broken.js: 23
+                    throw new Error('Broken Listener');
+                    ^
+                Error: Broken Listener
+                ...
+            `}/>
+            <p>Possiamo osservare come l'applicazione termini nonostante la presenza del listener. Questo accade perché
+                manca l'opzione <code className={'documentation-link'}>captureRejections</code> all'interno del
+                costruttore dell'EventEmitter (nel nostro caso al costuttore di <code>Clock</code> che poi lo passerà
+                a quello di <code>EventEmitter</code>, attivando così la funzionalità di cattura dell'errore.
+            </p>
+            <JavascriptCode code={`
+                // File clock-async-fixed.js
+                // ...
+                
+                const clock = new Clock({ captureRejections: true });
+                
+                // ...
+            `}/>
+            <p>Output:</p>
+            <TerminalCode code={`
+                $ node clock-async-fixed.js
+                Post Emit Event Tick at 12:34:56:562
+                Got Error: Broken Listener
+                Post Emit Event Tick at 12:34:56:564
+                Got Error: Broken Listener
+                ...
+            `}/>
+            <p>[TO FIX] API disponibili ed approfondimenti</p>
+
         </div>
     );
 };
