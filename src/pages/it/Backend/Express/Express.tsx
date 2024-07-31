@@ -84,6 +84,44 @@ const Express: React.FC = () => {
                 endpoint) per le richieste in entrata e l'insieme di tutte le route (endpoint) definisce di fatto la
                 struttura del nostro router.
             </p>
+            <p>Anche per quel che riguarda gli oggetti <code>req</code> e <code>res</code> (passati alla funzione
+                handler)è importante sottolineare come siano versioni arricchite (di nuovi metodi e proprietà) dei due
+                oggetti analoghi forniti dal modulo http (di NodeJS), tra cui spicca sicuramente l'aggiunta del metodo
+                <code>send()</code> attraverso cui è possibile inviare una risposta HTTP al client similmente a come
+                era possibile fare con il metodo <code>res.write()</code>.
+                La principale differenza tra i due è che <code>send()</code> non si occupa di inviare solo il contenuto
+                ma si occupa per esempio anche di inviare l'header <code>Content-Type</code> e
+                <code>Content-Length</code> sulla base dello stesso contenuto inviato.
+                Proviamo quindi ad aggiornare il nostro server aggiungendo un nuovo endpoint '/about':
+            </p>
+            <JavascriptCode code={`
+                // File index.mjs 
+                // ...
+                
+                // Routing
+                app.get('/', (req, res) => {
+                    res.send('Hello World!');
+                });
+                
+                app.get('/about', (req, res) => {
+                    res.send(\`
+                        [TO FIX -> Show HTML Code]
+                    \`);  
+                });
+            `}/>
+            <p>Se ora proviamo a navigare all'indirizzo <code>http://localhost:3000/about</code> dovremmo visualizzare
+                il contenuto HTML inserito nel metodo <code>send()</code>.
+            </p>
+            <p>E' bene osservare che solo i path a cui sono stati associati degli handler producono una risposta.
+                Visitando infatti qualsiasi altro path (es. <code>http://localhost:3000/qualcosa</code>) otterremo
+                una risposta con status code 404 (Not Found).
+            </p>
+            <p>Da segnalare poi, che il meccanismo che associa una richiesta in arrivo con un path non prende in
+                considerazione la differenze tra maiuscole e minuscole, quindi ad esempio i path <code>/about</code>
+                e <code>/About</code> sono considerati equivalenti (meccanismo case-insensitive, modificabile tramite
+                opportune impostazioni di Express stesso). (???)
+            </p>
+
         </div>
     );
 };
