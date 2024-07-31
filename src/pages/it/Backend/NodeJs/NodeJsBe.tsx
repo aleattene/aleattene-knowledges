@@ -1070,7 +1070,7 @@ const NodeJsBe: React.FC = () => {
                 ...
             `}/>
             <p>Succede questo perché non abbiamo istruito il server a gestire queste casistiche. Proviamo quindi
-            ad aggiornare l'implementazione precedente:
+                ad aggiornare l'implementazione precedente:
             </p>
             <JavascriptCode code={`
                 // ...
@@ -1174,10 +1174,10 @@ const NodeJsBe: React.FC = () => {
             </p>
             <p>
                 <i>Piccola nota a margine: come abbiamo visto effettuare il parsing dell'header <code>Accept</code> è
-                tutt'altro che banale, per questo motivo è consigliato utilizzare librerie come ad esempio
-                <a href={'https://github.com/jshttp/accepts'}>
-                    <code className={'documentation-link'}>accepts</code>
-                </a>.
+                    tutt'altro che banale, per questo motivo è consigliato utilizzare librerie come ad esempio
+                    <a href={'https://github.com/jshttp/accepts'}>
+                        <code className={'documentation-link'}>accepts</code>
+                    </a>.
                 </i>
                 <p>Refactoring (to fix)</p>
             </p>
@@ -1396,7 +1396,175 @@ const NodeJsBe: React.FC = () => {
             <p>[TO FIX] Fixare codice HTML</p>
             <p>[TO FIX] Connessioni via TELNET (più a basso livello di HTTP)</p>
             <p>[TO FIX] TCP ed eventuale Chat</p>
-
+            <h2>Event Emitter</h2>
+            <p>Eventi come <code>connection</code>, <code>request</code>, <code>data</code> e <code>close</code> sono
+                tutti oggetti di tipi diversi (http.Server, net.Socket, fs.ReadStream) ma che condividono la stessa
+                identica parentela, ovvero derivano tutti dalla classe <code className={'documentation-link'}>
+                    EventEmitter</code>.
+                Oggi oggetto di questo tipo (o che ne deriva) può emettere eventi grazie alla funzionalità fornite da
+                questa classe.
+                L'interfaccia di un EventEmitter presenta due funzionalità principali:
+                <ul>
+                    <li>la possibilità di registrare un listener per un evento specifico
+                        <code>on(eventName, listener)</code>
+                    </li>
+                    <li>la possibilità di emettere un evento
+                        <code>emit(eventName, ...args)</code>
+                    </li>
+                </ul>
+                Sostanzialmente grazie alla combinazione di queste due funzioni è possibile generare un evento e fare
+                qualcosa ogni volta che si verifica.
+            </p>
+            <p>Approfondimento (TO FIX)</p>
+            <h3>Creazione Evento</h3>
+            <JavascriptCode code={`
+                // File event.js
+                
+                const EventEmitter = require('events');
+                const myEmitter = new EventEmitter();
+                
+                myEmitter.on('event', () => {
+                    console.log('Evento scatenato');
+                });
+                
+                myEmitter.emit('event');
+            `}/>
+            <p>Output:</p>
+            <TerminalCode code={`
+                $ node event.js
+                Evento scatenato
+            `}/>
+            <h3>Esempio Clock and Tick ogni secondo</h3>
+            <JavascriptCode code={`
+                // File clock.js
+                
+                const EventEmitter = require('events');
+                
+                // Restituisce una stringa con l'ora attuale (includendo anche i millisecondi)
+                function getTimeString() {
+                    const now = new Date();
+                    const time = \`\${now.getHours()}:\${now.getMinutes()}:\${now.getSeconds():
+                                  \${now.getMilliseconds()}\`;
+                    return time;
+                };
+                
+                // Nuova classe Clock che estende EventEmitter
+                class Clock extends EventEmitter {}
+                const clock = new Clock();
+                               
+                // Listener che reagisce ad ogni evento tick               
+                clock.on('tick', () => {
+                    console.log(\`Tick: getTimeString()\`);
+                });
+                
+                // Viene emesso un evento tick ogni secondo (grazie alla funzione setInterval, disponibile globalmente)
+                setInterval(() => {
+                    clock.emit('tick');
+                }, 1000);
+            `}/>
+            <p>Output:</p>
+            <TerminalCode code={`
+                $ node clock.js
+                Tick: 12:34:56:789
+                Tick: 12:34:57:789
+                Tick: 12:34:58:789
+                Tick: 12:34:59:789
+            `}/>
+            <p>Relativamente a questo ultimo esempio ha senso sottolineare che le funzioni <code>setInterval</code>,
+                <code>setTimeout</code> e <code>setImmediate</code> sono funzioni che in NodeJs sono disponibili
+                globalmente e fanno parte del modulo <code className={'documentation-link'}>timers</code>.
+                Si tratta di funzioni che non fanno parte di JS ma sono presenti in NodeJs e nel browser e rappresentano
+                lo standard de facto per l'esecuzione del codice in modo asincrono, dopo un certo intervallo di tempo.
+            </p>
+            <p>Altro aspetto da comprendere bene è il fatto che l'esecuzione delle funzioni listener è legata in modo
+                esclusivo al verificarsi di determinati eventi (basta osservare il nostro precedente esempio) e non
+                ad una sequenza di esecuzione predeterminata: in sostanza sono gli eventi che fanno eseguire il codice
+                quando si verificano.
+                E' chiaro quindi che l'esecuzione dei listener associati ad un evento è sequenziale e sincrona; per
+            </p>
+            <JavascriptCode code={`
+                // File clock-sync.js
+                // ...
+                
+                // Primo listener
+                clock.on('tick', () => {
+                    console.log(\`Tick [1]: getTimeString()\`);
+                });
+                
+                // Secondo listener
+                clock.on('tick', () => {
+                    console.log(\`Tick [2]: getTimeString()\`);
+                });
+                
+                // Terzo listener
+                clock.on('tick', () => {
+                    console.log(\`Tick [3]: getTimeString()\`);
+                });
+                
+                setInterval(() => {
+                    clock.emit('tick');
+                    console.log(\`Post Emit Event Tick at \${getTimeString()}\`);
+                }, 1000);
+            `}/>
+            <p>Output:</p>
+            <TerminalCode code={`
+                $ node clock-sync.js
+                Tick [1]: 12:34:56:562
+                Tick [2]: 12:34:56:584
+                Tick [3]: 12:34:56:584
+                Post Emit Event Tick at 12:34:56:585
+                Tick [1]: 12:34:57:789
+                Tick [2]: 12:34:57:789
+                Tick [3]: 12:34:57:790
+                Post Emit Event Tick at 12:34:57:791
+                ...
+            `}/>
+            <p>L'output ottenuto mostra proprio quello che ci si aspettava, ovvero che i listener vengono eseguiti in
+                nell'esatto ordine con cui sono aggiunto all'oggetto <code>clock</code>.
+                La loro esecuzione è appunto sempre sincrona al fine di evitare problemi di concorrenza e garantirne un
+                funzionamento sempre corretto.
+                Qualora volessimo però rendere i listener asincroni, possiamo farlo sfruttando la funzione <code>
+                    setImmediate</code> che permette di posticiparne l'esecuzione al termine delle altre attività
+                presenti nell'event loop.
+            </p>
+            <JavascriptCode code={`
+                // File clock-async.js
+                // ...
+                
+                // Primo listener
+                clock.on('tick', () => {
+                    setImmediate(() => {
+                        console.log(\`Tick [1]: getTimeString()\`);
+                    });
+                    
+                // ...
+                              
+                setInterval(() => {
+                    clock.emit('tick');
+                    console.log(\`Post Emit Event Tick at \${getTimeString()}\`);
+                }, 1000);
+            `}/>
+            <p>Output:</p>
+            <TerminalCode code={`
+                $ node clock-async.js
+                Post Emit Event Tick at 12:34:56:562
+                Tick [1]: 12:34:56:584
+                Tick [2]: 12:34:56:585
+                Tick [3]: 12:34:56:585
+                Post Emit Event Tick at 12:34:57:789
+                Tick [1]: 12:34:57:789
+                Tick [2]: 12:34:57:790
+                Tick [3]: 12:34:57:791
+                ...
+            `}/>
+            <p>In sostanza l'uso della funzione setImmediate fa in modo che il codice del listener non sia più eseguito
+                in modo sincrono, ecco perché l'output ottenuto è diverso da quello precedente. In particolare si può
+                osservare che il log <code>Post Emit Event Tick</code> viene stampato prima di tutti gli altri log.
+                E' comunque importante sottolineare come attraverso questo meccanismo sia possibile posticipare solo
+                l'esecuzione del codice contenuto nel listener e non l'esecuzione del listener stesso, poiché infatti i
+                listener continuano ad essere eseguiti sempre in modo sincrono. La differenza è appunto che la presenza
+                di setImmediate fa in modo che tale operazione termini subito dopo la sua esecuzione (???).
+            </p>
         </div>
     );
 };
