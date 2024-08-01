@@ -367,6 +367,82 @@ const Express: React.FC = () => {
                 aggiungendolo all'oggetto request la proprietà <code>body</code>.
             </p>
             <p>[To fix] Middleware di logging e compressione response</p>
+            <h2>Logging</h2>
+            <p>In una qualsiasi applicazione web reale è di fondamentale importanza effettuare il log delle attività
+                che vengono svolte durante l'esecuzione della richiesta, con diversi livelli di importanza (che può
+                anche variare nel tempo).
+                Vero che possiamo mandare i log verso lo standard output (console.log), ma è anche vero che in un
+                ambiente di produzione è decisamente più idoneo affidare la responsabilità del logging a package
+                dedicati, come ad esempio <code> pino </code> (logger in formato JSON ad altre prestazioni).
+            </p>
+            <h3>Esempio:</h3>
+            <TerminalCode code={`npm install pino-http`}/>
+            <JavascriptCode code={`
+                // File app.mjs 
+                import express from 'express';
+                import pino from 'pino-http';
+                // ... 
+              
+                app.use(pino());
+                
+                app.post('/sources', (req, res) => {
+                    const { url } = req.body;
+                    sources.push(url);
+                    req.log.info(\`URL aggiunto: \${url}\`);
+                    res.json(sources);
+                }
+                
+                // ...  
+            `}/>
+            <p>L'aggiunta del middleware stamperà per noi il log di tutte le richieste, allegando le informazioni
+                utili a visualizzare i dettagli della nostra richiesta.
+                Oltre a questo l'oggetto <code>req</code> verrà arricchito di una nuova proprietà <code>log</code>
+                contenente il logger attraverso il quale possiamo usare tutti i metodi forniti da pino divisi per
+                livello (in ordine: trace, debug, info, warn, error e fatal):
+            </p>
+            <JavascriptCode code={`
+                {   
+                    'level': 30,
+                    ....
+                    'req': {
+                        'method': 'POST',
+                        'url': '/sources',
+                        'body': { 'url': 'http://localhost:3000/api/v1/athletes' }
+                    }
+                    'msg': 'URL aggiunto: http://localhost:3000/api/v1/athletes'
+                }
+                { 
+                    'level': 30,
+                    ....
+                    'req': {
+                        'method': 'GET',
+                        'url': '/sources'
+                        ...
+                    }
+                    'msg': 'Request completed'
+                }
+            `}/>
+            <p>Le impostazioni di default di pino permettono solo la stampa dei log di livello info e superiori; per
+                cambiare il livello minimo da stampare è sufficiente passare la proprietà <code>useLevel</code> alla
+                funzione che installa il logger:
+            </p>
+            <JavascriptCode code={`
+                app.use(pino({ useLevel: 'debug' }));
+            `}/>
+            <p>Ancora meglio sarebbe passare il valore di questa proprietà tramite variabile d'ambiente in modo da
+                gestire il livello di logging secondo necessità e senza dover modificare il codice:
+            </p>
+            <TerminalCode code={`
+                // file .env
+                DEBUG=app
+                
+                // file app.mjs
+                app.use(pino({ useLevel: process.env.DEBUG }));
+            `}/>
+            <p>Aggiungiamo infine una menzione particolare tra i vari parametri configurabili alla scelta del
+                <code>transport</code>, ovvero dove i log devono essere scritti (in un file, in un database, ecc...),
+                poiché è alla base delle performance elevate di pino stesso.
+            </p>
     </div>
     );
 };
