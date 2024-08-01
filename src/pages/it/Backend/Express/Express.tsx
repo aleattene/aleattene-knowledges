@@ -180,7 +180,8 @@ const Express: React.FC = () => {
                 GET <code>http://localhost:3000/image.jpg</code> la funzione handler restituirebbe il contenuto del
                 file <code>public/image.jpg</code>.
             </p>
-            <p><i>Una cosa importante da ricordare in merito al servire file statici da parte di Express è che al fine di
+            <p><i>Una cosa importante da ricordare in merito al servire file statici da parte di Express è che al fine
+                di
                 garantire le massime performance, Express utilizza il meccanismo degli
                 <code className={'documentation-link'}> stream </code>
                 per la lettura e l'invio al client dei file statici.</i>
@@ -228,7 +229,145 @@ const Express: React.FC = () => {
                 della route, poiché i primi non influenzano il meccanismo di routing e non possono essere usati per
                 la definizione di regole di routing.</i>
             </p>
-        </div>
+            <p>[TO FIX] Handler Multipli</p>
+            <p>[TO FIX] Contenuto Dinamico</p>
+            <p>[TO FIX] Pagine non Trovate</p>
+            <p>[TO FIX] Gestione Errori</p>
+            <p>[TO FIX] Express e Limiti</p>
+
+            <h2>Creazione API</h2>
+            <p>Express chiaramente non si limita alla creazione di applicazioni basate su pagine web, ma ci permette
+                anche di creare API basate su HTTP.
+                Per iniziare la creazione di un'applicazione in grado di comunicare attraverso delle API JSON, possiamo
+                partire con:
+                <ul>
+                    <li>la creazione di una directory di lavoro (es. my-api)</li>
+                    <li>l'inizializzazione di un progetto NodeJs con il comando <code>npm init -y</code></li>
+                    <li>l'installazione di Express ed eventuali dipendenze con il comando
+                        <code>npm install express</code></li>
+                </ul>
+            </p>
+            <p> Prima ancora di definire il codice, è sempre buona norma definire la struttura delle API che si
+                intendono creare, così da valutarne la correttezza ed avere una visione di insieme.
+                <i>Strumento utile: Swagger (???)</i>
+            </p>
+            <TerminalCode code={`
+                POST /sources
+                { url: http://localhost:3000/api/v1/athletes }
+                
+                GET /sources
+                [ url: http://localhost:3000/api/v1/athletes , url: http://localhost:3000/api/v1/athletes2 ]
+                
+                GET /api/v1/athletes/
+                [ 
+                    { id: 1, name: 'Mario Rossi', age: 30 },
+                    { id: 2, name: 'Luca Bianchi', age: 25 }
+                ]
+            `}/>
+            <p>Una volta definita la struttura delle API possiamo passare alla loro implementazione:</p>
+            <JavascriptCode code={`
+                // File app.mjs 
+                import express from 'express';
+                // ... (???)
+                const app = express();
+                const port = 3000;
+                
+                // ... (???)
+                
+                // Aggiunge speciale tipo di handler (middleware) in cui passano tutte le richieste ricevute dal server
+                app.use(express.json());
+                
+                // API
+                app.post('/sources', (req, res) => {
+                    const { url } = req.body;
+                    sources.push(url);
+                    res.json(sources);
+                });
+                
+                app.get('/sources', (req, res) => {
+                    res.json(sources);
+                });
+                
+                app.get('/api/v1/athletes', (req, res) => {
+                    // ... (???)
+                });
+                
+                // Web Server
+                app.listen(port, () => {
+                    console.log(\`Web Server in ascolto su http://localhost:\${port}\`);
+                });
+            `}/>
+            <p>Abbiamo visto che la riga <code>app.use(express.json())</code> è una riga speciale che aggiunge un
+                particolare tipo di handler (middleware) in cui passano tutte le richieste ricevute dal server.
+                Questo middleware (fornito da Express stesso) si occupa di parsare il corpo della richiesta
+                (request body) in formato JSON e di restituircelo come un normale oggetto JS che possiamo reperire
+                nella richiesta con la proprietà <code>req.body</code>.
+                Questo ci permette di accedere ai dati inviati dal client in formato JSON in maniera molto semplice.
+            </p>
+            <p>[TO FIX] Approfondimenti eventuali</p>
+            <h2>Middleware</h2>
+            <p>Esempio:</p>
+            <JavascriptCode code={`
+                // File app.mjs 
+                import express from 'express';
+                // ... (???)
+                
+                app.use((req, res, next) => {
+                    console.log(\`Richiesta ricevuta: \${req.method} \${req.path}\`) \${req.statusCode}\`);
+                    next();
+                });
+   
+                app.use(express.json());
+                //..
+            `}/>
+            <p>Questo middleware intercetta tutte le richieste in entrata e stampa in console (terminale) le
+                informazioni relative ad esse (metodo, path, statusCode).
+            </p>
+            <p>Di fatto un middleware è una funzione che accetta i tre parametri standard di Express:
+                <ul>
+                    <li>req: l'oggetto request della richiesta HTTP</li>
+                    <li>res: l'oggetto response della risposta HTTP</li>
+                    <li>next: una funzione che rappresenta il successivo (eventuale) middleware nella catena</li>
+                </ul>
+                Esso può essere aggiunto al server in due modi:
+                <ul>
+                    <li>tramite il più generico metodo <code>app.use()</code></li>
+                    <li>tramite il metodo <code>app.METHOD()</code> (dove METHOD è il metodo HTTP della richiesta)</li>
+                </ul>
+                Chiaramente il modo in cui viene aggiunto determina anche se dovrà essere eseguito sempre o solo alcune
+                volte:
+                <ul>
+                    <li>aggiunto con <code>app.use()</code> verrà eseguito per ogni richiesta ricevuta</li>
+                    <li>aggiunto con <code>app.METHOD()</code> verrà eseguito solo per le richieste del tipo METHOD</li>
+                </ul>
+            </p>
+            <p>Tra tutte le azioni che è possibile eseguire all'interno di un middleware, ce se sono due che sono più
+                importanti delle altre e che si escludono a vicenda, ovvero la scelta di terminare la richiesta o farla
+                continuare. Nel caso precedente abbiamo visto come farla continuare, ovvero chiamando la funzione
+                <code>next()</code>, di seguito vediamo come terminarla inviando una risposta al client:
+            </p>
+            <JavascriptCode code={`               
+                app.use((req, res, next) => {
+                    if(!isAuth(req)) {
+                        res.status(401).send('Non autorizzato');
+                    else {
+                        next();
+                    }
+                });
+            `}/>
+            <p><i>E' importante ricordare sempre che qualora nessuna delle due azioni venga eseguita le richieste
+                rimarrebbero bloccate finendo successivamente in timeout.</i>
+            </p>
+            <p>Relativamente ai middleware è importante sottolineare che maggiore sarà il tempo richiesto affinché
+                svolga le azioni di cui è responsabile, maggiore sarà il tempo di risposta del server al client.
+                Per fare un esempio, una responsabilità solitamente delegata ai middleware è quella relativa alla
+                modifica degli oggetto che rappresentano la richiesta e la risposta, come ad esempio l'aggiunta di
+                proprietà o metodi. Il middleware express.json() rientra proprio in questa categoria, infatti si
+                occupa di parsare (leggere ed interpretare) il corpo della richiesta in formato JSON e di restituircelo
+                aggiungendolo all'oggetto request la proprietà <code>body</code>.
+            </p>
+            <p>[To fix] Middleware di logging e compressione response</p>
+    </div>
     );
 };
 
