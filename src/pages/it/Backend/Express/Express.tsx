@@ -121,7 +121,113 @@ const Express: React.FC = () => {
                 e <code>/About</code> sono considerati equivalenti (meccanismo case-insensitive, modificabile tramite
                 opportune impostazioni di Express stesso). (???)
             </p>
-
+            <h2>File Statici</h2>
+            <p>La maggior parte delle applicazioni web moderne per funzionare necessità di file statici (fogli di stile,
+                immagini, script JS, favicon, ecc...)
+                Ricordiamo che in un server web creato con il modulo <code>http</code> di NodeJS per servire file
+                statici è necessario leggere a mano i file dal disco e inviare il contenuto al client.
+                Con Express invece è possibile servire file statici in maniera molto più semplice grazie ad un
+                meccanismo automatico che ci viene messo a disposizione dal framework. Nello specifico va creata una
+                directory <code>public</code> all'interno della quale andranno inseriti tutti i file statici.
+                Una volta che poi vogliamo servire questi file basterà utilizzare il metodo
+                <code>express.static()</code> come mostrato di seguito:
+            </p>
+            <JavascriptCode code={`
+                // File index.mjs 
+                // ...
+                const port = 3000;
+                
+                // Servire file statici
+                app.use('/static', express.static('public'));
+                
+                // Routing
+                app.get('/', (req, res) => {
+                    res.send(\`
+                        // HTML code here
+                        \<\img src="/static/image.jpg" alt="Image">
+                    \`);
+                });               
+            `}/>
+            <p>A questo punto aprendo il browser e navigando all'indirizzo
+                <code>http://localhost:3000/</code> dovremmo visualizzare l'immagine <code>image.jpg</code> presente
+                nella directory <code>public</code>.
+            </p>
+            <p>Nel codice è presente una novità che riguarda l'utilizzo di un nuovo metodo <code>app.use()</code>.
+                Questo metodo altro non è che la versione più generica di <code>app.get()</code> infatti quest'ultimo
+                collega al path specificato solo le richieste di tipo GET, mentre <code>app.use()</code> collega al
+                path specificato tutte le richieste HTTP (GET, POST, PUT, DELETE, ecc...). Questo ci dice quindi che
+                tutte le richieste che iniziano con <code>/static</code> verranno inoltrate alla funzione associata.
+            </p>
+            <p>Abbiamo poi una seconda novità che riguarda la funzione <code>express.static()</code> che è una funzione
+                che riceve in input un path relativo al disco (in questo caso <code>public</code>) e restituisce una
+                funzione handler in grado di effettuare una mappatura tra il path contenuto nella richiesta HTTP e il
+                path relativo alla cartella indicata in fase di setup (nel nostro caso <code>public</code>).
+                Quindi se ad esempio la richiesta HTTP è <code>http://localhost:3000/static/image.jpg</code> la
+                funzione handler restituirà il contenuto del file <code>public/image.jpg</code>.
+            </p>
+            <p>Ma è anche possibile servire file statici senza dover specificare un path specifico, basta infatti
+                omettere il primo parametro di <code>app.use()</code>:
+            </p>
+            <JavascriptCode code={`
+                // File index.mjs 
+                // ...
+              
+                // Servire file statici
+                app.use(express.static('public')); 
+            `}/>
+            <p>In tal caso ogni path ricevuto dal client verrà cercato dentro la directory <code>public</code> senza
+                dover usare sempre il prefisso <code>/static</code>. Quindi ad esempio se ricevessimo una richiesta
+                GET <code>http://localhost:3000/image.jpg</code> la funzione handler restituirebbe il contenuto del
+                file <code>public/image.jpg</code>.
+            </p>
+            <p><i>Una cosa importante da ricordare in merito al servire file statici da parte di Express è che al fine di
+                garantire le massime performance, Express utilizza il meccanismo degli
+                <code className={'documentation-link'}> stream </code>
+                per la lettura e l'invio al client dei file statici.</i>
+            </p>
+            <p>[TO FIX - Template Engine]</p>
+            <h2>Routing</h2>
+            <p>Normalmente le applicazioni web sono composte da più pagine, ognuna delle quali rappresenta un diverso
+                endpoint. Per gestire queste pagine in maniera efficiente e ordinata, Express mette a disposizione un
+                sistema di routing che permette di definire un endpoint per ogni pagina:
+            </p>
+            <JavascriptCode code={`
+                // File index.mjs 
+                // ...
+                
+                // Routing
+                app.get('/', (req, res) => {
+                    res.render('homepage', {
+                        title: 'Homepage',
+                        message: 'Benvenuto nella homepage!'
+                    });
+                
+                app.get('/athletes/:matricola', (req, res) => { 
+                    res.render('athlete', {
+                        title: 'Athlete',
+                        message: \`Benvenuto nella pagina dell\'atleta con matricola \${req.params.matricola}\`
+                    });
+                });
+            `}/>
+            <p>Nel codice sopra riportato abbiamo definito due endpoint: il primo per la homepage e il secondo per la
+                pagina di un atleta. Entrambi gli endpoint utilizzano il metodo <code>app.get()</code> per definire
+                l'endpoint e la funzione handler che verrà eseguita quando verrà effettuata una richiesta GET a quel
+                particolare endpoint.
+                Nel secondo caso potranno essere catturati più di un path, infatti ogni richiesta
+                ricevuta con un path compattibile con il pattern <code>/athletes/:matricola</code> (come ad esempio
+                <code>/athletes/123</code> o <code>/athletes/456</code>) verrà inoltrata alla funzione handler dedicata.
+            </p>
+            <p><i> Per dettagli più approfonditi sul routing si rimanda alla
+                <a href="https://expressjs.com/it/guide/routing.html" target="_blank" rel="noopener noreferrer">
+                    <code className={'documentation-link'}> documentazione </code>
+                </a>
+                ufficiale di Express, dove vengono effettivamente mostrati tutti i possibili usi dei parametri
+                (route params) nella definizione degli URL e di come rendere dinamiche le parti di cui non ci interessa
+                il valore (route path).
+                In merito a ciò è anche utile fare una distinzione tra i parametri della query string e i parametri
+                della route, poiché i primi non influenzano il meccanismo di routing e non possono essere usati per
+                la definizione di regole di routing.</i>
+            </p>
         </div>
     );
 };
