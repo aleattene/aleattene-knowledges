@@ -36,6 +36,7 @@ export const subSections: Record<string, string[]> = {
     graph: ['DepthFirstSearch', 'BreadthFirstSearch'],
     nodejs: ['CoreModules', 'ErrorFirst','Chaining','Concorrenza','QA'],
     express: [],
+    fastify: [],
 };
 
 export const subSectionsRedirect: Record<string,string> = {
@@ -69,6 +70,8 @@ export const subSectionsRedirect: Record<string,string> = {
     qa: 'qa',
     /* Express */
     express: 'express',
+    /* Fastify */
+    fastify: 'fastify',
 
 }
 

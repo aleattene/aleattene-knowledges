@@ -37,6 +37,7 @@ import HttpMethods from "./pages/it/HTTP/HttpMethods/HttpMethods.tsx";
 import Java from "./pages/it/Languages/Java/Java.tsx";
 import Sql from "./pages/it/Languages/Sql/Sql.tsx";
 import Express from "./pages/it/Backend/Express/Express.tsx";
+import Fastify from "./pages/it/Backend/Fastify/Fastify.tsx";
 
 
 const App: React.FC = () => {
@@ -91,6 +92,7 @@ const App: React.FC = () => {
                         <Route path="/it/backend/nodejs/qa" element={<QANodeJsBe/>} />
 
                         <Route path="/it/backend/express" element={<Express/>} />
+                        <Route path="/it/backend/fastify" element={<Fastify/>} />
 
                         <Route path="/it/http" element={<Http/>} />
                         <Route path="/it/http/statuscodes" element={<HttpStatusCodes/>} />
