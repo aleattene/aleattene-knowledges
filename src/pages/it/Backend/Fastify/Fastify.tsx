@@ -1,5 +1,6 @@
 import React from 'react';
 import TerminalCode from "../../../../components/Code/TerminalCode/TerminalCode.tsx";
+import JavascriptCode from "../../../../components/Code/JavascriptCode/JavascriptCode.tsx";
 
 const Backend: React.FC = () => {
     return (
@@ -35,7 +36,7 @@ const Backend: React.FC = () => {
                 npm install fastify
             `}/>
             <p> Creiamo a questo punto il nostro server Fastify:</p>
-            <TerminalCode code={`
+            <JavascriptCode code={`
                 // File index.js
                 import fastify from 'fastify';
                 // Creazione istanza Fastify (similmente a Express con app) con legger di default attivato
@@ -82,7 +83,7 @@ const Backend: React.FC = () => {
                 precedente codice) ma esiste anche una seconda possibilità (cambia dal punto di vista sintattico e di
                 leggibilità del codice, ma non di funzionamento) utilizzare il metodo <code>route()</code>:
             </p>
-            <TerminalCode code={`
+            <JavascriptCode code={`
                 // File index.js
                 // ...
                 
@@ -108,7 +109,7 @@ const Backend: React.FC = () => {
                 conviene creare un oggetto con tutte le varie opzioni e passarlo parametro della funzione, come ad
                 esempio:
             </p>
-            <TerminalCode code={`
+            <JavascriptCode code={`
                 // File index.js
                 // ...
                 
@@ -118,7 +119,39 @@ const Backend: React.FC = () => {
                 
                 // ...
             `}/>
-
+            <h2>Parametri nella URL</h2>
+            <p>Al pari di framework come Express, anche Fastify permette di definire dei path con parametri che possono
+                essere catturati e utilizzati all'interno dell'oggetto <code>request</code> alla proprietà
+                <code>params</code>:
+            </p>
+            <JavascriptCode code={`
+                // File index.js
+                // ...
+                
+                // Catturiamo il parametro name e lo restituiamo
+                fastify.get('/hello/:name', async (request, reply) => {
+                    return { hello: request.params.name };
+                });
+                
+                // Catturiamo tutti i parametri e li restituiamo
+                fastify.get('/any/*', async (request, reply) => {
+                    return { params: request.params};
+                }
+                
+                // ...
+            `}/>
+            <p>Per testare il funzionamento:</p>
+            <TerminalCode code={`
+                $ curl http://localhost:3000/hello/alessandro
+                {"hello":"alessandro"}
+                
+                $ curl http://localhost:3000/any/alessandro/attene
+                {"params":{"*":["alessandro/attene"]}}
+            `}/>
+            <p>Dal risultato che abbiamo ottenuto possiamo osservare come la regola dell'asterisco fa si che si venga
+                comunque a creare una proprietà <code>*</code> all'interno dell'oggetto <code>request.params</code>
+                all'interno della quale troviamo a sua volta la parte del path catturato dall'asterisco stesso.
+            </p>
         </div>
     );
 };
