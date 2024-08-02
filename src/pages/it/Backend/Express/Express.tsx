@@ -433,9 +433,10 @@ const Express: React.FC = () => {
                 gestire il livello di logging secondo necessità e senza dover modificare il codice:
             </p>
             <TerminalCode code={`
-                // file .env
+                 // file .env
                 DEBUG=app
-                
+            `}/>
+            <JavascriptCode code={`              
                 // file app.mjs
                 app.use(pino({ useLevel: process.env.DEBUG }));
             `}/>
@@ -443,7 +444,104 @@ const Express: React.FC = () => {
                 <code>transport</code>, ovvero dove i log devono essere scritti (in un file, in un database, ecc...),
                 poiché è alla base delle performance elevate di pino stesso.
             </p>
-    </div>
+            <p>[TO FIX] Debugging</p>
+            <p>[TO FIX] Mongoose, Schemi e Modelli</p>
+            <h2>Validazione</h2>
+            <p>Se prendiamo sino ad ora quanto realizzato (le nostre API) possiamo renderci conto come non vi sia
+                alcun meccanismo di validazione delle request che riceviamo. Infatti se ad esempio provassimo ad
+                effettuare una o più volte la post tutto funzionerebbe ma avremmo dei duplicati se non più.
+                Come anche se al posto di una URL corretta passassimo una stringa qualsiasi tutto andrebbe comunque
+                a buon fine pur inserendo valori che in futuro potrebbero creare problemi.
+                Quindi per ogni endpoint che definiamo è sempre importante definire anche le regole di validazione che
+                dovranno essere rispettate per poter procedere con la richiesta.
+            </p>
+            <p>[To FIX] Eventuale Approfondimento Validazione con Express</p>
+            <p>[TO FIX] Database: Relazionali e Non Relazionali (es. MongoDB)</p>
+            <h2>Express Router</h2>
+            <p>Per la gestione di applicazioni più complesse, con molteplici endpoint, Express mette a disposizione
+                un ulteriore strumento chiamato <code>Router</code> che permette di organizzare le route in maniera
+                più ordinata e modulare, dividerla sostanzialmente in più file isolati tra loro (nel gergo di Express
+                si parla di mini-app) che poi verranno assemblati a formare un'unica applicazione.
+            </p>
+            <p>la prima cosa da fare è quindi creare una directory <code>routes</code> all'interno della quale andranno
+                inseriti tutti i file che conterranno le route. Ogni file dovrà esportare un router Express che
+                conterrà tutte le route relative a quel file.
+            </p>
+            <p>Esempio:</p>
+            <JavascriptCode code={`
+                // File routes/athletes.mjs
+                import express from 'express';
+                
+                // Creazione dell'ogetto router
+                const router = express.Router();
+                
+                // Aggiunta del middleware di parsing (esecuzione garantita su ogni richiesta del path /athletes)
+                router.use(express.json());
+                
+                // API routes
+                router.get('/', (req, res) => {
+                    res.json(athletes);
+                });
+                
+                router.get('/:id', (req, res) => {
+                    const { id } = req.params;
+                    const athlete = athletes.find(athlete => athlete.id === id);
+                    res.json(athlete);
+                });
+                
+                export default router;
+            `}/>
+            <p>Creiamo quindi un secondo esempio:</p>
+            <JavascriptCode code={`
+                // File routes/trainers.mjs
+                import express from 'express';
+                const router = express.Router();
+                
+                // Middleware di Parsing (esecuzione garantita su ogni richiesta del path /trainers)
+                router.use(express.json());
+                
+                router.get('/', (req, res) => {
+                    res.json(trainers);
+                });
+                
+                router.get('/:id', (req, res) => {
+                    const { id } = req.params;
+                    const trainer = trainers.find(trainer => trainer.id === id);
+                    res.json(trainer);
+                });
+            `}/>
+            <p>Arrivati a questo punto dobbiamo mettere insieme i due file in un unico file che rappresenti la nostra
+                applicazione:
+            </p>
+            <JavascriptCode code={`
+                // File app.mjs
+                import express from 'express';
+                import pino from 'pino-http';
+                // Import dei router
+                import athletesRouter from './routes/athletes.mjs';
+                import trainersRouter from './routes/trainers.mjs';
+                
+                const app = express();
+                const port = 3000;
+                
+                // Middleware di Logging (esecuzione garantita per ogni richiesta)
+                app.use(pino());
+                
+                // Aggiunta dei router all'applicazione (le richieste con path "/path" saranno inoltrate ai router path)
+                app.use('/athletes', athletesRouter);
+                app.use('/trainers', trainersRouter);
+                
+                // Web Server in ascolto
+                app.listen(port, () => {
+                    console.log(\`App in ascolto su http://localhost:\${port}\`);
+                });
+            `}/>
+            <p><i>Concludiamo questo capitalo segnalando al lettore l'esistenza del principale concorrente di Express:
+                <a href={"https://www.fastify.io/"} target="_blank" rel="noopener noreferrer">
+                    <code className={'documentation-link'}> Fastify</code>
+                </a>.</i>
+            </p>
+        </div>
     );
 };
 
