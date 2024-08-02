@@ -755,7 +755,81 @@ const Typescript: React.FC = () => {
                 // File index.html
                 &lt;script type=module src='file.js'&gt;&lt;/script&gt;
             `}/>
-
+            <h2>Interface vs Type Alias</h2>
+            <p>Spesso durante la quotidianità ci si trova a dover scegliere tra l'utilizzo di un'interfaccia o di un
+                type alias. Per fare una scelta corretta bisogna considerare che:
+            </p>
+            <ul>
+                <li>interfacce:</li>
+                <ul>
+                    <li>sono definite tramite la parola chiave <code>interface</code></li>
+                    <li>possono essere estese tramite la parola chiave <code>extends</code></li>
+                    <li>si uniscono automaticamente se definite più volte</li>
+                    <li>sono ideali per definire la struttura delle classi e degli oggetti</li>
+                </ul>
+                <li>type alias:</li>
+                <ul>
+                    <li>sono definiti tramite la parola chiave <code>type</code></li>
+                    <li>possono essere estesi/combinati tramite l'operatore <code>&</code></li>
+                    <li>non si uniscono automaticamente, causando errori se definiti più volte</li>
+                    <li>possono rappresentare unioni, tuple e tipi complessi</li>
+                </ul>
+            </ul>
+            <p> In definitiva quindi se si ha a che fare con la definizione di oggetti e classi è meglio utilizzare le
+                interfacce, mentre se si ha a che fare con unioni, tuple e tipi complessi è meglio utilizzare i type
+                alias.
+            </p>
+            <h3>Esempio Interfaccia:</h3>
+            <TypescriptCode code={`
+                // Interfaccia Persona
+                interface Persona {
+                    name: string;
+                }
+                
+                // Estensione dell'interfaccia Persona
+                interface Docente extends Persona {
+                    materia: string;
+                }
+                
+                // Creazione di un oggetto Docente
+                const docente: Docente = { name: 'Mario', materia: 'Matematica' };
+                docente.name;       // Mario
+                docente.materia;    // Matematica
+                
+                // Aggiunta di una proprietà all'oggetto Docente
+                docente.eta = 30;   // Errore - Property 'eta' does not exist on type 'Docente'
+                interface Docente {
+                    eta: number;
+                }
+                docente.eta = 30;   // OK 
+            `}/>
+            <h3>Esempio Type Alias:</h3>
+            <TypescriptCode code={`
+                // Type Alias Persona
+                type Persona = {
+                    name: string;
+                }
+                
+                // Type Alias Docente (estensione di Persona tramite intersezione)
+                type Docente = Persona & { 
+                    materia: string 
+                };
+                
+                // Creazione di un oggetto Docente
+                const docente: Docente = { name: 'Mario', materia: 'Matematica' };
+                docente.name;       // Mario
+                docente.materia;    // Matematica
+                
+                // Tentativo (invano) di modifica del tipo 
+                type Window = {
+                    title: string;
+                }
+                
+                type Window = {
+                    width: number;
+                }
+                // Errore - Duplicate identifier 'Window'
+            `}/>
         </div>
     );
 };
