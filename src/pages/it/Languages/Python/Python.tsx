@@ -101,6 +101,67 @@ const Python: React.FC = () => {
                 <li>1 tabulazione</li>
                 <li>4 spazi</li>
             </ul>
+            <h3>Boolean </h3>
+            <p>Il tipo booleano in Python è rappresentato da due valori: <code>True</code> e <code>False</code>.
+                E' un tipo di dato molto utilizzato per costruire condizioni all'interno dei costrutti condizionali,
+                cicli, etc.
+            </p>
+            <p>Conversion Examples:</p>
+            <PythonCode code={`
+                // False values (7)
+                bool(0)         # False
+                bool(None)      # False
+                bool("")        # False
+                bool(())        # False
+                bool([])        # False
+                bool({})        # False
+                bool(False)     # False
+                // Other values are True
+                bool(1)         # True
+                ...
+            `}/>
+            <h3>Operatori Aritmetici</h3>
+            <p>Python supporta i seguenti operatori aritmetici:</p>
+            <ul>
+                <li><code>+</code> (addizione)</li>
+                <li><code>-</code> (sottrazione)</li>
+                <li><code>*</code> (moltiplicazione)</li>
+                <li><code>/</code> (divisione)</li>
+                <li><code>//</code> (divisione intera)</li>
+                <li><code>%</code> (resto/modulo)</li>
+                <li><code>**</code> (esponente) (esiste anche la funzione <code>pow(base, esponente)</code>)</li>
+            </ul>
+            <p>Per ciò che riguarda la precedenza di questi operatori si può fare riferimento alle comuni precedenze
+                note in matematica.
+            </p>
+            <h3>Operatori di Assegnamento</h3>
+            <p>Python supporta i seguenti operatori di assegnamento:</p>
+            <ul>
+                <li><code>=</code> (assegnamento)
+                    <PythonCode code={`x = 2`}/>
+                </li>
+                <li><code>+=</code> (assegnamento con somma)
+                    <PythonCode code={`x += 2   # equivale a x = x + 2 `}/>
+                </li>
+                <li><code>-=</code> (assegnamento con sottrazione)
+                    <PythonCode code={`x -= 2   # equivale a x = x - 2 `}/>
+                </li>
+                <li><code>*=</code> (assegnamento con moltiplicazione)
+                    <PythonCode code={`x *= 2   # equivale a x = x * 2 `}/>
+                </li>
+                <li><code>/=</code> (assegnamento con divisione)
+                    <PythonCode code={`x /= 2   # equivale a x = x / 2 `}/>
+                </li>
+                <li><code>//=</code> (assegnamento con divisione intera)
+                    <PythonCode code={`x //= 2   # equivale a x = x // 2 `}/>
+                </li>
+                <li><code>%=</code> (assegnamento con resto/modulo)
+                    <PythonCode code={`x %= 2   # equivale a x = x % 2 `}/>
+                </li>
+                <li><code>**=</code> (assegnamento con esponente)
+                    <PythonCode code={`x **= 2   # equivale a x = x ** 2`}/>
+                </li>
+            </ul>
         </div>
     );
 };
