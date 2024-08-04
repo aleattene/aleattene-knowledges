@@ -76,14 +76,34 @@ const StringPy: React.FC = () => {
 
                 <h3> Old string formatting with % - BAD PRACTICE </h3>
 
-                <PythonCode code={`msg = 'hello world'\n'mgs: %s' % msg`}/>
+                <PythonCode code={`
+                    msg = 'hello world'
+                    'mgs: %s' % msg
+                `}/>
                 <p>Output:</p>
-                <TerminalCode code={`msg: hello world`}/>
+                <TerminalCode code={`
+                    msg: hello world
+                `}/>
 
                 <h3> Using string.format - ACCEPTABLE PRACTICE </h3>
-                <PythonCode code={`msg = 'hello world'\n'mgs: {}'.format(msg)`}/>
+                <PythonCode code={`
+                    // Format senza indicizzazione
+                    msg = 'hello world'
+                    'mgs: {}'.format(msg)
+                    
+                    // Format con indicizzazione
+                    'Ho {1} anni e mi chiamo {0}'.format('Alessandro', 30) 
+                    
+                    // Format con placeholder naming
+                    'Ho {name} anni e mi chiamo {age}'.format(name='Alessandro', age=30)
+                    
+                    // Format sequenziale (senza indicizzazione)
+                    'Ho {} anni e mi chiamo {}'.format(30, 'Alessandro')
+                `}/>
                 <p>Output:</p>
-                <TerminalCode code={`msg: hello world`}/>
+                <TerminalCode code={`
+                    msg: hello world
+                `}/>
 
                 <h3> Using f-strings - BEST PRACTICE </h3>
                 <PythonCode code={`msg = 'hello world'\nf'mgs: {msg}'`}/>
@@ -209,6 +229,12 @@ const StringPy: React.FC = () => {
                 print(stringa)       # Ciao Mondo
             `}/>
 
+            <h3>Escape dei caratteri</h3>
+            <PythonCode code={`
+                # Escape di caratteri
+                x = "Mi chiamo \\"Alessandro\\""
+                y = 'Cerco l\\'orologio'
+            `}/>
         </div>
     );
 };
