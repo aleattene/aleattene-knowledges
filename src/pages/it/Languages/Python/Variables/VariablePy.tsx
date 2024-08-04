@@ -86,7 +86,109 @@ const VariablePy: React.FC = () => {
                 variabile 6 = 60
             `}/>
             <h3>Tipi di Dato</h3>
-
+            <p>Python è un linguaggio tipizzato dinamicamente, ovvero il tipo di dato viene inferito dal valore
+                assegnato alla variabile.
+                Abbiamo due macrocategorie di tipi di dato:
+            </p>
+            <ul>
+                <li>Primitivi:</li><br/>
+                <ul>
+                    <li>int</li>
+                    <PythonCode code={`x = 20`}/>
+                    <li>float</li>
+                    <PythonCode code={`x = 20.5`}/>
+                    <li>complex</li>
+                    <PythonCode code={`x = 1j`}/>
+                    <li>bool</li>
+                    <PythonCode code={`
+                        x = True
+                        y = False
+                    `}/>
+                    <li>str</li>
+                    <PythonCode code={`
+                        x = "Alessandro"
+                        y = 'Ciao Sono una stringa non Modificabile'
+                        # Accesso agli elementi tramite indice: da 0 a len(stringa) - 1  (o direttamente -1)
+                    `}/>
+                </ul>
+                <li>Strutture dati:</li>
+                <br/>
+                <ul>
+                    <li>list (collezione dati/valori con duplicati ammessi); da non confondere con gli
+                        <a href={'https://numpy.org/doc/stable/reference/generated/numpy.array.html'}>
+                            <code className={'documentation-link'}> array </code>
+                        </a> di Numpy (Numerical Python)
+                        <PythonCode code={`
+                            x = [10, 20, 30]
+                            y = ['Alessandro', 'Bianchi', '30']
+                            # Accesso agli elementi tramite indice: da 0 a len(stringa) - 1  (o direttamente -1)
+                        `}/>
+                    </li>
+                    <li>tuple <PythonCode code={`
+                                x = (10, 20, 30)
+                                y = ('Alessandro', 'Bianchi', '30')
+                            `}/>
+                    </li>
+                    <li>dict <PythonCode code={`
+                                x = {
+                                    'chiave': 'valore',
+                                    'nome': 'Alessandro',
+                                    'cognome': 'Bianchi',
+                                    'eta': 30
+                                }
+                            `}/>
+                    </li>
+                    <li>set (non accetta duplicati) <PythonCode code={`
+                                x = {10, 20, 30}
+                                y = {'Alessandro', 'Bianchi', '30'}
+                            `}/>
+                    </li>
+                </ul>
+            </ul>
+            <p>Abbiamo visto i tipi di dato, ma di fronte ad una variabile qualora volessimo risalire al tipo di dato
+                associato, possiamo utilizzare la funzione <code>type()</code>:
+            </p>
+            <PythonCode code={`
+                // Creazione di un oggetto di tipo int (della classe int) salvato nella variabile x
+                x = 10
+                type(x)     # <\class 'int'>
+                
+                // Creazione di un oggetto di tipo float (della classe float) salvato nella variabile y
+                y = 20.5
+                type(y)      # <class 'float'>
+                
+                // Creazione di un oggetto di tipo list (della classe list) salvato nella variabile z
+                z = [ 10, 20, 30]
+                type(z)     # <class 'list'>
+            `}/>
+            <h3>Conversione di Tipo (Cast)</h3>
+            <p> In python non esiste il cast di tipo automatico (come possibile in JS), quindi se vogliamo convertire
+                un tipo di dato in un altro, dobbiamo farlo manualmente:
+            </p>
+            <PythonCode code={`
+                // Dichiarazione variabile di tipo int (inferenza di tipo)
+                x = 10
+                
+                // Conversione di tipo: da int a float
+                y = float(x)
+                
+                // Conversione di tipo: da int a str
+                z = str(x)
+                
+                // Conversione di tipo: da str a int
+                x = '10'
+                z = int(x)
+                                
+                // Cast Automatico (non possibile)
+                x = 10
+                z = "10"
+                y = x + z // Errore: not possible concatenate int and str
+                
+                // Somma (+) e Concatenazione (+)
+                w = x + int(z)  # 20 (somma interi)
+                z = str(x) + z  # 1010 (concatenazione stringhe)
+                a = "Buongiorno, Mario ha " + str(w) + " anni."  # Buongiorno, Mario ha 10 anni.
+            `}/>
         </div>
     );
 };
