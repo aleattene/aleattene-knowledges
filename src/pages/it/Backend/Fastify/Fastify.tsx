@@ -188,7 +188,9 @@ const Backend: React.FC = () => {
             <p>Aspetto interessante anche per quanto riguarda i dati inviati nel body della richiesta: Fastify infatti
                 li legge, li interpreta (sulla base dell'header <code>Content-Type</code> della richiesta) e li rende
                 disponibili all'interno dell'oggetto <code>request.body</code> in modo automatico.
-                <i>In caso di problemi Fastify restituirà un errore dedicato.</i>
+                <i>In caso di problemi, dovuti alla non presenza dell'header <code>Content-Type</code> o alla presenza
+                    di un valore non supportato, Fastify restituirà un errore 415 (Unsupported Media Type).
+                </i>
             </p>
             <JavascriptCode code={`
                 // File request.mjs
@@ -257,7 +259,7 @@ const Backend: React.FC = () => {
                 <a href={"https://fastify.dev/docs/latest/Reference/Reply/"}>
                     <code>reply</code>
                 </a>
-                è molto utile quando si vuole gestire lo stato HTTO e gli header da inviare al client. Ad esempio:
+                è molto utile quando si vuole gestire lo stato HTTP e gli header da inviare al client. Ad esempio:
             </p>
             <JavascriptCode code={`
                 // File reply.mjs
@@ -277,7 +279,100 @@ const Backend: React.FC = () => {
                 request non è l'oggetto originale di tipo <code>http.ServerResponse</code> (accessibile in
                 <code>reply.raw</code>) ma è un oggetto creato da Fastify a partire da esso.
             </p>
-            </div>
+            <h2>Errori</h2>
+            <p>La miglior cosa da fare per comprendere come gestire gli
+                <a href={"https://fastify.dev/docs/latest/Reference/Errors/"}>
+                    <code className={'documentation-link'}>errori</code>
+                </a>
+                con Fastify è partire da un esempio:</p>
+            <JavascriptCode code={`
+                // File errors.mjs
+                // ...
+                
+                // Route senza gestione manuale degli errori
+                fastify.get('/no-error', function handler(request, reply) {
+                    return 'OK';
+                });
+                
+                // Route con errore (tramite throw)
+                fastify.get('/throw-error', function handler(request, reply) {
+                    throw new Error('Something went wrong');
+                });
+                
+                // Route con errore (da Promise rejected)
+                fastify.get('/promise-rejected', function handler(request, reply) {
+                    return Promise.reject(new Error('Promise rejected'));
+                });
+                
+                // Route con errore (await error)
+                fastify.get('/await-error', async function handler(request, reply) {
+                    await Promise.reject(new Error('Await error'));
+                });
+                                
+                // ...
+            `}/>
+            <p>Verifichiamo il funzionamento:</p>
+            <TerminalCode code={`
+                // Response con esito positivo
+                $ curl http://localhost:3000/no-error
+                OK
+                
+                // Response con errori gestiti solo da Fastify
+                $ curl http://localhost:3000/invalid-route
+                {"message":"Route GET:/invalid-route not found","error":"Not Found","statusCode":404}
+                
+                
+                $ curl -X POST -d '{"name":"alessandro"}' http://localhost:3000
+                {"statusCode": 415, code: "FST_ERR_CTP_INVALID_MEDIA_TYPE", "error": "Unsupported Media Type",
+                "message": "Unsupported Media Type: application/x-www-form-urlencoded"}
+               
+                
+                // Response con errori gestito manualmente (message) e da Fastify
+                $ curl http://localhost:3000/throw-error
+                {"statusCode":500,"error":"Internal Server Error","message":"Something went wrong"}
+                
+                $ curl http://localhost:3000/promise-rejected
+                {"statusCode":500,"error":"Internal Server Error","message":"Promise rejected"}
+                
+                $ curl http://localhost:3000/await-error
+                {"statusCode":500,"error":"Internal Server Error","message":"Await error"}
+            `}/>
+            <p>Nonostante Fastify si comporti molto bene nella gestione automatica degli errori è sempre possibile
+                personalizzarne la gestione definendo un error handler. Questo non ha bisogno di essere scritto dopo la
+                definizione delle varie route poiché viene aggiunto attraverso un metodo dedicato (???) disponibile
+                nell'istanza del server di Fastify.
+            </p>
+            <p>Vediamo quindi un esempio di un handler grazie al quale tutti gli errori che verranno generati dal server
+                restituiranno al client uno stato 500 con un messaggio di errore personalizzato:
+            </p>
+            <JavascriptCode code={`
+                // File errors.mjs
+                // ...
+                
+                fastify.setErrorHandler(function (error, request, reply) {
+                    reply
+                        .status(500)
+                        .send({ error: error.message });
+                });
+                
+                // ...
+            `}/>
+            <p>Ecco quindi che sfruttando le proprietà associate agli errori e quelle eventualmente aggiunte negli
+                oggetti <code>request</code> e <code>reply</code> dall'handler che ha gestito la richiesta (tranne in
+                caso di 404) diventa relativamente semplice inviare risposte diverse per errori diversi.
+            </p>
+            <p>Esistono poi degli errori che non hanno bisogno di una richiesta per potersi verificare, in particolare
+                ad esempio quelli che riguardano la configurazione di Fastify. Infatti, de ad esempio Fastify si accorge
+                che c'è un problema o qualcosa di potenzialmente pericoloso (come potrebbe essere la definizione di
+                due route duplicate), genera un errore informandoci della situazione ed interrompe l'esecuzione.
+            </p>
+            <TerminalCode code={`
+                FastifyError [Error]: Method 'GET' already declared for route '/duplicated'
+                    at Object.addNewRoute
+                    // ...
+                    statusCode: 500,
+            `}/>
+        </div>
     );
 };
 
