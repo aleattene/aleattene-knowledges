@@ -522,6 +522,87 @@ const Backend: React.FC = () => {
                     }
                 });
             `}/>
+            <p>[TO FIX] Route completa Validazione e Serializzazione</p>
+            <h2>Hook</h2>
+            <p>Il meccanismo degli
+                <a href={"https://fastify.dev/docs/latest/Reference/Hooks/"}>
+                    <code className={'documentation-link'}>hook</code>
+                </a>
+                rappresenta un'interessantissima caratteristica di Fastify.
+                All'interno di Fastify il flusso di gestione della richiesta è strutturato in fasi ben definite, motivo
+                per cui grazie proprio agli hook è possibile intercettare ed intervenire su ognuna di queste fasi.
+                La sequenza delle fasi che ogni richiesta in entrata attraversa, detta "request/reply lifecycle" (ciclo
+                di vita della richiesta/risposta) è la seguente:
+                <ol>
+                    <li>Richiesta in Entrata</li>
+                    <li>Routing</li>
+                    <li>Creazione Logger Richiesta</li>
+                    <li>(hook) onRequest</li>
+                    <li>(hook) preParsing</li>
+                    <li>Parsing</li>
+                    <li>(hook) preValidation</li>
+                    <li>Validazione</li>
+                    <li>(hook) preHandler</li>
+                    <li>Esecuzione Handler della Route</li>
+                    <li>Esecuzione di <code>reply</code> (generazione risposta)</li>
+                    <li>(hook) preSerialization</li>
+                    <li>(hook) onSend</li>
+                    <li>Invio Risposta al Client</li>
+                    <li>(hook) onResponse</li>
+                </ol>
+            </p>
+            <p>Nella maggior parte dei casi, se emerge un problema (esempio se fallisce la validazione) Fastify
+                interrompe il flusso di esecuzione (prima di raggiungere la fine) e restituisce un errore.
+                Tuttavia, se vogliamo intervenire in qualche punto del flusso, possiamo farlo grazie agli hook.
+                Per aggiungere un hook, basta usare il metodo <code>addHook()</code> (dell'istanza di Fastify) il quale
+                associa un handler alla fase che ci interessa.
+                Se per esempio volessimo far sapere al mondo esterno che stiamo utilizzando Fastify, potremmo farlo
+                agganciandoci all'evento <code>onSend</code>, eseguito poco prima di ogni risposta, aggiungendo uno
+                specifico header alla risposta:
+            </p>
+            <JavascriptCode code={`
+                // File hook.mjs
+                // ...
+                
+                fastify.addHook('onSend', async (request, reply, payload) => {
+                    reply.header('server', 'Fastify');
+                });
+            `}/>
+            <p>E' importante osservare che è possibile invocare la funzione <code>addHook()</code> quante volte vogliamo
+                qualora avessimo la necessità di associare più handler alla stessa fase; in tal caso sarebbero eseguiti
+                nella sequenza in cui sono vengono definiti.
+            </p>
+            <p>Altro aspetto interessante da tenere a mente relativamente agli hook è quello relativo alla loro
+                possibilità di alterare la sequenza degli eventi successivi, per esempio interrompendo la richiesta
+                (e restituendo un errore) o modificando/cambiando i dati coinvolti nel flusso.
+            </p>
+            <p>Un esempio classico di quanto appena detto è quello che riguarda l'autenticazione di una richiesta dove
+                il client invia un token attraverso un header; va da se che avrebbe poco senso giungere sino
+                all'handler per poi eseguire il parsing della richiesta, la validazione ed il codice (con conseguente
+                spreco di risorse) se il token può essere controllato attraverso l'hook <pre>onRequest</pre> ed in caso
+                risulti non valido restituire subito l'errore bloccando il flusso della richiesta.
+            </p>
+            <p>Fastify ci mette a disposizione anche altri hook, non legati alla request/reply lifecycle ma piuttosto
+                al ciclo di vita dell'applicazione stessa. Per esempio abbiamo:
+                <ul>
+                    <li>onReady</li>
+                    <li>onListen</li>
+                    <li>onClose</li>
+                    <li>preClose</li>
+                    <li>onRoute</li>
+                    <li>onRegister</li>
+                </ul>
+            </p>
+            <p>Per eseguire una funzione al verificarsi di uno di questi eventi, basta usare sempre il metodo
+                <code>fastify.addHook()</code> passando come primo parametro il nome dell'evento e come secondo
+                l'handler. Ad esempio se volessimo che il server quando sta per terminare effettui la disconnessione
+                da MongoDB attraverso Mongoose, potremmo farlo in questo modo:
+            </p>
+            <JavascriptCode code={`                
+                fastify.addHook('onClose', async (instance) => {
+                    await mongoose.disconnect();
+                });
+            `}/>
         </div>
     );
 };
