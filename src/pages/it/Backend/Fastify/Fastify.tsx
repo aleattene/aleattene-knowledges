@@ -152,7 +152,71 @@ const Backend: React.FC = () => {
                 comunque a creare una proprietà <code>*</code> all'interno dell'oggetto <code>request.params</code>
                 all'interno della quale troviamo a sua volta la parte del path catturato dall'asterisco stesso.
             </p>
-        </div>
+            <h2>Request</h2>
+            <p>Per quel che riguarda l'oggetto
+                <a href={"https://fastify.dev/docs/latest/Reference/Request/"}>
+                    <code>request</code>
+                </a>
+                bisogna far attenzione al fatto che non è quello generato dal server HTTP di NodeJS (oggetto di tipo
+                <code>http.IncomingMessage</code> reperibile in <code> request.raw </code> ma è creato da Fastify a
+                partire da esso. Infatti oltre ai campi standard (come ad esempio <code>request.headers</code>,
+                <code>request.method</code>, ecc.) ne aggiunge altri pronti all'uso come ad esempio
+                <code>request.query</code>, <code>request.id</code>, etc.
+            </p>
+            <JavascriptCode code={`
+                // File request.mjs
+                // ...
+                
+                // Restituiamo gli headers della richiesta
+                fastify.get('headers', (request, reply) => {
+                    return { headers: request.headers };
+                });
+                
+                // Restituiamo tutte le coppie (chiave, valore) dei parametri ricevute nella query della URL
+                fastify.get('query', (request, reply) => {
+                    return { query: request.query };
+                });       
+            `}/>
+            <p>Per testare il funzionamento:</p>
+            <TerminalCode code={`
+                $ curl http://localhost:3000/headers
+                {"headers":{"host":"localhost:3000","user-agent":"curl/8.0.1","accept":"*/*"}}
+                
+                $ curl http://localhost:3000/query?name=alessandro&surname=attene
+                {"query":{"name":"alessandro","surname":"attene"}}
+            `}/>
+            <p>Aspetto interessante anche per quanto riguarda i dati inviati nel body della richiesta: Fastify infatti
+                li legge, li interpreta (sulla base dell'header <code>Content-Type</code> della richiesta) e li rende
+                disponibili all'interno dell'oggetto <code>request.body</code> in modo automatico.
+                <i>In caso di problemi Fastify restituirà un errore dedicato.</i>
+            </p>
+            <JavascriptCode code={`
+                // File request.mjs
+                // ...
+                
+                // Restituiamo il body della richiesta
+                fastify.post('body', async function handles(request, reply) => {
+                    return { body: request.body };
+                });              
+            `}/>
+            <p>Per testare il funzionamento:</p>
+            <TerminalCode code={`
+                $ curl -X POST http://localhost:3000/body -d '{"name": "alessandro", "surname": "attene"}'
+                {"body":{"name":"alessandro","surname":"attene"}}
+            `}/>
+            <p>Fastify supporta di default i tipi di body più comuni ovvero JSON e testo. Per questi tipi di contenuto
+                non è richiesta alcuna configurazione aggiuntiva. Per quei pochi casi in cui si voglia gestire un tipo
+                di contenuto differente, Fastify mette a disposizione il metodo
+                <a href={"https://fastify.dev/docs/latest/Reference/ContentTypeParser/"}>
+                    <code>addContentTypeParser()</code>
+                </a>
+                con il quale è possibile associare a uno o più <code>Content-Type</code> un funzione di parsing
+                personalizzata.
+                Fatta questa configurazione sarà poi Fastify ad inserire il valore ottenuto dal parser
+                nel campo <code>request.body</code>.
+            </p>
+
+            </div>
     );
 };
 
