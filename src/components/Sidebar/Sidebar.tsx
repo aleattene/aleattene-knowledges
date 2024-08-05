@@ -17,7 +17,7 @@ export const sections: Record<string, string[]> = {
     backend: ['NodeJs', 'Express', 'Fastify', 'NestJs', 'Django', 'Symfony'], // Mercurius
     http: ['StatusCodes', 'Methods'],
     database: ['SQLite', 'MySQL', 'PostgreSQL', 'MongoDB'],
-    datascience: ['Pandas', 'Numpy', 'Matplotlib'],
+    datascience: ['Numpy', 'Pandas', 'Matplotlib'],
     git: [],
     docker: [],
 };
