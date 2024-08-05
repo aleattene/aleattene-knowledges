@@ -375,9 +375,9 @@ const Backend: React.FC = () => {
             <p>[TO FIX] Migrazione App from Express to Fastify</p>
             <p>[TO FIX] Decoratori </p>
             <h2>Validazione</h2>
-            <p>Fastify contiene al suo interno un meccanismo di validazione delle request e delle response molto
-                interessante. Infatti, grazie all'integrazione di JSON Schema, è possibile definire uno schema per ogni
-                route che verrà usato per validare i dati inviati e ricevuti.
+            <p>Fastify contiene al suo interno un meccanismo di validazione delle request molto interessante. Infatti,
+                grazie all'integrazione di JSON Schema, è possibile definire uno schema per ogni route che verrà usato
+                per validare i dati ricevuti.
             </p>
             <JavascriptCode code={`
                 // File validation.mjs
@@ -401,7 +401,7 @@ const Backend: React.FC = () => {
                 });
             `}/>
             <p>In questo modo con l'oggetto <code>schema.body</code> abbiamo indicato a Fastify quale deve essere la
-                struttura che ci aspettiamo per il body di quella richiesta in entrata.In caso questa non venga
+                struttura che ci aspettiamo per il body di quella richiesta in entrata. In caso questa non venga
                 rispettata, Fastify restituirà un errore 400 (Bad Request).
             </p>
             <TerminalCode code={`
@@ -412,7 +412,7 @@ const Backend: React.FC = () => {
             `}/>
             <p> A livello di schema, è importante tenere a mente che è possibile aggiungere anche altre proprietà
                 (oltre a <code>body</code>) come ad esempio <code>querystring</code> (per validare la query),
-                <code>params</code> (per validare i paramtri dell'URL) e <code>headers</code> (per validare gli header);
+                <code>params</code> (per validare i parametri dell'URL) e <code>headers</code> (per validare gli header);
                 l'importante è che ogni proprietà sia rappresentata da un oggetto che segua la
                 struttura definita da
                 <a href={"https://json-schema.org/"}>
@@ -429,12 +429,99 @@ const Backend: React.FC = () => {
             <p>Il tutto (interpretazione di ogni schema e relativa applicazione) all'interno di Fastify è delegato al
                 validato di JSON Schema <a href={"https://ajv.js.org/"}><code>Ajv</code></a>.
             </p>
-
-
-
-
-
-
+            <h2>Serializzazione</h2>
+            <p>Se è vero che la validazione permette di definire la struttura attesa dei dati in entrata nelle nostre
+                API, è altrettanto vero che la serializzazione permette di definire la struttura dei dati in uscita.
+                In merito a questo Fastify mette a disposizione un meccanismo di serializzazione (configurabile) che
+                trasforma gli oggetti JavaScript in JSON.
+                Per fare in modo che il meccanismo sia attivo, è sufficiente aggiungere la proprietà <code>request</code>
+                allo schema della route; così facendo Fastify si occuperà di serializzare i dati in uscita, ovvero di
+                definire i campi che saranno presenti nella risposta.
+                Il tutto con prestazioni elevate (in realtà aumentandole) rispetto all'utilizzo di metodi quali
+                <code>delete</code> et similari, dal costo computazionale decisamente più elevato.
+            </p>
+            <JavascriptCode code={`
+                // File serialization.mjs
+                // ...
+                
+                // Definizione dello schema (oggetto JS) per la route GET /trainer
+                const getTrainerSchema = {
+                    response: {
+                        // Status Code Risposta con successo
+                        200: {
+                            type: 'array',
+                            items: {
+                                type: 'object',
+                                properties: {
+                                    name: { type: 'string' },
+                                    surname: { type: 'string' }
+                                }
+                            }
+                        },
+                        // Status Code Risorsa non trovata
+                        404: {
+                            type: 'object',
+                            properties: {
+                                error: { type: 'string' }
+                            }
+                        },
+                        // Status Codes Errore del server
+                        5xx: { 
+                            type: 'object',
+                            properties: {
+                                error: { type: 'string' }
+                            }
+                        },
+                        // others status code
+                    }
+                };
+                
+                // Definizione della route GET /trainer con lo schema
+                fastify.get('/trainers', { schema: getTrainerSchema }, async function handler(request, reply) {
+                    const trainers = [ ..... ];
+                    return trainers;
+                });
+            `}/>
+            <TerminalCode code={`
+                // Response con esito positivo
+                $ curl http://localhost:3000/trainers
+                [
+                    {"name":"alessandro","surname":"attene"},
+                    {"name":"mario","surname":"rossi"}
+                ]
+                
+                // Response con errore 404
+                $ curl http://localhost:3000/trainers
+                {"error":"Trainers not found"}
+                
+                // Response con errore 500
+                $ curl http://localhost:3000/trainers
+                {"error":"Internal Server Error"}
+            `}/>
+            <p>Un aspetto importante da considerare è che Fastify non si limita a serializzare i dati in uscita, ma
+                non a generarli, questa responsabilità rimane del codice sviluppato da noi.
+                Ad esempio nel nostro caso, per la gestione dell'errore 500 dovrà essere nostro compito avere nel nostro
+                handler, in linea con quanto espresso nello schema, qualcosa del tipo:
+            </p>
+            <JavascriptCode code={`
+                // File serialization.mjs
+                // ...
+                
+                fastify.get('/trainers', { schema: getTrainerSchema }, async function handler(request, reply) {
+                    try {
+                        const trainers = [ ..... ];
+                        // Trainer not found
+                        if(!trainers.length) { 
+                            reply.code(404).send({ error: 'Trainers not found' }); 
+                        }
+                        // Trainer found
+                        reply.send(200).send(trainers);                   
+                    } catch (err) {
+                        // Server Error
+                        reply.code(500).send({ error: 'Internal Server Error' });
+                    }
+                });
+            `}/>
         </div>
     );
 };
