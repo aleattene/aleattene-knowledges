@@ -372,6 +372,69 @@ const Backend: React.FC = () => {
                     // ...
                     statusCode: 500,
             `}/>
+            <p>[TO FIX] Migrazione App from Express to Fastify</p>
+            <p>[TO FIX] Decoratori </p>
+            <h2>Validazione</h2>
+            <p>Fastify contiene al suo interno un meccanismo di validazione delle request e delle response molto
+                interessante. Infatti, grazie all'integrazione di JSON Schema, è possibile definire uno schema per ogni
+                route che verrà usato per validare i dati inviati e ricevuti.
+            </p>
+            <JavascriptCode code={`
+                // File validation.mjs
+                // ...
+                
+                // Definizione dello schema (oggetto JS) per la route POST /trainer
+                const postTrainerSchema = {
+                    body: {
+                        type: 'object',
+                        required: ['name', 'surname'],
+                        properties: {
+                            name: { type: 'string' },
+                            surname: { type: 'string' }
+                        }
+                    }
+                };
+                
+                // Definizione della route POST /trainer con lo schema
+                fastify.post('/trainer', { schema: postTrainerSchema }, async function handler(request, reply) {
+                    // ...
+                });
+            `}/>
+            <p>In questo modo con l'oggetto <code>schema.body</code> abbiamo indicato a Fastify quale deve essere la
+                struttura che ci aspettiamo per il body di quella richiesta in entrata.In caso questa non venga
+                rispettata, Fastify restituirà un errore 400 (Bad Request).
+            </p>
+            <TerminalCode code={`
+                $ curl -X POST -d '{"name": "alessandro"} -H "Content-Type: application/json" 
+                    http://localhost:3000/trainer
+                {"statusCode":400,"code":"FST_ERR_VALIDATION","error":"Bad Request",
+                    "message":"body should have required property 'surname'"}
+            `}/>
+            <p> A livello di schema, è importante tenere a mente che è possibile aggiungere anche altre proprietà
+                (oltre a <code>body</code>) come ad esempio <code>querystring</code> (per validare la query),
+                <code>params</code> (per validare i paramtri dell'URL) e <code>headers</code> (per validare gli header);
+                l'importante è che ogni proprietà sia rappresentata da un oggetto che segua la
+                struttura definita da
+                <a href={"https://json-schema.org/"}>
+                    <code>JSON Schema</code>
+                </a>.
+            </p>
+            <JavascriptCode code={`
+                const schema = {
+                    body: { /* JSON Schema */ },
+                    querystring: { /* JSON Schema */ },
+                    params: { /* JSON Schema */ },
+                    headers: { /* JSON Schema */ }
+            `}/>
+            <p>Il tutto (interpretazione di ogni schema e relativa applicazione) all'interno di Fastify è delegato al
+                validato di JSON Schema <a href={"https://ajv.js.org/"}><code>Ajv</code></a>.
+            </p>
+
+
+
+
+
+
         </div>
     );
 };
