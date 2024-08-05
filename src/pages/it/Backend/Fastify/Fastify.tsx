@@ -215,7 +215,68 @@ const Backend: React.FC = () => {
                 Fatta questa configurazione sarà poi Fastify ad inserire il valore ottenuto dal parser
                 nel campo <code>request.body</code>.
             </p>
-
+            <h2>Reply</h2>
+            <p>Sappiamo che è possibile definire degli handler asincroni per le route, restituendo i dati usando la
+                keyword <code>return</code>. Tuttavia con Fastify è possibile creare degli handler usando normali
+                funzioni o usando all'interno di esse il meccanismo delle callback.
+                Quindi quando necessario (o comunque quando lo preferiamo) possiamo restituire i dati ed inviare la
+                risposta al client usando il metodo <code>reply.send()</code>:
+            </p>
+            <JavascriptCode code={`
+                // File reply-send.mjs
+                // ...
+                
+                // Return sincrono dei dati
+                fastify.get('/return', function handler(request, reply) {
+                    return 'return'; 
+                });
+                
+                // Return asincrono dei dati
+                fastify.get('return-async', async function handler(request, reply) {
+                    return 'return-async';
+                });
+                
+                // Reply Send sincrono dei dati
+                fastify.get('/reply-send', function handler(request, reply) {
+                    reply.send('reply-send');
+                });
+                
+                // Reply Send asincrono dei dati
+                fastify.get('/reply-send-async', async function handler(request, reply) {
+                    reply.send('reply-send-async');
+                });
+                
+                // Return Promise dei dati
+                fastify.get('/return-promise', function handler(request, reply) {
+                    return Promise.resolve('return-promise');
+                });
+        
+                // ...
+            `}/>
+            <p>Utilizzare l'oggetto
+                <a href={"https://fastify.dev/docs/latest/Reference/Reply/"}>
+                    <code>reply</code>
+                </a>
+                è molto utile quando si vuole gestire lo stato HTTO e gli header da inviare al client. Ad esempio:
+            </p>
+            <JavascriptCode code={`
+                // File reply.mjs
+                // ...
+                
+                fastify.get('/reply', function handler(request, reply) {
+                    reply
+                        .code(201)
+                        .header('Content-Type', 'application/json', 'charset=utf-8')
+                        .send({ name: 'alessandro' });
+                });
+                
+                // ...
+            `}/>
+            <p>E' importante anche in questo caso tenere a mente che tutti metodi per la modifica della risposta da
+                inviare al client si trovano nell'oggetto <code>reply</code> che analogamente a quando visto per la
+                request non è l'oggetto originale di tipo <code>http.ServerResponse</code> (accessibile in
+                <code>reply.raw</code>) ma è un oggetto creato da Fastify a partire da esso.
+            </p>
             </div>
     );
 };
