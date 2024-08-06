@@ -603,6 +603,36 @@ const Backend: React.FC = () => {
                     await mongoose.disconnect();
                 });
             `}/>
+            <h2>Plugin</h2>
+            <p>Ad oggi Fastify ha un ecosistema di circa 300 plugin (open source) a supporto, al fine di estendere le
+                funzionalità.
+                Di questi plugin, oltre 60 sono gestiti direttamente dal team di Fastify (che ne garantisce la
+                compatibilità e gli aggiornamenti con le nuove versioni del framework, che tra l'altro ha una politica
+                di LTS simile a quella di NodeJS).
+            </p>
+            <p>Alcuni dei plugin disponibili sono pensati per la moltitudine di persone che devono (o vogliono)
+                migrare la propria codebase da Express a Fastify, come ad esempio
+                <a href={"https://github.com/fastify/fastify-express"}>
+                    <code> fastify-express </code>)
+                </a>
+                che permette di eseguire codice di applicazioni Express all'interno del server di Fastify e
+                contestualmente di creare nuove parti dell'applicazione secondo le logiche di Fastify, in modo da
+                garantire per l'appunto una migrazione graduale del progetto.
+            </p>
+            <p>Altro interessante plugin è
+                <a href={"https://github.com/fastify/middie"}>
+                    <code> middie </code>
+                </a>
+                che aggiunge a Fastify il supporto per la sintassi dei Middleware usata da Express, al fine di
+                poter scrivere gli handler similmente a come si farebbe con Express.
+            </p>
+            <p>Libro Consigliato:
+                <a href={`https://www.packtpub.com/en-us/product/accelerating-server-side-development-with-fastify-9781800563582`}>
+                    <code className={'documentation-link'}> Accelerating Server-Side Development with Fastify </code>
+                </a>
+                <i> di Manuel Spigolon, Maksim Sinik e Matteo Collina.</i>
+
+            </p>
         </div>
     );
 };
