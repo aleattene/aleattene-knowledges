@@ -1683,9 +1683,204 @@ const NodeJsBe: React.FC = () => {
                 ...
             `}/>
             <p>[TO FIX] API disponibili ed approfondimenti</p>
-
+            <h2>Server Web</h2>
+            <p>Un Server Web, nella sua essenza più semplice, è un server HTTP che associa URL a file presenti sul
+                disco e li restituisce rispettando il protocollo.
+                Nonostante si tratti appunto di una semplificazione e nonostante i server moderni facciano molto di più,
+                la capacità di leggere e restituire file dal disco resta ancora oggi la funzionalità centrale, poiché
+                a conti fatti pur sembrando un'operazione banale, senza una serie di accorgimenti potrebbe rivelarsi
+                piuttosto lenta e limitata,
+            </p>
+            <p>Sostanzialmente quindi ogni volta che noi scriviamo un indirizzo (o facciamo click su un link) il nostro
+                browser invia una richiesta HTTP ad un server web, il quale a sua volta restituisce la pagina
+                corrispondente; non a caso infatti i server sono protagonisti di Internet sin dalla sua nascita,
+                rappresentandone uno degli elementi essenziali.
+            </p>
+            <p>Al momento i tre server open source più utilizzati sono:</p>
+            <ul>
+                <li>Nginx</li>
+                <li>Apache</li>
+                <li>OpenResty (basato su Nginx)</li>
+            </ul>
+            <p>Si tratta di tre server molto sofisticati, performanti e con un gran numero di funzionalità.
+                Prima di questi ce ne sono stati molti altri (in alcuni momenti il numero di quelli noti si attestava
+                intorno alle 60 unità) a partire dal primo server web della storia, il CERN httpd, sviluppato da Tim
+                Berners-Lee e colleghi, nel 1990.
+                Sono passati quasi 35 anni da allora ma una caratteristica che accomuna tutti i server web (dai più datati
+                ai più moderni) e che non può mancare in ognuno di essi è proprio la capacità di leggere e restituire i file
+                letti dal disco.
+            </p>
+            <p>Quello appena descritto è infatti proprio il meccanismo che ha dato vita ad Internet, poiché ha permesso
+                la creazione di siti (statici) formati da più pagine HTML collegate tra loro, dove ogni pagina altro non
+                è che un file HTML letto dal disco e restituito al client che lo mostrerà.
+            </p>
+            <p>Immagini file CSS e JavaScript sono altri esempi di file che possono essere restituiti da un server web.
+                Anche se ormai la maggior parte delle pagine HTML che vediamo sono generate dinamicamente, la
+                possibilità di leggere contenuti statici dal disco resta una funzionalità centrale dei server web.
+            </p>
+            <h3>Leggere e Restituire file</h3>
+            <p>Creiamo un web server in ascolto su localhost:3000 e che restituisca il contenuto dei file presenti
+                sul disco nella directory <code>files</code>:
+            </p>
+            <JavascriptCode code={`
+                import http from 'http';
+                import fs from 'fs';
+                
+                const host = 'localhost';
+                const port = 3000;
+                const root = 'files';
+                
+                const server = http.createServer();
+                // Ad ogni richiesta il server restituirà il contenuto del file specificato
+                server.on('request', async (req, res) => {
+                    const { pathname } = new URL(req.url, \`http://\${host}:\${port}\`);
+                    const file = \`\${root}\${pathname}\`;
+                    console.log(\`Request for \${file}\`);
+                    try {
+                        // Lettura del file e restituzione del contenuto (se non riesce solleva un'eccezione)
+                        const data = await fs.readFile(file);
+                        res.end(data);
+                    } catch(err) {
+                        console.log(err);
+                        res.statusCode = 404;
+                        res.end('Risorsa non trovata.');
+                }
+                });
+                
+                server.listen(port, host, () => {
+                    console.log(\`Web Server running at http://\${host}:\${port}/\`);
+                });
+            `}/>
+            <p>A questo punto se provassimo ad aprile il browser e digitare
+                <code>http://localhost:3000/path/index.html</code>
+                vedremo il contenuto del file contenuto in <code>files/path/index.html</code>.
+            </p>
+            <p><i>Osserviamo inoltre che la costante <code>root</code> è stata definita per limitare i file che possono
+                essere richiesti dal server, infatti se il suo valore fosse nullo (stringa vuota) accedendo per esempio
+                all'indirizzo <code>http://localhost:3000/etc/passwd</code> il server web restituirebbe un file al
+                quale, per ovvi motivi di sicurezza, non sarebbe possibile accedere dall'esterno.</i>
+            </p>
+            <p>Una cosa interessante da osservare e che dovrebbe destarci curiosità è il fatto che il server web sia in
+                grado di restituire anche immagini, ovvero file che non sono di testo, ma binari.
+                Ebbene questo è possibile poiché nella funzione <code>fs.readFile</code> se non viene specificato il
+                secondo parametro (che rappresenta l'encoding) il file viene letto in formato binario restituendolo a
+                sua volta in un oggetto <code>Buffer</code> (che nel nostro caso è stato assegnato alla costante
+                <code>data</code> e sarà quindi un Buffer di byte tenuti in memoria).
+                Viceversa se l'opzione <code>encoding</code> è presente viene restituito un oggetto <code>String</code>
+                (una stringa in sostanza).
+            </p>
+            <p>Naturalmente non ha senso sorprenderci del fatto che vi sia la possibilità di trasmettere direttamente
+                dati in formato binario, poiché come sappiamo HTTP trasmette i dati usando una connessione TCP che a
+                sua volta sappiamo occuparsi di trasmettere dati proprio in questo formato (binario).
+            </p>
+            <h3>Media Type</h3>
+            <p>Sapendo che il server legge i file dal disco come sequenza di byte a questo punto possiamo facilmente
+                dedurre come sia conseguentemente possibile fargli restituire qualsiasi tipo di file (HTML, CSS, JS,
+                immagini, audio, video, ecc).
+            </p>
+            <p>Naturalmente il server non avrà problemi nel restituire qualunque tipo di file, ma il client potrebbe
+                averne ed è per questo che diventa necessario ad ogni risposta al client aggiungere l'header
+                <code>Content-Type</code> specificando il tipo di dato che si sta inviando, in modo che li possa
+                interpretare correttamente.
+                Settare staticamente questo header è un approccio idoneo a livello didattico ma non lo è di certo in
+                un contesto reale, dove i file potrebbero essere di tanti tipi diversi ed a maggior ragione sapendo che
+                questi non saranno noti a priori ma solo al momento della richiesta da parte del client e lettura
+                conseguente da parte del server.
+            </p>
+            <p>Sulla base della premessa fatta è quindi possibile apportare una modifica al nostro server in modo che
+                determini di volta in volta il tipo di file che sta restituendo e lo possa comunicare al client:
+            </p>
+            <JavascriptCode code={`
+                // ...
+                // Import della mappa typesMap da un modulo di utilità
+                import typesMap from '...'
+                // Import della funzione extname dal modulo path di NodeJS
+                import { extname } from 'path';
+                // ...
+                
+                server.on('request', async (req, res) => {
+                    // ...
+                    // Determinazione del tipo di file (e media type relativo) per poi settare l'header Content-Type
+                    const fileType = typesMap.get(extname(pathname));
+                    if(fileType) {
+                        res.setHeader('Content-Type', fileType);
+                    }
+                    
+                    try { 
+                        // ...
+                    } catch(err) {
+                        // ...
+                    }
+                });
+            `}/>
+            <p>Dal codice è interessante osservare la funzione <code>extname</code> che restituisce l'estensione dalla
+                stringa passata come argomento (che può essere un path o solo il nome di un file), ovvero il tipo di
+                file che stiamo restituendo.
+            </p>
+            <p>Analogamente è interessante anche il modulo <code>path</code> di NodeJS che fornisce una serie di
+                funzionalità utili alla lettura e manipolazione dei path, in particolar modo ancora più utili quando
+                ci troviamo ad interagire con path non POSIX (come ad esempio quelli di Windows
+                (es.<code> C:\Users\mario\file.txt</code>).
+            </p>
+            <p>Tutto questo al fine di rilevare il tipo di file, dalla mappe estrapolare il media type corrispondente
+                da settare poi nell'header <code>Content-Type</code> della risposta.
+                Qualora non vi sia corrispondenza tra l'estensione del file e il media type, il server non restituirà
+                l'header <code>Content-Type</code> e sarà quindi compito del client (browser) cercare di estrapolare
+                il tipo di risorsa che sta ricevendo (MIME-type sniffing).
+            </p>
+            <p>[TO FIX] Mime Type, MIME-type sniffing e MIME confusion</p>
+            <p>Vediamo ora la mappa che ci dovrebbe permettere di associare l'estensione del file al media type:</p>
+            <JavascriptCode code={`
+                // File media-types.mjs
+                const types = {
+                    'text/html': ['html', 'htm'],
+                    'text/plain': ['txt', 'text'],
+                    'text/css': ['css'],
+                    'application/javascript': ['js', 'mjs'],
+                    'application/json': ['json'],
+                    'image/jpeg': ['jpeg', 'jpg'],
+                    'image/x-icon': ['ico'],
+                    'audio/mpeg': ['mpga', 'mp2', 'mp2a', 'mp3', 'm2a', 'm3a'],
+                    'video/mp4': ['mp4', 'mp4v', 'mpg4'],
+                    'video/mpeg': ['mpeg', 'mpg', 'mpe', 'm1v', 'm2v'],
+                    'video/x-matroska': ['mkv', 'mk3d', 'mks'],
+                    'video/x-msvideo': ['avi']
+                };
+                 
+                const extMap = new Map();
+                
+                for(const [type, extensions] of Object.entries(types)) {
+                    for(const extension of extensions) {
+                        extMap.set(\`.\${extension}\`, type);
+                    }
+                }
+                
+                export default extMap;
+                
+            `}/>
+            <p>Si osservi che questo modulo di mappatura delle estensioni è prettamente didattico infatti contiene solo
+                una decina di tipi di file, mentre in un contesto reale sarebbe necessario utilizzare una mappa molto
+                più grande e completa oppure affidarsi a librerie esterne che li contengono già tutti, come ad esempio:
+                <ul>
+                    <li>
+                        <a href={'https://www.npmjs.com/package/mime'}>
+                            <code className={'documentation-link'}>mime</code>
+                        </a>
+                    </li>
+                    <li>
+                        <a href={'https://www.npmjs.com/package/mime-db'}>
+                            <code className={'documentation-link'}>mime-db</code>
+                        </a>
+                    </li>
+                    <li>
+                        <a href={'https://www.npmjs.com/package/mime-types'}>
+                            <code className={'documentation-link'}>mime-types</code>
+                        </a>
+                    </li>
+                </ul>
+            </p>
         </div>
-    );
+);
 };
 
 export default NodeJsBe;
