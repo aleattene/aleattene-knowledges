@@ -1996,6 +1996,79 @@ const NodeJsBe: React.FC = () => {
                 `}/>
                 </i>
             </p>
+            <h3>Big File</h3>
+            <p>Sicuramente sarà capitato di dover scaricare da un server file di grandi dimensioni (magari anche oltre le
+                dimensioni della Ram disponibile) eppure non capita che il server ci dica che non è possibile farlo
+                (al massimo potremmo avere problemi se non abbiamo space sufficiente sul nostro disco locale).
+                Potremmo allora pensare di comportarci analogamente con il nostro server, quindi copiare il file nella
+                root del server e successivamente scaricarlo. In realtà andremmo incontro ad una sorpresa:
+                <TerminalCode code={`
+                    RangeError [ERR_FS_FILE_TOO_LARGE]: File size (531128781545) is greater than 2 GB
+                        ...
+                        code: 'ERR_FS_FILE_TOO_LARGE',
+                `}/>
+            </p>
+            <p>E' successo in sostanza che leggendo il file con la funzione <code>fs.readFile()</code> abbiamo
+                provato a caricare l'intero contenuto del file all'interno di un oggetto <code>Buffer</code> in
+                memoria, ma non è stato possibile, poiché per evitare problemi di performance dovuti ad allocazioni
+                di memoria troppo grandi, NodeJs ha impostato un limite di 2GB per la dimensione dei file che
+                possiamo leggere.
+                <i>A titolo conoscitivo si consideri che tale limite è definito nella costante
+                <code>kIoMaxLength</code> presente nel codice sorgente di NodeJs ed ha lo scopo di evitare
+                problemi con <code>libuv</code> (la libreria che gestisce l'I/O in NodeJs); questo perché
+                l'interprete JS V8 sarebbe in grado di manipolare oggetti anche più grandi di 2GB, mentre libuv su
+                alcune piattaforme ha dei problemi in merito.</i>
+            </p>
+            <p>[IMG to fix] Lettura file con readFile()</p>
+            <p>Sulla base di quanto appena detto diventa quindi necessario cambiare approccio, ovvero si legge il file
+                in blocchi di byte (chunk) da inviare contestualmente al client; così facendo si evita di caricare
+                l'intero file in memoria (magari saturandola) con il rischio di generare errori.
+                E' possibile fare ciò grazie al supporto nativo per gli <code>stream</code> offerto dal modulo
+                <code>fs</code> di NodeJs.
+            </p>
+            <JavascriptCode code={`
+                // File stream.js
+                // ...
+                if (isHEAD) { ... }
+                
+                const fileStream = fh.createReadStream();
+                fileStream.on('data', (chunk) => {
+                    res.write(chunk);
+                }
+                fileStream.on('end', () => {
+                    res.end();
+                });
+                
+                fileStream.on('error', (err) => {
+                    console.log(err);
+                    res.statusCode = 500;
+                    res.end('Internal Server Error');
+                });
+            `}/>
+            <p>Provando ad analizzare il codice possiamo accorgerci del fatto che abbiamo usato la il metodo
+                <code>FileHandle.createReadStream()</code> (anziché <code>fs.readFile()</code>) al fine di ottenere un
+                oggetto <code>fs.ReadStream</code> il quale altro non è che uno stream di dati letti dal file system.
+                A partire da questo ci siamo quindi messi in ascolto dell'evento <code>data</code> che ovviamente
+                sarà emesso ogni volta che un chunk di dati viene letto: a quel punto la funzione listener associata
+                riceverà un oggetto <code>Buffer</code> contenente la porzione (chunk) di file letta che potrà subito
+                essere inviata al client attraverso il metodo <code>res.write()</code>.
+            </p>
+            <p>Quando lo stream raggiunge quindi la fine del file (intero contenuto letto) viene emesso l'evento
+                <code>end</code> ed il listener associato si occuperà di segnare a HTTP che l'invio della risposta è
+                terminato, attraverso il metodo <code>res.end()</code>.
+            </p>
+            <p>Inoltre osserviamo che se durante la lettura del file si verificano eventuali errori, viene emesso
+                l'evento <code>error</code> e il listener associato si occuperà di gestirlo, impostando lo status code
+                a 500 e restituendo un messaggio di errore al client (oltre che stamparlo in console).
+            </p>
+            <p>Va infine osservato che la lettura di tanti piccoli buffer separati (chunk) ed il loro invio immediato
+                verso il client, non solo permette a NodeJs di fare un utilizzo limitato della memoria, ma anche per
+                migliorare le performance generali del server, infatti così facendo il server riuscirà anche a mantenere
+                tempi di risposta rapidi anche per altre richieste ricevute nello stesso intervallo di tempo, ovverosia
+                tutti i client potranno sempre ottenere risposte veloci senza essere penalizzati da una singola
+                richiesta troppo ingombrante.
+            </p>
+            <p>[TO FIX] Approfondimento Errori in NodeJS</p>
         </div>
     );
 };
