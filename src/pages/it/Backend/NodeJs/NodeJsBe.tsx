@@ -1706,8 +1706,10 @@ const NodeJsBe: React.FC = () => {
                 Prima di questi ce ne sono stati molti altri (in alcuni momenti il numero di quelli noti si attestava
                 intorno alle 60 unità) a partire dal primo server web della storia, il CERN httpd, sviluppato da Tim
                 Berners-Lee e colleghi, nel 1990.
-                Sono passati quasi 35 anni da allora ma una caratteristica che accomuna tutti i server web (dai più datati
-                ai più moderni) e che non può mancare in ognuno di essi è proprio la capacità di leggere e restituire i file
+                Sono passati quasi 35 anni da allora ma una caratteristica che accomuna tutti i server web (dai più
+                datati
+                ai più moderni) e che non può mancare in ognuno di essi è proprio la capacità di leggere e restituire i
+                file
                 letti dal disco.
             </p>
             <p>Quello appena descritto è infatti proprio il meccanismo che ha dato vita ad Internet, poiché ha permesso
@@ -1879,8 +1881,123 @@ const NodeJsBe: React.FC = () => {
                     </li>
                 </ul>
             </p>
+            <h3>Head</h3>
+            <p>Il documento che definisce la semantica di HTTP contiene una nota molto chiara riguardo il metodo HEAD:
+                <code><i>All general-purpose servers MUST support the methods GET and HEAD. All other methods are
+                    OPTIONAL.</i></code>
+                In sostanza quindi il supporto al metodo HEAD è obbligatorio per tutti i server web, e quindi è giusto
+                adattare anche il nostro Server Web affinché rispetti tale specifica.
+                <i>Ricordiamo che lo scopo di tale metodo è quello di fornire al client solo lo status code e gli
+                    header, senza il body, in modo da permettergli di conoscere se la risorsa esiste, il suo tipo
+                    (Content-Type) e la sua dimensione (Content-Length), senza doverla scaricare.</i>
+            </p>
+            <JavascriptCode code={`
+                // ...
+                
+                const server = http.createServer();
+                server.on('request', async (req, res) => {
+                    const [isGET, isHEAD] = [req.method === 'GET', req.method === 'HEAD'];
+                    if(!isGET && !isHEAD) {
+                        res.statusCode = 405;
+                        res.end('Method Not Allowed');
+                        return;
+                    }
+                
+                // ...
+                
+                let fh;
+                try {
+                    fh = await fs.open(file);
+                } catch(err) {
+                    console.log(err);
+                    res.statusCode = 404;
+                    res.end('File Not Found');
+                    return;
+                }
+                
+                const mimeType = typesMap.get(extname(pathname));
+                if(mimeType) {
+                    res.setHeader('Content-Type', mimeType);
+                }
+                
+                if (isHEAD) {
+                    const fileStat = await fh.stat();
+                    res.setHeader('Content-Length', fileStat.size);
+                    res.statusCode = 200;
+                    res.end();
+                    await fh.close();
+                    return;
+                }
+                
+                try {
+                    const data = await fh.readFile();
+                    res.end(data);
+                } catch(err) {
+                    console.log(err);
+                    res.statusCode = 500;
+                    res.end('Internal Server Error');
+                } finally {
+                    await fh.close();
+                }
+            `}/>
+            <p>Una parte interessante di questo codice è legata alla gestione del file. Abbiamo infatti che esso non
+                viene subito letto ma viene prima aperto con la funzione <code>fs.open</code>. Tale funzione restituisce
+                un oggetto di tipo <code>FileHandle</code> che è un puntatore al file aperto (nel mondo UNIX si tratta
+                di un wrapper intorno ad un descrittore numerico di file).
+                Sostanzialmente NodeJs con questo oggetto rappresenta al suo interno il file senza doverne subito
+                leggere il contenuto, dopodiché:
+                <ul>
+                    <li>se l'apertura del file restituisce un errore, il client riceve un errore 404 è la gestione della
+                        richiesta termina
+                    </li>
+                    <li>se il file esiste, l'esecuzione prosegue e viene impostato il tipo di file e la sua
+                        dimensione
+                    </li>
+                </ul>
+            </p>
+            <p>Un'altra parte altrettanto interessante è quella relativa alle dimensioni del file. Infatti quando
+                abbiamo a che fare con il metodo GET, Node imposta per noi l'header <code>Content-Length</code> con il
+                numero di byte trasmessi nel body della risposta, ma quando si tratta del metodo HEAD, tale header va
+                impostato manualmente; ecco allora che abbiamo utilizzato la funzione <code>File-Handle.stat</code>
+                il quale restituisce un oggetto <code>fs.Stats</code> contenente informazioni sul file, tra cui la
+                dimensione del file, contenuta nella proprietà <code>size</code>, che viene utilizzata per impostare
+                il valore dell'header <code>Content-Length</code>.
+
+            </p>
+            <p>Infine giusto osservare il blocco di codice relativo alla richiesta GET, dove ci sono degli interessanti
+                aggiornamenti.
+                Il primo è quello relativo all'uso del metodo <code>FileHandle.readFile</code>(che legge il contenuto
+                del file) al posto della funzione <code>fs.readFile</code>; in tal caso il file è stato già aperto,
+                abbiamo a disposizione il suo puntatore (oggetto <code>FileHandle</code>) per cui possiamo leggerne
+                direttamente il contenuto senza doverlo riaprire.
+                Poi sempre in secondo luogo, ma sempre in relazione a questo aspetto, abbiamo la restituzione
+                dell'errore 500 (Internal Server Error); questo è possibile per deduzione poiché dato che il file era
+                già stato aperto precedentemente, qualora dovesse essere sollevato un errore starebbe sicuramente ad
+                indicare un problema durante la lettura del file e quindi interno al server e non in relazione alla
+                richiesta.
+                Terzo ed ultimo aspetto riguarda la clausola <code>finally</code> che garantisce anche in questo caso
+                HEAD che il file venga chiuso correttamente, a prescindere che la lettura sia andata a buon fine o meno
+                (quindi anche in caso di errore).
+            </p>
+            <p><i>Una doverosa osservazione sulla gestione dei file (apertura e chiusura corretta) va fatta, poiché
+                c'è il rischio di incorrere in side effect spiacevoli. Nel nostro caso infatti avendo a che fare con
+                oggetti <code>FileHandle</code> succede che il file a cui esso si riferisce è mantenuto aperto da NodeJS
+                attraverso il meccanismo del <code>file descriptor</code> (descrittore di file) e quindi se i file non
+                vengono chiusi correttamente il numeri di quelli aperti potrebbe diventare elevato facendo degradare le
+                prestazioni del server.
+                Per evitare l'incorrere in questo genere di problemi NodeJS chiude al posto nostro i file che abbiamo
+                lasciato aperti, pur informandoci che presto non supporterà più questa funzionalità deprecata,
+                generando al contrario un errore che potrebbe anche mandare in crash l'intera applicazione.
+                <TerminalCode code={`
+                    (node: 12345) Warning: Closing file descriptors 12 on garbage collection
+                    (node: 37890) (DEP0246) DeprecationWarning: Closing a FileHandle object on garbage collection is
+                    deprecated. Please close FileHandle objects explicitly using FileHandle.prototype.close().
+                    In the future, an error will be thrown if a file descriptor is closed during garbage collection.
+                `}/>
+                </i>
+            </p>
         </div>
-);
+    );
 };
 
 export default NodeJsBe;
