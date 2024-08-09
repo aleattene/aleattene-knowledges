@@ -1,5 +1,6 @@
 import React from "react";
 import JavascriptCode from "../../../../../components/Code/JavascriptCode/JavascriptCode.tsx";
+import TerminalCode from "../../../../../components/Code/TerminalCode/TerminalCode.tsx";
 
 const ConcurrencyVsParallelism: React.FC = () => {
     return (
@@ -60,6 +61,39 @@ const ConcurrencyVsParallelism: React.FC = () => {
                 Infatti i due log di inizio e fine non sono mostrati subito per poi mostrare le
                 informazioni sul numero primo, ma l'esecuzione del codice appare ancora sequenziale nonostante il
                 nostro utilizzo del meccanismo delle callback.
+            </p>
+            <h3>Funzioni e Callback</h3>
+            <p>In JS le funzioni sono considerate "cittadini di prima classe" (first-class citizens), il che significa
+                che il linguaggio su di esse permette di effettuare la maggior parte delle operazioni più comuni, come
+                ad esempio usarle come parametri di altre funzioni, restituirle come risultati di una funzione e
+                assegnarle ad una variabile.
+            </p>
+            <JavascriptCode code={`
+                function filter(array, callback) {
+                    const toRet = [];
+                    for (let i = 0; i < array.length; i++) {
+                        if(callback(array[i])) {
+                            toRet.push(array[i]);
+                        }   
+                    }
+                    return toRet;
+                }    
+            `}/>
+            <p>La cosa interessante è che con questa funzione possiamo filtrare un array in base ad un criterio che non
+                è incluso nella funzione stessa, ma al contrario viene ricevuto dall'esterno sotto forma di funzione.
+            </p>
+            <JavascriptCode code={`
+                const array = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+                const primeNumbers = filter(array, isPrime);
+                console.log(Prime Numbers: \${primeNumbers});
+            `}/>
+            <p>Output:</p>
+            <TerminalCode code={`Prime Numbers: [2, 3, 5, 7]`}/>
+            <p>Un altro possibile utilizzo delle funzioni passate come parametro è quello pensato per l'implementazione
+                del meccanismo delle callback, ovverosia quel meccanismo per cui la callback viene richiamata al
+                concludersi della funzione principale (o prima se ci sono errori) passando il risultato come parametro.
+                Anche in questo caso il tutto viene però eseguito in maniera sincrona e sequenziale, quindi rimane
+                ancora aperto il quesito sul come fare eseguire le callback in modo asincrono.
             </p>
         </div>
     );
