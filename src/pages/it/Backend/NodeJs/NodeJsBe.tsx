@@ -2069,8 +2069,34 @@ const NodeJsBe: React.FC = () => {
                 richiesta troppo ingombrante.
             </p>
             <p>[TO FIX] Approfondimento Errori in NodeJS</p>
+            <h2>Stream</h2>
+            <p>Gli stream sono uno dei meccanismi più potenti di NodeJS ma per reputazione anche uno dei più complessi
+                da comprendere ed utilizzare. Provando a risolvere questa situazione iniziamo con il dire che gli
+                gli stream sono un'interfaccia astratta per lavorare con i dati, con un'idea alla base che è quella di
+                trattare i dati non come unico grande blocco ma come un flusso.
+                Questa dinamica è presente nella nostra quotidianità per esempio negli streaming video, nel momento in
+                cui schiacciamo play si avvia il video, ma il download del video non è completo sin dall'inizio ma
+                avviene mentre noi procediamo con la visione.
+                Abbiamo visto che due vantaggi legati all'utilizzo degli stream sono la possibilità di servire dati in
+                chunk evitando cos' di saturare la memoria e permettere al server di continuare ad avere performance
+                elevate anche in presenza di richieste pesanti.
+                Ma ne esiste un terzo, che è quello legato alla presenza di un'interfaccia standard e quindi la
+                possibilità di combinare più stream creando flussi di elaborazione dati in mdo più semplice ed
+                efficiente.
+            </p>
+            <p>Il modulo
+                <a href={'https://nodejs.org/api/stream.html'}>
+                    <code className={'documentation-link'} >stream</code>
+                </a> di NodeJs contiene le specifiche delle quattro interfacce fornite dagli stream stessi:
+                <ul>
+                    <li>Readable</li>
+                    <li>Writable</li>
+                    <li>Duplex</li>
+                    <li>Transform</li>
+                </ul>
+            </p>
         </div>
-    );
+    )
 };
 
 export default NodeJsBe;
