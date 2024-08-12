@@ -40,7 +40,7 @@ const ModulesDependencies: React.FC = () => {
                     <li>ECMAScript (ESM), che è il sistema introdotto più recentemente</li>
                 </ul>
             </p>
-            <h3>Modulo CommonJS</h3>
+            <h3>Moduli CommonJS</h3>
             <p>Fin dalle prime versioni, NodeJS ha sposato ed implementato la specifica CommonJS per la gestione dei
                 moduli; in particolare ogni volta che usiamo la funzione <code>require()</code> NodeJS carica un modulo
                 usando proprio questo meccanismo.
@@ -199,6 +199,30 @@ const ModulesDependencies: React.FC = () => {
                 recuperare tutte le funzioni accessorie da altri moduli senza doverle riscrivere.
             </p>
             <p>[TO FIX] Approfondimento modulo open</p>
+            <h3>Prefisso Node</h3>
+            <p>Negli ultimi anni NodeJS ha aggiunto un meccanismo per specificare che un modulo che vogliamo caricare è
+                uno di quelli core; per usarlo basta aggiungere il prefisso <code>node:</code> prima del nome/path.
+                Esempio:
+            </p>
+            <JavascriptCode code={`
+                // Modulo core di NodeJS
+                const fs = require('node:fs');
+                const http = require('node:http');
+            `}/>
+            <p>Lo scopo del prefisso è quello di creare un <code>namespace</code> dedicato per i moduli interni di
+                NodeJS codì da poterli distinguere da quelli custom ed evitare così eventuali conflitti tra nomi.
+                Tuttavia ad oggi è comunque possibile importare i moduli core di NodeJS sia con il prefisso che senza,
+                ovviamente come la documentazione prescrive sarebbe meglio comunque utilizzarlo (anche considerando
+                gli indizi, ad esempio del modulo <code>test</code>, su quella che sarà la probabile direzione futura
+                di NodeJS). Infatti, l'unico caso ad oggi in cui l'uso del prefisso è necessario riguarda proprio il
+                modulo <code>test</code> di NodeJS in quanto può essere utilizzato solamente con il prefisso:
+            </p>
+            <JavascriptCode code={`
+                const { test } = require('node:test');
+            `}/>
+            <p>Qualora invece provassimo ad utilizzare il prefisso con un modulo custom (quindi non core di NodeJS)
+                otterremmo un errore di tipo <code>ERR_UNKNOWN_BUILTIN_MODULE</code>.
+            </p>
 
         </div>
     );
