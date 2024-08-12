@@ -1,5 +1,6 @@
 import React from "react"
 import JavascriptCode from "../../../../../components/Code/JavascriptCode/JavascriptCode.tsx";
+import TerminalCode from "../../../../../components/Code/TerminalCode/TerminalCode.tsx";
 
 const ModulesDependencies: React.FC = () => {
     return (
@@ -141,6 +142,64 @@ const ModulesDependencies: React.FC = () => {
                     </li>
                 </ul>
             </p>
+            <p>Esiste poi una possibilità legata all'ipotesi in cui abbiamo la necessità che l'oggetto restituito da
+                <code>require()</code> sia un oggetto specifico (per esempio una classe), oppure vogliamo esporre da
+                un nostro modulo solo una funzione accessibile direttamente senza dover usare la destrutturazione;
+                in questi casi è possibile aggiungere in nostro specifico oggetto direttamente alla proprietà
+                <code>module.exports</code>:
+            </p>
+            <JavascriptCode code={`
+                // File: modules/debug/index.js
+                function debugFactory(tag) {
+                    const enabled = process.env.DEBUG;
+                    
+                    function debug(message) {
+                        if (!enabled) {
+                            return;
+                        }
+                        console.log(\`[\${tag}] \${message}\`);
+                    }
+                    return debug;
+                }
+                
+                module.exports = debugFactory;
+            `}/>
+            <p>Così facendo abbiamo definito un modulo (chiamato debug) che esporta una funzione di logging che ci
+                permette di stampare messaggi nel terminale (se la variabile d'ambiente <code>DEBUG</code> è presente,
+                aggiungendo in automatico, un prefisso scelto da noi.
+                Nello specifico osserviamo che il modulo non esporta direttamente la funzione per stampare il log,
+                ma piuttosto quella per crearla.
+            </p>
+            <JavascriptCode code={`
+                // File: debug.js
+                const debugFactory = require('./modules/debug');
+                const debug = debugFactory('DEBUG');
+                                
+                debug(\`Script Avviato in data: \${new Date().toISOString()}\`);
+                setTimeout(() => {
+                    // ...
+                    debug(\`Script Terminato in data: \${new Date().toISOString()}\`);
+                }, 1000);
+            `}/>
+            <p>Osserviamo in questo caso che l'import ci restituisce la funzione generatrice, ovvero la funzione
+                <code>debugFactory</code> definita nel modulo, la quale poi invochiamo passandole il tag che vogliamo
+                mostrare su ogni riga, al fine di ottenere la vera funzione di logging.
+                Se eseguissimo il file senza impostare la variabile d'ambiente <code>DEBUG</code> non verrebbe stampato
+                alcun messaggio (come normalmente avviene in ambienti di produzione), mentre se la aggiungessimo (???)
+                verrebbero stampati i messaggi con il relativo tag di prefisso.
+            </p>
+            <TerminalCode code={`
+                $ DEBUG=true node debug.js
+                [DEBUG] Script Avviato in data: 2024-08-12T16:30:00.000Z
+                [DEBUG] Script Terminato in data: 2024-08-12T16:33:00.000Z
+            `}/>
+            <p>Tutto questo ci porta pian piano nella condizione di scrivere via via moduli che saranno la base per la
+                costruzione di modulo sempre più complessi. Si tratta di un meccanismo nel quale ogni nuovo modulo potrà
+                contenere solo il codice relativo a ciò che vuole offrire: questo ci permettere di conseguenza di
+                recuperare tutte le funzioni accessorie da altri moduli senza doverle riscrivere.
+            </p>
+            <p>[TO FIX] Approfondimento modulo open</p>
+
         </div>
     );
 };
