@@ -34,7 +34,7 @@ export const subSections: Record<string, string[]> = {
     sorting: ['SelectionSort', 'BubbleSort', 'InsertionSort', 'MergeSort', 'QuickSort', 'HeapSort', 'RedixSort', 'NNumbersKDigits'],
     tree: ['PreOrder', 'InOrder', 'PostOrder'],
     graph: ['DepthFirstSearch', 'BreadthFirstSearch'],
-    nodejs: ['CoreModules', 'ErrorFirst','Chaining','Concorrenza','QA'],
+    nodejs: ['CoreModules', 'ErrorFirst','Chaining','Concorrenza', 'Dipendenze', 'QA'],
     express: [],
     fastify: [],
 };
@@ -67,6 +67,8 @@ export const subSectionsRedirect: Record<string,string> = {
     coremodules: 'coremodules',
     errorfirst: 'errorfirst',
     chaining: 'chaining',
+    concorrenza: 'concurrency',
+    dipendenze: 'dependencies',
     qa: 'qa',
     /* Express */
     express: 'express',

@@ -38,6 +38,8 @@ import Java from "./pages/it/Languages/Java/Java.tsx";
 import Sql from "./pages/it/Languages/Sql/Sql.tsx";
 import Express from "./pages/it/Backend/Express/Express.tsx";
 import Fastify from "./pages/it/Backend/Fastify/Fastify.tsx";
+import ConcurrencyVsParallelism from "./pages/it/Backend/NodeJs/ConcurrencyVsParallelism/ConcurrencyVsParallelism.tsx";
+import ModulesDependencies from "./pages/it/Backend/NodeJs/Modules&Dependencies/Modules&Dependencies.tsx";
 
 
 const App: React.FC = () => {
@@ -90,6 +92,8 @@ const App: React.FC = () => {
                         <Route path="/it/backend/nodejs/coremodules" element={<CoreModuleNodeJs/>} />
                         <Route path="/it/backend/nodejs/errorfirst" element={<ErrorFirstCB/>} />
                         <Route path="/it/backend/nodejs/qa" element={<QANodeJsBe/>} />
+                        <Route path="/it/backend/nodejs/concurrency" element={<ConcurrencyVsParallelism/>} />
+                        <Route path="/it/backend/nodejs/dependencies" element={<ModulesDependencies/>} />
 
                         <Route path="/it/backend/express" element={<Express/>} />
                         <Route path="/it/backend/fastify" element={<Fastify/>} />
