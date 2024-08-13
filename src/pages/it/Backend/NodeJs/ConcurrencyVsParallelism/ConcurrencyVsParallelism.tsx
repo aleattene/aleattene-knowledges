@@ -212,6 +212,8 @@ const ConcurrencyVsParallelism: React.FC = () => {
                 sospendere l'esecuzione corrente, nè eseguire altro codice in parallelo dentro lo stesso interprete.
             </p>
             <p>[IMG to fix] Rappresentazione Event Loop</p>
+            <h3>Timers, Poll e Check</h3>
+            <p></p>
         </div>
     );
 }

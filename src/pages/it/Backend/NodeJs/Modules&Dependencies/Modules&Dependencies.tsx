@@ -259,6 +259,40 @@ const ModulesDependencies: React.FC = () => {
                 ovvero non è definita come funzione asincrona, ed è proprio questo il motivo per cui non è possibile
                 utilizzare <code>await</code> nel livello più alto del codice dei moduli CommonJS.</i>
             </p>
+            <h3>Cache</h3>
+            <p>Tutti i moduli importati tramite <code>require()</code> vengono salvati in una cache interna di NodeJS
+                dopo il primo caricamento. Questo ci dice in sostanza che il codice contenuto nei moduli viene eseguito
+                una volta sola e gli oggetti esportati con <code>exports</code> o <code>module</code> sono sempre gli
+                stessi, indipendentemente dal file in cui importiamo il modulo.
+            </p>
+            <p>Per meglio comprendere creiamo un modulo contenente una variabile contatore e che espone tre funzioni
+                all'esterno, per incrementarla, decrementarla e restituire il valore corrente:
+            </p>
+            <JavascriptCode code={`
+                // File modules/counter-condiviso.js
+                let counter = 0;
+                exports.increment = () => ++counter;
+                exports.decrement = () => --counter;
+                exports.value = () => counter;
+            `}/>
+            <p>Creiamo poi un file che importa due volte il modulo e ne utilizza le funzioni:</p>
+            <JavascriptCode code={`
+                // File: counter-use.js
+                const counter1 = require('./modules/counter-condiviso');
+                const counter2 = require('./modules/counter-condiviso');
+                
+                counter1.increment();
+                counter2.increment();
+                
+                console.log(counter1.value()); // 2
+            `}/>
+            <p>Il risultato ottenuto conferma il meccanismo di caching descritto precedentemente.
+                Qualora si voglia rendere il modulo unico per ogni sua importazione, bisogna restituire una funzione
+                che, una volta eseguita, genera una versione personalizzata del modulo (in questo caso solo una
+                funzione). (???)
+            </p>
+
+
         </div>
     );
 };

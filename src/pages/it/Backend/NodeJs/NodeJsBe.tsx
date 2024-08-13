@@ -2095,6 +2095,31 @@ const NodeJsBe: React.FC = () => {
                     <li>Transform</li>
                 </ul>
             </p>
+            <h3>Readable</h3>
+            <p>Questo tipo di stream rappresenta un'astrazione in cui c'è una sorgente che produce dati che possono
+                essere letti attraverso lo stream.
+                La classe che definisce questo tipo di stream è la <code>Readable</code>, esposta dal modulo
+                <code>stream</code> di NodeJs.
+                Una concreta implementazione l'abbiamo già vista con la funzione <code>fs.createReadStream()</code> la
+                quale restituisce infatti un oggetto <code>fs.ReadStream</code> che è un'istanza della classe
+                <code>ReadStream</code> che estende la classe <code>Readable</code>.
+                Un'altra classe che implementa l'interfaccia <code>Readable</code> è la classe
+                <code>Socket</code> del modulo <code>net</code> di NodeJs. Esempio:
+                <JavascriptCode code={`
+                    // File stream-tcp-logger
+                    import net from 'net';
+                    
+                    const server = net.createServer();
+                    
+                    server.listen(5050, 'localhost');
+                    
+                    server.on('connection', (socket) => {
+                        socket.on('data', (chunk) => {
+                            console.log(\`Received data event with \${chunk.length} bytes\`);
+                        });
+                    }); 
+                `}/>
+            </p>
         </div>
     )
 };
