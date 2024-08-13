@@ -291,8 +291,58 @@ const ModulesDependencies: React.FC = () => {
                 che, una volta eseguita, genera una versione personalizzata del modulo (in questo caso solo una
                 funzione). (???)
             </p>
-
-
+            <h2>Moduli EcmaScript</h2>
+            <p>Sappiamo che NodeJS ha supportato sin dalla sua nascita i moduli CommonJS, ma questi non erano l'unica
+                soluzione disponibile nell'ecosistema JS, infatti nella applicazioni JS per browser era molto usato il
+                sistema RequireJS basato sul concetto di AMD (Asynchronous Module Definition).
+                Nel 2015 però, il TC39 ha rilasciato ES2015/ES6 e tra le tante novità introdotte figurarono i moduli JS,
+                ovvero gli EcmaScript Modules (ES/ESM).
+                Con questo rilascio il problema dei moduli viene quindi risolto per tutto l'eccosistema JS grazie
+                appunto alla creazione di uno standard.
+                Nel 2017 gli sviluppatori di NodeJS hanno iniziato a discutere sul come includere il nuovo sistema di
+                moduli facendolo comunque convivere con quello già esistente, per poi giungere infine al 2019 quando
+                i moduli ES vengono rilasciati come stabili ed attivati in modo predefinito sulle nuove versione di
+                NodeJS.
+            </p>
+            <h3>Import e Export</h3>
+            <p>Vediamo subito un esempio:</p>
+            <JavascriptCode code={`
+                // File: modules/read-file-lines.mjs
+                // Import di una funzione con sintassi ESM
+                import { readFile } from 'node:fs/promises';
+                
+                const encoding = 'utf-8';
+                const separator = '\\n';
+                
+                async function readFileLines(filePath, sep = separator, enc = encoding) {
+                    const fileContent = await readFile(filePath, { encoding: enc });
+                    const lines = fileContent.split(sep);
+                    return lines;
+                }
+                
+                // Export di funzioni e costanti con sintassi ESM
+                export { readFileLines, separator, encoding };
+            `}/>
+            <p>Osserviamo in questo caso che quello che verrà esportato attraverso la keyword <code>export</code> sarà
+                proprio ciò che verrà ricevuto da chi importerà il modulo ed userà il nome da noi indicato per estrarre
+                gli elementi da utilizzare:
+            </p>
+            <JavascriptCode code={`
+                // File: read-file-lines.mjs
+                // Import di funzioni e costanti con sintassi ESM (estensione inclusa nel nome del file)
+                import { readFileLines, encoding } from './modules/read-file-lines.mjs';
+                
+                const file = process.argv[2];
+                const lines = await readFileLines(file);
+                console.log(\`Il file \${file} (\${encding}) contiene \${lines.length} righe.\`);
+            `}/>
+            <p><i>Aspetto importante di questo piccolo script è la presenza (sempre necessaria) dell'estensione nel
+            path completo del file da importare, in quanto in caso contrario riceveremmo l'errore
+            <code>ERR_MODULE_NOT_FOUND</code>.</i></p>
+            <TerminalCode code={`
+                $ node read-file-lines.mjs file.txt
+                Il file file.txt (utf-8) contiene 10 righe.
+            `}/>
         </div>
     );
 };
