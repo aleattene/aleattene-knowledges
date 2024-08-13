@@ -224,6 +224,41 @@ const ModulesDependencies: React.FC = () => {
                 otterremmo un errore di tipo <code>ERR_UNKNOWN_BUILTIN_MODULE</code>.
             </p>
 
+            <h3>Wrapper</h3>
+            <p>Quando un modulo viene caricato attraverso la funzione <code>require()</code>, il codice contenuto nel
+                file che lo definisce viene eseguito all'interno di una funzione wrapper, che fornisce alcuni degli
+                oggetti sempre disponibili:
+            </p>
+            <JavascriptCode code={`
+                function(exports, require, module, __filename, __dirname) {
+                    // Codice del modulo che si sta caricando
+                };
+            `}/>
+            <p>Quando esportiamo le funzionalità di un modulo usando oggetti quali ad esempio <code>exports</code> o
+                <code>module</code>, lo facciamo usando code JS che sarà poi eseguito in modo normale.
+                Se quegli oggetti non dovessero esistere al momento dell'esecuzione del codice, l'interprete JS
+                produrrebbe un errore, interrompendo l'esecuzione del programma.
+                Invece grazie a questo meccanismo, i moduli possono accedervi ed usarli.
+                Inoltre, l'uso di questa funzione permette a NodeJS di isolare ogni modulo da tutti gli altri, rendendo
+                accessibile dall'esterno solo quello che è stato esportato.
+                Se così non fosse, non potremmo avere funzioni o variabili con nomi uguali in file diversi.
+            </p>
+            <p>Tra gli altri oggetti messi a disposizione dei moduli attraverso il wrapper troviamo le stringhe:
+                <ul>
+                    <li><code>__filename</code> che contiene il path completo del modulo</li>
+                    <li><code>__dirname</code> che contiene il path della cartella contenente il modulo</li>
+                </ul>
+            </p>
+            <p>Infine abbiamo la presenza di <code>require</code> che è la funzione che già conosciamo e che utilizziamo
+                per importare i moduli.
+                Il fatto che questa funzione sia tra gli elementi passati dal wrapper ai moduli ci porta alla
+                conclusione che anche quelli che definiamo script o file principali, per NodeJS sono sempre moduli; ecco
+                allora che quando si afferma che per CommonJS ogni file è un modulo, si intende esattamente questo.
+            </p>
+            <p><i>Aspetto da non tralasciare è quello relativo all'osservazione di come è definita la funzione wrapper,
+                ovvero non è definita come funzione asincrona, ed è proprio questo il motivo per cui non è possibile
+                utilizzare <code>await</code> nel livello più alto del codice dei moduli CommonJS.</i>
+            </p>
         </div>
     );
 };
