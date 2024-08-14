@@ -1,5 +1,4 @@
 import React from 'react';
-import JavascriptCode from "../../../../components/Code/JavascriptCode/JavascriptCode.tsx";
 import TypescriptCode from "../../../../components/Code/TypescriptCode/TypescriptCode.tsx";
 
 const ReactFe: React.FC = () => {
