@@ -35,7 +35,7 @@ const ReactFe: React.FC = () => {
             <p>La funzione <code>ReactDOM.createRoot</code> crea, nell’elemento selezionato del DOM (il div con id
                 root), la radice (il contenitore) in cui visualizzare gli elementi generati da React.
                 La funzione render poi, mostra all’interno di questa radice l’elemento passato come parametro
-                (in questo caso <code>&lt;h1&gt;Todo app&lt;/h1&gt;</code>), permettendoci di vedere il risultato nel browser.
+                (in questo caso <code>&lt;h1&gt;Web App&lt;/h1&gt;</code>), permettendoci di vedere il risultato nel browser.
             </p>
             <p>L’elemento del DOM in cui visualizzare l’output di React viene recuperato con l’apposita funzione
                 <a href={'https://developer.mozilla.org/en-US/docs/Web/API/Document/getElementById'}>
@@ -43,7 +43,7 @@ const ReactFe: React.FC = () => {
                 </a>
                 fornita dal browser.
             </p>
-            <p><i>Attenzione: un elemento React (come ad esempio <code>&lt;h1&gt;Todo app&lt;/h1&gt;</code>) non è un normale
+            <p><i>Attenzione: un elemento React (come ad esempio <code>&lt;h1&gt;Web app&lt;/h1&gt;</code>) non è un normale
                 elemento del DOM, ma è un oggetto JavaScript; React si occuperà poi di mostrarlo per noi nel DOM
                 del browser, quando necessario.</i>
             </p>
