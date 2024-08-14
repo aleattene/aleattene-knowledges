@@ -34,7 +34,8 @@ const ReactFe: React.FC = () => {
             <p>La funzione <code>ReactDOM.createRoot</code> crea, nell’elemento selezionato del DOM (il div con id
                 root), la radice (il contenitore) in cui visualizzare gli elementi generati da React.
                 La funzione render poi, mostra all’interno di questa radice l’elemento passato come parametro
-                (in questo caso <code>&lt;h1&gt;Web App&lt;/h1&gt;</code>), permettendoci di vedere il risultato nel browser.
+                (in questo caso <code>&lt;h1&gt;Web App&lt;/h1&gt;</code>), permettendoci di vedere il risultato nel
+                browser.
             </p>
             <p>L’elemento del DOM in cui visualizzare l’output di React viene recuperato con l’apposita funzione
                 <a href={'https://developer.mozilla.org/en-US/docs/Web/API/Document/getElementById'}>
@@ -42,7 +43,8 @@ const ReactFe: React.FC = () => {
                 </a>
                 fornita dal browser.
             </p>
-            <p><i>Attenzione: un elemento React (come ad esempio <code>&lt;h1&gt;Web app&lt;/h1&gt;</code>) non è un normale
+            <p><i>Attenzione: un elemento React (come ad esempio <code>&lt;h1&gt;Web app&lt;/h1&gt;</code>) non è un
+                normale
                 elemento del DOM, ma è un oggetto JavaScript; React si occuperà poi di mostrarlo per noi nel DOM
                 del browser, quando necessario.</i>
             </p>
@@ -65,8 +67,9 @@ const ReactFe: React.FC = () => {
             <p>Anche React manipola il DOM, ma lo fa usando la tecnica del <strong>Virtual DOM</strong>, ovvero invece
                 di modificare direttamente il contenuto del DOM, React mantiene in memoria un modello del DOM
                 (il virtual DOM) e gli applica tutte le modifiche quando l’interfaccia cambia.
-                <i>Questo modello contiene al suo interno tutti gli elementi dell’interfaccia, rappresentati come normali
-                oggetti JavaScript.</i>
+                <i>Questo modello contiene al suo interno tutti gli elementi dell’interfaccia, rappresentati come
+                    normali
+                    oggetti JavaScript.</i>
             </p>
             <p>Dopo aver modificato questo modello in memoria, tramite uno speciale algoritmo React calcola la
                 differenza tra il DOM del browser e il suo modello e successivamente nel DOM del browser verranno
@@ -98,6 +101,31 @@ const ReactFe: React.FC = () => {
                 ReactDOM
                     .createRoot(document.getElementById('root'))
                     .render(helloElement);
+            `}/>
+            <h3>Classname</h3>
+            <p>Come per i normali elementi HTML, anche per quelli definiti in JSX è chiaramente possibile utilizzare
+                degli attributi:</p>
+            <TypescriptCode code={`
+                <\h1 id="title">Todo app</h1>
+            `}/>
+            <p>Tuttavia, essendo JSX un’estensione di JavaScript (e non di HTML), segue la convenzione (comune nel
+                mondo JavaScript) di avere le proprietà composte da più parole scritte in camelCase (nomeAttributo)
+                invece del modo nome-attributo usato normalmente con HTML (separato da un trattino).
+                Inoltre, anche alcuni attributi che in HTML sono composti da una sola parola, in JSX sono trasformati
+                in camelCase (per esempio, l’attributo <code>tabindex</code> usato in HTML, diventa
+                <code>tabIndex</code> in JSX.
+            </p>
+            <p>In React è quindi possibile utilizzare tutti i normali attributi HTML, ma alcuni di questi richiedono un
+                diverso utilizzo rispetto alle loro controparti HTML; un caso speciale è quello dell’attributo HTML
+                <code>class</code>, che in JSX diventa <strong><code>className</code></strong>:
+            </p>
+            <TypescriptCode code={`
+                const helloElement = (
+                    <\div>
+                       <h1 className="title">Todo app</h1>
+                       <p className="message">Benvenuto!</p>
+                    </div>
+                );
             `}/>
 
 
