@@ -127,9 +127,115 @@ const ReactFe: React.FC = () => {
                     </div>
                 );
             `}/>
+            <h3>Style</h3>
+            <p>Per dare uno stile inline a un elemento JSX, possiamo usare l’attributo
+                <strong><code>style</code></strong> al posto di <code>className</code>.
+            </p>
+            <TypescriptCode code={`
+                const helloElement = (
+                    <\p style={{color: 'red'}}>Benvenuto!</p>”
+            `}/>
+            <p>La sintassi <code>style=&#123;&#123; &#125;&#125;</code> (con le doppie graffe) è necessaria perché, rispetto a quanto fatto
+                con <code>className</code>, qui non stiamo passando una stringa come valore dell’attributo:
+                <ul>
+                    <li>la coppia più esterna di graffe indica a JSX che il valore dell’attributo sarà quello prodotto
+                        dal codice JavaScript contenuto al suo interno.</li>
+                    <li>la coppia più interna, invece, è quella che usiamo per definire un normale oggetto JavaScript
+                        con le sue proprietà. In questo caso l’oggetto ha una sola proprietà color con valore 'red'
+                        (una normale stringa).
+                    </li>
+                </ul>
+                Nell’oggetto style possono essere usate tutte le normali proprietà CSS, ma i loro nomi vanno convertiti
+                (come abbiamo precedentemente detto) in camelCase (come per gli attributi HTML).
+                Quindi, per esempio, <code>font-size</code> diventerà <strong><code>fontSize</code></strong>.
+            </p>
+            <TypescriptCode code={`
+                // File HTML
+                <\p style="color: red; font-size: 12px; line-height: 2">Benvenuto!</p>
+                
+                // File JSX
+                <p style={{color: 'red', fontSize: '12px', lineHeight: 2}}>Benvenuto!</p>
+            `}/>
+            <p>Se il valore della proprietà è un numero, possiamo passarlo come tale, altrimenti dobbiamo inserirlo in
+                una stringa, come nel caso di <code>12px</code>.
+                Volendo, possiamo anche definire un oggetto JavaScript con le proprietà dello stile e poi passarlo
+                all’attributo style.
+            </p>
+            <TypescriptCode code={`
+                const helloStyle = { color: 'red', fontSize: '12px', lineHeight: 2 };
+                const helloElement = (
+                <\div>
+                    <p style={helloStyle}>Benvenuto!</p>
+                </div>
+                );
+            `}/>
+            <h3>Closing e Self-Closing tag</h3>
+            <TypescriptCode code={`
+                const helloElement = (
+                    <\div>
+                        <h1>Todo app</h1>
+                        <p>Benvenuto!</p>
+                        <img src="https://via.placeholder.com/728x90.png?text=Todo+app"/>
+                        <img src="https://via.placeholder.com/728x90.png?text=Todo+app"></img>
+                    </div>
+                );
 
-
-
+                ReactDOM
+                    .createRoot(document.getElementById('root'))
+                    .render(helloElement);
+            `}/>
+            <p> I componenti React ci permettono di dividere le nostre interfacce in parti indipendenti e riutilizzabili,
+                oltre che di fatto rappresentare il passo successivo rispetto ai semplici elementi visti sino ad ora.
+                Per definire un componente è sufficiente creare una normale funzione JavaScript che restituisca
+                elementi React: ogni volta che la funzione viene eseguita, viene generato e restituito l’elemento
+                definito al suo interno.
+            </p>
+            <TypescriptCode code={`
+                // Definizione di un componente
+                function App() {
+                    return ( 
+                        <\div>
+                            <h1>Web app</h1>
+                            <p>Benvenuto!</p>
+                        </div>
+                    );
+                };
+                    
+                ReactDOM
+                    .createRoot(document.getElementById('root'))
+                    .render(<App />);
+            `}/>
+            <p>La funzione <code>App</code>è il nostro componente React, e come tale possiamo usarlo nel codice JSX
+                usando ognuno il proprio tag identificativo:
+            </p>
+            <TypescriptCode code={`
+                <\App></\App> oppure direttamente self-closing <App /> (anche se non è propriamente la stessa cosa)
+            `}/>
+            <p>I nomi dei componenti, e quindi le funzioni che li definiscono, devono sempre iniziare con una lettera
+                maiuscola; questo è necessario per indicare a React che non si tratta di normali elementi HTML ma di
+                componenti.
+                I componenti possono essere composti, a loro volta, da altri componenti, così da poter realizzare
+                interfacce complesse, lavorando però sempre in blocchi singoli e separati, che possono essere sempre
+                riutilizzati. Vediamo un esempio:
+            </p>
+            <TypescriptCode code={`
+                function AppTitle () { return <\h1>Web app</h1>; }
+                    
+                function AppMessage() { return <p>Benvenuto!</p>; }
+                    
+                function App() {    
+                    return ( 
+                        <div> 
+                            <AppTitle />
+                            <AppMessage />
+                        </div>
+                    );
+                }
+                    
+                ReactDOM    
+                    .createRoot(document.getElementById('root'))    
+                    .render(<App />);
+            `}/>
         </div>
     );
 };
