@@ -175,6 +175,57 @@ const Python: React.FC = () => {
                 
                 Python Program ----> PyMongo ----> MongoDB
             `}/>
+            <h2>Dunder (Special) Methods</h2>
+            <p>I metodi dunder (double underscore) sono metodi speciali in Python che vengono invocati in modo
+                automatico in determinate circostanze. (???)
+            </p>
+
+            <h3>Inizializzazione a Rappresentazione</h3>
+            <p><code>__init</code> : imposta un nuovo oggetto con dei valori iniziali.</p>
+            <p><code>__str__</code> : restituisce una rappresentazione stringa leggibile di un oggetto.</p>
+            <p><code>__repr__</code> : restituisce una stringa dettagliata che mostra come ricreare un oggetto.</p>
+
+            <h3>Manipolazione di Collezioni</h3>
+            <p><code>__len__</code> : restituisce la lunghezza di una collezione (numero di elementi).</p>
+            <p><code>__getitem__</code> : restituisce un elemento di una collezione sulla base dell'indice.</p>
+            <p><code>__setitem__</code> : imposta (o modifica) un elemento di una collezione sulla base dell'indice.
+            </p>
+            <p><code>__delitem__</code> : elimina un elemento da una collezione sulla base dell'indice.</p>
+            <p><code>__iter__</code> : restituisce un iteratore (quindi oggetto iterabile tramite un ciclo) da una
+                collezione.
+            </p>
+            <p><code>__next__</code> : restituisce il prossimo elemento di un iteratore (oggetto usato in un loop).</p>
+            <p><code>__contains__</code> : verifica se un qualcosa è presente in una collezione.</p>
+
+            <h3>Operatori di Comparazione</h3>
+            <p><code>__eq__</code> : verifica se due oggetti sono uguali, usando <code>==</code>.</p>
+            <p><code>__ne__</code> : verifica se due oggetti sono diversi, usando <code>!=</code>.</p>
+            <p><code>__lt__</code> : verifica se un oggetto è minore di un altro, usando <code>&lt;</code>.</p>
+            <p><code>__le__</code> : verifica se un oggetto è minore o uguale a un altro, usando <code>&lt;=</code>.</p>
+            <p><code>__gt__</code> : verifica se un oggetto è maggiore di un altro, usando <code>&gt;</code>.</p>
+            <p><code>__ge__</code> : verifica se un oggetto è maggiore o uguale a un altro, usando <code>&gt;=</code>.
+            </p>
+
+            <h3>Operatori Aritmetici</h3>
+            <p><code>__add__</code> : definisce la somma tra oggetti usando <code>+</code>.</p>
+            <p><code>__sub__</code> : definisce la sottrazione tra oggetti usando <code>-</code>.</p>
+            <p><code>__mul__</code> : definisce la moltiplicazione tra oggetti usando <code>*</code>.</p>
+            <p><code>__truediv__</code> : definisce la divisione tra oggetti usando <code>/</code>.</p>
+            <p><code>__floordiv__</code> : definisce la divisione intera tra oggetti usando <code>//</code>.</p>
+            <p><code>__mod__</code> : definisce il resto tra oggetti usando <code>%</code>.</p>
+            <p><code>__pow__</code> : definisce l'esponente tra oggetti usando <code>**</code>.</p>
+
+            <h3>Altri Operatori</h3>
+            <p><code>__call__</code> : permette di far comportare l'oggetto come una funzione.</p>
+            <p><code>__enter__</code> : imposta qualcosa (come una risorsa) per essere utilizzata con l'istruzione
+                <code>with</code>.
+            </p>
+            <p><code>__exit__</code> : pulisce (???) la risorsa quando ha finito di usare un'istruzione with</p>
+            <p><code>__hash__</code> : restituisce il valore numerico univoci di un oggetto usato in tabelle di
+                hash.
+            </p>
+            <p><code>__bool__</code> : controllo se un oggetto è considerato vero o falso.</p>
+
         </div>
     );
 };
