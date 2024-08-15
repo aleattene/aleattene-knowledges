@@ -162,6 +162,19 @@ const Python: React.FC = () => {
                     <PythonCode code={`x **= 2   # equivale a x = x ** 2`}/>
                 </li>
             </ul>
+            <h3>Python ed Interazione con i DB</h3>
+            <p>[TO FIX] Img python program -&gt; API -&gt; DBMS</p>
+            <TerminalCode code={`
+                Python Program ------>  API  -----> DBMS
+                
+                Python Program ----> psycopg2 ----> PostgreSQL
+                
+                Python Program ----> MySQL Connector / Python ----> MySQL
+                
+                Python Program ----> pyodbc ----> MS SQL Server
+                
+                Python Program ----> PyMongo ----> MongoDB
+            `}/>
         </div>
     );
 };
