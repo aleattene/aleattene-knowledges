@@ -40,6 +40,7 @@ import Express from "./pages/it/Backend/Express/Express.tsx";
 import Fastify from "./pages/it/Backend/Fastify/Fastify.tsx";
 import ConcurrencyVsParallelism from "./pages/it/Backend/NodeJs/ConcurrencyVsParallelism/ConcurrencyVsParallelism.tsx";
 import ModulesDependencies from "./pages/it/Backend/NodeJs/Modules&Dependencies/Modules&Dependencies.tsx";
+import TuplePy from "./pages/it/Languages/Python/Tuples/TuplePy.tsx";
 
 
 const App: React.FC = () => {
@@ -74,6 +75,7 @@ const App: React.FC = () => {
                         <Route path="/it/languages/python/strings" element={<StringPy/>} />
                         <Route path="/it/languages/python/variables" element={<VariablePy/>} />
                         <Route path="/it/languages/python/lists" element={<ListPy/>} />
+                        <Route path="/it/languages/python/tuples" element={<TuplePy/>} />
                         <Route path="/it/languages/python/dictionaries" element={<DictionaryPy/>} />
                         <Route path="/it/languages/python/sets" element={<SetPy/>} />
                         <Route path="/it/languages/php" element={<Php/>} />
