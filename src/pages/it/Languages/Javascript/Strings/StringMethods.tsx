@@ -36,6 +36,34 @@ const StringMethods: React.FC = () => {
             <p>Output:</p>
             <TerminalCode code={'true'}/>
 
+            <h3>includes</h3>
+            <p>Verifica, restituendo true o false, se una stringa include uno specifico carattere o stringa:</p>
+            <JavascriptCode code={`
+                const stringa = "Hello";
+                console.log(stringa.includes("x"));  
+            `}/>
+            <p>Output:</p>
+            <TerminalCode code={'false'}/>
+
+            <h3>indexOf</h3>
+            <p>Restituisce l'indice della prima occorrenza di un carattere o di una stringa all'interno di un'altra
+                stringa:</p>
+            <JavascriptCode code={`
+                const stringa = "Hello";
+                console.log(stringa.indexOf("l"));  
+            `}/>
+            <p>Output:</p>
+            <TerminalCode code={'2'}/>
+
+            <h3>lastIndexOf</h3>
+            <p>Restituisce l'indice dell'ultima occorrenza di un carattere o di una stringa all'interno di un'altra
+                stringa:</p>
+            <JavascriptCode code={`
+                const stringa = "Hello";
+                console.log(stringa.lastIndexOf("l"));  
+            `}/>
+            <p>Output:</p>
+            <TerminalCode code={'3'}/>
 
         </div>
     );
