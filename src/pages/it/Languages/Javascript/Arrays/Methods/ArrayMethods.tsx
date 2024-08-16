@@ -295,7 +295,50 @@ const ArrayMethods: React.FC = () => {
                 console.log(ages);          // [32, 33, 16, 40]
             `}/>
 
-
+            <h2> Metodo
+                <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/flat"
+                   target="_blank" rel="noopener noreferrer">
+                    <code className='documentation-link'> flat </code>
+                </a>
+            </h2>
+            <p>Questo metodo crea un nuovo array unidimensionale (partendo da un array multidimensionale) con tutti gli
+                elementi dei sub-arrays concatenati in modo ricorsivo fino alla profondità specificata.</p>
+            <h3>Sintassi:</h3>
+            <JavascriptCode code={`array.flat(depth)`}/>
+            <p>dove <code>depth</code> è la profondità di ricorsione per concatenare gli array interni. Se non viene
+                specificata, di default assume valore 1. (??? valore negativo)</p>
+            <h3>Esempio:</h3>
+            <JavascriptCode code={`
+                const numbers = [1, 2, [3, 4, [5, 6]]];
+                const flatNumbers = numbers.flat(INFINITY);
+                console.log(flatNumbers);
+            `}/>
+            <p>Output:</p>
+            <TerminalCode code={`[1, 2, 3, 4, 5, 6]`}/>
+            <h3>Esempio (da array unidimensionale a array unidimensionale):</h3>
+            <JavascriptCode code={`
+                const numbers = [1, 2, 3, 4, 5];
+                const flatNumbers = numbers.flat();
+                console.log(flatNumbers);
+            `}/>
+            <p>Output:</p>
+            <TerminalCode code={`[1, 2, 3, 4, 5]`}/>
+            <h3>Esempio (da array bidimensionale a array unidimensionale):</h3>
+            <JavascriptCode code={`
+                const numbers = [1, 2, [3, 4], 5]];
+                const flatNumbers = numbers.flat();
+                console.log(flatNumbers);
+            `}/>
+            <p>Output:</p>
+            <TerminalCode code={`[1, 2, 3, 4, 5]`}/>
+            <h3>Esempio (da array multidimensionale a array bidimensionale):</h3>
+            <JavascriptCode code={`
+                const numbers = [1, [2, [3, [4]]]];
+                const flatNumbers = numbers.flat(2);
+                console.log(flatNumbers);
+            `}/>
+            <p>Output:</p>
+            <TerminalCode code={`[1, 2, 3, [4]]`}/>
         </div>
     );
 };
