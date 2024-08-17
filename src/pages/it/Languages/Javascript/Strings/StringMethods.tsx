@@ -186,6 +186,41 @@ const StringMethods: React.FC = () => {
             <p>Output:</p>
             <TerminalCode code={'["H", "e", "l", "l", "o"]'}/>
 
+            <h3>startsWith</h3>
+            <p>Verifica, restituendo true o false, se una stringa inizia con uno specifico carattere o stringa:</p>
+            <JavascriptCode code={`
+                const stringa = "Hello";
+                console.log(stringa.startsWith("H"));   # true
+                console.log(stringa.startsWith("e"));   # false  
+            `}/>
+
+            <h3>substring</h3>
+            <p>Restituisce una sotto-stringa compresa tra due indici specificati di una stringa:</p>
+            <JavascriptCode code={`
+                const stringa = "Hello World";
+                console.log(stringa.substring(2, 4));  
+            `}/>
+            <p>Output:</p>
+            <TerminalCode code={'ll'}/>
+
+            <h3>toLowerCase</h3>
+            <p>Converte tutti i caratteri di una stringa in minuscolo:</p>
+            <JavascriptCode code={`
+                const stringa = "Hello";
+                console.log(stringa.toLowerCase());
+            `}/>
+            <p>Output:</p>
+            <TerminalCode code={'hello'}/>
+
+            <h3>toUpperCase</h3>
+            <p>Converte tutti i caratteri di una stringa in maiuscolo:</p>
+            <JavascriptCode code={`
+                const stringa = "Hello";
+                console.log(stringa.toUpperCase());
+            `}/>
+            <p>Output:</p>
+            <TerminalCode code={'HELLO'}/>
+
         </div>
     );
 }
