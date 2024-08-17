@@ -2,6 +2,7 @@ import React from 'react';
 import './ListPy.css'
 import Table from "../../../../../components/Table/Table.tsx";
 import PythonCode from "../../../../../components/Code/PythonCode/PythonCode.tsx";
+import TerminalCode from "../../../../../components/Code/TerminalCode/TerminalCode.tsx";
 
 const pythonListMethods = [
     { Method: 'append()', Description: 'Aggiunge un elemento alla fine della lista.', Example: 'my_list.append(4)' },
@@ -71,11 +72,32 @@ const ListPy: React.FC = () => {
                 print(my_list2)     # Output: [10, 60, 30] modificata solo questa lista
                 print(my_list)      # Output: [10, 20, 30] lista originale non modificata
             `}/>
-
-
-
-
-
+            <h2>List Comprehension</h2>
+            <p>Le <code>list comprehension</code> sono una sintassi concisa per creare liste.</p>
+            <h3>Sintassi:</h3>
+            <PythonCode code={`
+                new_list = [expression for item in iterable if condition] 
+                
+                # Equivalente a:
+                iterable = []
+                for item in iterable:
+                    if condition:
+                        expression
+            `}/>
+            <h3>Esempio:</h3>
+            <PythonCode code={`
+                # Lista Originale di numeri
+                numbers = [1, 2, 3, 4, 5]
+                
+                # Generazione di una lista con solo i numeri pari della lista numbers
+                even_numbers = [x for x in numbers if x % 2 == 0]
+                
+                print(even_numbers)
+            `}/>
+            <p>Output:</p>
+            <TerminalCode code={`
+                [2, 4]
+            `}/>
 
             <h2>Metodi delle Liste</h2>
             <Table headers={['Metodo', 'Descrizione', 'Esempio']} data={pythonListMethods}/>
