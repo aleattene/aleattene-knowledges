@@ -2,6 +2,7 @@ import React from 'react';
 import './DictionaryPy.css'
 import Table from "../../../../../components/Table/Table.tsx";
 import PythonCode from "../../../../../components/Code/PythonCode/PythonCode.tsx";
+import TerminalCode from "../../../../../components/Code/TerminalCode/TerminalCode.tsx";
 
 
 const pythonDictMethods = [
@@ -114,8 +115,33 @@ const DictionaryPy: React.FC = () => {
                 chiave-valore del dizionario ottenuto trasformando la lista di tuple list2 in un dizionario.</i>
             </p>
 
-
-
+            <h2>Dict Comprehension</h2>
+            <p>Le <code>dict comprehension</code> sono una sintassi concisa per creare dizionari.</p>
+            <h3>Sintassi:</h3>
+            <PythonCode code={`
+                new_dict = {chiave: valore for item in iterable if condition}
+                
+                # Equivalente a:
+                iterable = []
+                for item in iterable:
+                    if condition:
+                        key = value
+            `}/>
+            <h3>Esempio:</h3>
+            <PythonCode code={`
+                # Stringa originale
+                word = 'python'
+                
+                # Generazione di un dizionario con il valore ASCII di ogni carattere della stringa
+                ord_dict = {char: ord(char) for char in word}
+                
+                print(ord_dict)
+            `}/>
+            <p>Output:</p>
+            <TerminalCode code={`
+                // Dizionario generato con chiave il carattere e valore il suo codice ASCII
+                { 'p': 112, 'y': 121, 't': 116, 'h': 104, 'o': 111, 'n': 110 }
+            `}/>
 
             <h2>Metodi dei Dizionari</h2>
             <Table headers={['Metodo', 'Descrizione', 'Esempio']} data={pythonDictMethods}/>
