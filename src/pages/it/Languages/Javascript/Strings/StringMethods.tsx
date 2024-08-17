@@ -150,7 +150,41 @@ const StringMethods: React.FC = () => {
             <p>Output:</p>
             <TerminalCode code={'He--o'}/>
 
+            <h3>search</h3>
+            <p>Ritorna l'indice della prima occorrenza di un'espressione regolare all'interno di una stringa:</p>
+            <JavascriptCode code={`
+                const stringa = "Hello Hello";
+                console.log(stringa.search('e'));  
+            `}/>
+            <p>Output:</p>
+            <TerminalCode code={'1'}/>
 
+            <h3>slice</h3>
+            <p>Restituisce una sotto-stringa compresa tra due indici (secondo escluso) specificati di una stringa:</p>
+            <JavascriptCode code={`
+                const stringa = "Hello World";
+                console.log(stringa.slice(1, 4));  
+            `}/>
+            <p>Output:</p>
+            <TerminalCode code={'ell'}/>
+
+            <h3>split</h3>
+            <p>Converte una stringa in un array di sotto-stringhe (o caratteri), suddividendo la stringa originale sulla
+                base di un separatore (specificato come parametro):</p>
+            <JavascriptCode code={`
+                const stringa = "Hello World";
+                console.log(stringa.split(" "));  
+            `}/>
+            <p>Output:</p>
+            <TerminalCode code={'["Hello", "World"]'}/>
+            <p>Se non viene passato alcun separatore il metodo è solitamente utilizzato per trasformare una stringa in
+                un array di caratteri:</p>
+            <JavascriptCode code={`
+                const stringa = "Hello";
+                console.log(stringa.split(""));  
+            `}/>
+            <p>Output:</p>
+            <TerminalCode code={'["H", "e", "l", "l", "o"]'}/>
 
         </div>
     );
