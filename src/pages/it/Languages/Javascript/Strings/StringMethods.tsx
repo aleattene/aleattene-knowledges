@@ -96,6 +96,59 @@ const StringMethods: React.FC = () => {
             <p>Output:</p>
             <TerminalCode code={'__Hello'}/>
 
+            <h3>repeat</h3>
+            <p>Ritorna una stringa composta da un numero specificato (parametro) di copie della stringa originale.
+                Se il parametro passato ha valore 0, viene restituita una stringa vuota:
+            </p>
+            <JavascriptCode code={
+                `const stringa = "Hello";
+                
+                const stringa_ripetuta = stringa.repeat(3);
+                const stringa_vuota = stringa.repeat(0);
+                
+                console.log(stringa_ripetuta);
+                console.log(stringa_vuota);
+            `}/>
+             <p>Output:</p>
+            <TerminalCode code={`
+                    // Stringa ripetuta 3 volte
+                    HelloHelloHello     
+                    
+                    // Stringa vuota
+                    ""
+            `}/>
+
+            <h3>replace</h3>
+            <p>Sostituisce una stringa/sotto-stringa (singola occorrenza) con un'altra stringa:</p>
+            <JavascriptCode code={`
+                // Stringa originale
+                const stringa = "Hello";
+                
+                // Sostituzione intera stringa
+                const stringa_replaced = stringa.replace("Hello", "World");
+                console.log(stringa_replaced);          # World
+                
+                // Sostituzione sotto-stringa unitaria
+                const stringa_replaced2 = stringa.replace("l", "X");
+                console.log(stringa_replaced2);          # HeXlo
+                
+                // Sostituzione sotto-stringa
+                const stringa_replaced3 = stringa.replace('llo', "y");
+                console.log(stringa_replaced3);          # Hey
+            `}/>
+
+            <h3>replaceAll</h3>
+            <p>Sostituisce tutte le occorrenze di una stringa/sotto-stringa con un'altra stringa:</p>
+            <JavascriptCode code={`
+                // Stringa originale
+                const stringa = "Hello";
+
+                // Sostituzione sotto-stringa
+                const stringa_replaced = stringa.replaceAll('l', "-");
+                console.log(stringa_replaced);        
+            `}/>
+            <p>Output:</p>
+            <TerminalCode code={'He--o'}/>
 
 
 
