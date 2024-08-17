@@ -221,6 +221,32 @@ const StringMethods: React.FC = () => {
             <p>Output:</p>
             <TerminalCode code={'HELLO'}/>
 
+            <h3>trim</h3>
+            <p>Rimuove gli spazi bianchi all'inizio e alla fine di una stringa:</p>
+            <JavascriptCode code={`
+                const stringa = " Hello ";
+                console.log(stringa.trim());
+            `}/>
+            <p>Output:</p>
+            <TerminalCode code={'Hello'}/>
+
+            <h3>trimEnd</h3>
+            <p>Rimuove gli spazi bianchi alla fine di una stringa:</p>
+            <JavascriptCode code={`
+                const stringa = " Hello ";
+                console.log(stringa.trimEnd());
+            `}/>
+            <p>Output:</p>
+            <TerminalCode code={' Hello'}/>
+
+            <h3>trimStart</h3>
+            <p>Rimuove gli spazi bianchi all'inizio di una stringa:</p>
+            <JavascriptCode code={`
+                const stringa = " Hello ";
+                console.log(stringa.trimStart());
+            `}/>
+            <p>Output:</p>
+            <TerminalCode code={'Hello # (non vengono rimossi gli spazi bianchi di fine stringa)' }/>
         </div>
     );
 }
