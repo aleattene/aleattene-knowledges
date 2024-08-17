@@ -74,6 +74,9 @@ const Python: React.FC = () => {
                 
                 # Stampa del messaggio inserito dall'utente
                 print(messaggio)
+                
+                # Acquisizione di un numero intero dall'utente
+                numero = int(input("Inserisci un numero: "))
             `}/>
             <h3>Commenti</h3>
             <p>Per inserire commenti nel codice Python, si può utilizzare il simbolo <code>#</code>:</p>
@@ -226,6 +229,29 @@ const Python: React.FC = () => {
             </p>
             <p><code>__bool__</code> : controllo se un oggetto è considerato vero o falso.</p>
 
+
+            <h2>Strutture Dati</h2>
+            <p>Le strutture Dati altro non sono che dei contenitori che permettono di memorizzare più di un valore
+                all'interno di una variabile. In python abbiamo:
+            </p>
+            <ul>
+                <li><a href={"/it/languages/python/lists"}>
+                    <code className={'documentation-link'}>Liste</code>
+                </a> (mutabili): insieme di valori omogenei o eterogenei, indicizzati per posizione
+                </li>
+                <li><a href={"/it/languages/python/tuples"}>
+                    <code className={'documentation-link'}>Tuple</code>
+                </a> (immutabili)
+                </li>
+                <li><a href={"/it/languages/python/dictionaries"}>
+                    <code className={'documentation-link'}>Dizionari</code>
+                </a> : insieme di coppie chiave:valore
+                </li>
+                <li><a href={"/it/languages/python/sets"}>
+                    <code className={'documentation-link'}>Insiemi</code>
+                </a> (set): insiemi con elementi univoci non ripetibili
+                </li>
+            </ul>
         </div>
     );
 };
