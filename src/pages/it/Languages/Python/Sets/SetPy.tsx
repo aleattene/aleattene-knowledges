@@ -64,6 +64,32 @@ const SetPy: React.FC = () => {
                 # OR esclusivo (^) : ritorna un set contenente gli elementi che non sono comuni ai due set
                 set_symmetric_difference = my_set1 ^ my_set2    # {10, 20, 50, 60}
             `}/>
+            <h2>Set Comprehension</h2>
+            <p>La <code>Set Comprehension</code> è una sintassi che permette di creare un set in modo conciso.</p>
+            <h3>Sintassi:</h3>
+            <PythonCode code={`
+                new_set = {expression for item in iterable if condition}
+            `}/>
+            <p>In questo caso è bene osservare che qualora l'espressione produca dei duplicati, questi non verranno
+                ovviamente inseriti nel set.</p>
+            <h3>Esempio:</h3>
+            <PythonCode code={`
+                # Stringa originale
+                word = doppione
+                
+                # Creazione di un set con i caratteri della stringa (senza caratteri duplicati)
+                my_set = { char for char in word }
+                
+                print(my_set)
+            `}/>
+            <p>Output:</p>
+            <PythonCode code={`
+                # Attenzione al fatto che l'ordine degli elementi non è garantito, ma è casuale
+                { 'n', 'o', 'd', 'i', 'p', 'e' }
+            `}/>
+
+
+
 
             <h2>Metodi dei Set</h2>
             <Table headers={['Metodo', 'Descrizione', 'Esempio']} data={pythonSetMethods}/>
