@@ -8,7 +8,7 @@ const StringMethods: React.FC = () => {
         <div>
             <h1>Metodi delle Stringhe</h1>
 
-            <h2>charAt</h2>
+            <h3>charAt</h3>
             <p>Restituisce il carattere che si trova nella posizione specificata:</p>
             <JavascriptCode code={`
                 const stringa = "Hello";
@@ -17,7 +17,7 @@ const StringMethods: React.FC = () => {
             <p>Output:</p>
             <TerminalCode code={'o'}/>
 
-            <h2>concat</h2>
+            <h3>concat</h3>
             <p>Concatena (unendole) due o più stringhe:</p>
             <JavascriptCode code={`
                 const stringa1 = "Hello";
@@ -64,6 +64,40 @@ const StringMethods: React.FC = () => {
             `}/>
             <p>Output:</p>
             <TerminalCode code={'3'}/>
+
+            <h3>match</h3>
+            <p>Restituisce un array contenente le corrispondenze trovate tra una stringa e una regex:</p>
+            <JavascriptCode code={`
+                const stringa = "Hello";
+                console.log(stringa.match(/[A-Z]/g));  
+            `}/>
+            <p>Output:</p>
+            <TerminalCode code={'[H]'}/>
+
+            <h3>padEnd</h3>
+            <p>Aggiunge un carattere di riempimento (passato come secondo parametro/argomento alla funzione) alla fine
+                di una stringa fino a raggiungere la lunghezza specificata (primo parametro):
+            </p>
+            <JavascriptCode code={
+                `const stringa = "Hello";
+                console.log(stringa.padEnd(8, "!"));`
+            }/>
+            <p>Output:</p>
+            <TerminalCode code={'Hello!!!'}/>
+
+            <h3>padStart</h3>
+            <p>Aggiunge un carattere di riempimento (passato come secondo parametro/argomento alla funzione) all'inizio
+                di una stringa fino a raggiungere la lunghezza specificata (primo parametro):
+            </p>
+            <JavascriptCode code={
+                `const stringa = "Hello";
+                console.log(stringa.padStart(7, "_"));`
+            }/>
+            <p>Output:</p>
+            <TerminalCode code={'__Hello'}/>
+
+
+
 
         </div>
     );
