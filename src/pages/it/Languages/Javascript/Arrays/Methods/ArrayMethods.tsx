@@ -693,6 +693,71 @@ console.log(squaredNumbers);
                 il metodo <code>filter</code> o <code>reduce</code>.
             </p>
 
+            <h2> Metodo
+                <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/of"
+                   target="_blank" rel="noopener noreferrer">
+                    <code className='documentation-link'> of </code>
+                </a>
+            </h2>
+            <p>Questo metodo crea un nuovo array con un numero variabile di argomenti (che possono essere di qualsiasi
+                tipo) passati come parametri.</p>
+            <h2>Sintassi:</h2>
+            <JavascriptCode code={`Array.of(element1, element2, ..., elementN)`}/>
+            <h3>Esempio:</h3>
+            <JavascriptCode code={`
+                const arr = Array.of(1,2,3,"four",true);
+                console.log(arr);
+            `}/>
+            <p>Output:</p>
+            <TerminalCode code={`[1, 2, 3, 'four', true]`}/>
+
+            <h2> Metodo
+                <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/pop"
+                   target="_blank" rel="noopener noreferrer">
+                    <code className='documentation-link'> pop </code>
+                </a>
+            </h2>
+            <p>Questo metodo rimuove l'ultimo elemento di un array e restituisce l'elemento rimosso.</p>
+            <h2>Sintassi:</h2>
+            <JavascriptCode code={`array.pop()`}/>
+            <h3>Esempio:</h3>
+            <JavascriptCode code={`
+                const fruits = ['apple', 'banana', 'cherry'];
+                const cherry = fruits.pop();
+                console.log(cherry);
+                console.log(fruits);
+            `}/>
+            <p>Output:</p>
+            <TerminalCode code={`
+                'cherry'
+                ['apple', 'banana']
+            `}/>
+
+            <h2> Metodo
+                <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/push"
+                   target="_blank" rel="noopener noreferrer">
+                    <code className='documentation-link'> push </code>
+                </a>
+            </h2>
+            <p>Questo metodo aggiunge uno o più elementi alla fine di un array e restituisce la nuova lunghezza
+                dell'array.
+            </p>
+            <h2>Sintassi:</h2>
+            <JavascriptCode code={`array.push(element1, element2, ..., elementN)`}/>
+            <h3>Esempio:</h3>
+            <JavascriptCode code={`
+                const fruits = ['apple', 'banana'];
+                const newLengthFruits = fruits.push('cherry', 'date');
+                console.log('Array Length: ', newLength);
+                console.log('Array:', fruits);
+            `}/>
+            <p>Output:</p>
+            <TerminalCode code={`
+                Array Length: 4
+                Array: ['apple', 'banana', 'cherry', 'date']
+            `}/>
+
+
         </div>
     );
 };
