@@ -594,6 +594,105 @@ const ArrayMethods: React.FC = () => {
                 false   // fruitsObject non è un array
             `}/>
 
+            <h2> Metodo
+                <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/join"
+                   target="_blank" rel="noopener noreferrer">
+                    <code className='documentation-link'> join </code>
+                </a>
+            </h2>
+            <p>Questo metodo crea e restituisce una nuova stringa concatenando tutti gli elementi di un array
+                separati da uno specifico separatore passato come argomento al metodo stesso.
+                Se non viene specificato alcun separatore, di default viene utilizzata la virgola. (???)
+            </p>
+            <h2>Sintassi:</h2>
+            <JavascriptCode code={`array.join(separatore)`}/>
+            <h3>Esempio:</h3>
+            <JavascriptCode code={`
+                const fruits = ['apple', 'banana', 'cherry'];
+                const fruitsString = fruits.join(', ');
+                console.log(fruitsString);
+            `}/>
+            <p>Output:</p>
+            <TerminalCode code={`apple, banana, cherry`}/>
+
+            <h2>Metodo
+                <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/lastIndexOf"
+                   target="_blank" rel="noopener noreferrer">
+                    <code className='documentation-link'> lastIndexOf </code>
+                </a>
+            </h2>
+            <p>Questo metodo restituisce l'indice dell'ultima occorrenza di un elemento specificato in un array,
+                oppure -1 se l'elemento non è presente nell'array.
+            </p>
+            <h2>Sintassi:</h2>
+            <JavascriptCode code={`array.lastIndexOf(element, start)`}/>
+            <p>dove:
+                <ul>
+                    <li><code>element</code> è l'elemento da cercare nell'array</li>
+                    <li><code>start</code> (opzionale) è l'indice da cui iniziare la ricerca (se non specificato
+                        di default ha valore zero, ovvero inizia dalla prima posizione/primo elemento)
+                    </li>
+                </ul>
+            </p>
+            <h3>Esempio:</h3>
+            <JavascriptCode code={`
+                const fruits = ['apple', 'banana', 'cherry', 'apple'];
+                const lastIndexOfApple = fruits.lastIndexOf('apple');
+                const lastIndexOfOrange = fruits.lastIndexOf('orange');
+                console.log(lastIndexOfApple);
+                console.log(lastIndexOfOrange);
+            `}/>
+            <p>Output:</p>
+            <TerminalCode code={`
+                3       // indice dell'ultima occorrenza di 'apple'
+                -1      // 'orange' non è presente nell'array
+            `}/>
+            <p>Concludiamo osservando che si tratta del metodo complementare al metodo <code>indexOf</code> che
+                restituisce invece l'indice della prima occorrenza, o -1 se l'elemento non è presente nell'array.
+            </p>
+
+            <h2> Metodo
+                <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/map"
+                   target="_blank" rel="noopener noreferrer">
+                    <code className='documentation-link'> map </code>
+                </a>
+            </h2>
+            <p>Questo metodo (molto utilizzato) crea un nuovo array con i risultati di una funzione di callback
+                eseguita su ciascun elemento dell'array.
+            </p>
+            <h2>Sintassi:</h2>
+            <JavascriptCode code={`
+                const newArray = array.map(callback, index, array);
+            `}/>
+            <p>dove:
+                <ul>
+                    <li><code>callback</code> è la funzione da eseguire per ogni elemento dell'array</li>
+                    <li><code>index</code> (opzionale) è l'indice dell'elemento corrente che viene processato
+                    </li>
+                    <li><code>array</code> (opzionale) è l'array su cui viene eseguito il metodo
+                    </li>
+                </ul>
+            </p>
+            <h3>Esempio:</h3>
+            <JavascriptCode code={`
+                const numbers = [1,2,3,4,5];
+                const squaredNumbers = numbers.map((number) => {
+                  return number * number;
+                });
+
+console.log(squaredNumbers);
+            `}/>
+            <p>Output:</p>
+            <TerminalCode code={`
+                [1, 4, 9, 16, 25]
+            `}/>
+            <p>Relativamente al metodo <code>map</code> dobbiamo sempre ricordarci che esso non modifica l'array
+                originale e che restituisce un nuovo array con gli elementi trasformati dalla funzione di callback,
+                quindi della stessa lunghezza.
+                Qualora volessimo applicare dei filtri per escludere alcuni elementi dall'array, dovremmo utilizzare
+                il metodo <code>filter</code> o <code>reduce</code>.
+            </p>
+
         </div>
     );
 };
