@@ -199,17 +199,25 @@ const httpStatusCodes = [
 const HttpStatusCodes: React.FC = () => {
     return (
         <div>
-            <h1>Http Status Codes</h1>
+            <h1>Codici di Stato - Protocollo HTTP</h1>
             <ul>
                 { httpStatusCodes.map((httpStatusCode, index) => (
                     <li key={index}>
-                        <a href={'/it/HTTP/HttpStatusCodes/' + httpStatusCode.code}>{httpStatusCode.code}</a>
-                        <p>{httpStatusCode.description}</p>
+                        <p>
+                            <a href={'/it/HTTP/HttpStatusCodes/' + httpStatusCode.code}>
+                                <code className={'documentation-link'}> {httpStatusCode.code} </code>
+                            </a>
+                            {httpStatusCode.description}
+                        </p>
                         <ul>
                         {httpStatusCode.subcodes.map((subcode, index) => (
                             <li key={index}>
-                                <a href={'/it/HTTP/HttpStatusCodes/' + httpStatusCode.code + '/' + subcode.code}>{subcode.code}</a>
-                                <p>{subcode.description}</p>
+                                <p>
+                                    <a href={'/it/HTTP/HttpStatusCodes/' + httpStatusCode.code + '/' + subcode.code}>
+                                        <code className={'documentation-link'}> {subcode.code} </code>
+                                    </a>
+                                    {subcode.description}
+                                </p>
                             </li>
                         ))}
                         </ul>

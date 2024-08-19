@@ -3,7 +3,7 @@ import JavascriptCode from "../../../../../components/Code/JavascriptCode/Javasc
 import TerminalCode from "../../../../../components/Code/TerminalCode/TerminalCode.tsx";
 
 
-const StringMethods: React.FC = () => {
+const StringJsMethods: React.FC = () => {
     return (
         <div>
             <h1>Metodi delle Stringhe</h1>
@@ -246,9 +246,9 @@ const StringMethods: React.FC = () => {
                 console.log(stringa.trimStart());
             `}/>
             <p>Output:</p>
-            <TerminalCode code={'Hello # (non vengono rimossi gli spazi bianchi di fine stringa)' }/>
+            <TerminalCode code={'Hello  ' }/>
         </div>
     );
 }
 
-export default StringMethods;
+export default StringJsMethods;

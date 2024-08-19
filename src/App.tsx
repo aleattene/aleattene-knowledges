@@ -41,6 +41,7 @@ import Fastify from "./pages/it/Backend/Fastify/Fastify.tsx";
 import ConcurrencyVsParallelism from "./pages/it/Backend/NodeJs/ConcurrencyVsParallelism/ConcurrencyVsParallelism.tsx";
 import ModulesDependencies from "./pages/it/Backend/NodeJs/Modules&Dependencies/Modules&Dependencies.tsx";
 import TuplePy from "./pages/it/Languages/Python/Tuples/TuplePy.tsx";
+import StringJsMethods from "./pages/it/Languages/Javascript/Strings/StringJsMethods.tsx";
 
 
 const App: React.FC = () => {
@@ -68,6 +69,7 @@ const App: React.FC = () => {
                         <Route path="/it/languages" element={<Languages/>} />
                         <Route path="/it/languages/javascript" element={<Javascript/>} />
                         <Route path="/it/languages/javascript/console" element={<ConsoleMethods/>} />
+                        <Route path="/it/languages/javascript/strings" element={<StringJsMethods/>} />
                         <Route path="/it/languages/javascript/arrays" element={<ArrayMethods/>} />
                         <Route path="/it/languages/javascript/objects" element={<ObjectJs/>} />
                         <Route path="/it/languages/typescript" element={<Typescript/>} />

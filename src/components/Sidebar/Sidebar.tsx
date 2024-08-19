@@ -23,7 +23,7 @@ export const sections: Record<string, string[]> = {
 };
 
 export const subSections: Record<string, string[]> = {
-    javascript: ['Console','Variabili', 'Funzioni', 'Array', 'Oggetti', 'Ricorsione', 'Callback', 'Promise', 'AsyncAwait', 'EventLoop', 'Closure', 'Hoisting', 'This', 'Prototype', 'Class', 'Module'],
+    javascript: ['Console','Variabili', 'Stringhe', 'Array', 'Oggetti', 'Funzioni', 'Ricorsione', 'Callback', 'Promise', 'AsyncAwait', 'EventLoop', 'Closure', 'Hoisting', 'This', 'Prototype', 'Class', 'Module'],
     typescript: ['Tipi', 'Interfacce', 'Classi', 'Moduli', 'Namespace', 'Decoratori'],
     python: ['Stringhe', 'Variabili', 'Liste', 'Tuple', 'Dizionari', 'Set', 'Funzioni', 'Classi',
         'Moduli', 'Pacchetti', 'Comprehension', 'Generatori', 'Decoratori'],
@@ -43,9 +43,10 @@ export const subSectionsRedirect: Record<string,string> = {
     /* Javascript */
     console: 'console',
     variabili: 'variables',
-    funzioni: 'function',
+    stringhe: 'strings',
     array: 'arrays',
     oggetti: 'objects',
+    funzioni: 'function',
     ricorsione: 'recursion',
     callback: 'callback',
     promise: 'promise',
@@ -57,7 +58,7 @@ export const subSectionsRedirect: Record<string,string> = {
     prototype: 'prototype',
     class: 'class',
     /* Python */
-    stringhe: 'strings',
+    /*stringhe: 'strings',*/
     liste: 'lists',
     tuple: 'tuples',
     dizionari: 'dictionaries',

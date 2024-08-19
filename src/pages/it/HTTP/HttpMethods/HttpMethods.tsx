@@ -25,7 +25,11 @@ const HttpRequestMethods: React.FC = () => {
             <p>I metodi HTTP indicano l'azione che si desidera eseguire sulla risorsa indicata nella richiesta:</p>
             <ul>
                 {Object.entries(httpRequestMethods).map(([key, value]) => {
-                    return <li> <b>{key}</b>: {value} </li>
+                    return (
+                        <li>
+                            <b><code className={'documentation-link'}> {key} </code></b>: {value}
+                        </li>
+                    )
                 })}
             </ul>
         </div>
