@@ -501,6 +501,99 @@ const ArrayMethods: React.FC = () => {
             <p>Output:</p>
             <TerminalCode code={`[20, 40, 60]`}/>
 
+            <h2> Metodo
+                <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/includes"
+                   target="_blank" rel="noopener noreferrer">
+                    <code className='documentation-link'> includes </code>
+                </a>
+            </h2>
+            <p>Questo metodo verifica se un array include un determinato elemento e restituisce true o false
+                a seconda del risultato della verifica.</p>
+            <h2>Sintassi:</h2>
+            <JavascriptCode code={`array.includes(element, start)`}/>
+            <p>dove:
+                <ul>
+                    <li><code>element</code> è l'elemento da cercare nell'array</li>
+                    <li><code>start</code> (opzionale) è l'indice da cui iniziare la ricerca (se non specificato
+                        di default ha valore zero, ovvero inizia dalla prima posizione/primo elemento)
+                    </li>
+                </ul>
+            </p>
+            <h3>Esempio:</h3>
+            <JavascriptCode code={`
+                const fruits = ['apple', 'banana', 'cherry'];
+                const hasApple = fruits.includes('apple');
+                const hasOrange = fruits.includes('orange');
+                console.log(hasApple);
+                console.log(hasOrange);
+            `}/>
+            <p>Output:</p>
+            <TerminalCode code={`
+                true
+                false
+            `}/>
+
+            <h2> Metodo
+                <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/indexOf"
+                   target="_blank" rel="noopener noreferrer">
+                    <code className='documentation-link'> indexOf </code>
+                </a>
+            </h2>
+            <p>Questo metodo restituisce l'indice della prima occorrenza di un elemento specificato in un array,
+                oppure -1 se l'elemento non è presente nell'array.</p>
+            <h2>Sintassi:</h2>
+            <JavascriptCode code={`array.indexOf(element, start)`}/>
+            <p>dove:
+                <ul>
+                    <li><code>element</code> è l'elemento da cercare nell'array</li>
+                    <li><code>start</code> (opzionale) è l'indice da cui iniziare la ricerca (se non specificato
+                        di default ha valore zero, ovvero inizia dalla prima posizione/primo elemento)
+                    </li>
+                </ul>
+            </p>
+            <h3>Esempio:</h3>
+            <JavascriptCode code={`
+                const fruits = ['apple', 'banana', 'cherry'];
+                const indexOfApple = fruits.indexOf('apple');
+                const indexOfOrange = fruits.indexOf('orange');
+                console.log(indexOfApple);
+                console.log(indexOfOrange);
+            `}/>
+            <p>Output:</p>
+            <TerminalCode code={`
+                0       // indice di 'apple'
+                -1      // 'orange' non è presente nell'array
+            `}/>
+            <p>Concludiamo osservando che si tratta del metodo complementare al metodo <code>lastIndexOf</code> che
+                restituisce invece l'indice dell'ultima occorrenza, o -1 se l'elemento non è presente nell'array.
+            </p>
+
+            <h2> Metodo
+                <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/isArray"
+                   target="_blank" rel="noopener noreferrer">
+                    <code className='documentation-link'> isArray </code>
+                </a>
+            </h2>
+            <p>Questo metodo verifica se un oggetto (passato come parametro) è un array o meno e restituisce true o
+                false a seconda del risultato della verifica.
+            </p>
+            <h2>Sintassi:</h2>
+            <JavascriptCode code={`Array.isArray(objectToVerify)`}/>
+            <h3>Esempio:</h3>
+            <JavascriptCode code={`
+                const fruits = ['apple', 'banana', 'cherry'];
+                const isFruitsArray = Array.isArray(fruits);
+                console.log(isFruitsArray);
+                
+                const fruitsObject = {0: 'apple', 1: 'banana', 2: 'cherry'};
+                const isFruitsObjectArray = Array.isArray(fruitsObject);
+            `}/>
+            <p>Output:</p>
+            <TerminalCode code={`
+                true    // fruits è un array
+                false   // fruitsObject non è un array
+            `}/>
+
         </div>
     );
 };
