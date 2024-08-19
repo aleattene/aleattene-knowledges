@@ -339,6 +339,168 @@ const ArrayMethods: React.FC = () => {
             `}/>
             <p>Output:</p>
             <TerminalCode code={`[1, 2, 3, [4]]`}/>
+
+            <h2> Metodo
+                <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/flatMap"
+                   target="_blank" rel="noopener noreferrer">
+                    <code className='documentation-link'> flatMap </code>
+                </a>
+            </h2>
+            <p>Questo metodo combina le funzionalità del metodo <code>map</code> e del metodo <code>flat</code>, infatti
+                permette di mappare ogni elemento dell'array con una funzione di callback e di concatenare i risultati
+                in un nuovo array unidimensionale.</p>
+            <h3>Sintassi:</h3>
+            <JavascriptCode code={`array.flatMap(callback)`}/>
+            <p>la funzione di callback naturalmente sarà applicata ad ogni elemento dell'array e restituirà un array
+                di elementi da essa trasformati.</p>
+            <h3>Esempio:</h3>
+            <JavascriptCode code={`
+                const numbers = [1, 2, 3, 4, 5];
+                const doubleAndSquaredNumbers = numbers.flatMap(number => [number * 2, number * number]);
+                console.log(doubleAndSquaredNumbers);
+            `}/>
+            <p>Output:</p>
+            <TerminalCode code={`[2, 1, 4, 4, 6, 9, 8, 16, 10, 25]`}/>
+            <p>Di questo metodo dobbiamo quindi ricordare che:
+                <ul>
+                    <li>applica una funzione di callback a ciascun elemento dell'array e concatena i risultati in un
+                        nuovo array unidimensionale
+                    </li>
+                    <li>elimina eventuali elementi <code>undefined</code> o <code>null</code> dall'array risultante.
+                    </li>
+                </ul>
+            </p>
+            <h3>Esempio:</h3>
+            <JavascriptCode code={`
+                const nestedArrayOfStrings = ['apple,banana', 'cherry,date'];
+                const flatArrayOfStrings = nestedArrayOfStrings.flatMap(string => string.split(','));
+                console.log(flatArrayOfStrings);
+            `}/>
+            <p>Output:</p>
+            <TerminalCode code={`['apple', 'banana', 'cherry', 'date']`}/>
+
+            <h2> Metodo
+                <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/forEach"
+                   target="_blank" rel="noopener noreferrer">
+                    <code className='documentation-link'> forEach </code>
+                </a>
+            </h2>
+            <p>Questo metodo esegue una funzione di callback per ogni elemento dell'array.
+                Contrariamente a quanto avviene con il metodo <code>map</code>, il metodo <code>forEach</code> non
+                restituisce un nuovo array, ma come detto si limita ad eseguire la funzione di callback per ogni
+                elemento dell'array su cui viene eseguito il metodo stesso.
+            </p>
+            <h2>Sintassi:</h2>
+            <JavascriptCode code={`array.forEach(callback)`}/>
+            <p>dove <code>callback</code> è la funzione da eseguire per ogni elemento dell'array.</p>
+            <h3>Esempio:</h3>
+            <JavascriptCode code={`
+                const numbers = [1, 2, 3];
+                numbers.forEach(number => console.log(number * 2));
+            `}/>
+            <p>Output:</p>
+            <TerminalCode code={`
+                2
+                4
+                6
+            `}/>
+            <h3>Esempio:</h3>
+            <JavascriptCode code={`
+                const doubleNumbers = numbers.forEach(number => number * 2);
+                console.log(doubleNumbers);
+            `}/>
+            <p>Output:</p>
+            <TerminalCode code={`undefined`}/>
+            <p>Come avevamo già anticipato e come mostra l'esempio, il metodo <code>forEach</code> non restituisce
+                un nuovo array, di conseguenza <code>doubleNumbers</code> risulterà <code>undefined</code>.
+            </p>
+
+            <h2> Metodo from
+                <a href='https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/from'
+                   target="_blank" rel="noopener noreferrer">
+                    <code className='documentation-link'> from </code>
+                </a>
+            </h2>
+            <p>Questo metodo crea un nuovo array da un oggetto (struttura) simile ad un array o da un oggetto
+                iterabile.</p>
+            <h2>Sintassi:</h2>
+            <JavascriptCode code={`Array.from(object, mapFunction, thisValue)`}/>
+            <p> dove abbiamo:
+                <ul>
+                    <li><code>object</code> è l'oggetto/struttura da cui creare l'array</li>
+                    <li><code>mapFunction</code> (opzionale) è la funzione da eseguire per ogni elemento dell'array,
+                        il cui risultato viene incluso nell'array di destinazione
+                    </li>
+                    <li><code>thisValue</code> (opzionale) è il valore da utilizzare come <code>this</code> quando si
+                        esegue la funzione di mappatura.
+                    </li>
+                </ul>
+            </p>
+            <h3>Esempio (creazione Array da una Stringa):</h3>
+            <JavascriptCode code={`
+                const stringa = 'Hello';
+                const array = Array.from(stringa);
+                console.log(array);
+            `}/>
+            <p>Output:</p>
+            <TerminalCode code={`['H', 'e', 'l', 'l', 'o']`}/>
+            <h3>Esempio (creazione Array con valori mappati da un iterable):</h3>
+            <JavascriptCode code={`
+                const nums = [1, 2, 3, 4, 5];
+                const squaredNums = Array.from(nums, num => num * num);
+                console.log(squaredNums);
+            `}/>
+            <p>Output:</p>
+            <TerminalCode code={`[1, 4, 9, 16, 25]`}/>
+            <h3>Esempio (creazione Array da un Set):</h3>
+            <JavascriptCode code={`
+                const set = new Set(['apple', 'banana', 'cherry']);
+                const array = Array.from(set);
+                console.log(array);
+            `}/>
+            <p>Output:</p>
+            <TerminalCode code={`['apple', 'banana', 'cherry']`}/>
+            <h3>Esempio (avanzato - creazione Array da Struttura/Oggetto simile ad un Array):</h3>
+            <JavascriptCode code={`
+                const obj = {
+                  length: 4,
+                  0: 'apple',
+                  1: 'banana',
+                  2: 'orange',
+                  3: 'grape'
+                };
+
+                const arr = Array.from(obj);
+                console.log(arr); 
+            `}/>
+            <p>Output:</p>
+            <TerminalCode code={`['apple', 'banana', 'orange', 'grape']`}/>
+            <p>Quello che possiamo osservare in questo esempio è che il metodo <code>from</code>:
+                <ul>
+                    <li>utilizza la proprietà <code>length</code> dell'oggetto per determinare la lunghezza dell'array
+                        da creare
+                    </li>
+                    <li>utilizza gli indici numerici dell'oggetto per creare gli elementi dell'array (gli indici non
+                        numerici vengono ignorati e non inclusi nell'array risultante)
+                    </li>
+                </ul>
+            </p>
+            <p>Volendo anche in questo caso possiamo utilizzare la funzione di mappatura per trasformare gli elementi
+                dell'array risultante:</p>
+            <JavascriptCode code={`
+                const obj = {
+                    length: 4,
+                    0: 10
+                    1: 20,
+                    2: 30
+                };
+
+                const arr = Array.from(obj, num => num * 2);
+                console.log(arr);
+            `}/>
+            <p>Output:</p>
+            <TerminalCode code={`[20, 40, 60]`}/>
+
         </div>
     );
 };
