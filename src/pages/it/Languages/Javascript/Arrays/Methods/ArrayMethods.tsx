@@ -1179,6 +1179,30 @@ console.log(squaredNumbers);
             <p>Output:</p>
             <TerminalCode code={`1 - 2 - 3 - 4 - 5`}/>
 
+            <h2> Metodo
+                <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/unshift"
+                   target="_blank" rel="noopener noreferrer">
+                    <code className='documentation-link'> unshift </code>
+                </a>
+            </h2>
+            <p>Questo metodo aggiunge uno o più elementi all'inizio di un array (modificandolo) e restituisce la nuova
+                lunghezza dell'array originale modificato.
+            </p>
+            <h2>Sintassi:</h2>
+            <JavascriptCode code={`array.unshift(element1, element2, ..., elementN)`}/>
+            <h3>Esempio:</h3>
+            <JavascriptCode code={`
+                const numbers = [1, 2, 3, 4, 5];
+                const newLengthNumbers = numbers.unshift(-1, 0);
+                console.log('Array Length: ', newLengthNumbers);
+                console.log('Array:', numbers);
+            `}/>
+            <p>Output:</p>
+            <TerminalCode code={`
+                Array Length: 7
+                Array: [-1, 0, 1, 2, 3, 4, 5]
+            `}/>
+
         </div>
     );
 };
