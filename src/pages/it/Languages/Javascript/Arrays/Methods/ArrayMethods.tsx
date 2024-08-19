@@ -757,6 +757,195 @@ console.log(squaredNumbers);
                 Array: ['apple', 'banana', 'cherry', 'date']
             `}/>
 
+            <h2> Metodo
+                <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/reduce"
+                   target="_blank" rel="noopener noreferrer">
+                    <code className='documentation-link'> reduce </code>
+                </a>
+            </h2>
+            <p>Questo metodo esegue una funzione di callback su ogni elemento dell'array per ridurlo ad un unico
+                valore.
+                La funzione di callback accetta quattro argomenti:
+                <ul>
+                    <li>Accumulatore: rappresenta il valore accumulato fino a quel punto nell'iterazione ed è quello
+                        che viene restituito come valore finale alla fine delle iterazioni.
+                    </li>
+                    <li>Elemento Corrente</li>
+                    <li>Indice Corrente</li>
+                    <li>Array su cui viene eseguito il metodo</li>
+                </ul>
+            </p>
+            <h2>Sintassi:</h2>
+            <JavascriptCode code={`array.reduce(callback, initialValue)`}/>
+            <h3>Esempio:</h3>
+            <JavascriptCode code={`
+                const numbers = [1, 2, 3, 4, 5];
+                const sum = numbers.reduce((acc, number, index, numbers) => {
+                    console.log('Accumulator: ', acc);
+                    console.log('Array: ', numbers); 
+                    console.log('Current Index: ', index);
+                    console.log('Current Number: ', number);                   
+                    return acc + number;
+                }, 0);
+                console.log('Sum', sum);
+            `}/>
+            <p>Output:</p>
+            <TerminalCode code={`
+                Accumulator: 0
+                Array: [1, 2, 3, 4, 5]
+                Current Index: 0
+                Current Number: 1
+                Accumulator: 1
+                Array: [1, 2, 3, 4, 5]
+                Current Index: 1
+                Current Number: 2
+                Accumulator: 3
+                Array: [1, 2, 3, 4, 5]
+                Current Index: 2
+                Current Number: 3
+                Accumulator: 6
+                Array: [1, 2, 3, 4, 5]
+                Current Index: 3
+                Current Number: 4
+                Accumulator: 10
+                Array: [1, 2, 3, 4, 5]
+                Current Index: 4
+                Current Number: 5
+                Sum 15
+            `}/>
+            <p>Trattandosi di un metodo molto importante, è bene osservare che:
+                <ul>
+                    <li>esegue una funzione di callback su ogni elemento dell'array per ciascun elemento dell'array,
+                        del primo all'ultimo elemento
+                    </li>
+                    <li>il valore iniziale dell'accumulatore (secondo argomento del metodo) è opzionale e di default
+                        è zero (che poi significa che il primo elemento dell'array sarà l'accumulatore iniziale)
+                    </li>
+                    <li>il valore restituito dalla funzione di callback viene assegnato all'accumulatore per la
+                        successiva iterazione
+                    </li>
+                    <li>il valore restituito dall'ultima iterazione è il valore restituito dal metodo
+                        <code>reduce</code>
+                    </li>
+                </ul>
+            </p>
+            <p>Concludiamo infine osservando che itera ogni elemento, dal primo all'ultimo, quindi in maniera inversa a
+                come farebbe il metodo <code>reduceRight</code> che invece itera gli elementi dall'ultimo al primo.
+            </p>
+
+            <h2> Metodo
+                <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/reduceRight"
+                   target="_blank" rel="noopener noreferrer">
+                    <code className='documentation-link'> reduceRight </code>
+                </a>
+            </h2>
+            <p>Questo metodo esegue una funzione di callback su ogni elemento dell'array (dall'ultimo al primo) per
+                ridurlo ad un unico valore.
+                La funzione di callback accetta quattro argomenti:
+                <ul>
+                    <li>Accumulatore: rappresenta il valore accumulato fino a quel punto nell'iterazione ed è quello
+                        che viene restituito come valore finale alla fine delle iterazioni.
+                    </li>
+                    <li>Elemento Corrente</li>
+                    <li>Indice Corrente</li>
+                    <li>Array su cui viene eseguito il metodo</li>
+                </ul>
+            </p>
+            <h2>Sintassi:</h2>
+            <JavascriptCode code={`array.reduceRight(callback, initialValue)`}/>
+            <h3>Esempio:</h3>
+            <JavascriptCode code={`
+                const numbers = [10, 20, 30, 40, 50];
+                const sum = numbers.reduceRight((acc, number, index, numbers) => {
+                    console.log('Accumulator: ', acc);
+                    console.log('Array: ', numbers); 
+                    console.log('Current Index: ', index);
+                    console.log('Current Number: ', number);                   
+                    return acc + number;
+                }, 0);
+                console.log('Sum', sum);
+            `}/>
+            <p>Output:</p>
+            <TerminalCode code={`
+                Accumulator: 0
+                Array: [10, 20, 30, 40, 50]
+                Current Index: 4
+                Current Number: 50
+                Accumulator: 50
+                Array: [10, 20, 30, 40, 50]
+                Current Index: 3
+                Current Number: 40
+                Accumulator: 90
+                Array: [10, 20, 30, 40, 50]
+                Current Index: 2
+                Current Number: 30
+                Accumulator: 120
+                Array: [10, 20, 30, 40, 50]
+                Current Index: 1
+                Current Number: 20
+                Accumulator: 140
+                Array: [10, 20, 30, 40, 50]
+                Current Index: 0
+                Current Number: 10
+                Sum 150
+            `}/>
+            <p>Trattandosi di un metodo molto importante, è bene osservare che:
+                <ul>
+                    <li>esegue una funzione di callback su ogni elemento dell'array per ciascun elemento dell'array,
+                        dall'ultimo al primo elemento
+                    </li>
+                    <li>il valore iniziale dell'accumulatore (secondo argomento del metodo) è opzionale e se non
+                        dichiarato di default viene preso l'ultimo elemento dell'array
+                    </li>
+                    <li>il valore restituito dalla funzione di callback viene assegnato all'accumulatore per la
+                        successiva iterazione
+                    </li>
+                    <li>il valore restituito dall'ultima iterazione è il valore restituito dal metodo
+                        <code>reduceRight</code>
+                    </li>
+                </ul>
+            </p>
+            <p>Concludiamo infine osservando che itera ogni elemento, dall'ultimo al primo, quindi in maniera inversa
+                rispetto al metodo <code>reduce</code> che invece itera gli elementi dal primo all'ultimo.
+            </p>
+
+            <h2> Metodo
+                <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/reverse"
+                   target="_blank" rel="noopener noreferrer">
+                    <code className='documentation-link'> reverse </code>
+                </a>
+            </h2>
+            <p>Questo metodo modifica un array, invertendo l'ordine dei suoi elementi, senza restituire nulla.
+                Qualora assegnassimo il risultato del metodo ad una variabile, otterremmo <code>undefined</code>.
+            </p>
+            <h2>Sintassi:</h2>
+            <JavascriptCode code={`array.reverse()`}/>
+            <h3>Esempio:</h3>
+            <JavascriptCode code={`
+                const fruits = [1, 2, 3, 4, 5];
+                const reversedFruits = fruits.reverse(); 
+                console.log(fruits);
+                console.log(reversedFruits);
+            `}/>
+            <p>Output:</p>
+            <TerminalCode code={`
+                [5, 4, 3, 2, 1]
+                undefined
+            `}/>
+            <p>Qualora volessimo ottenere un array invertito senza modificare l'array originale, dovremmo creare una
+                copia dell'array e invertirla:</p>
+            <JavascriptCode code={`
+                const fruits = [1, 2, 3, 4, 5];
+                // Creiamo una copia dell'array usando lo spread operator (si potrebbe usare anche il metodo slice)
+                const reversedFruits = [...fruits].reverse(); 
+                console.log('Fruits:', fruits);
+                console.log('Reversed Fruits:', reversedFruits);
+            `}/>
+            <p>Output:</p>
+            <TerminalCode code={`
+                Fruits: [1, 2, 3, 4, 5]
+                Reversed Fruits: [5, 4, 3, 2, 1]
+            `}/>
 
         </div>
     );
