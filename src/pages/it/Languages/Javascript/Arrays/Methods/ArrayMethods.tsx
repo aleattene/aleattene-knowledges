@@ -1043,6 +1043,142 @@ console.log(squaredNumbers);
             <p>Output:</p>
             <TerminalCode code={`true`}/>
 
+            <h2> Metodo
+                <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/sort"
+                   target="_blank" rel="noopener noreferrer">
+                    <code className='documentation-link'> sort </code>
+                </a>
+            </h2>
+            <p>Questo metodo modifica un array ordinandone gli elementi.
+                Di default, il metodo ordina gli elementi come stringhe e li ordina in ordine crescente.
+            </p>
+            <h2>Sintassi:</h2>
+            <JavascriptCode code={`array.sort(compareFunction)`}/>
+            <p>dove:
+                <ul>
+                    <li><code>compareFunction</code> (opzionale) è la funzione di confronto da utilizzare per ordinare
+                        gli elementi dell'array (???)
+                    </li>
+                </ul>
+            </p>
+            <h3>Esempio:</h3>
+            <JavascriptCode code={`
+                const fruits = ['banana', 'cherry', 'apple'];
+                fruits.sort();
+                console.log(fruits);
+            `}/>
+            <p>Output:</p>
+            <TerminalCode code={`['apple', 'banana', 'cherry']`}/>
+            <h3>Esempio:</h3>
+            <JavascriptCode code={`
+                const numbers = [3, 1, 2, 5, 4];
+                numbers.sort();
+                console.log(numbers);
+            `}/>
+            <p>Output:</p>
+            <TerminalCode code={`[1, 2, 3, 4, 5]`}/>
+
+            <h3>Esempio:</h3>
+            <JavascriptCode code={`
+                const numbers = [3, 1, 2, 5, 4];
+                numbers.sort((a, b) => b - a);
+                console.log(numbers);
+            `}/>
+            <p>Output:</p>
+            <TerminalCode code={`[5, 4, 3, 2, 1]`}/>
+            <p>In questo caso abbiamo utilizzato una funzione di confronto che ordina gli elementi in ordine
+                decrescente.
+            </p>
+
+            <h2> Metodo
+                <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/splice"
+                   target="_blank" rel="noopener noreferrer">
+                    <code className='documentation-link'> splice </code>
+                </a>
+            </h2>
+            <p>Questo metodo modifica un array rimuovendo, sostituendo o aggiungendo elementi.
+                Ritorna un array contenente gli elementi rimossi/sostituiti/modificati.
+            </p>
+            <h2>Sintassi:</h2>
+            <JavascriptCode code={`array.splice(start, deleteCount, item1, item2, ..., itemN)`}/>
+            <p>dove:
+                <ul>
+                    <li><code>start</code>: è l'indice da cui iniziare a modificare l'array (se negativo, indica un
+                        offset dalla fine dell'array)
+                    </li>
+                    <li><code>deleteCount (opzionale)</code>: è il numero di elementi da rimuovere a partire
+                        dall'indice <code>start</code>; se non specificato vengono rimossi tutti gli elementi a partire
+                        da <code>start</code>
+
+                    </li>
+                    <li><code>item1, item2, ..., itemN (opzionali)</code>: sono gli elementi da aggiungere all'array
+                        a partire dall'indice <code>start</code>
+                    </li>
+                </ul>
+            </p>
+            <h3>Esempio (rimozione di elementi):</h3>
+            <JavascriptCode code={`
+                const fruits = ['apple', 'banana', 'cherry', 'date'];
+                // Rimozione di due elementi partendo dall'indice 1 (incluso)
+                const removedFruits = fruits.splice(1, 2);
+                console.log('Fruits:', fruits);
+                console.log('Removed Fruits:', removedFruits);
+            `}/>
+            <p>Output:</p>
+            <TerminalCode code={`
+                Fruits: ['apple', 'date']
+                Removed Fruits: ['banana', 'cherry']
+            `}/>
+            <h3>Esempio (sostituzione di elementi):</h3>
+            <JavascriptCode code={`
+                const fruits = ['apple', 'banana', 'cherry', 'date'];
+                // Sostituzione di due elementi partendo dall'indice 1 (incluso)
+                const replacedFruits = fruits.splice(1, 2, 'orange', 'grape');
+                console.log('Fruits:', fruits);
+                console.log('Replaced Fruits:', replacedFruits);
+            `}/>
+            <p>Output:</p>
+            <TerminalCode code={`
+                Fruits: ['apple', 'orange', 'grape', 'date']
+                Replaced Fruits: ['banana', 'cherry']
+            `}/>
+            <h3>Esempio (aggiunta di elementi):</h3>
+            <JavascriptCode code={`
+                const fruits = ['apple', 'banana', 'cherry'];
+                // Aggiunta di due elementi partendo dall'indice 1 (incluso)
+                const addedFruits = fruits.splice(1, 0, 'orange', 'grape');
+                console.log('Fruits:', fruits);
+                console.log('Added Fruits:', addedFruits);
+            `}/>
+
+            <h2> Metodo
+                <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/toString"
+                   target="_blank" rel="noopener noreferrer">
+                    <code className='documentation-link'> toString </code>
+                </a>
+            </h2>
+            <p>Questo metodo restituisce una stringa rappresentante gli elementi dell'array separati da un separatore,
+                se specificato, altrimenti di default viene utilizzata la virgola.
+            </p>
+            <h3>Sintassi:</h3>
+            <JavascriptCode code={`array.toString()`}/>
+            <h3>Esempio:</h3>
+            <JavascriptCode code={`
+                const fruits = ['apple', 'banana', 'cherry'];
+                const fruitsString = fruits.toString();
+                console.log(fruitsString);
+            `}/>
+            <p>Output:</p>
+            <TerminalCode code={`apple,banana,cherry`}/>
+            <h3>Esempio:</h3>
+            <JavascriptCode code={`
+                const numbers = [1, 2, 3, 4, 5];
+                const numbersString = numbers.toString(' - ');
+                console.log(numbersString);
+            `}/>
+            <p>Output:</p>
+            <TerminalCode code={`1 - 2 - 3 - 4 - 5`}/>
+
         </div>
     );
 };
