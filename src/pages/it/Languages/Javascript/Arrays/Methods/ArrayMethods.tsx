@@ -947,6 +947,102 @@ console.log(squaredNumbers);
                 Reversed Fruits: [5, 4, 3, 2, 1]
             `}/>
 
+            <h2> Metodo
+                <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/shift"
+                   target="_blank" rel="noopener noreferrer">
+                    <code className='documentation-link'> shift </code>
+                </a>
+            </h2>
+            <p>Questo metodo rimuove il primo elemento di un array (cambiando quindi la sua lunghezza) e restituisce
+                l'elemento rimosso.
+            </p>
+            <h2>Sintassi:</h2>
+            <JavascriptCode code={`array.shift()`}/>
+            <h3>Esempio:</h3>
+            <JavascriptCode code={`
+                const fruits = ['apple', 'banana', 'cherry'];
+                const apple = fruits.shift();
+                console.log(apple);
+                console.log(fruits);
+            `}/>
+            <p>Output:</p>
+            <TerminalCode code={`
+                'apple'
+                ['banana', 'cherry']
+            `}/>
+
+            <h2> Metodo
+                <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/slice"
+                   target="_blank" rel="noopener noreferrer">
+                    <code className='documentation-link'> slice </code>
+                </a>
+            </h2>
+            <p>Questo metodo restituisce una copia (shallow)??? di una porzione (o intera) di un array senza
+                modificare l'originale.
+            </p>
+            <h2>Sintassi:</h2>
+            <JavascriptCode code={`array.slice(start, end)`}/>
+            <p>dove:
+                <ul>
+                    <li><code>start (incluso)</code>: è l'indice da cui iniziare a selezionare gli elementi dell'array
+                        originale (se omesso di default si inizia dal primo elemento dell'array)</li>
+                    <li><code>end (escluso)</code>: è l'indice fino a cui selezionare gli elementi (se omesso di default
+                        si va fino alla fine dell'array)</li>
+                </ul>
+            </p>
+            <h3>Esempio:</h3>
+            <JavascriptCode code={`
+                const fruits = ['apple', 'banana', 'cherry', 'date'];
+                const slicedFruits = fruits.slice(1, 3);
+                const slicedFruits2 = fruits.slice();
+                const slicedFruits3 = fruits.slice(1,-2);
+                console.log('Fruits:', fruits);
+                console.log('Sliced Fruits:', slicedFruits);
+                console.log('Sliced Fruits 2:', slicedFruits2);
+                console.log('Sliced Fruits 3:', slicedFruits3);
+            `}/>
+            <p>Output:</p>
+            <TerminalCode code={`
+                Fruits: ['apple', 'banana', 'cherry', 'date']
+                Sliced Fruits: ['banana', 'cherry']
+                Sliced Fruits 2: ['apple', 'banana', 'cherry', 'date']
+                Sliced Fruits 3: ['banana']
+            `}/>
+
+            <h2> Metodo
+                <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/some"
+                   target="_blank" rel="noopener noreferrer">
+                    <code className='documentation-link'> some </code>
+                </a>
+            </h2>
+            <p>Questo metodo verifica se almeno un elemento dell'array soddisfa la funzione di callback passata come
+                parametro e restituisce true o false a seconda del risultato della verifica.
+                Nel momento in cui viene trovato un elemento che soddisfa la condizione, il metodo restituisce subito
+                true e non esegue ulteriori iterazioni. (???)
+            </p>
+            <h2>Sintassi:</h2>
+            <JavascriptCode code={`array.some(callback)`}/>
+            <h3>Esempio:</h3>
+            <JavascriptCode code={`
+                const numbers = [1, 2, 3, 4, 5];
+                const hasEvenNumber = numbers.some(number => number % 2 === 0);
+                console.log(hasEvenNumber);
+            `}/>
+            <p>Output:</p>
+            <TerminalCode code={`true`}/>
+            <h3>Esempio:</h3>
+            <JavascriptCode code={`
+                const cars = [
+                    {brand: 'BMW', year: 2019},
+                    {brand: 'Audi', year: 2020},
+                    {brand: 'Mercedes', year: 2021}
+                ];
+                const hasOldCar = cars.some(car => car.year < 2020);
+                console.log(hasOldCar);
+            `}/>
+            <p>Output:</p>
+            <TerminalCode code={`true`}/>
+
         </div>
     );
 };
