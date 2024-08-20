@@ -49,7 +49,7 @@ export const subSectionsRedirect: Record<string,string> = {
     funzioni: 'function',
     ricorsione: 'recursion',
     callback: 'callback',
-    promise: 'promise',
+    promise: 'promises',
     asyncawait: 'asyncawait',
     eventloop: 'eventloop',
     closure: 'closure',

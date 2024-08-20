@@ -111,6 +111,66 @@ const Javascript: React.FC = () => {
                     </li>
                 </ul>
             </p>
+
+            <h2>Tipi</h2>
+            <p>Javascript è un linguaggio di programmazione debolmente tipizzato (differentemente da Typescript),
+                il che significa che non è necessario specificare il tipo di dato di una variabile quando la si
+                dichiara.
+                Il tipo di dato di una variabile può cambiare durante l'esecuzione del programma e Javascript
+                si adatta automaticamente al nuovo tipo.
+            </p>
+            <p>Tra i tipi built-in di Javascript troviamo:
+                <ul>
+                    <li>Number: numeri interi e decimali</li>
+                    <li>String: sequenze di caratteri</li>
+                    <li>Boolean: valori true o false</li>
+                    <li>Object: oggetti</li>
+                    <li>Function: funzioni</li>
+                    <li>Array: array</li>
+                    <li>Null: valore nullo</li>
+                    <li>Undefined: valore non assegnato</li>
+                    <li>Symbol (ES6+): valore univoco</li>
+                </ul>
+            </p>
+            <p>Quando si vuole conoscere il tipo di un dato (eventualmente memorizzato all'interno di una variabile),
+                si può utilizzare l'operatore
+                <a href='https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/typeof'>
+                    <code className={'documentation-link'}>typeof</code>
+                </a>:
+            </p>
+            <JavascriptCode code={`
+                let a;
+                typeof a;                   // undefined
+                a = undefined;
+                typeof a;                   // undefined
+                typeof undefined;           // undefined
+                
+                a ='hello';
+                typeof a;                   // string
+                typeof 'hello';             // string 
+                
+                a = 42;
+                typeof a;                   // number
+                typeof 42;                  // number
+                
+                a = true;
+                typeof a;                   // boolean
+                typeof true;                // boolean
+                
+                a = null;
+                typeof a;                   // object  (--weird, bug ???)
+                typeof null;                // object
+                
+                a = ['a', 'b', 'c'];
+                typeof a;                   // object
+                typeof ['a', 'b', 'c'];     // object
+             
+                a = { key: 'value' };
+                typeof a;                   // object
+                typeof { key: 'value' };    // object
+            `}/>
+
+            <p> </p>
         </div>
     );
 };

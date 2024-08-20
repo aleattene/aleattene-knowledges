@@ -42,6 +42,7 @@ import ConcurrencyVsParallelism from "./pages/it/Backend/NodeJs/ConcurrencyVsPar
 import ModulesDependencies from "./pages/it/Backend/NodeJs/Modules&Dependencies/Modules&Dependencies.tsx";
 import TuplePy from "./pages/it/Languages/Python/Tuples/TuplePy.tsx";
 import StringJsMethods from "./pages/it/Languages/Javascript/Strings/StringJsMethods.tsx";
+import Promise from "./pages/it/Languages/Javascript/Promises/Promise.tsx";
 
 
 const App: React.FC = () => {
@@ -72,6 +73,8 @@ const App: React.FC = () => {
                         <Route path="/it/languages/javascript/strings" element={<StringJsMethods/>} />
                         <Route path="/it/languages/javascript/arrays" element={<ArrayMethods/>} />
                         <Route path="/it/languages/javascript/objects" element={<ObjectJs/>} />
+                        <Route path="/it/languages/javascript/promises" element={<Promise/>} />
+
                         <Route path="/it/languages/typescript" element={<Typescript/>} />
                         <Route path="/it/languages/python" element={<Python/>} />
                         <Route path="/it/languages/python/strings" element={<StringPy/>} />
