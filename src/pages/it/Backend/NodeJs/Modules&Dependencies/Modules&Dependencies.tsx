@@ -397,6 +397,76 @@ const ModulesDependencies: React.FC = () => {
             <JavascriptCode code={`
                 import readFileLines, { separator, encoding } from './modules/read-file-lines.mjs';
             `}/>
+
+            <h3>Import con Alias (As)</h3>
+            <p>Per comprendere meglio questo meccanismo creiamo due moduli:
+                <ul>
+                    <li>un primo modulo per leggere le righe di un file di testo</li>
+                    <li>un secondo modulo per stampare le righe numerate nel terminale</li>
+                </ul>
+            </p>
+            <JavascriptCode code={`
+            // File modules/read-number-lines.mjs
+            import * as readline from 'node:readline/promises';
+            import { stdin as input, stdout as output } from 'node:process';
+            
+            export default async function (prompt = "Insert a number: ") {
+                const rl = readline.createInterface({ input, output });
+                const answer = await rl.question(prompt);
+                rl.close();
+                return parseInt(answer);
+            }
+            `}/>
+            <p>In questo primo modulo possiamo subito osservare l'uso dell'alias <code>as</code> già nella prima riga,
+                dove in sostanza siamo in grado di importare dentro l'oggetto <code>readlines</code> tutte le proprietà
+                del modulo <code>readline/promises</code>.
+            </p>
+            <p>Da questo possiamo quindi comprendere che nei casi in cui un modulo abbia diversi named export, possiamo
+                importarli tutti insieme in un unico oggetto, evitando così di doverli importare uno ad uno.
+            </p>
+            <p>Nella seconda riga di codice invece abbiamo direttamente rinominato i singoli elementi importati, nello
+                nello specifico dal modulo <code>process</code> di NodeJS abbiamo importato le proprietà
+                <code>stdin</code> e <code>stdout</code> rinominandole rispettivamente in <code>input</code> e
+                <code>output</code> (per comodità successiva all'interno del codice).
+            </p>
+            <p>Terzo elemento importante è quello che riguarda l'export di una funzione (senza nome) di default, che è
+                possibile effettuare direttamente all'interno della dichiarazione della funzione stessa, sulla stessa
+                riga.
+                Di fatto questa funzione sfrutta il modulo core di NodeJS <code>readline</code> per leggere da uno
+                stream <code>Readable</code> una riga alla volta.
+            </p>
+            <p>Abbiamo poi la funzione <code>createInterface</code> che ci permette di creare un'istanza della classe
+                <code>readline.Interface</code> la quale richiede a sua volta di essere collegata ad uno stream
+                <code>Readable</code> per:
+                <ul>
+                    <li>leggere l'input (in questo caso <code>stdin</code>)</li>
+                    <li>scrivere l'output (in questo caso <code>stdout</code>)</li>
+                </ul>
+            </p>
+            <p>C'è poi anche il metodo <code>question</code> (esposto dagli oggetti Interface) che ci permette di
+                mostrare il prompt all'utente e di attendere la risposta con al seguito il tasto Invio, senza il quale
+                l'esecuzione del programma rimarrebbe sospesa.
+                <i>In merito ricordiamo infatti che senza chiusura dell'interfaccia NodeJs non potrebbe mai terminare
+                    la sua esecuzione; questo perché essendo <code>readline.Interface</code> un
+                    <code>EventEmitter</code>, senza una chiusura esplicita rimarrebbe in ascolto per nuovi eventi
+                    indefinitamente.</i>
+            </p>
+            <p>In sostanza poi una volta letto il valore inserito dall'utente, è possibile chiudere l'interfaccia,
+                effettuare il parsing del valore e restituirlo al chiamante della funzione.
+            </p>
+            <p>[To Fix] Eventuale approfondimenti su OpenLinks.mjs</p>
+            <p>Affrontando l'alias <code>as</code> diventa quindi più facile comprendere in primis che l'operazione di
+                import non è una normale operazione destrutturante delle proprietà di un oggetto e poi anche che la
+                possibilità di rinominare gli oggetti importati ci permette di migliorare la leggibilità del codice
+                e di evitare conflitti tra nomi.
+            </p>
+            <p>Ma non solo, in realtà è bene sapere che è possibile rinominare gli elementi anche durante
+                l'esportazione, sempre usando una sintassi simile:
+                <JavascriptCode code={`
+                    export { myFunction as moduleFunction, myVariable as moduleVariable };
+                `}/>
+            </p>
+
         </div>
     );
 };
