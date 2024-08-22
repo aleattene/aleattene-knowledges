@@ -343,6 +343,60 @@ const ModulesDependencies: React.FC = () => {
                 $ node read-file-lines.mjs file.txt
                 Il file file.txt (utf-8) contiene 10 righe.
             `}/>
+            <h3>Export default</h3>
+            <p>E' una parola chiave messa a disposizione dal linguaggio quando un modulo vuole esportare un'elemento
+                principale</p>
+            <JavascriptCode code={`
+                // File modules/print-lines-numbers.mjs
+                function print(lines = [], countFrom = 0) {
+                    for (let i = 0; i < lines.length; i++) {
+                        const line = lines[i];
+                        console.log(\`\${countFrom + i}. \${line}\`);
+                    }
+                }
+                
+                export default print;
+            `}/>
+            <p>La riga finale del nostro script, grazie all'utilizzo della keyword <code>export default</code>, ci
+                permette di esportare la funzione <code>print</code> come funzione principale del modulo, senza dover
+                poi usare il suo nome per importarla.
+                Questo tipo di esportazione viene chiamato <code>default export</code>, differentemente da quello che
+                abbiamo visto sino ad ora chiamato <code>named export</code>.
+            </p>
+            <JavascriptCode code={`
+                // File: numbered-echo.mjs
+                // import di un named export
+                import { readFileLines } from './modules/read-file-lines.mjs';
+                
+                // import di un default export (name di import a nostra scelta)
+                import printLines from './modules/print-lines-numbers.mjs';
+                
+                const file = process.argv[2];
+                const lines = await readFileLines(file);
+                printLines(lines);
+            `}/>
+            <p>Lanciano il file si ottiene (per esempio) quanto segue:</p>
+            <TerminalCode code={`
+                $ node numbered-echo.mjs file.txt
+                0. Prima riga
+                1. Seconda riga
+                2. Terza riga
+            `}/>
+            <p>Una osservazione interessante potrebbe essere quella legata al fatto che anche nei moduli in cui vengono
+                esportati più elementi con nome (named export) è sempre possibile esportare uno di default (default
+                export) e viceversa.
+            </p>
+            <JavascriptCode code={`
+                // ...
+                export { readFileLines, separator, encoding };
+                export default readFileLines;
+            `}/>
+            <p>Analogamente poi anche per quanto riguarda l'importazione sarà possibile effettuarla in entrambi i modi,
+                anche su riga singola, come ad esempio:
+            </p>
+            <JavascriptCode code={`
+                import readFileLines, { separator, encoding } from './modules/read-file-lines.mjs';
+            `}/>
         </div>
     );
 };
