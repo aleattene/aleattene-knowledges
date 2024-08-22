@@ -22,7 +22,6 @@ import DictionaryPy from "./pages/it/Languages/Python/Dictionaries/DictionaryPy.
 import SetPy from "./pages/it/Languages/Python/Sets/SetPy.tsx";
 import StringPy from "./pages/it/Languages/Python/Strings/StringPy.tsx";
 import Html from "./pages/it/Frontend/Html/HtmlFe.tsx";
-import Css from "./pages/it/Frontend/Css/CssFe.tsx";
 import ReactFe from "./pages/it/Frontend/React/ReactFe.tsx";
 import NodeJsBe from "./pages/it/Backend/NodeJs/NodeJsBe.tsx";
 import QANodeJsBe from "./pages/it/Backend/NodeJs/Q&A/QANodeJs.tsx";
@@ -43,6 +42,8 @@ import ModulesDependencies from "./pages/it/Backend/NodeJs/Modules&Dependencies/
 import TuplePy from "./pages/it/Languages/Python/Tuples/TuplePy.tsx";
 import StringJsMethods from "./pages/it/Languages/Javascript/Strings/StringJsMethods.tsx";
 import Promise from "./pages/it/Languages/Javascript/Promises/Promise.tsx";
+import Aria from "./pages/it/Frontend/Html/ARIA/Aria.tsx";
+import CssFe from "./pages/it/Frontend/Css/CssFe.tsx";
 
 
 const App: React.FC = () => {
@@ -89,9 +90,11 @@ const App: React.FC = () => {
 
                         <Route path="/it/algorithms" element={<Algorithms/>} />
                         <Route path="/it/datastructures" element={<DataStructures/>} />
+
                         <Route path="/it/frontend" element={<Frontend/>} />
                         <Route path="/it/frontend/html" element={<Html/>} />
-                        <Route path="/it/frontend/css" element={<Css/>} />
+                        <Route path="/it/frontend/html/aria" element={<Aria/>} />
+                        <Route path="/it/frontend/css" element={<CssFe/>} />
                         <Route path="/it/frontend/react" element={<ReactFe/>} />
 
                         <Route path="/it/backend" element={<Backend/>} />
