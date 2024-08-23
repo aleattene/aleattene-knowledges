@@ -682,6 +682,59 @@ const ModulesDependencies: React.FC = () => {
                 }
             `}/>
 
+            <h2>Package-lock.json</h2>
+            <p>Il file <code>package-lock.json</code> è un file generato automaticamente da <code>npm</code> che
+                contiene la lista di tutte le dipendenze installate all'interno del progetto, comprese le versioni
+                esatte di ognuna di esse.
+            </p>
+            <p>Lo scopo di questo file è rappresentare in modo esatto quello che si trova all'interno della cartella
+                <code>node_modules</code> del progetto, per cui ad ogni aggiunta o modifica di una dipendenza, il file
+                viene aggiornato automaticamente per rispecchiare in modo fedele lo stato attuale delle dipendenze.
+            </p>
+            <JavascriptCode code={`
+                // File package-lock.json
+                {
+                    "name": "my-app",
+                    "version": "1.0.0",
+                    "lockfileVersion": 1,
+                    ...
+                    "dependencies": {
+                        "express": {
+                            "version": "4.17.1",
+                            "resolved": "https://registry.npmjs.org/express/-/express-4.17.1.tgz",
+                            ...
+                            }
+                    }
+                }
+            `}/>
+            <p>Differentemente dal file <code>package.json</code>, il file <code>package-lock.json</code> contiene
+                l'elenco di tutti i package scaricati e installati, comprese quelle transitive e le relative versioni.
+            </p>
+            <p>Sostanzialmente si tratta di un file che rispecchia fedelmente lo stato corrente delle dipendenze in uno
+                specifico momento del tempo.
+            </p>
+            <p>Nel momento in cui viene lanciato il comando <code>npm install</code>, npm cerca il file
+                <code>package-lock.json</code> e se lo trova, installa le dipendenze esattamente come sono elencate
+                all'interno di esso.
+                Viceversa se non lo trova, cerca il file <code>package.json</code> e installa le dipendenze come sono
+                elencate in quel file, creando però a quel punto anche il file <code>package-lock.json</code>.
+            </p>
+            <p>Un errore da non fare è quello di modificare manualmente il file <code>package.json</code> credendo
+                che questo cambi qualcosa, poiché fino a quando non verrà rilanciato il comando <code>npm install</code>
+                non succederà nulla. E' infatti solo alla sua successiva esecuzione che verranno aggiornati i file
+                presenti nella cartella <code>node_modules</code> e di conseguenza aggiornato anche il file
+                <code>package-lock.json</code> poiché ri-sincronizzato con essi.
+            </p>
+            <p>E' stato facile comprendere come effettivamente grazie al file <code>package-lock.json</code> sia
+                possibile ricreare il contenuto della cartella <code>node_modules</code> con anche le stesse identiche
+                versione delle dipendenze su un altro sistema (o in un altro momento), semplicemente lanciando il
+                comando <code>npm install</code>.
+                Per tale motivo è quindi importante che sia il file <code>package.json</code> che il file
+                <code>package-lock.json</code> siano entrambi presenti sia nei sistemi di versionamento del codice che
+                nel repository del progetto.
+            </p>
+
+
         </div>
     );
 };
