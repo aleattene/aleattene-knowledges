@@ -337,8 +337,8 @@ const ModulesDependencies: React.FC = () => {
                 console.log(\`Il file \${file} (\${encding}) contiene \${lines.length} righe.\`);
             `}/>
             <p><i>Aspetto importante di questo piccolo script è la presenza (sempre necessaria) dell'estensione nel
-            path completo del file da importare, in quanto in caso contrario riceveremmo l'errore
-            <code>ERR_MODULE_NOT_FOUND</code>.</i></p>
+                path completo del file da importare, in quanto in caso contrario riceveremmo l'errore
+                <code>ERR_MODULE_NOT_FOUND</code>.</i></p>
             <TerminalCode code={`
                 $ node read-file-lines.mjs file.txt
                 Il file file.txt (utf-8) contiene 10 righe.
@@ -504,67 +504,67 @@ const ModulesDependencies: React.FC = () => {
                 file abbia estensione <code>.js</code>, si tratta di un modulo ES.
             </p>
             <p>Concludiamo osservando le principali differenze tra i moduli CJS e ES:</p>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Tipo di Moduli</th>
-                            <th>CommonJS</th>
-                            <th>EcmaScript Modules</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>Estensione File</td>
-                            <td>.js</td>
-                            <td>.mjs</td>
-                        </tr>
-                        <tr>
-                            <td>Caricamento Moduli</td>
-                            <td>Sincrono</td>
-                            <td>Asincrono</td>
-                        </tr>
-                        <tr>
-                            <td>Top-level await</td>
-                            <td>Non Supportato</td>
-                            <td>Supportato</td>
-                        </tr>
-                        <tr>
-                            <td>Sintassi esportazione</td>
-                            <td>exports / module.exports</td>
-                            <td>export / export default</td>
-                        </tr>
-                        <tr>
-                            <td>Sintassi importazione</td>
-                            <td>require(...)</td>
-                            <td>import ... from ...</td>
-                        </tr>
-                        <tr>
-                            <td>Caching dei Moduli</td>
-                            <td>Si</td>
-                            <td>Si</td>
-                        </tr>
-                        <tr>
-                            <td>Variabili Path Modulo</td>
-                            <td>__filename, __dirname</td>
-                            <td>import.meta.filename, import.meta.dirname(beta)</td>
-                        </tr>
-                        <tr>
-                            <td>Supporto per altri Moduli</td>
-                            <td>No</td>
-                            <td>CJS</td>
-                        </tr>
-                        <tr>
-                            <td>Risoluzione Path Moduli</td>
-                            <td>Basata su convenzioni</td>
-                            <td>Esatta</td>
-                        </tr>
-                        <tr>
-                            <td>Caricamento file JSON</td>
-                            <td>Supportato</td>
-                            <td>import data from './data.json' with &#123;  type: 'json' &#125;  (sperimentale)</td>
-                        </tr>
-                    </tbody>
-                </table>
+            <table>
+                <thead>
+                <tr>
+                    <th>Tipo di Moduli</th>
+                    <th>CommonJS</th>
+                    <th>EcmaScript Modules</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>Estensione File</td>
+                    <td>.js</td>
+                    <td>.mjs</td>
+                </tr>
+                <tr>
+                    <td>Caricamento Moduli</td>
+                    <td>Sincrono</td>
+                    <td>Asincrono</td>
+                </tr>
+                <tr>
+                    <td>Top-level await</td>
+                    <td>Non Supportato</td>
+                    <td>Supportato</td>
+                </tr>
+                <tr>
+                    <td>Sintassi esportazione</td>
+                    <td>exports / module.exports</td>
+                    <td>export / export default</td>
+                </tr>
+                <tr>
+                    <td>Sintassi importazione</td>
+                    <td>require(...)</td>
+                    <td>import ... from ...</td>
+                </tr>
+                <tr>
+                    <td>Caching dei Moduli</td>
+                    <td>Si</td>
+                    <td>Si</td>
+                </tr>
+                <tr>
+                    <td>Variabili Path Modulo</td>
+                    <td>__filename, __dirname</td>
+                    <td>import.meta.filename, import.meta.dirname(beta)</td>
+                </tr>
+                <tr>
+                    <td>Supporto per altri Moduli</td>
+                    <td>No</td>
+                    <td>CJS</td>
+                </tr>
+                <tr>
+                    <td>Risoluzione Path Moduli</td>
+                    <td>Basata su convenzioni</td>
+                    <td>Esatta</td>
+                </tr>
+                <tr>
+                    <td>Caricamento file JSON</td>
+                    <td>Supportato</td>
+                    <td>import data from './data.json' with &#123;  type: 'json' &#125;  (sperimentale)</td>
+                </tr>
+                </tbody>
+            </table>
 
             <h2>Moduli, Progetti e Package</h2>
             <p>Parlando di NodeJS è ormai normale prassi parlare di file JS e quindi di moduli CJS o ES. L'utilità di
@@ -657,7 +657,7 @@ const ModulesDependencies: React.FC = () => {
                 <p>Questo numero di versione è chiamato
                     <a href={"https://github.com/npm/node-semver#versions"}
                        target={"_blank"} rel={"noreferrer"}>
-                            <code>semver</code>
+                        <code>semver</code>
                     </a>
                     (Semantic Versioning) e si compone di tre parti:
                     <ul>
@@ -842,7 +842,7 @@ const ModulesDependencies: React.FC = () => {
                 progetto ma che nulla apportano alle funzionalità dell'applicazione. Un classico esempio sono i
                 <code>linter</code> (come ad esempio
                 <a href={'https://eslint.org/'} target={'_blank'} rel={'noreferrer'}>
-                    <code> eslint</code>)
+                    <code className={'documentation-link'}> eslint</code>)
                 </a>,
                 grazie ai quali è possibile fare un'analisi statica del codice e trovare eventuali problemi o warning.
             </p>
@@ -925,10 +925,24 @@ const ModulesDependencies: React.FC = () => {
                 $ npx eslint *.mjs
             `}/>
 
-
-
-
-
+            <p>[TO FIX] Creazione e Condivisione Moduli </p>
+            <h2>Corepack</h2>
+            <p>Corepack è il quarto file eseguibile (dopo <code>node</code>, <code>npm</code> e <code>npx</code>)
+                incluso in NodeJS (seppur in fase sperimentale).
+                Si tratta di uno strumento che permette a NodeJS di gestire il package manager come qualsiasi altra
+                dipendenza.
+                Può capitare infatti che se il nostro progetto utilizza un certo package manager, nel momento in cui
+                lo condividiamo con un’altra persona, anch'essa dovrà averlo già installato (preferibilmente nella
+                nostra stessa nostra versione), altrimenti se non presente dovrà essere installato prima di poter avviare
+                il progetto.
+            </p>
+            <p>Ecco allora che di fronte a questo genere di problemi ci viene in soccorso
+                <a href={'https://nodejs.org/api/corepack.html'} target={'_blank'} rel={'noreferrer'}>
+                    <code className={'documentation-link'}>corepack</code>
+                </a>
+                fornendoci un'interfaccia standard tra l’utente e i diversi package manager, installandone la giusta
+                versione (quando e se necessario) e tenendoli separati in ogni progetto.
+            </p>
         </div>
     );
 };
