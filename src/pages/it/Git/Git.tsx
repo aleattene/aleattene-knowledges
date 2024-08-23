@@ -19,6 +19,7 @@ const push: string = `git push`;
 // BRANCH
 const createBranch: string = `git branch branch_name`;
 const switchBranch: string = `git checkout branch_name`;
+const previousBranch: string = `git checkout -`;
 const createSwitchBranch: string = `git checkout -b branch_name`;
 const mergeBranch: string = `git merge branch_name`;
 const deleteBranch: string = `git branch -d branch_name`;
@@ -63,6 +64,8 @@ const Git: React.FC = () => {
             <TerminalCode code={createBranch}/>
             <h3>Spostarsi da un Branch Locale ad un altro</h3>
             <TerminalCode code={switchBranch}/>
+            <h3>Spostarsi al Branch Locale precedente</h3>
+            <TerminalCode code={previousBranch}/>
             <h3>Creare e Spostarsi in un Nuovo Branch Locale</h3>
             <TerminalCode code={createSwitchBranch}/>
             <h3>Fondere (merge) un Branch Locale nel Branch Locale corrente</h3>
