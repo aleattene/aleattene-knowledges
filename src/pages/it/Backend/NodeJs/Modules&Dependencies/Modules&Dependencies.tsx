@@ -734,7 +734,108 @@ const ModulesDependencies: React.FC = () => {
                 nel repository del progetto.
             </p>
 
-
+            <h2>Risoluzione dei Moduli</h2>
+            <p>Sappiamo che una volta scaricati i package, questi vengono salvati all'interno della cartella
+                <code>node_modules</code> del progetto per poter poi essere importati all'interno del nostro codice
+                tramite la keyword <code>require()</code> o <code>import</code>, ma si tratta di un meccanismo di
+                risoluzione tutt'altro che banale.
+            </p>
+            <JavascriptCode code={`
+                // File example.js
+                import something from 'something';
+            `}/>
+            <p>Se noi a questo punto lanciamo il file <code>example.js</code> usando la variabile d'ambiente
+                <code>NODE_DEBUG=module;</code> attiveremo dei log di debug interni di NodeJS che ci permetteranno di
+                vedere in output l'elenco di tutte le cartelle in cui il modulo viene cercato (se non lo trova
+                l'esecuzione si interrompe con un errore di tipo <code>MODULE_NOT_FOUND</code>).
+            </p>
+            <TerminalCode code={`
+                $ NODE_DEBUG=module node example.js (???)
+                
+                // Se il file esiste
+                ...
+                MODULE looking for "something" in /path/to/project/node_modules
+                MODULE found "something" in /path/to/project/node_modules/something
+                
+                // Se il file non viene trovato
+                ...
+                MODULE 24945: looking for "something" in [  
+                    "/home/user/book/code/08-exe/10-string/node_modules",
+                    "/home/user/book/code/08-exe/node_modules",  
+                    "/home/user/book/code/node_modules",  
+                    "/home/user/book/node_modules",  
+                    "/home/user/node_modules",  
+                    "/home/node_modules",  
+                    "/node_modules",  
+                    "/home/user/.node_modules",  
+                    "/home/user/.node_libraries",  
+                    "/home/user/.nvm/versions/node/v20.4.1/lib/node"
+                ]
+                ...
+            `}/>
+            <p>In sostanza quando noi cerchiamo di caricare un modulo attraverso il suo nome, se questo non corrisponde
+                a quello di un modulo interno (es. <code>fs</code>, <code>http</code>, ecc.), Node.js lo cerca nella
+                cartella <code>node_modules</code> che si trova allo stesso livello del file che sta
+                effettuando l’importazione.
+                Se non lo trova, comincia a risalire il filesystem fino a raggiungere la root, cercandolo nella
+                cartella <code>node_modules</code> di ogni livello visitato. Ed è proprio per questo motivo che
+                possiamo importare i package anche da file che si trovano in cartelle più annidate rispetto a quella
+                principale del progetto.
+            </p>
+            <p>Interessante osservazione meritano i tre path elencati in coda, ovvero:
+                <ul>
+                    <li><code>~/.node_modules</code></li>
+                    <li><code>~/.node_libraries</code></li>
+                    <li><code>~/.nvm/versions/node/v20.4.1/lib/node</code></li>
+                </ul>
+                Questo ci fa capire in sostanza che una volta raggiunta la root del filesystem, se il modulo non viene
+                trovato, NodeJS fa un'ultima ricerca all'interno di queste tre cartelle:
+                <ul>
+                    <li>le prime due sono relative all'utente che sta eseguendo l'applicazione</li>
+                    <li>l'ultima è relativa all'installazione stessa di NodeJS</li>
+                </ul>
+            </p>
+            <p>Una volta trovato il package, lo step successivo riguarda il fatto che NodeJs debba caricare un modulo
+                specifico (un file), con estensione <code>.js</code> o <code>.mjs</code>, a fronte di un modulo esterno
+                e del relativo <code>import</code> o <code>require</code> effettuato. Ecco allora che per poter
+                individuare il path del file da caricare, NodeJS fa riferimento al file <code>package.json</code>
+                presente nella cartella della dipendenza. Esempio:
+            </p>
+            <JavascriptCode code={`
+                // File package.json
+                {
+                    "name": "something",
+                    "version": "1.0.0",
+                    "main": "lib/index.js"
+                    "module": "lib/esm/index.js"
+                    exports: {
+                        ".": {
+                            "import": "./lib/esm/index.js",
+                            "require": "./lib/index.js"
+                        }
+                    }
+                }
+            `}/>
+            <p>Osservando il codice, è facile comprendere che quello che succederà sarà:
+                <ul>
+                    <li>se importiamo il modulo tramite <code>require()</code>, Node.js caricherà il file
+                        indicato dalla proprietà <code>main</code></li>
+                    <li>se invece lo importiamo con <code>import</code>, caricherà quello contenuto in
+                        <code>module</code></li>
+                </ul>
+            </p>
+            <p><i>In merito a questo aspetto è importante osservate che entrambe le proprietà altro non sono che un
+                espediente per permettere ai package di supportare le vecchie versioni di Node.js.</i>
+                Nelle versioni moderne, infatti, attraverso la sola proprietà <code>exports</code> (che ha la precedenza
+                sulle due proprietà sopra citate) è possibile definire degli <code>export condizionali</code> basati
+                sulle sole proprietà del chiamante, ovvero:
+                <ul>
+                    <li>se il modulo <code>.</code> (cioè quello corrispondente al nome del package) viene caricato
+                        con <code>require()</code>, sarà letto il file <code>lib/index.js</code>
+                    </li>
+                    <li>viceversa con <code>import</code>, sarà letto il file <code>lib/esm/index.js</code></li>
+                </ul>
+            </p>
         </div>
     );
 };
