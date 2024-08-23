@@ -601,7 +601,86 @@ const ModulesDependencies: React.FC = () => {
                 NodeJS, le loro versioni non coincidono poiché sono comunque due progetti separati sviluppati da team
                 diversi.
             </p>
+            <p>[To FIX] Package.json</p>
 
+            <h2>Node Modules</h2>
+            <p>Quando installiamo una dipendenza questa non viene solo aggiunta al file <code>package.json</code> ma
+                viene anche scaricata all'interno di una cartella <code>node_modules</code> presente nella root del
+                progetto. Se non fosse già presente, <code>npm</code> la creerebbe in automatico durante la sua
+                esecuzione.
+            </p>
+            <p>All'interno della directory <code>node_modules</code> troviamo una cartella per ogni dipendenza
+                (package) installata più altre cartelle relative alle dipendenze transitive (ovvero dipendenze delle
+                dipendenze).
+            </p>
+            <p>Durante l'installazione di una dipendenza con il comando <code>npm install</code>, npm verifica se
+                all'interno del file <code>package.json</code> è presente la sezione <code>dependencies</code> ed in
+                caso affermativo scarica dal registry tutte le dipendenze elencate più ovviamente quelle transitive.
+            </p>
+            <JavascriptCode code={`
+                // File package.json
+                {
+                    "name": "my-app",
+                    "version": "1.0.0",
+                    "dependencies": {
+                        "express": "^4.17.1",
+                        "pdf-lib": "^1.16.0"
+                    }
+                }
+            `}/>
+            <p>Se volessimo visualizzare tutte le dipendenze installate (dirette e transitive) nel nostro progetto
+                possiamo utilizzare il comando <code>npm ls -all</code>
+            </p>
+            <p>Importante osservazione da fare è quella relativa al fatto che le dipendenze vengono installate solo
+                localmente, ovvero all'interno della cartella <code>node_modules</code> del progetto, ma non vengono
+                salvate nei sistemi di gestione/versionamento del codice (come ad esempio <code>git</code>): non a caso
+                la cartella <code>node_modules</code> è spesso e volentieri come prima voce nel file
+                <code>.gitignore</code>.
+            </p>
+            <p>Il motivo per cui si adotta questo comportamento è legato al fatto che a partire del file
+                <code>package.json</code> è sempre possibile ricostruire l'intero albero delle dipendenze (con la
+                relativa versione specificata nel file package.json stesso) tramite il comando <code>npm install</code>,
+                e quindi sarebbe inutile e controproducente salvare tutti i file delle dipendenze all'interno di un
+                repository.
+            </p>
+            <p>la versione delle dipendenze che installiamo dipende dal comando che lanciamo.
+                Quando installiamo una dipendenza con npm, questo cercherà nel registry la versione più recente
+                disponibile (con tag <code>latest</code> nel registry) e la scaricherà/installerà.
+                Il numero di versione aggiunto nel package.json sarà del tipo:
+                <JavascriptCode code={`
+                    "dependencies": {
+                        "express": "^4.17.1"
+                    }
+                `}/>
+                <p>che starà a significare "qualsiasi versione uguale o superiore alla 4.17.1 ma inferiore alla 5.0.0".
+                </p>
+                <p>Questo numero di versione è chiamato
+                    <a href={"https://github.com/npm/node-semver#versions"}
+                       target={"_blank"} rel={"noreferrer"}>
+                            <code>semver</code>
+                    </a>
+                    (Semantic Versioning) e si compone di tre parti:
+                    <ul>
+                        <li>numero di versione</li>
+                        <li>numero di patch</li>
+                        <li>numero di build</li>
+                    </ul>
+                </p>
+            </p>
+            <p>Come best practice il modo migliore per tenere sotto controllo le dipendenze è quello di usare versioni
+                esatte, ovvero specificare la versione esatta della dipendenza che si vuole installare:
+            </p>
+            <TerminalCode code={`
+                $ npm install express@4.17.1
+                
+                $ npm install -save-exact express
+            `}/>
+            <p>il cui risultato sarà qualcosa del tipo:</p>
+            <JavascriptCode code={`
+                "dependencies": {
+                    "express": "4.17.1"
+                }
+            `}/>
 
         </div>
     );
