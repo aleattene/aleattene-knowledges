@@ -467,6 +467,142 @@ const ModulesDependencies: React.FC = () => {
                 `}/>
             </p>
 
+            <h2>Moduli CJS da ESM</h2>
+            <p>E' possibile importare moduli CommonJS in moduli EcmaScript, ad esempio con la seguente sintassi:</p>
+            <JavascriptCode code={`
+                import somma from './modules/somma.js';
+            `}/>
+            <p>che di fatto è una scorciatoia del più prolisso:</p>
+            <JavascriptCode code={`
+                import { default as somma } from './modules/somma.js';
+            `}/>
+            <p>In entrambi i casi otteniamo comunque lo stesso modulo, ma quello che è importante osservare è che
+                qualsiasi modulo importato da ESM richiede sempre il path completo del file, compresa l'estensione.
+                In caso contrario si otterrebbe l'errore: <code>ERR_UNSUPPORTED_DIR_IMPORT</code>.
+            </p>
+            <p>L'uso del percorso completo al fine è necessaria anche quando il modulo presenta un file
+                <code>package.json</code> con la proprietà <code>main</code> (esempio "main": "index.js") poiché questa
+                è usata solo da CommonJS. IN caso contrario si otterrebbe l'errore:
+                <code>ERR_MODULE_NOT_FOUND</code>.
+            </p>
+            <p>Un'altra situazione classica che ci si può trovare ad affrontare è quella in cui si utilizza la
+                keyword <code>import</code> in un file con estensione <code>.js</code>; in tal caso riceveremmo un
+                warning ed un errore:
+            </p>
+            <TerminalCode code={`
+                Warning: To load an ES module, set "type": "module" in the package.json or use the .mjs extension.
+                ...
+                SyntaxError: Cannot use import statement outside a module
+            `}/>
+            <p>Si ottiene questo errore poiché <code>import</code> è una keyword disponibile solo nei moduli ES, ma
+                se NodeJS incontra un file con estensione <code>.js</code> tenta di caricarlo come CommonJS e quindi
+                viene a generarsi l'errore.
+            </p>
+            <p>Se volessimo (o dovessimo) utilizzare l'estensione <code>.js</code> per i nostri moduli ES, dobbiamo
+                necessariamente disporre di un file <code>package.json</code> con la proprietà
+                <code>type</code> impostata a <code>module</code>: in questo modo diciamo a NodeJS che nonostante il
+                file abbia estensione <code>.js</code>, si tratta di un modulo ES.
+            </p>
+            <p>Concludiamo osservando le principali differenze tra i moduli CJS e ES:</p>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Tipo di Moduli</th>
+                            <th>CommonJS</th>
+                            <th>EcmaScript Modules</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Estensione File</td>
+                            <td>.js</td>
+                            <td>.mjs</td>
+                        </tr>
+                        <tr>
+                            <td>Caricamento Moduli</td>
+                            <td>Sincrono</td>
+                            <td>Asincrono</td>
+                        </tr>
+                        <tr>
+                            <td>Top-level await</td>
+                            <td>Non Supportato</td>
+                            <td>Supportato</td>
+                        </tr>
+                        <tr>
+                            <td>Sintassi esportazione</td>
+                            <td>exports / module.exports</td>
+                            <td>export / export default</td>
+                        </tr>
+                        <tr>
+                            <td>Sintassi importazione</td>
+                            <td>require(...)</td>
+                            <td>import ... from ...</td>
+                        </tr>
+                        <tr>
+                            <td>Caching dei Moduli</td>
+                            <td>Si</td>
+                            <td>Si</td>
+                        </tr>
+                        <tr>
+                            <td>Variabili Path Modulo</td>
+                            <td>__filename, __dirname</td>
+                            <td>import.meta.filename, import.meta.dirname(beta)</td>
+                        </tr>
+                        <tr>
+                            <td>Supporto per altri Moduli</td>
+                            <td>No</td>
+                            <td>CJS</td>
+                        </tr>
+                        <tr>
+                            <td>Risoluzione Path Moduli</td>
+                            <td>Basata su convenzioni</td>
+                            <td>Esatta</td>
+                        </tr>
+                        <tr>
+                            <td>Caricamento file JSON</td>
+                            <td>Supportato</td>
+                            <td>import data from './data.json' with &#123;  type: 'json' &#125;  (sperimentale)</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+            <h2>Moduli, Progetti e Package</h2>
+            <p>Parlando di NodeJS è ormai normale prassi parlare di file JS e quindi di moduli CJS o ES. L'utilità di
+                parlare di moduli (ognuno con le proprie funzionalità e responsabilità) è legata al fatto di poterli
+                assemblare ed integrate tra loro per andare poi a creare progetti sempre più complessi.
+                Parlando di moduli, questi possono essere:
+                <ul>
+                    <li>moduli core di NodeJS (esempio <code>fs</code>, <code>http</code>, ecc.)</li>
+                    <li>moduli custom (creati da noi)</li>
+                    <li>moduli di terze parti</li>
+                </ul>
+            </p>
+            <p>Se per i primi due tipi di moduli è abbastanza chiaro come si possano creare, esportare ed importare,
+                per quanto riguarda i moduli di terze parti questi sono forniti sotto forma di package (o pacchetti),
+                ovvero una cartella contenente un file <code>package.json</code> ed uno o più file JS.
+            </p>
+            <p>La loro gestione è delegata ai cd package manager come ad esempio <code>npm</code> o <code>yarn</code>,
+                i quali scaricano appunto questi package e li installano localmente, così da renderli disponibili per
+                le nostre applicazioni.
+                Naturalmente questo creare una dipendenza di funzionamento tra la nostra applicazione e il package ed
+                è proprio per questo motivo che i package esterni vengono anche chiamati <code>dipendenze</code>.
+            </p>
+
+            <p>[TO FIX] Dipendenze</p>
+            <h3>NPM (Node Package Manager)</h3>
+            <p>Per conoscere la versione di <code>npm</code> installata sul proprio sistema è possibile utilizzare il
+                comando <code>npm -v</code>:
+            </p>
+            <TerminalCode code={`
+                $ npm -v
+                9.3.0
+            `}/>
+            <p>E' importante osservare che seppur <code>npm</code> viene distribuito ed installato contestualmente a
+                NodeJS, le loro versioni non coincidono poiché sono comunque due progetti separati sviluppati da team
+                diversi.
+            </p>
+
+
         </div>
     );
 };
