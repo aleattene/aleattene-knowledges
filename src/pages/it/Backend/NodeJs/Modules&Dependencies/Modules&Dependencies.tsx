@@ -836,6 +836,99 @@ const ModulesDependencies: React.FC = () => {
                     <li>viceversa con <code>import</code>, sarà letto il file <code>lib/esm/index.js</code></li>
                 </ul>
             </p>
+
+            <h2>Dipendenza di Sviluppo (DevDependencies)</h2>
+            <p>Capita a volte di aver bisogno di package esterni da utilizzare solo durante la fase di sviluppo del
+                progetto ma che nulla apportano alle funzionalità dell'applicazione. Un classico esempio sono i
+                <code>linter</code> (come ad esempio
+                <a href={'https://eslint.org/'} target={'_blank'} rel={'noreferrer'}>
+                    <code> eslint</code>)
+                </a>,
+                grazie ai quali è possibile fare un'analisi statica del codice e trovare eventuali problemi o warning.
+            </p>
+            <p>Per poter aggiungere una dipendenza di sviluppo tra le dipendenze di sviluppo del progetto, è possibile
+                utilizzare il comando <code>npm install</code> con l'opzione <code>--save-dev</code>:
+            </p>
+            <TerminalCode code={`
+                // Installazione di eslint come dipendenza di sviluppo
+                $ npm install --save-dev eslint
+            `}/>
+            <p>La dipendenza sarà installata sempre all'interno della cartella <code>node_modules</code> del progetto e
+                contestualmente aggiunta al file <code>package.json</code> all'interno della sezione
+                <code>devDependencies</code>:
+            </p>
+            <JavascriptCode code={`
+                // File package.json
+                {
+                    "name": "my-app",
+                    "version": "1.0.0",
+                    "devDependencies": {
+                        "eslint": "^8.32.0"
+                    }
+                }
+            `}/>
+            <p>Con particolare riferimento a <code>eslint</code>, va detto che prima di poterlo utilizzare bisogna
+                configurarlo (solitamente attraverso un file <code>.eslintrc</code> o <code>.eslintrc.json</code>)
+                per indicargli:
+                <ul>
+                    <li>il tipo di codice che si troverà ad analizzare</li>
+                    <li>le regole di qualità da applicare</li>
+                </ul>
+            </p>
+            <JavascriptCode code={`
+                // File .eslintrc
+                {
+                    "env": {
+                        "node": true,
+                        "es2022": true
+                    },
+                    "extends": "eslint:recommended",
+                    "parserOptions": {
+                        "sourceType": "module"
+                    },
+                }
+            `}/>
+            <p>Una volta configurato, è possibile lanciarlo attraverso il comando:</p>
+            <TerminalCode code={`
+                $ npm exec eslint *.mjs
+            `}/>
+            <p>ottenendo come risultato qualcosa di simile:</p>
+            <TerminalCode code={`
+                $ npm exec eslint *.mjs
+                /path/to/project/index.mjs
+                  1:1  error  'fs' is not defined  no-undef
+
+                ✖ 1 problem (1 error, 0 warnings)
+            `}/>
+            <p>Un'alternativa più interessante per lanciare eslint è quella di aggiungere uno script all'interno del
+                file <code>package.json</code>:
+            </p>
+            <JavascriptCode code={`
+                // File package.json
+                {
+                    ...
+                    "scripts": {
+                        "lint": "eslint *.mjs"
+                    },
+                    "devDependencies": {
+                        "eslint": "^8.32.0"
+                    }
+                    ...
+                }
+            `}/>
+            <p>In questo modo sarà possibile lanciare eslint semplicemente con il comando:</p>
+            <TerminalCode code={`
+                $ npm run lint
+            `}/>
+            <p>Altra possibilità è sfruttando il comando <code>npx</code>: (???)</p>
+            <TerminalCode code={`
+                $ npx eslint *.mjs
+            `}/>
+
+
+
+
+
         </div>
     );
 };
