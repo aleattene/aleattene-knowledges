@@ -38,7 +38,90 @@ const Javascript: React.FC = () => {
     return (
         <div>
             <h1>Promise</h1>
-            <p>[TO FIX] Description</p>
+            <p>Le promise sono oggetti che ci permettono di lavorare con operazioni asincrone, ovvero di effettuare
+                operazioni che non restituiscono immediatamente un risultato, ma che danno un risultato in un momento
+                successivo. Risultato che può essere positivo (in tal caso la promise verrà risolta) o negativo (in
+                tal caso la promise verrà rigettata).
+            </p>
+            <p>Un esempio di promise è la funzione <code>fetch()</code> che ci permette di effettuare chiamate HTTP
+                verso le APIs di un server.
+                Nel caso di una piattaforma Web la chiamata è asincrona perché il layout della pagina non deve essere
+                bloccato in attesa della risposta del server (che non è istantanea poiché per sua natura potrebbe
+                trovarsi a servire più chiama contemporaneamente).
+                In questo modo in attesa dei dati (che poi popoleranno la pagina) viene comunque caricato il layout
+                della pagina.
+            </p>
+            <p>[IMG] STATP</p>
+            <p>Le promise possono trovarsi in uno di questi tre stati:</p>
+            <ul>
+                <li><b>Pending</b>: stato iniziale, in attesa di essere risolta o rigettata.</li>
+                <li><b>Fulfilled (Resolved)</b>: l'operazione è stata completata con successo e vengono restituiti
+                    eventuali dati come risultato.
+                </li>
+                <li><b>Rejected</b>: significa che l'operazione è fallita e viene restituito il tipo di errore.</li>
+            </ul>
+            <p>Come abbiamo visto la promisè può avere tre strati: pending, resolved, rejected. Questi stati sono
+                rappresentati da tre metodi che possiamo chiamare su una promise:</p>
+            <ul>
+                <li><code>promise.then()</code>: viene eseguito questo metodo quando la promise è risolta.</li>
+                <li><code>promise.catch()</code>: viene chiamato quando la promise è rigettata.</li>
+                <li><code>promise.finally()</code>: viene chiamato quando la promise è risolta o rigettata (ovvero
+                    quando non si trova più in uno stato di pending).
+                </li>
+            </ul>
+            <h3>Esempio:</h3>
+            <JavascriptCode code={`
+                const myPromise = new Promise((resolve, reject) => {
+                    setTimeout(() => {
+                        resolve('Promise Risolta');
+                    }, 2000);   // milliseconds
+                });
+
+                myPromise
+                    // Se Promise Risolta
+                    .then((value) => {
+                        console.log(value);
+                    })
+                    // Se Promise Rigettata (gestisce errori correttamente evitando eccezioni inaspettate in console)
+                    .catch((error) => {
+                        console.log(error);
+                    })
+                    // Eseguito in ogni caso
+                    .finally(() => {
+                        console.log('Promise completata');
+                    });
+            `}/>
+            <p>Output:</p>
+            <TerminalCode code={`
+                Promise Risolta
+                Promise completata
+            `}/>
+            <p>Volendo è anche possibile passare dei parametri/argomenti alla promise:</p>
+            <JavascriptCode code={`
+                const myPromise = (params) => {
+                    return new Promise((resolve, reject) => {
+                    // ... 
+                });
+
+                myPromise
+                    .then((value) => { ... })
+                    .catch((error) => { ... })
+                    .finally(() => { ... });
+            `}/>
+            <p>Come abbiamo detto, un esempio di promise è la funzione <code>fetch()</code> che ci permette di
+                effettuare nativamente chiamate HTTP asincrone verso le APIs di un server. Ecco un esempio:</p>
+            <JavascriptCode code={`
+                const url = 'https://randomuser.me/api/';
+                fetch(url)
+                    .then(response => response.json())
+                    .then(data => console.log(data))        // Esecuzione sequenziale (possibile callback hell)
+                    .catch(error => console.log(error))     // Cattura eventuali errori nella catena di chiamate
+            `}/>
+
+
+
+
+
 
             <p>Ci sono {promiseStaticMethods.length} metodi statici della classe Promise:</p>
             <ul>
@@ -50,8 +133,8 @@ const Javascript: React.FC = () => {
                     );
                 })}
             </ul>
-            
-            
+
+
             <h2>Metodo
                 <a href={'https://developer.mozilla.org/it/docs/Web/JavaScript/Reference/Global_Objects/Promise/all'}>
                     <code className={'documentation-link'}> Promise.all() </code>
