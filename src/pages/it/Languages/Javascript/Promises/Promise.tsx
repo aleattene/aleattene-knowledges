@@ -117,12 +117,66 @@ const Javascript: React.FC = () => {
                     .then(data => console.log(data))        // Esecuzione sequenziale (possibile callback hell)
                     .catch(error => console.log(error))     // Cattura eventuali errori nella catena di chiamate
             `}/>
+            <h3>Callback Hell</h3>
+            <p>Il problema delle callback hell si verifica quando si hanno troppe funzioni annidate l'una dentro
+                l'altra. Questo rende il codice difficile da leggere e da mantenere. Ecco un esempio:</p>
+            <JavascriptCode code={`
+                const urlStart = 'https://randomuser.me/api/';
+                const urlEnd = 'https://api.github.com/users/me';
+                fetch(urlStart)
+                    .then(response => response.json())
+                    .then(dataStart => {
+                        fetch(urlEnd)
+                            .then(response => response.json())
+                            .then(dataEnd => {
+                                console.log(dataStart, dataEnd);
+                            });
+                    });
+            `}/>
+            <p>Una possibile soluzione a questo problema è l'utilizzo di <code>async/await</code>.</p>
 
+            <h3>Async - Await</h3>
+            <p>Si tratta di una funzionalità aggiuntiva introdotta in ES8 (ECMAScript 2017) che permette di gestire
+                (mentalmente) codice asincrono come se fosse sincrono.
+            </p>
+            <p>Esempio:</p>
+            <JavascriptCode code={`
+                // Funzione asincrona
+                const getUser = async (userId) => {
+                    try {
+                        const url = \`\${baseUrl}/users/\${userId}\`;
+                        console.log('Fetching user with id: ', userId);
+                        // Qui si aspetta fino a promise risolta/fullfilled (se rigettata, errore catturato dal catch)
+                        const response = await fetch(url);  
+                        console.log('Successfully User fetched: ', response);
+                    } catch (error) {
+                        console.log('Error fetching user: ', error);
+                    }
+                };
+                
+                // Chiamata funzione asincrona
+                getUser(7); 
+            `}/>
+            <p>Output:</p>
+            <TerminalCode code={`
+                Fetching user with id: 7
+                Successfully User fetched:  Response { ... }
+            `}/>
+            <p>Da questo piccolo esempio abbiamo potuto osservare che l'uso di <code>await</code> è consentito solo
+                all'interno di funzioni dichiarate come <code>async</code>; in realtà con ES modules è possibile
+                utilizzarlo anche al di fuori di funzioni async, a livello
+                    <a href={'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/await' +
+                        '#top_level_await'}>
+                        <code className={'documentation-link'}>top-level</code>
+                    </a>.
+            </p>
+            <p>Altro aspetto importante da considerare è che <code>async/await</code> è una feature che non nasce per
+                sostituire le promise/then/catch, quanto per gestire meglio le chiamate asincrone sequenziali, ovvero
+                evitare il callback hell.
+            </p>
+            <p>[TO FIX] Promise classica vd asincrona</p>
 
-
-
-
-
+            <h2>La Classe Promise</h2>
             <p>Ci sono {promiseStaticMethods.length} metodi statici della classe Promise:</p>
             <ul>
                 {promiseStaticMethods.map((method, index) => {
