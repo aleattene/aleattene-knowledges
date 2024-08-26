@@ -250,6 +250,55 @@ const StreamNode: React.FC = () => {
                 stream di tipo <code>Transform</code>.
             </p>
 
+            <h3>Transform</h3>
+            <p>E' l'ultimo tipo di stream supportato da NodeJs ed è un particolare tipo di stream <code>Duplex</code>
+                in cui i due stream sono in relazione tra loro in modo tale che ciò che scriviamo al suo interno è
+                collegato a ciò che leggiamo da esso.
+                Il suo nome deriva proprio dal fatto che <strong>trasforma</strong> ciò che riceve in ingresso in
+                qualcos'altro in uscita.
+            </p>
+            <p>[TO FIX] Img Transform Stream</p>
+            <p>Alcuni esempi di stream di tipo <code>Transform</code> sono quelli forniti dal modulo <code>zlib</code>
+                in NodeJS, come ad esempio <code>zlib.createGzip()</code> e <code>zlib.createGunzip()</code>.
+                Ognuno di questi stream (di tipo transform) permette di scrivere al suo interno i dati che vogliamo
+                comprimere (o decomprimere) con la funzione write() dell’interfaccia Writable.
+                Dall’altra parte, attraverso l’interfaccia Readable, possiamo invece ricevere i dati compressi
+                (o decompressi) attraverso l’evento data.
+            </p>
+            <p>Tra i due menzionati, usando ad esempio lo stream Gzip, diventa possibile aggiungere il supporto alla
+                compressione dati da inviare da parte del nostro server al client. E' possibile fare cià seguendo
+                i seguenti step:
+            </p>
+            <ul>
+                <li>leggere i dati dallo stream Readable del file</li>
+                <li>scriverli nello stream Writable di Gzip</li>
+                <li>leggere i dati emessi dallo stream Readable di Gzip</li>
+                <li>scriverli nello stream Writable dell’oggetto ServerResponse</li>
+            </ul>
+            <JavascriptCode code={`
+                // File transform-gzip-server.mjs
+                //...
+                
+                // Importazione della funzione createGzip per la creazione dello stream di compressione (transform type)
+                import { createGzip } from "zlib";
+                
+                server.on("request", async (req, res) => {    
+                    //...    
+                    // Settaggio dell'header Content-Encoding per indicare la compressione Gzip al client che riceve
+                    res.setHeader("Content-Encoding", "gzip");    
+                    const fileStream = fh.createReadStream(); 
+                    // Creazione dello stream di compressione Gzip (transform type)   
+                    const gzipTransform = createGzip();    
+                    // Travaso dei dati dallo stream sorgente a quello di destinazione
+                    fileStream.pipe(gzipTransform).pipe(res);    
+                    fileStream.on("error", (e) => {        
+                        console.error(e);        
+                        res.statusCode = 500;        
+                        res.end();    
+                    });
+                });
+            `}/>
+
         </div>
     );
 }
