@@ -44,6 +44,7 @@ import StringJsMethods from "./pages/it/Languages/Javascript/Strings/StringJsMet
 import Promise from "./pages/it/Languages/Javascript/Promises/Promise.tsx";
 import Aria from "./pages/it/Frontend/Html/ARIA/Aria.tsx";
 import CssFe from "./pages/it/Frontend/Css/CssFe.tsx";
+import StreamNode from "./pages/it/Backend/NodeJs/Streams/StreamNode.tsx";
 
 
 const App: React.FC = () => {
@@ -99,6 +100,7 @@ const App: React.FC = () => {
 
                         <Route path="/it/backend" element={<Backend/>} />
                         <Route path="/it/backend/nodejs" element={<NodeJsBe/>} />
+                        <Route path="/it/backend/nodejs/streams" element={<StreamNode/>} />
                         <Route path="/it/backend/nodejs/coremodules" element={<CoreModuleNodeJs/>} />
                         <Route path="/it/backend/nodejs/errorfirst" element={<ErrorFirstCB/>} />
                         <Route path="/it/backend/nodejs/qa" element={<QANodeJsBe/>} />

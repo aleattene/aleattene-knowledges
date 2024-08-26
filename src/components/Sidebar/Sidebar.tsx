@@ -35,7 +35,7 @@ export const subSections: Record<string, string[]> = {
     tree: ['PreOrder', 'InOrder', 'PostOrder'],
     graph: ['DepthFirstSearch', 'BreadthFirstSearch'],
     html: ['Aria'],
-    nodejs: ['CoreModules', 'ErrorFirst','Chaining','Concorrenza', 'Dipendenze', 'QA'],
+    nodejs: ['Stream','Concorrenza', 'Dipendenze', 'QA'], // 'CoreModules', 'ErrorFirst','Chaining',
     express: [],
     fastify: [],
 };
@@ -70,10 +70,11 @@ export const subSectionsRedirect: Record<string,string> = {
     aria: 'aria',
     /* CSS */
     /* NodeJs */
-    coremodules: 'coremodules',
+    /*coremodules: 'coremodules',
     errorfirst: 'errorfirst',
     chaining: 'chaining',
-    concorrenza: 'concurrency',
+    concorrenza: 'concurrency',*/
+    stream: 'streams',
     dipendenze: 'dependencies',
     qa: 'qa',
     /* Express */
