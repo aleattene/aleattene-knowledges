@@ -299,6 +299,77 @@ const StreamNode: React.FC = () => {
                 });
             `}/>
 
+            { /*
+            <h3>Metodo pipe</h3>
+            <p>Ogni oggetto di tipo <code>Readable</code> espone un metodo <code>pipe()</code> che riceve come parametro
+                un oggetto di tipo <code>Writable</code>.
+                Attraverso di esso i due stream vengono collegati e viene creato un flusso in cui i dati emessi dal
+                <code>Readable</code> vengono automaticamente scritti con il metodo <code>write()</code> nel
+                <code>Writable</code> passato come parametro.
+            </p>
+            [TO FIX] ...
+            <p> [TO FIX] Pipeline </p>
+            */}
+
+            <h3>Buffer High Water Mark (indicatore acqua troppo alta)</h3>
+            <p>Per comprendere ancora meglio gli stream proviamo a capire il flusso che percorrono i dati all'interno
+                di essi.
+            </p>
+            <p>Quando riceviamo i dati da uno stream questo ce li invia con l'evento <code>data</code> in base alla
+                velocità con cui riusciamo a gestirli, infatti se l'esecuzione dell'handler è lenta il ritmo di
+                ricezione dati sarà lenta, viceversa veloce.
+                Noi sappiamo anche che volendo è possibile mettere in pausa i dati usando il metodo <code>pause()</code>
+                (disponibile in ogni oggetto <code>Readable</code>), in modo da bloccare l'invio dell'evento
+                <code>data</code>. Così facendo lo stream non leggerà più i dati e non li invierà alla nostra
+                applicazione fin quando non lo riattiveremo con il metodo <code>resume()</code>.
+            </p>
+            <p>Quando si scrivono dati verso un oggetto <code>Writable</code> non è invece possibile mettere in pausa
+                il codice e bloccare l’esecuzione dell’applicazione.
+                Immaginiamo per esempio la scrittura verso uno stream che rappresenta un file su un disco magari con
+                delle prestazioni non troppo elevate: ecco che in tal caso quando il volume e il ritmo dei dati che
+                si vogliono scrivere supera quelli che l’hardware è in grado di sopportare subentra il meccanismo
+                chiamato <strong><code>backpressure</code></strong> grazie al quale la parte che sta ricevendo troppi dati segnala a
+                quella che li sta inviando di rallentare.
+            </p>
+            <p>Sappiamo che ogni chiamata al metodo <code>write()</code> scrive i dati in un buffer interno dell'oggetto
+                <code>Writable</code> da cui poi saranno scritti nella risorsa rappresentata (esempio un file) oppure
+                nel caso di uno stream di tipo <code>transform</code> emessi dal corrispondente stream di tipo
+                <code>Readable</code>.
+            </p>
+            <p>Bisogna sapere però che il numero di byte che possiamo contenere nel buffer interno (il cui valore
+                aumenta ad ogni scrittura interna e diminuisce ad ogni scrittura verso la destinazione finale) è
+                limitato, ha infatti un suo livello massimo di sicurezza (identificato tramite l'indicatore
+                <code>highWaterMark</code>, indicatore dell'acqua alta, che esprime il numero di byte che il buffer può
+                contenere senza problemi), oltre il quale le prestazione potrebbero decisamente degradare.
+            </p>
+            <p>Ecco quindi che sarà proprio il metodo <code>write()</code> a ritornare un valore booleano come
+                indicatore del fatto che questo limite venga superato o meno. Nello specifico:
+                <ul>
+                    <li>Se il limite non viene superato viene ritornato <code>true</code>e si può procedere allo stesso
+                        ritmo con cui si stanno scrivendo i dati
+                    </li>
+                    <li>Se il limite viene superato, ci viene ritornato <code>false</code> e quindi sarebbe il caso di
+                        rallentare il ritmo se non addirittura fermarsi.
+                    </li>
+                </ul>
+                Diciamo che sarebbe il caso poiché di fatto non esiste un vero e proprio limite oltre il quale questo
+                buffer non possa crescere (oltre quello definito da NodeJS stesso) pertanto spetta noi decidere se
+                prendere seriamente in considerazione i warning che ci vengono dati o ignorarli (con le ovvie
+                possibili potenziali catastrofiche conseguenze).
+            </p>
+            <p>Qualora scegliessimo di fermarci con l’invio dei dati, bisognerà poi attendere che l’oggetto
+                <code>Writable</code> emetta l’evento <code>drain</code> (scaricare, drenare) per indicare che ha
+                trasferito i dati verso la destinazione finale e che conseguentemente il livello del suo buffer interno
+                è nuovamente in sicurezza: solo a questo punto sarà possibile  tornare a scrivere dei dati tramite
+                il metodo <code>write()</code>.
+            </p>
+            <p>Qualora dovessimo gestire tutto questo manualmente sarebbe effettivamente complicato e rischioso, motivo
+                per cui ha molta utilità affidarsi a funzioni quali <code>pipe()</code> e <code>pipeline()</code>, dato
+                che oltre a mettere in collegamento stream diversi, ci danno anche garanzia che i dati fluiscano nel
+                rispetto delle segnalazioni che dovessero essere emesse, quindi che le nostre applicazioni di fatto non
+                genereranno mai errori dovute ad uno eccessivo della memoria piuttosto che di performance ridotte a
+                causa di un uso non corretto degli stream.
+            </p>
         </div>
     );
 }
