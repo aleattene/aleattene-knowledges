@@ -233,6 +233,23 @@ const StreamNode: React.FC = () => {
             </p>
             <p>[TO FIX] Eventuale approfondimento console.log e console.error</p>
 
+            <h3>Duplex</h3>
+            <p>La terza classe di Stream è rappresentata da quelli di tipo <code>Duplex</code> con in quali è possibile
+                sia scrivere che leggere dati.
+                Questi stream (proprio come la classe <code>Socket</code>) implementano sia l'interfaccia
+                <code>Readable</code> (lettura dati attraverso l'evento <code>data</code>) che <code>Writable</code>
+                (scrittura dati attraverso il metodo <code>write()</code>).
+                Ecco allora che per poter essere uno stream di tipo <code>Duplex</code> è necessario che l'oggetto
+                da esso rappresentato sia, contestualmente, una sorgente ed una destinazione.
+            </p>
+            <p>[TO FIX] Img Duplex Stream</p>
+            <p>Una importante osservazione da fare in merito a questo stream è che seppur i due stream siano
+                rappresentati da un unico oggetto, essi sono comunque indipendenti l'uno dall'altro.
+                Questo ci dice quindi che ciò che scriviamo all'interno dello stream di tipo <code>Duplex</code> non
+                ha un impatto diretto su ciò che leggiamo da esso, contrariamente a quanto per esempio avviene con lo
+                stream di tipo <code>Transform</code>.
+            </p>
+
         </div>
     );
 }
