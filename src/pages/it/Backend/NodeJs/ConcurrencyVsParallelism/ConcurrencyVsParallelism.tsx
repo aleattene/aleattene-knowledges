@@ -303,6 +303,97 @@ const ConcurrencyVsParallelism: React.FC = () => {
                 <p>{ /* <p>[TO FIX] Descrive la distribuzione dei Task nelle varie Queue delle 3 Fasi</p> */}</p>
             </p>
 
+            <h3>Caratteristiche dei Timer</h3>
+            <p>Sappiamo che per ogni fase dell'event loop ci sono code separate dei task (task queue) e che ogni volta
+                che l'event loop passa su una di queste fasi esegue tutti i task presenti nella coda specifica.
+            </p>
+            <JavascriptCode code={`
+                setTimeout(() => { console.log(\`[timeout] 1\`); }, 0);
+                setImmediate(() => { console.log(\`[immediate] 1\`); });
+                setTimeout(() => { console.log(\`[timeout] 2\`); }, 0);
+                setImmediate(() => { console.log(\`[immediate] 2\`); });
+                setTimeout(() => { console.log(\`[timeout] 3\`); }, 0);
+                setImmediate(() => { console.log(\`[immediate] 3\`); });”
+            `}/>
+            <p>Nonostante <code>setTimeout()</code> abbia ricevuto come tempo di attesa zero millisecondi, se avviamo il
+                codice vedremo che l'output sarà differente da come lo abbiamo scritto:</p>
+            <TerminalCode code={`
+                [immediate] 1
+                [immediate] 2
+                [immediate] 3
+                [timeout] 1
+                [timeout] 2
+                [timeout] 3
+            `}/>
+            <p>Sappiamo che in questo caso quando l'event loop passa per la fase <code>check</code> esegue tutte le
+                funzioni pianificate con <code>setImmediate()</code> e solo dopo passando per la fase
+                <code>timers</code> esegue le funzioni pianificate con <code>setTimeout()</code>.
+                Però sapendo che la fase <code>timers</code> è la prima che viene eseguita durante ogni giro
+                dell'event loop, ci aspetteremmo che le funzioni pianificate con <code>setTimeout()</code> vengano
+                eseguite prima di quelle pianificate con <code>setImmediate()</code>.
+            </p>
+            <p>La spiegazione di questo comportamento è dovuto proprio alla funzione <code>setTimeout()</code> che
+                da documentazione stessa ci dice che se il tempo di attesa prima di eseguire la callback è maggiore di
+                2147483647 o minore di 1 (caso nostro è infatti zero) il valore considerato sarà di default 1
+                millisecondo.
+                Ecco allora che se il nostro computer è abbastanza veloce da raggiungere la fase timer in meno di
+                1 ms allora otterremo un output invertito rispetto al precedente (quindi prima i timeout e poi gli
+                immediate task), viceversa passando per la fase timer non trova timer scaduti e quindi prosegue il giro
+                sino alla fase check dove trova i task di <code>setImmediate()</code> da eseguire.
+                Al giro successivo poi troverà i task timer scaduti e li eseguirà.
+            </p>
+            <p>Alla luce di quanto affermato possiamo quindi dire che in generale non si può fare affidamento sulla
+                funzione <code>setTimeout()</code> per eseguire subito una funzione, ma è meglio usare
+                <code>setImmediate()</code> dato che conosciamo con esattezza la fase nella quale verrà eseguita.
+                Anche e soprattutto perchè <code>setTimeout()</code> non garantisce che la callback venga eseguita
+                esattamente dopo il tempo specificato, ma a partire da quell'intervallo di tempo, proprio per il modo
+                in cui funzionano i timer all'interno dell'event loop.
+            </p>
+            <p>Ad onore del vero anche <code>setImmediate()</code> presenta una particolarità a cui è bene prestare
+                attenzione, ovvero l'ipotesi in cui una chiamata a <code>setImmediate()</code> venga effettuata
+                proprio all'interno di un'altra funzione <code>setImmediate()</code>: in tal caso non sarà permesso alla
+                funzione pianificata di essere eseguita nella stessa fase di <code>check</code>.
+            </p>
+            <p>Questo ci porta quindi ad una deduzione, ovvero che anche chiamando in modo ricorsivo
+                <code>setImmediate()</code> non riusciremmo mai a bloccare l'event loop, perché ogni invocazione creerà
+                un Task che sarà eseguito solo al giro successivo, sempre nella fase di check.
+            </p>
+            <JavascriptCode code={`
+                // File scheduling-timers.mjs
+                setTimeout(() => { console.log(\`[timeout 0]\`); }, 0);
+                setImmediate(() => {    
+                    console.log(\`[immediate 0]\`);    
+                    setTimeout(() => {        
+                        console.log(\`[timeout] scheduled from immediate 0\`);    
+                    }, 0);    
+                    setImmediate(() => {        
+                        console.log(\`[immediate] scheduled from immediate 0\`);    
+                    });    
+                    let i = 0;    
+                    while (i < 10000000) { // per dare 1ms di tempo a setTimeout...         
+                        i++;    
+                    }
+                });”
+            `}/>
+            <p>Eseguendo il codice vedremo che l'output sarà:</p>
+            <TerminalCode code={`
+                [immediate 0]
+                [timeout 0]
+                [timeout] scheduled from immediate 0
+                [immediate] scheduled from immediate 0
+            `}/>
+            <p>In sostanza viene eseguita per prima la funzione <code>setImmediate()</code> del livello principale.
+                Successivamente nel giro successivo dell'event loop, vengono eseguite le due funzioni passate alle
+                relative <code>setTimeout()</code>.
+                Infine il codice contenuto nella <code>setImmediate()</code> viene eseguito sempre nel successivo giro
+                dell'event loop, ma per ultimo, perché la fase di check si trova dopo quella di timers.
+            </p>
+            <p><i>Piccola nota a margine: il ciclo <code>while</code> all'interno della <code>setImmediate()</code>
+                serve a dare del tempo alla chiamata <code>setTimeout()</code> di far passare il millisecondo di attesa
+                di cui abbiamo parlato per far si che al primo passaggio dell'event loop nella fase di timers
+                venga eseguita la funzione passata a <code>setTimeout()</code>.
+                In caso contrario la parte finale dell'output potrebbe essere invertita rispetto a quanto mostrato.</i>
+            </p>
         </div>
     );
 }
