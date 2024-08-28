@@ -178,7 +178,7 @@ const ConcurrencyVsParallelism: React.FC = () => {
                 venga eseguito il codice in essa contenuto, che come abbiamo detto verrà eseguito successivamente come
                 nuovo Task, rispettando quindi la "run-to-completion".
             </p>
-            <p>[IMG to fix] Esecuzione Codice e Trasformazione in Task</p>
+            {/* <p>[IMG to fix] Esecuzione Codice e Trasformazione in Task</p> */}
             <p>Una volta appurato che V8 è responsabile dell'esecuzione dall'inizio alla fine (nel rispetto della
                 run-to-completion) dei Task che gli vengono passati, resta da definire chi è responsabile di
                 indicargli quali Task eseguire.
@@ -211,9 +211,98 @@ const ConcurrencyVsParallelism: React.FC = () => {
                 possiamo solo definire la sequenza dei Tak da aggiungere, ma non possiamo in alcun modo alterare o
                 sospendere l'esecuzione corrente, nè eseguire altro codice in parallelo dentro lo stesso interprete.
             </p>
-            <p>[IMG to fix] Rappresentazione Event Loop</p>
-            <h3>Timers, Poll e Check</h3>
-            <p></p>
+            {/* <p>[IMG to fix] Rappresentazione Event Loop</p> */}
+            <h3>Fasi dell'event loop: Timers, Poll e Check</h3>
+            <p>Proviamo ora ad osservare questo codice:</p>
+            <JavascriptCode code={`
+                import fs from "fs";
+                import { isPrime } from "./isPrime.mjs";
+                
+                console.log("Running the script...");
+                
+                fs.readFile("./number.txt", { encoding: "utf-8" }, (err, data) => {    
+                    const numToCheck = Number.parseInt(data);    
+                    console.log(\`Number to check: \${numToCheck}\`);
+                    const primeRes = isPrime(numToCheck);
+                    setTimeout(() => {        
+                        console.log(\`[timeout] \${numToCheck} is prime? \${primeRes}\`);    
+                    }, 0);    
+                    setImmediate(() => {        
+                        console.log(\`[immediate] \${numToCheck} is prime? \${primeRes}\`);    
+                    });
+                });”
+            `}/>
+            <p>In questo caso il codice si occupa di leggere un file da cui estrarre un numero e verificare che questo
+                sia primo o meno. Provando ad eseguire il file noteremo che il risultato potrebbe presentare delle
+                sorprese:
+            </p>
+            <TerminalCode code={`
+                Running the script...
+                Number to check: 982451653
+                [immediate] 982451653 is prime? true
+                [timeout] 982451653 is prime? true
+            `}/>
+            <p>Quello che in sostanza potrebbe sorprenderci è il fatto che che l'output emesso da
+                <code>setImmediate()</code> è mostrato prima di quello emesso da <code>setTimeout()</code>, nonostante
+                la chiamata a <code>setTimeout()</code> sia stata effettuata prima di quella a
+                <code>setImmediate()</code> e con parametro <code>0</code> millisecondi.
+                Dietro a questo comportamento ci sono tre esatte motivazioni:
+                <ul>
+                    <li>non esiste una sola coda di Task da eseguire, ma più di una;</li>
+                    <li>ognuna di queste funzioni aggiunge i Task in una coda diversa;</li>
+                    <li>il giro compiuto dall'<code>event loop</code> è diviso in varie fasi, alle quali corrispondono
+                        diverse code di Task
+                    </li>
+                </ul>
+            </p>
+            <p>La funzione <code>setTimeout()</code> crea nuovi Task nella coda associata alla fase <code>Timers</code>.
+                Succede quindi che ogni volta che noi invochiamo questa funzione un nuovo elemento viene aggiunto alla
+                coda dei Task da eseguire alla fase <code>Timers</code>, assieme all'intervallo di tempo da attendere.
+                Dopodiché quando l'event loop passa da quella fase, esegue tutti i Task presenti in cui il tempo di
+                attesa è scaduto.
+                <i>Anche la funzione <code>setInterval()</code> aggiunge Task alla coda <code>Timers</code> ed anche la
+                    loro gestione avviene in maniera analoga a quanto appena descritto.</i>
+            </p>
+            <p>La funzione <code>setImmediate()</code> invece aggiunge i Task alla coda associata alla fase
+                <code>Check</code>. Differentemente dagli elementi presenti nella coda <code>Timers</code>, questi non
+                hanno un tempo di attesa associato da rispettare, quindi appena l'event loop passa da questa fase
+                esegue subito tutti i Task presenti.
+            </p>
+            <p>{/* <p>[TO FIX] Attenzione a non confondere timers module con timers queue</p> */}</p>
+            <p>Nel nostro codice osserviamo che entrambi le chiamate si trovano all'interno della callback passata a
+                <code>readFile()</code>. Sappiamo che NodeJs delega le operazioni I/O a <code>libuv</code> quindi
+                in questo caso al termine dell'operazione di lettura del file la funzione di callback viene aggiunta
+                in una coda di Task della fase <code>poll</code>.
+            </p>
+            <p>La fase <code>poll</code> rappresenta il fulcro dell'event loop, infatti è proprio in questa fase che
+                vengono eseguite tutte le callback relative alle operazioni I/O ed è sempre in questa fase che viene
+                verificata la presenza di nuovi eventi di I/O (esempio nuove connessioni in entrata).
+                In sostanza è proprio in questa fase che riceviamo e processiamo le informazioni dall'esterno
+                (file, socket, ecc.)
+            </p>
+            <p>Il nostro codice che reagisce agli eventi di I/O, viene eseguito in questa fase, seguendo sempre la
+                logica della coda di Task. Però a differenza di quanto succede con le funzioni timer, questi sono
+                inseriti nella coda da NodeJs stesso quando l'operazione da noi richiesta è completata (viene cioè
+                aggiunta alla coda la callback associata) oppure quando un certo evento si verifica (viene in questo
+                caso aggiunta alla coda la funzione listener associata).
+            </p>
+            <p>In base a quanto appena descritto, vediamo quindi che nel nostro caso la funzione <code>readFile()</code>
+                avviene nella fase poll e sempre in questa fase vengono create i due Task con
+               <code>setTimeout()</code> e <code>setImmediate()</code>.
+                E questo spiega il motivo per il quale viene eseguita prima la funzione passata (callback) a
+                <code>setImmediate()</code> rispetto a quella passata a <code>setTimeout()</code>.
+            </p>
+            <p>Infatti succede che la fase di <code>check</code> che si occupa di eseguire le funzioni pianificate con
+                la funzione <code>setImmediate()</code> viene eseguita subito dopo la fase <code>poll</code> mentre la
+                fase <code>timers</code> viene eseguita prima di essa, quindi dovrà attendere nuovamente il successivo
+                giro dell'event loop per essere eseguita, esattamente come mostrato in figura.
+            </p>
+            <p>{ /* <p>[TO FIX] Rappresentazione Fasi Timers, Poll e Check</p> */ }</p>
+            <p>Quello che importante osservare è che le fasi dell'event loop seguono sempre lo stesso ordine e questo
+                chiaramente influenza quale funzione programmata con i timer sarà eseguita prima e quale dopo.
+                <p>{ /* <p>[TO FIX] Descrive la distribuzione dei Task nelle varie Queue delle 3 Fasi</p> */}</p>
+            </p>
+
         </div>
     );
 }

@@ -370,6 +370,10 @@ const StreamNode: React.FC = () => {
                 genereranno mai errori dovute ad uno eccessivo della memoria piuttosto che di performance ridotte a
                 causa di un uso non corretto degli stream.
             </p>
+            {/* <h3>Buffer, stringhe e oggetti</h3> */}
+            {/* <h3>Web Streams</h3> */}
+            {/* <h2>Perfezionare il Server Web</h2> */}
+
         </div>
     );
 }
