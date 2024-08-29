@@ -212,7 +212,7 @@ const ConcurrencyVsParallelism: React.FC = () => {
                 sospendere l'esecuzione corrente, nè eseguire altro codice in parallelo dentro lo stesso interprete.
             </p>
             {/* <p>[IMG to fix] Rappresentazione Event Loop</p> */}
-            <h3>Fasi dell'event loop: Timers, Poll e Check</h3>
+            <h3>3 Fasi dell'event loop: Timers, Poll e Check</h3>
             <p>Proviamo ora ad osservare questo codice:</p>
             <JavascriptCode code={`
                 import fs from "fs";
@@ -445,8 +445,23 @@ const ConcurrencyVsParallelism: React.FC = () => {
                     appena completerà il giro e ripasserà per la fase di timers.</i>
                 In sostanza questo ci porta ad osservare che anche se la fase di <code>timers</code> è separata dalla
                 fase di <code>poll</code>, è comunque la fase di <code>poll</code> che decide quali Task devono essere
-                eseugiti e quando.
+                eseguiti e quando.
             </p>
+            <p>{/* [TO FIX] Terminare applicazione Event Loop Vuoto */}</p>
+
+            <h3>Altre Tre Fasi dell'Event Loop: Pending Callbacks, Close Callbacks e Idle/Prepare</h3>
+            <p>Tra le fasi di <code>timers</code> e <code>poll</code> troviamo la fase di <code>pending callbacks</code>
+                che viene usata per eseguire alcune callback che la fase di poll decide di eseguire nel giro successivo
+                (per esempio la callback di errore durante una connessione verso un socket TCP).
+            </p>
+            <p>Dopo questa fase, ma sempre prima di <code>poll</code>, troviamo la fase di <code>idle/prepare</code>,
+                usata solo internamente da NodeJS.
+            </p>
+            <p>L'ultima fase di ogni giro, che si trova dopo check, è la fase di <code>close callbacks</code> nella
+                quale vengono eseguite alcune callback di chiusura: tra queste troviamo le funzioni associate all'evento
+                <code>close</code> di un socket che è stato chiudo in modo improvviso.
+            </p>
+            <p>{/* <p>[TO FIX] Rappresentazione delle 6 Fasi dell'Event Loop</p> */}</p>
         </div>
     );
 }
