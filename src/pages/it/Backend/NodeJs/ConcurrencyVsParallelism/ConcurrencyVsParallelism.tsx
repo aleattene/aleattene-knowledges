@@ -394,6 +394,59 @@ const ConcurrencyVsParallelism: React.FC = () => {
                 venga eseguita la funzione passata a <code>setTimeout()</code>.
                 In caso contrario la parte finale dell'output potrebbe essere invertita rispetto a quanto mostrato.</i>
             </p>
+
+            <h3>Libuv e Poll</h3>
+            <p>Rispetto al passato, oggi i moderni sistemi operativi offrono chiamate di sistema (system calls)
+                asincrone per buona parte delle operazioni di I/O (es. lettura dati da un socket) e le API di NodeJS
+                le sfruttano internamente (attraverso libuv) per fornirci le stesse funzionalità nel nostro codice JS.
+                NodeJS ci offre anche API asincrone per la lettura di file e per la risoluzione dei nomi di dominio
+                (nonostante i sistemi operativi on offrano system calls asincrone non bloccanti per queste operazioni)
+                grazie ad un gruppo di thread mantenuti in esecuzione in background da libuv (sempre all'interno del
+                processo di NodeJS) a cui vengono delegate queste attività che viceversa sarebbero bloccanti.
+            </p>
+            <p>Molto molto difficilmente avremo a che fare direttamente con questi thread interni, ma è comunque bene
+                sapere che molto delle operazioni più comuni che facciamo con NodeJS passano attraverso di loro, come
+                ad esempio:
+                <ul>
+                    <li>tutte quelle esposte dalle API asincrone del modulo <code>fs</code> (fatta eccezione di quelle
+                        per fare <code>watch</code>;</li>
+                    <li>tutte quelle fornite dal modulo <code>zlib</code>;</li>
+                    <li>alcune funzioni del modulo <code>crypto</code> (esempio <code>crypto.randomBytes()</code> e la
+                        funzione <code>dns.lookup()</code>;</li>
+                </ul>
+            </p>
+            <p>Libuv mantiene un poo di quattro thread all'interno di NodeJS per eseguire queste operazioni da cui ne
+                consegue che qualora la nostra applicazione dovesse farne un uso intensivo, il loro numero potrebbe
+                diventare un collo di bottiglia per le performance: qualora dovessero presentarsi situazioni del genere
+                è possibile cambiare il numero di questi thread assegnando alla variabile d'ambiente
+                <code>UV_THREADPOOL_SIZE</code> il nuovo numero di thread da utilizzare.
+            </p>
+            <p>{/* <p>[TO FIX] Rappresentazione Componenti interni Libuv</p> */}</p>
+            <p>Indipendentemente dal tipo di operazione asincrona che eseguiamo con NodeJS, quando questa è completata
+                (es. lettura di un file) o quando c'è un nuovo evento (es. nuova connessione TCP), la funzione associata
+                (callback o listener) viene inserita nella coda di Task associata alla fase poll per essere eseguita.
+                Dopodiché, come sappiamo, quando l'event loop raggiunge questa fase, esegue le funzioni che trova
+                all'interno della coda ma, a differenza delle altre fasi, non è detto che le esegua tutte, infatti dopo
+                averne processate un po', se raggiunge il suo limite interno, passa alla fase successiva lasciando la
+                loro esecuzione per il giro successivo.
+            </p>
+            <p>Questo comportamento è dovuto al fatto che durante l'esecuzione della fase di <code>poll</code>
+                potrebbero verificarsi altri eventi di I/O e quindi essere aggiunti nuovi elementi alla coda di Task;
+                ecco allora che per evitare di bloccare l'event loop su questa fase, NodeJS stesso applica un limite
+                numerico agli elementi di questa coda che possono essere processati ad ogni singolo giro.
+            </p>
+            <p>E' importante però sapere in merito che se la coda di funzioni da eseguire nella fase di poll è vuota,
+                NodeJS può decidere di rimanere in attesa di nuovi elementi da eseguire senza dover per forza andare
+                subito alla fase successiva (check).
+                Se però sono presenti Task pianificati con <code>setImmediate()</code>, non aspetta e procede subito
+                verso la fase di <code>check</code> per eseguirli.
+                <i>In ogni caso, prima di lasciare la fasi di poll, NodeJS verifica se ci sono dei timer scaduti (quelli
+                    creati con <code>setTimeout()</code> e <code>setInterval()</code>) e li segna come da eseguire non
+                    appena completerà il giro e ripasserà per la fase di timers.</i>
+                In sostanza questo ci porta ad osservare che anche se la fase di <code>timers</code> è separata dalla
+                fase di <code>poll</code>, è comunque la fase di <code>poll</code> che decide quali Task devono essere
+                eseugiti e quando.
+            </p>
         </div>
     );
 }
