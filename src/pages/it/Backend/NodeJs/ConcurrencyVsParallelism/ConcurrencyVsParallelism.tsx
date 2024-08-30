@@ -1,14 +1,79 @@
 import React from "react";
 import JavascriptCode from "../../../../../components/Code/JavascriptCode/JavascriptCode.tsx";
 import TerminalCode from "../../../../../components/Code/TerminalCode/TerminalCode.tsx";
+import './ConcurrencyVsParallelism.css'
 
 const ConcurrencyVsParallelism: React.FC = () => {
     return (
         <div>
-            <h1>Concorrenza e Parallelismo</h1>
+             <h1>Concorrenza e Parallelismo</h1>
+            <p>Una cosa fondamentale da non confondere è la <code>concorrenza</code> con il <code>parallelismo</code>.
+                Per meglio comprendere vediamo le 4 possibilità che descrivono questi due concetti:
+                <table>
+                    <thead>
+                    <tr>
+                        <th>Concorrenza</th>
+                        <th>Parallelismo</th>
+                        <th>Descrizione</th>
+                        <th>Rappresentazione</th>
+                    </tr>
+                    </thead>
+                    {/* No Concurrency - No Parallelism */}
+                    <tr>
+                        <td>NO</td>
+                        <td>NO</td>
+                        <td>Un solo core della CPU esegue ogni task in maniera sequenziale.
+                        </td>
+                        <td>
+                            <img className={'image-table'}
+                                 src={'/img/conc-par-no-no.png'}
+                                 alt={'No Concorrenza No Parallelismo'}
+                            />
+                        </td>
+                    </tr>
+                    {/* Yes Concurrency - No Parallelism */}
+                    <tr>
+                        <td>SI</td>
+                        <td>NO</td>
+                        <td>Un solo core della CPU esegue in maniera sequenziale dei task che si contendono tra loro
+                            la risorsa.
+                        </td>
+                        <td><img className={'image-table'}
+                                 src={'/img/conc-par-yes-no.png'}
+                                 alt={'Si Concorrenza No Parallelismo'}/></td>
+                    </tr>
+                    {/* No Concurrency - Yes Parallelism */}
+                    <tr>
+                        <td>NO</td>
+                        <td>SI</td>
+                        <td>Ogni core di due CPU esegue un task in maniera parallela all'altro core.
+                        </td>
+                        <td><img className={'image-table'}
+                                 src={'/img/conc-par-no-yes.png'}
+                                 alt={'No Concorrenza Si Parallelismo'}/></td>
+                    </tr>
+                    {/* Yes Concurrency - Yes Parallelism */}
+                    <tr>
+                        <td>SI</td>
+                        <td>SI</td>
+                        <td>Ogni core di due CPU esegue in maniera parallela dei task che si contendono tra loro la
+                            risorsa (singolo core per CPU).
+                        </td>
+                        <td><img className={'image-table'}
+                                 src={'/img/conc-par-yes-yes.png'}
+                                 alt={'Si Concorrenza Si Parallelismo'}/></td>
+                    </tr>
+
+
+                </table>
+            </p>
+
+
+            <h2>Concorrenza e Parallelismo (Node)</h2>
             <p>Sostanzialmente le performance elevate che vengono attribuite al modo in cui è stato progettato per
                 gestire l'I/O in modo non bloccante.
-                Tutto il codice che scriviamo (non solo quindi quello relativo all'I/O) sarà governato dal famigerato
+                Tutto il codice che scriviamo (non solo quindi quello relativo all'I/O) sarà governato dal
+                famigerato
                 <code>event loop</code> che si occuperà di decidere quale codice sarà eseguito prima e quale dopo,
                 poiché a prima vista potrebbe sembrare tutto casuale, quando in realtà non è così visto che ci sono
                 diverse variabili che influenzano queste decisioni.
@@ -462,6 +527,45 @@ const ConcurrencyVsParallelism: React.FC = () => {
                 <code>close</code> di un socket che è stato chiudo in modo improvviso.
             </p>
             <p>{/* <p>[TO FIX] Rappresentazione delle 6 Fasi dell'Event Loop</p> */}</p>
+
+            <h3>Task con Precedenza</h3>
+            <p>Lo standard HTML prevede che nei browser sia disponibile la funzione <code>queueMicrotask()</code> per
+                poter pianificare dai Task da eseguire al termine di quello attuale, ma prima di far procedere
+                l'event loop con l'esecuzione degli altri presenti (es. callback, timeout, etc).
+                <i>Attenzione a non confondere l'event loop di NodeJS con quello dei browser, poiché sebbene abbiano
+                    lo stesso nome, le fasi di uno e dell'altro sono differenti e non possono essere scambiate tra di
+                    loro.</i>
+            </p>
+            <p>Ora, dato che questi Task sono trattati in modo differente da quelli normali, per distinguerli è stato
+                introdotto il termine Microtask, dove però il nome non deve trarci in inganno, infatti la loro
+                dimensione non è limitata, quello che cambia rispetto ai Task è la loro precedenza nell'esecuzione,
+                poiché vengono inseriti in una coda dedicata, separata da tutte le altre, a cui non corrispondente una
+                vera e propria fase, ma succede che ogni volta che l'event loop termina l'esecuzione di un Task, prima
+                di passare al successivo o di cambiare fase, controlla se ci sono Microtask presenti nella coda e li
+                esegue tutti in sequenza.
+            </p>
+            <p>Fondamentale: oltre agli elementi inseriti attraverso la funzione <code>queueMicrotask()</code>, la
+                <code>Microtask Queue</code> viene anche usata per eseguire le callback di tutte le Promise (come
+                mostrato nell'esempio seguente).
+            </p>
+            <JavascriptCode code={`
+                setImmediate(() => {    
+                    console.log("first immediate");    
+                    Promise.resolve()          
+                        .then(() => {            
+                            console.log("then 1");            
+                            return; 
+                        })          
+                        .then(() => { 
+                            console.log("then 2");
+                        });    
+                    queueMicrotask(() => { 
+                        console.log("queueMicrotask"); 
+                    });
+                });
+                
+                setImmediate(() => { console.log("last immediate"); });”
+            `}/>
         </div>
     );
 }
