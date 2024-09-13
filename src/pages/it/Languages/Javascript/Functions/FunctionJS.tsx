@@ -49,9 +49,40 @@ const functionJS: React.FC = () => {
                 console.log(risultato); 
             `}/>
             <p>Questo è possibile grazie al meccanismo di <strong>hoisting</strong> che sposta tutte le dichiarazioni
-                di variabili e funzioni all'inizio dello script.</p>
+                di funzioni all'inizio dello script.
+            </p>
             <p>Quanto appena affermato non vale però per le arrow functions, che quindi al contrario, non possono essere
-                chiamate prima della loro definizione.</p>
+                chiamate prima della loro definizione.
+            </p>
+            <p>Nonostante la possibilità di sfruttre il meccanismo di hoisting resta comunque il fatto che come best
+                practice è sempre meglio definire le funzioni all'inizio dello script, sia in termini di manutenibilità
+                che letture future anche da parte di altri sviluppatori che dovessero mettere mano al nostro codice.
+            </p>
+
+            <h2>Chiamate Dirette ed Indiretta ad una funzione</h2>
+            <p>Per comprendere questo meccanismo simuliamo di avere un bottone che al click esegue una funzione di
+                saluto:</p>
+            <JavascriptCode code={`
+                // Codice HTML con Bootstrap
+                <\button id="btn-saluta" class="btn btn-primaty">Saluta</button>
+                
+                // Codice JavaScript che referenzia il bottone
+                const btnSaluta = document.getElementById('btn-saluta');
+                
+                // Funzione che saluta
+                function saluta() {
+                    alert('Ciao!');
+                }
+                
+                // Aggiunta di un event listener al bottone (chiamata indiretta che esegue la funzione saluta al click)
+                btnSaluta.addEventListener('click', saluta);    // SI - Questa chiamata esegue la funzione al click
+                btnSaluta.addEventListener('click', saluta());  // NO - Questa chiamata esegue subito la funzione
+                
+                
+                // Chiamata diretta alla funzione saluta
+                saluta;     // NO - Questa chiamata non esegue la funzione
+                saluta();   // SI - Questa chiamata esegue la funzione  
+            `}/>
         </div>
     );
 };
