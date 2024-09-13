@@ -15,13 +15,13 @@ const Javascript: React.FC = () => {
             <p>Come detto, inizialmente JS veniva utilizzato principalmente per aggiungere funzionalità dinamiche
                 alle pagine web, ovvero consentendo agli sviluppatori di:
                 <ul>
-                    <li>interagire con gli elementi HTML </li>
+                    <li>interagire con gli elementi HTML</li>
                     <li>manipolare il DOM</li>
                     <li>rispondere agli eventi dell'utente.</li>
                 </ul>
                 L'obiettivo iniziale era quindi quello di migliorare l'esperienza di navigazione degli utenti,
                 rendendo le pagine più interattive e coinvolgenti.
-                </p>
+            </p>
             <p>Tuttavia, la storia di JS è caratterizzata anche da una guerra tra i browser, con Netscape Navigator e
                 Internet Explorer che implementavano versioni diverse del linguaggio.
                 Questa frammentazione ha creato difficoltà agli sviluppatori, che dovevano scrivere codice diverso
@@ -263,9 +263,77 @@ const Javascript: React.FC = () => {
                 `}/>
             </p>
 
+            <h2>Async and Defer</h2>
+            <p>Quando si carica una pagina web, il browser legge il codice HTML, CSS e JS dall'alto verso il basso.
+                Quando incontra un tag script, il browser interrompe il caricamento della pagina e inizia a scaricare
+                ed eseguire il codice JS.
+            </p>
+            <p>Questo può rallentare il caricamento della pagina, poiché il browser non può continuare a caricare la
+                pagina fino a quando non ha finito di scaricare ed eseguire il codice JS.
+            </p>
+            <p>Per risolvere questo problema, possiamo utilizzare gli attributi <code>async</code> e <code>defer</code>
+                nei tag script.
+            </p>
+            <p>L'attributo <code>async</code> dice al browser di scaricare lo script in background e di eseguirlo
+                non appena è pronto (quindi nel momento in cui è subito disponibile interrompe il parsing html e lo
+                esegue).
+            </p>
+            <p> Questo consente al browser di accelerare il processo di costruzione del DOM senza attendere il tempo
+                di download. In condizioni normali, infatti, il browser blocca il parser, scarica lo script, esegue
+                il codice e poi riprende.
+            </p>
+            <JavascriptCode code={`
+                <script async src="script.js"></script>
+            `}/>
+            <p>In presenza di più script async sequenziali viene sempre eseguito quello disponibile per primo, ovvero
+                quello il cui download si è rivelato essere più veloce.
+                Di conseguenza l’attributo async non garantisce che lo script venga eseguito nell’ordine in cui si
+                trova all’interno della pagina HTML e quindi non va assolutamente usato per script che richiedono
+                dipendenze non già caricate altrimenti il verificarsi di errori di race condition sarà molto alto.
+            </p>
+            <p>L'attributo <code>defer</code> dice al browser di scaricare lo script in background ma di eseguirlo
+                solo dopo che la pagina è stata completamente caricata, quindi solo alla fine del parsing html.
+                Anche se ad essere precisi il codice Javascript defer viene eseguito al verificarsi dell’evento DOM
+                interactive ma prima del DOMContentLoaded.
+            </p>
+            <JavascriptCode code={`
+                <script defer src="script.js"></script>
+                
+            `}/>
+            <p>A differenza di async, gli script con attributo defer vengono eseguiti rispettando l’ordine in cui sono
+                presenti all’interno della pagina HTML e vengono eseguiti a fine parsing del codice HTML.
+            </p>
+            {/*[TO FIX] img script vs async vs defer */}
+            {/*[TO FIX] script (normale/classico) description -> html locked during download script js*/}
 
+            <h2>IF, ELSE IF, ESLE</h2>
+            <p>La struttura di controllo condizionale <code>if</code> permette di eseguire un blocco di codice se
+                una condizione è vera, altrimenti esegue un altro o altri blocchi di codice.
+            </p>
+            <p>La struttura di controllo condizionale <code>if</code> ha la seguente sintassi:
+            </p>
+            <JavascriptCode code={`
+                if (condizione) {
+                    // Blocco di codice IF
+                } else if (altre condizioni) {
+                    // Blocco di codice ELSE IF
+                } else {
+                    // Blocco di codice ELSE (tutte le altre condizioni)
+                }
+            `}/>
+            <p>Esempio:</p>
+            <JavascriptCode code={`
+                const x = 10;
+                if (x > 10) {
+                    console.log('x è maggiore di 10');
+                } else if (x < 10) {
+                    console.log('x è minore di 10');
+                } else {
+                    console.log('x è uguale a 10');
+                }
+            `}/>
 
-            </div>
+        </div>
     );
 };
 
