@@ -147,59 +147,7 @@ const Javascript: React.FC = () => {
 
             {/* JS Academy - End */}
 
-            <h2>Operatore di Uguaglianza</h2>
-            <p>JavaScript supporta due tipi di uguaglianza:
-                <ul>
-                    <li>Uguaglianza debole <code>==</code> : confronta i valori senza confrontare il tipo di dato</li>
-                    <li>Uguaglianza stretta <code>===</code>: confronta sia il valore che il tipo di dato</li>
-                </ul>
-            </p>
-            <h3>Esempio:</h3>
-            <JavascriptCode code={`
-                const a = "42";  
-                const b = 42;  
-                  
-                a == b;   // true  
-                a === b;  // false
-            `}/>
-            <h3>Altri esempi (???):</h3>
-            <JavascriptCode code={`
-                1 == '1';       // true 
-                1 === '1';      // false
-                1 == true;      // true 
-                1 === true;     // false
-                0 == '';        // true 
-                0 === '';       // false
-                0 == '0';       // true 
-                0 === '0';      // false
-                0 == false;     // true
-                0 === false;    // false
-                
-                1 == [1];    // true 
-            `}/>
-            <h3>Altri esempi ancora (???):</h3>
-            <JavascriptCode code={`
-                const a = null; 
-
-                a == null;        // true
-                a == undefined);  // true
-                
-                a === null;       // true
-                a === undefined;  // false
-                
-                null == undefined;  // true
-                null === undefined; // false
-            }`}/>
-            <p>Ricordiamo in merito a questa ultima comparazione che:
-                <ul>
-                    <li><code>null</code> è un valore primitivo che rappresenta l'assenza di valore (???)</li>
-                    <li><code>undefined</code> è un valore primitivo che rappresenta il valore non assegnato, ovvero
-                        non c'è proprio stata una inizializzazione (???)
-                    </li>
-                </ul>
-            </p>
-
-            <h2>Tipi</h2>
+            <h2>Tipi di Dato</h2>
             <p>Javascript è un linguaggio di programmazione debolmente tipizzato (differentemente da Typescript),
                 il che significa che non è necessario specificare il tipo di dato di una variabile quando la si
                 dichiara.
@@ -213,7 +161,7 @@ const Javascript: React.FC = () => {
                     <li>Boolean: valori true o false</li>
                     <li>Object: oggetti</li>
                     <li>Function: funzioni</li>
-                    <li>Array: array</li>
+                    <li>Array: sequenza di elementi (numeri, stringhe, eterogenei)</li>
                     <li>Null: valore nullo</li>
                     <li>Undefined: valore non assegnato</li>
                     <li>Symbol (ES6+): valore univoco</li>
@@ -257,56 +205,6 @@ const Javascript: React.FC = () => {
                 typeof { key: 'value' };    // object
             `}/>
 
-            <h2>Variables</h2>
-            <p>Una variabile è che un contenitore che può contenere un dato.
-                Questo contenitore di fatto è
-                uno spazio di memoria che può contenere un valore.
-                Per accedere a questo spazio di memoria si dovrebbe utilizzare il suo indirizzo di memoria (molto
-                scomodo per noi esseri umani), ma per fortuna JS ci permette di utilizzare un nome identificativo
-                che punta a questo spazio di memoria proprio grazie all'indirizzo associato.
-            </p>
-            <p>Per convenzione in JS si utilizza per assegnare un nome da un variabile il Camel Case.
-                Ma non solo, in JS ci sono altre principali regole da rispettare per assegnare un nome ad una variabile:
-                <ul>
-                    <li>può contenere lettere, numeri, underscore (_) e dollari ($)</li>
-                    <li>non può iniziare con un numero e non può essere una parola chiave di JS</li>
-                </ul>
-            </p>
-            <p>Per dichiarare una variabile in JS si utilizza la parola chiave <code>let</code> o <code>const</code>:
-                <ul>
-                    <li><code>let</code> (block scope): per dichiarare una variabile la cui assegnazione può cambiare
-                        <JavascriptCode code={`
-                            // Dichiarazione di una variabile
-                            let studentName = "John";
-                            console.log(studentName); // John
-                            
-                            // Cambio del valore assegnato alla variabile
-                            studentName = "Jane";
-                            console.log(studentName); // Jane
-                        `}/>
-                    </li>
-                    <li><code>const</code> (block scope): per dichiarare una variabile la cui assegnazione non può
-                        cambiare
-                    </li>
-                    <JavascriptCode code={`
-                        // Dichiarazione di una variabile costante
-                        const PI_GRECO = 3.14;
-                        console.log(PI_GRECO); // 3.14
-                        
-                        // Tentativo di cambiare il valore della variabile costante
-                        PI_GRECO = 3.14159; // TypeError: Assignment to constant variable
-                        
-                        // Esempio con stringa
-                        const myName = "John";
-                        myName = "Jane"; // TypeError: Assignment to constant variable
-                        
-                        // Esempio con array
-                        const myArray = [1, 2, 3];
-                        myArray.push(4); // OK: perché costante è il riferimento in memoria all'array e non il contenuto 
-                    `}/>
-                    <li><code>var</code> (global scope): per dichiarare una variabile in modo globale</li>
-                </ul>
-            </p>
 
             <h3>Operatori di Concatenazione</h3>
             <JavascriptCode code={`
@@ -330,11 +228,44 @@ const Javascript: React.FC = () => {
                 poi procedere con la concatenazione.
             </p>
 
+            <h3>Null, Undefined e NotaNumber (NaN)</h3>
+            <p>Undefined è un valore primitivo che rappresenta il valore non assegnato, ovvero non c'è stata una
+                inizializzazione di una variabile.
+                <JavascriptCode code={`
+                    // Dichiarazione di una variabile senza assegnazione (undefined serve a identificare proprio questo)
+                    let a;
+                    console.log(a); // undefined
+                    
+                    // Assegnazione di undefined ad una variabile (bad practice)
+                    let b = undefined;
+                `}/>
+            </p>
+            <p>Null è un valore che serve a resettare una variabile a runtime, ovvero a rimuovere il valore
+                precedentemente assegnato. Come abbiamo detto non è una buona pratica assegnare undefined ad una
+                variabile (poiché la sua funzione è quelle di indicare la non assegnazione di un valore) ma viceversa
+                assegnare null ad una variabile è una pratica comune.
+                <JavascriptCode code={`
+                    // Assegnazione di null ad una variabile
+                    let c = "Mario";
+                    c = null;
+                    console.log(c); // null
+                `}/>
+            </p>
+            <p>Infine abbiamo NaN (Not a Number) che è un valore speciale che indica che un'operazione matematica
+                effettuata su di un valore non ha prodotto un numero valido.
+                <JavascriptCode code={`
+                    // Operazione matematica non valida
+                    const result = 10 / 'ciao';
+                    console.log(result); // NaN
+                    
+                    // Verifica se un valore è NaN
+                    isNaN(result); // true
+                `}/>
+            </p>
 
 
 
-
-        </div>
+            </div>
     );
 };
 
