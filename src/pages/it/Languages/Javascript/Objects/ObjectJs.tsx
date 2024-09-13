@@ -25,6 +25,15 @@ const ObjectJs: React.FC = () => {
     return (
         <div>
             <h1>Javascript</h1>
+            <h2>Object</h2>
+            <p>In JavaScript un oggetto è una collezione di coppie chiave-valore (racchiusa tra parentesi graffe).</p>
+            <p>Esempio:</p>
+            <JavascriptCode code={`
+                const person = {
+                    name: 'Alessandro',
+                    age: 45
+                };
+            `}/>
             <h2>Verificare in un oggetto se è presente una determinata chiave.</h2>
             <p>Si può utilizzare l'operatore
                 <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/in"
@@ -65,6 +74,21 @@ const ObjectJs: React.FC = () => {
                 console.log(person.age);        // 45
                 (???)
             `}/>
+            <h2>Accesso alle proprietà di un oggetto</h2>
+            <p>Per accedere alle proprietà di un oggetto si possono utilizzare due notazioni (con complessità O(1)):
+                <ul>
+                    <li>Notazione con punto
+                        <JavascriptCode code={`                           
+                            person.name; // Alessandro
+                        `}/>
+                    </li>
+                    <li>Notazione con parentesi quadre
+                        <JavascriptCode code={`                           
+                            person['name']; // Alessandro
+                        `}/>
+                    </li>
+                </ul>
+            </p>
         </div>
     );
 };

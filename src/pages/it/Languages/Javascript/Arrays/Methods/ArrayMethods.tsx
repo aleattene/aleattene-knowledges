@@ -9,7 +9,7 @@ const ArrayMethods: React.FC = () => {
         <div>
             <h1>Accesso ad un Array JS</h1>
             <p> Sappiamo che un array è una collezione di elementi, e che ogni elemento ha un indice.
-                Per accedere quindi ad un elemento di un array, è possibile quindi usare la sintassi:
+                Per accedere quindi ad un elemento di un array, è possibile usare la sintassi:
             </p>
             <JavascriptCode code={'array[index]'}/>
             <h3>Esempio</h3>

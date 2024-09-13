@@ -51,7 +51,7 @@ const Javascript: React.FC = () => {
                 In questo modo in attesa dei dati (che poi popoleranno la pagina) viene comunque caricato il layout
                 della pagina.
             </p>
-            <p>[IMG] STATP</p>
+            { /* <p>[IMG] STATI Promise</p> */ }
             <p>Le promise possono trovarsi in uno di questi tre stati:</p>
             <ul>
                 <li><b>Pending</b>: stato iniziale, in attesa di essere risolta o rigettata.</li>
