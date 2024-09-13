@@ -60,6 +60,21 @@ const Operators: React.FC = () => {
 
             {/* <p>+=</p> */}
             {/* <p>++</p> */}
+
+            <h2>Operatore di Confronto</h2>
+            <p>In JS abbiamo i seguenti operatori di confronto (che applicati ritorneranno un valore booleano):
+                <ul>
+                    <li><code>==</code> : uguaglianza (confronta solo il valore)</li>
+                    <li><code>!=</code> : disuguaglianza (confronta solo il valore)</li>
+                    <li><code>===</code> : uguaglianza stretta (confronta valore e tipo)</li>
+                    <li><code>!==</code> : disuguaglianza stretta (confronta valore e tipo)</li>
+                    <li><code>&gt;</code> : maggiore</li>
+                    <li><code>&lt;</code> : minore</li>
+                    <li><code>&gt;=</code> : maggiore o uguale</li>
+                    <li><code>&lt;=</code> : minore o uguale</li>
+                    <li><code>!</code>: negazione (restituisce stato booleano opposto a quello passato)</li>
+                </ul>
+            </p>
         </div>
     );
 };
