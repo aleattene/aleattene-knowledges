@@ -60,6 +60,93 @@ const Javascript: React.FC = () => {
                 favorendo quindi l'adozione di JS quale linguaggio dominante nello sviluppo web moderno.
             </p>
 
+            {/* JS Academy - Start */}
+            <p>Si tratta di un linguaggio di scripting orientato agli oggetti ed agli eventi (???) che riga per riga
+                viene entrapretati a runtime (in tempo reale) dal browser.
+                Come abbiamo visto, non ha nulla a che vedere con Java, se non i primi 5 caratteri del nome (anche se
+                in merito l'origine del nome sembra comunque volesse richiamare l'allora popolarità di Java).
+            </p>
+            {/* <p> [TO IX} Immagine Di un Documento HTML, browser, request, response di come funziona JS</p> */}
+            <p>Di base, JS nasce per rendere dinamiche le nostre pagine web, poichè prima dells sua nascita erano
+                statiche e non interattive. Infatti il trio base per la realizzazione di una semplice pagina web è
+                proprio composta da:
+                <ul>
+                    <li>HTML: per la struttura</li>
+                    <li>CSS: per la presentazione/stile</li>
+                    <li>JS: per la dinamicità degli elementi</li>
+                </ul>
+            </p>
+            <p>L'engine V8 è stato sviluppato da Google e viene utilizzato in Chrome e in Node.js con lo scopo
+                interpretare il nostro codice JS.
+                Vi sono naturalmente altri engine come SpiderMonkey (Firefox), Chakra (Edge) e JavaScriptCore (Safari).
+                Ogni engine ha un suo modo di interpretare il codice JS, ed è per questo motivo che quando sviluppiamo
+                del codice, magari aggiungendo delle funzionalità avanzate, dobbiamo sempre verificare la compatibilità
+                ed il supporto che abbiamo in ogni browser (magari usando degli alert appositi per quei browser che
+                non dovessero supportare determinate funzionalità di nostro interesse all'implementazione).
+            </p>
+            <p> Un altro aspetto molto importante da ricordare sempre è che JS è single-threaded.
+            </p>
+            <p>Prima di poter accedere alla sintassi di JS è anche importante fare accenno alla differenza presenta tra
+                il concetto di Server-Side e Client-Side:
+                <ul>
+                    <li>Server-Side:
+                        <ul>
+                            <li>riguarda tutto ciò che si trova nel server</li>
+                            <li>dal server è possibile accedere a file e database</li>
+                        </ul>
+                    </li>
+                    <li>Client-Side (browser):
+                        <ul>
+                            <li>riguarda tutto ciò che si trova nella macchina dell'utente</li>
+                            <li>dal client (browser) non è possibile accedere a file o database direttamente, poichè
+                                questi si trovano nel server
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </p>
+            <p>Un altro aspetto importante da considerare è che JS è un linguaggio debolmente tipizzato, ovvero una
+                variabile può cambiare tipo durante l'esecuzione del programma:
+                <JavascriptCode code={`
+                    // Variabile contenente un valore di tipo number
+                    let a = 42; 
+                    // Stessa variabile, ora contenente un valore di tipo string
+                    a = 'ciao';
+                `}/>
+                Il problema della debolezza di tipizzazione è stato poi risolto grazie a TypeScript.
+            </p>
+            <p>Vediamo ora la differenza tra ECMAScript e JavaScript:
+                <ul>
+                    <li>ECMAScript: è uno standard, una specifica tecnica, che definisce la sintassi e le funzionalità
+                        di un linguaggio di scripting
+                    </li>
+                    <li>JavaScript: è un implementazione di ECMAScript (altre sono ActionScript, JScript, ecc.)</li>
+                </ul>
+            </p>
+            <p>Un esempio di codice JS all'interno di una pagina HTML è il seguente:</p>
+            <JavascriptCode code={`
+                <\html>
+                    <head>
+                        <title>JS Example</title>
+                    </head>
+                    <body>
+                        <h1>Pagina di esempio JS</h1>
+                        <script type="text/javascript" src="path-to-javascript-file.js">
+                            // Il codice può essere importato oppure anche scrivere direttamente qui
+                            // Inizio Codice JS
+                            alert('Alert della Pagina di Esempio');
+                            const btn = document.getElementById('myButton');
+                            btn.onclick = function() {
+                                alert('Hai cliccato il bottone');
+                            }
+                            // Fine Codice JS 
+                        </script>
+                    </body>
+                </html>
+            `}/>
+
+            {/* JS Academy - End */}
+
             <h2>Operatore di Uguaglianza</h2>
             <p>JavaScript supporta due tipi di uguaglianza:
                 <ul>
@@ -170,7 +257,83 @@ const Javascript: React.FC = () => {
                 typeof { key: 'value' };    // object
             `}/>
 
-            <p> </p>
+            <h2>Variables</h2>
+            <p>Una variabile è che un contenitore che può contenere un dato.
+                Questo contenitore di fatto è
+                uno spazio di memoria che può contenere un valore.
+                Per accedere a questo spazio di memoria si dovrebbe utilizzare il suo indirizzo di memoria (molto
+                scomodo per noi esseri umani), ma per fortuna JS ci permette di utilizzare un nome identificativo
+                che punta a questo spazio di memoria proprio grazie all'indirizzo associato.
+            </p>
+            <p>Per convenzione in JS si utilizza per assegnare un nome da un variabile il Camel Case.
+                Ma non solo, in JS ci sono altre principali regole da rispettare per assegnare un nome ad una variabile:
+                <ul>
+                    <li>può contenere lettere, numeri, underscore (_) e dollari ($)</li>
+                    <li>non può iniziare con un numero e non può essere una parola chiave di JS</li>
+                </ul>
+            </p>
+            <p>Per dichiarare una variabile in JS si utilizza la parola chiave <code>let</code> o <code>const</code>:
+                <ul>
+                    <li><code>let</code> (block scope): per dichiarare una variabile la cui assegnazione può cambiare
+                        <JavascriptCode code={`
+                            // Dichiarazione di una variabile
+                            let studentName = "John";
+                            console.log(studentName); // John
+                            
+                            // Cambio del valore assegnato alla variabile
+                            studentName = "Jane";
+                            console.log(studentName); // Jane
+                        `}/>
+                    </li>
+                    <li><code>const</code> (block scope): per dichiarare una variabile la cui assegnazione non può
+                        cambiare
+                    </li>
+                    <JavascriptCode code={`
+                        // Dichiarazione di una variabile costante
+                        const PI_GRECO = 3.14;
+                        console.log(PI_GRECO); // 3.14
+                        
+                        // Tentativo di cambiare il valore della variabile costante
+                        PI_GRECO = 3.14159; // TypeError: Assignment to constant variable
+                        
+                        // Esempio con stringa
+                        const myName = "John";
+                        myName = "Jane"; // TypeError: Assignment to constant variable
+                        
+                        // Esempio con array
+                        const myArray = [1, 2, 3];
+                        myArray.push(4); // OK: perché costante è il riferimento in memoria all'array e non il contenuto 
+                    `}/>
+                    <li><code>var</code> (global scope): per dichiarare una variabile in modo globale</li>
+                </ul>
+            </p>
+
+            <h3>Operatori di Concatenazione</h3>
+            <JavascriptCode code={`
+                const firstName = 'John';
+                const lastName = 'Doe';
+                const fullName = firstName + ' ' + lastName;
+                console.log(fullName); // John Doe    
+                
+                const age = 30;
+                const message = 'I am ' + age + ' years old';       // Single quotes   
+                const message_2 = "I am " + age + " years old";     // Double quotes
+                const message_3 = \`I am \${age} years old\`;       // Template literals and interpolation (backticks)
+                const message_4 = 'My name\'s Mario'                // Escape character
+                const message_5 = "My name's Mario"                 // Single quotes inside double quotes
+               
+            `}/>
+            <p>Come si può osservare dall'esempio, in questo caso l'operatore di somma, quando si trova a dover sommare
+                due valori di tipo stringa si trasforma in un operatore di concatenazione.
+                Analogamente a quando si trova a dover sommare un valore di tipo stringa ad un valore di tipo number,
+                in cui effettua però prima una conversione (operazione di casting) automatica del number in stringa per
+                poi procedere con la concatenazione.
+            </p>
+
+
+
+
+
         </div>
     );
 };
