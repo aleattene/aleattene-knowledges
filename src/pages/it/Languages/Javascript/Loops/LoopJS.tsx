@@ -63,6 +63,51 @@ const LoopJS: React.FC = () => {
                     </li>
                 </ul>
             </p>
+
+            <h3>Break e Continue</h3>
+            <p>Con l'istruzione <code>break</code> si può interrompere l'esecuzione di un loop e proseguire con il
+                codice successivo.</p>
+            <JavascriptCode code={`
+                // Esempio di break
+                console.log('Prima del ciclo');
+                for (let i = 0; i < 5; i++) {
+                    if (i === 2) {
+                        break;
+                    }
+                    console.log(i);
+                }
+                console.log('Dopo il ciclo');
+            `}/>
+            <p>Output:</p>
+            <JavascriptCode code={`
+                Prima del ciclo
+                0
+                1
+                Dopo il ciclo
+            `}/>
+            <p>Con l'istruzione <code>continue</code> si può saltare l'iterazione corrente e proseguire con la
+                successiva.
+            </p>
+            <JavascriptCode code={`
+                // Esempio di continue
+                console.log('Prima del ciclo');
+                for (let i = 0; i < 5; i++) {
+                    if (i === 2) {
+                        continue;
+                    }
+                    console.log(i);
+                }
+                console.log('Dopo il ciclo');
+            `}/>
+            <p>Output:</p>
+            <JavascriptCode code={`
+                Prima del ciclo
+                0
+                1
+                3
+                4
+                Dopo il ciclo
+            `}/>
         </div>
     );
 };
