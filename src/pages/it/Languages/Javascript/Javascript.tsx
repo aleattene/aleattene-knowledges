@@ -145,6 +145,10 @@ const Javascript: React.FC = () => {
                 </html>
             `}/>
 
+            {/* [TO FIX] -> ES6 e versioni precedenti tramite TRANSPILE (babel) */}
+
+
+
             {/* JS Academy - End */}
 
             <h2>Tipi di Dato</h2>
@@ -470,6 +474,8 @@ const Javascript: React.FC = () => {
                 Errore: Infinity
                 Fine del blocco try...catch
             `}/>
+
+
 
 
 
