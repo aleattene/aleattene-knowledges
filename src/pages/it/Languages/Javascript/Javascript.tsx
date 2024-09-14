@@ -476,6 +476,21 @@ const Javascript: React.FC = () => {
             `}/>
 
 
+            <h2>Garbage Collection</h2>
+            <p>La garbage collection è un processo automatico eseguito in background che si occupa di individuare e
+                rimuovere i dati non più utilizzati dal programma (non più referenziati), al fine di liberare spazio in
+                memoria, quando uesto non è più necessario che venga occupato.
+            </p>
+            <p>Il ciclo di vita di un oggetto in Javascript è diviso in quattro fasi:
+                <ul>
+                    <li>Creazione: l'oggetto viene creato ed allocato in memoria</li>
+                    <li>Utilizzo: l'oggetto viene utilizzato durante l'esecuzione del programma</li>
+                    <li>Rilascio: l'oggetto non è più referenziato e può essere rimosso dalla memoria; è su questo
+                        punto che interviene la garbage collection
+                    </li>
+                </ul>
+            </p>
+
 
 
 
