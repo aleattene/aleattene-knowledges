@@ -75,6 +75,39 @@ const Operators: React.FC = () => {
                     <li><code>!</code>: negazione (restituisce stato booleano opposto a quello passato)</li>
                 </ul>
             </p>
+
+            <h2>Operatori Logici</h2>
+            <p>Gli operatori logici (derivati dell'Algebra di Boole) in JS sono:
+                <ul>
+                    <li><code>&&</code>: AND (operatore binario che restituisce true solo se entrambi i valori a cui
+                        si riferisce sono true)
+                        <JavascriptCode code={`
+                            true   &&  true;    // true
+                            true   &&  false;   // false
+                            false  &&  true;    // false (se la prima condizione è false, la seconda non viene valutata)
+                            false  &&  false;   // false (se la prima condizione è false, la seconda non viene valutata)
+                        `}/>
+                    </li>
+
+                    <li><code>||</code> : OR (operatore binario che restituisce true se almeno uno dei due valori a cui
+                        si riferisce è true)
+                        <JavascriptCode code={`
+                            true   ||  true;    // true
+                            true   ||  false;   // true
+                            false  ||  true;    // true
+                            false  ||  false;   // false
+                            
+                        `}/>
+                    </li>
+                    <li><code>!</code> : NOT (operatore unario che restituisce il valore booleano opposto a quello
+                        a cui viene applicato)
+                        <JavascriptCode code={`
+                            !true;    // false
+                            !false;   // true
+                        `}/>
+                    </li>
+                </ul>
+            </p>
         </div>
     );
 };

@@ -332,6 +332,65 @@ const Javascript: React.FC = () => {
                     console.log('x è uguale a 10');
                 }
             `}/>
+            {/*
+                [TO FIX] condizione vere/false con stringa(true)/vuota(false)/numero(true)/0(false)
+                                                    /object(true)/null(false)/undefined(false)/NaN(false)
+             */}
+
+            {/*
+                [TO FIX] Attenzione all'uguaglianza tra oggetti (pur essendo gli stessi, stesso nome e stesse
+                 proprietà sono due oggetti diversi
+                 car1 == car2 -> SEMPRE false (perchè la reference è diversa)
+                 car1 === car2 -> SEMPRE false (perchè la reference è diversa)
+                 car1.name === car2.name -> può anche essere true (se il valore è effettivamente lo stesso)
+                 car1.name == car2.name -> può anche essere true (se il valore è effettivamente lo stesso)
+              */}
+
+            <h2>Operatore Ternario</h2>
+            <p>L'operatore ternario è un operatore condizionale che può essere utilizzato al posto di un'istruzione
+                <code>if</code> per rendere il codice più conciso.
+            </p>
+            <p>L'operatore ternario ha la seguente sintassi:
+            </p>
+            <JavascriptCode code={`
+                condizione ? espressione1 : espressione2
+            `}/>
+            <p>Esempio:</p>
+            <JavascriptCode code={`
+                // Assegnazione di un valore ad una variabile in base ad una condizione
+                const x = 10;
+                const message = x > 10 ? 'x è maggiore di 10' : 'x è minore o uguale a 10';
+                console.log(message);   // x è minore o uguale a 10
+            `}/>
+            <p>Questo codice è equivalente a:</p>
+            <JavascriptCode code={`
+                const x = 10;
+                if (x > 10) {
+                    console.log('x è maggiore di 10');
+                } else {
+                    console.log('x è minore o uguale a 10');
+                }
+            `}/>
+
+            <h2>And e Or Condizionali</h2>
+            <p>Esempio</p>
+            <JavascriptCode code={`
+                const valueTest = null;
+                // OR
+                const valueOr = valueTest || 'default value';
+                console.log(valueOr); // default value
+                // AND
+                const valueAnd = valueTest && 'default value';
+                console.log(valueAnd); // null
+                
+                const valueTest2 = 'value';
+                // OR
+                const value2Or = valueTest2 || 'default value';
+                console.log(value2Or); // value
+                // AND
+                const value2And = valueTest2 && 'default value';
+                console.log(value2And); // default value
+            `}/>
 
         </div>
     );
