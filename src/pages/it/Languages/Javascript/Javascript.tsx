@@ -148,7 +148,6 @@ const Javascript: React.FC = () => {
             {/* [TO FIX] -> ES6 e versioni precedenti tramite TRANSPILE (babel) */}
 
 
-
             {/* JS Academy - End */}
 
             <h2>Tipi di Dato</h2>
@@ -492,6 +491,39 @@ const Javascript: React.FC = () => {
             </p>
 
 
+            <h3>Callback</h3>
+            <p>Le callback sono molto utili in JS per gestire la programmazione asincrono.
+                Una callback è una funzione che viene passata come argomento ad un'altra funzione (che la valorizzerà
+                come parametro) ed eseguita all'interno di quest'ultima.
+            </p>
+            <p>Esempio:</p>
+            <JavascriptCode code={`
+                function greet(callback) {
+                    console.log('Hello');
+                    callback();
+                }
+                
+                function sayGoodbye() {
+                    console.log('Goodbye');
+                }
+                
+                greet(sayGoodbye);
+            `}/>
+            <p>Output:</p>
+            <JavascriptCode code={`
+                Hello
+                Goodbye
+            `}/>
+            <p>Altro esempio:</p>
+            <JavascriptCode code={`
+                const calcola = (a, b, operazione) => { return operazione(a, b); };
+                
+                const somma = (a, b) => a + b;
+                const sottrazione = (a, b) => a - b;
+                
+                console.log(calcola(5, 3, somma));          // 8
+                console.log(calcola(5, 3, sottrazione));    // 2
+            `}/>
 
 
         </div>

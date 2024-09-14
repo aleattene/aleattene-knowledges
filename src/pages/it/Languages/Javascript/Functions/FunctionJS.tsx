@@ -140,7 +140,7 @@ const functionJS: React.FC = () => {
                 necessariamente definita prima di essere chiamata.
             </p>
 
-            <h3>Arrow Function</h3>
+            <h3>Arrow Function (lambda function)</h3>
             <p>Le arrow function sono una nuova sintassi introdotta in ES6 per creare funzioni in modo più conciso e
                 leggibile.
             </p>
@@ -177,6 +177,53 @@ const functionJS: React.FC = () => {
                 saluta();           // Ciao Alessandro...!
                 saluta('Marco');    // Ciao Marco...!
             `}/>
+
+            <h3>Rest Parameters</h3>
+            <p>I rest parameters sono quei parametri che permettono di passare un numero variabile di argomenti ad una
+                funzione (devono essere sempre gli ultimi parametri della lista).
+                Sono rappresentati da tre punti <code>...</code> seguiti dal nome del parametro.
+                Il parametro che segue i tre punti sarà un array (costruito a runtime) contenente tutti gli argomenti
+                passati alla funzione.
+            </p>
+            <p>Esempio:</p>
+            <JavascriptCode code={`
+                function somma(...numeri) {
+                    let risultato = 0;
+                    for (const numero of numeri) {
+                        risultato += numero;
+                    }
+                    return risultato;
+                }
+                
+                console.log(somma(1, 2, 3, 4, 5));
+            `}/>
+            <p>Output:</p>
+            <TerminalCode code={`15`}/>
+
+            <p>Rest Parameters con altri parametri</p>
+            <JavascriptCode code={`
+                function somma(primo, secondo, ...restanti) {
+                    let risultato = primo + secondo;
+                    for (const numero of restanti) {
+                        risultato += numero;
+                    }
+                    return risultato;
+                }
+                
+                console.log(somma(1, 2, 3, 4, 5));
+                console.log(somma(1, 2));
+                console.log(somma(1, 2, 3));
+            `}/>
+            <p>Output:</p>
+
+            <TerminalCode code={`
+                15
+                3
+                6
+            `}/>
+
+
+
 
 
         </div>
