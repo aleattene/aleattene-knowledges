@@ -392,6 +392,46 @@ const Javascript: React.FC = () => {
                 console.log(value2And); // default value
             `}/>
 
+            <h2>Switch</h2>
+            <p>Lo switch è una struttura di controllo condizionale che permette di eseguire un blocco di codice
+                diverso a seconda del valore di una variabile. È utile quando si ha la necessità di valutare
+                più condizioni che gestite altrimenti con if-else diventerebbero troppo prolisso.
+            </p>
+            <p>La struttura di controllo condizionale <code>switch</code> ha la seguente sintassi:
+            </p>
+            <JavascriptCode code={`
+                switch (espressione) {
+                    case valore1:
+                        // Blocco di codice 1
+                        break;
+                    case valore2:
+                        // Blocco di codice 2
+                        break;
+                    default:
+                        // Blocco di codice di default
+                }
+            `}/>
+            <p>Esempio:</p>
+            <JavascriptCode code={`
+                const day = 'Lunedì';
+                switch (day) {
+                    case 'Lunedì':                       
+                        console.log('Oggi è Lunedì');
+                        break;                           // Senza break, il controllo passerebbe al caso successivo
+                    case 'Martedì':
+                        console.log('Oggi è Martedì');   // Equivalente a else if (day === 'Martedì')
+                        break;
+                    case 'Mercoledì':
+                        console.log('Oggi è Mercoledì'); // Equivalente a else if (day === 'Mercoledì')
+                        break;
+                    case 'Mercoledì':
+                        console.log('Oggi è Giovedì');    // Equivalente a else if (day === 'Giovedì')
+                        break;
+                    default:                              // Se nessun caso corrisponde (equivalente all'else)
+                        console.log('Oggi è un altro giorno');
+                } 
+            `}/>
+
         </div>
     );
 };

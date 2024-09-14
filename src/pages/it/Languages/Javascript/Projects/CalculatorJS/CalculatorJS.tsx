@@ -95,7 +95,7 @@ const CalculatorJS: React.FC = () => {
                 });
             `}/>
             {/* [TO FIX] Differenza interessante tra parseInt e Number (oltre che +string -> number) */}
-
+            {/* [TO FIX] Possibile Evoluzione con Switch-Case (operation) -> case SUM / SUB / etc */}
 
         </div>
     );
