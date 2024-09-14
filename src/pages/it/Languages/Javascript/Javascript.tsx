@@ -432,6 +432,47 @@ const Javascript: React.FC = () => {
                 } 
             `}/>
 
+            <h2>Try, Catch, Finally</h2>
+            <p>Lo statement <code>try...catch</code> permette di gestire gli errori in modo controllato, evitando
+                che il programma si blocchi in caso di eccezioni.
+            </p>
+            <p>Solitamente questo genere di errori può dipendere da alcune situazioni principali:
+                <ul>
+                    <li>Errore di sintassi: errore di scrittura del codice</li>
+                    <li>Errore di logica: errore di programmazione</li>
+                    <li>Errore di rete: errore di connessione</li>
+                </ul>
+            </p>
+            <p>La struttura di controllo <code>try...catch</code> ha la seguente sintassi:
+                <JavascriptCode code={`
+                    try {
+                        // Blocco di codice che potrebbe generare un errore
+                    } catch (error) {
+                        // Blocco di codice che gestisce l'errore
+                    } finally {
+                        // Blocco di codice eseguito sempre (a prescindere che venga generato un errore o meno)
+                    }
+                `}/>
+            </p>
+            <p>Esempio:</p>
+            <JavascriptCode code={`
+                try {
+                    const result = 10 / 0;
+                    // Per sollevare eccezioni si può anche utilizzare la parola chiave throw { ... }
+                } catch (error) {
+                    console.log('Errore:', error); 
+                } finally {
+                    console.log('Fine del blocco try...catch');
+                }
+            `}/>
+            <p>Output:</p>
+            <JavascriptCode code={`
+                Errore: Infinity
+                Fine del blocco try...catch
+            `}/>
+
+
+
         </div>
     );
 };
