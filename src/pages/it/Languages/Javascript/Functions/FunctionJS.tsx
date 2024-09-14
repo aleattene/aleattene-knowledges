@@ -9,8 +9,9 @@ const functionJS: React.FC = () => {
             <h1>Funzioni in JavaScript</h1>
             <p>Le funzioni sono di fatto un blocco di codice che esegue un'azione specifica.
                 Per definire una funzione in JavaScript, si utilizza la parola chiave <code>function</code>,
-                seguita dal nome della funzione, una lista di parametri tra parentesi tonde e il blocco di codice
-                racchiuso tra parentesi graffe.</p>
+                seguita dal nome della funzione, una lista di parametri (che saranno valorizzati con gli argomenti
+                passati in fase di chiamata) tra parentesi tonde e il blocco di codice racchiuso tra parentesi graffe.
+            </p>
             <h3>Esempio:</h3>
             <JavascriptCode code={`
                 // 1 - Definizione di una funzione chiamata greet
@@ -83,6 +84,101 @@ const functionJS: React.FC = () => {
                 saluta;     // NO - Questa chiamata non esegue la funzione
                 saluta();   // SI - Questa chiamata esegue la funzione  
             `}/>
+
+            <p>Una funzione all'interno di un oggetto è chiamata metodo. Per esempio, <code>toUpperCase</code> è un
+                metodo della stringa:</p>
+            <JavascriptCode code={`
+                const stringa = 'ciao';
+                console.log(stringa.toUpperCase()); // CIAO
+            `}/>
+            <p>Volendo possiamo anche avere funzioni (metodi) all'interno dei literal object:</p>
+            <JavascriptCode code={`
+                const persona = {
+                    nome: 'Alessandro',
+                    eta: 45,
+                    saluta: function() {
+                        console.log('Ciao...!');
+                    }
+                };
+                
+                persona.saluta(); // Ciao...!
+            `}/>
+            <p>Anche con le function è possibile utilizzare typeof:</p>
+            <JavascriptCode code={`
+                console.log(typeof saluta);     // function
+            `}/>
+            <p>Le funzioni sono di fatto degli oggetti che hanno una particolare struttura e proprietà:</p>
+            <JavascriptCode code={`
+                function saluta() {
+                    console.log('Ciao...!');
+                }
+                
+                console.dir(saluta);
+            `}/>
+            <p>Output:</p>
+            <TerminalCode code={`
+                ƒ saluta()
+                    length: 0
+                    name: "saluta"
+                    arguments: null
+                    caller: null
+                    prototype: {constructor: ƒ}
+                    __proto__: ƒ ()
+                    [[FunctionLocation]]: VM101:1
+                    [[Scopes]]: Scopes[1]
+            `}/>
+            <p>In JS le funzioni possono anche essere assegnate a variabili:</p>
+            <JavascriptCode code={`
+                // Anonymous Function (funzione anonima)
+                const saluta = function() {
+                    console.log('Ciao...!');
+                };
+                
+                saluta(); // Ciao...!
+            `}/>
+            <p>In questo caso però non è possibile utilizzare il meccanismo di hoisting, quindi la funzione va
+                necessariamente definita prima di essere chiamata.
+            </p>
+
+            <h3>Arrow Function</h3>
+            <p>Le arrow function sono una nuova sintassi introdotta in ES6 per creare funzioni in modo più conciso e
+                leggibile.
+            </p>
+            <p>Anche le arrow function non possono essere chiamate prima della loro definizione, poiché infatti non
+                supportano il meccanismo di hoisting.
+            </p>
+            <p>Sintassi:</p>
+            <JavascriptCode code={`,
+                // Arrow Function
+                const saluta = () => { console.log('Ciao...!'); };
+                
+                saluta(); // Ciao...!
+                
+                // Arrow Function con un parametro
+                const saluta = nome => { console.log('Ciao ' + nome + '...!'); };
+                
+                saluta('Alessandro'); // Ciao Alessandro...!
+                
+                // Arrow Function con più parametri
+                const somma = (a, b) => { return a + b; };
+                const somma = (a, b) => a + b; // Sintassi ancora più concisa
+            `}/>
+
+            <h3>Default Parameters</h3>
+            <p>I default parameters sono quei parametri che se non valorizzati opportunamente durante la chiamata
+                (tramite il passaggio di argomenti) assumono comunque un valore di default.
+            </p>
+            <p>Esempio:</p>
+            <JavascriptCode code={`
+                function saluta(nome = 'Alessandro') {
+                    console.log('Ciao ' + nome + '...!');
+                }
+                
+                saluta();           // Ciao Alessandro...!
+                saluta('Marco');    // Ciao Marco...!
+            `}/>
+
+
         </div>
     );
 };
