@@ -110,49 +110,69 @@ const OOPJS: React.FC = () => {
             `}/>
 
             <h3>Manipolare Literal Object</h3>
-            <p>Per manipolare un oggetto, possiamo operare in diversi modi:</p>
-            <ul>
-                <li>aggiungere una proprietà/chiave e/o un metodo:
-                    <JavascriptCode code={`
-                        // Aggiungere la proprietà age all'oggetto user
-                        user.age = 30;
-                        user["age"] = 30;
-                        
-                        // Aggiungere il metodo parla all'oggetto user
-                        user.parla = () => { console.log("Ciao!"); };  
-                    `}/>
-                </li>
-                <li>modificare una proprietà/chiave e/o un metodo:
-                    <JavascriptCode code={`
-                        // Modifica la proprietà age dell'oggetto user
-                        user.age = 40;
-                        user["age"] = 40;
-                        
-                        // Modifica il metodo parla dell'oggetto user
-                        user.parla = () => { console.log("Hello!"); };  
-                    `}/>
-                </li>
-                <li>resettare una proprietà/chiave e/o un metodo (usare sempre null, mai undefined):
-                    <JavascriptCode code={`
-                        // Resetta la proprietà age dell'oggetto user 
-                        user.age = null;
-                        user["age"] = null;
-                        
-                        // Resetta il metodo parla dell'oggetto user
-                        user.parla = null;
-                    `}/>
-                </li>
-                <li>cancellare una proprietà/chiave e/o un metodo:
-                    <JavascriptCode code={`
-                        // Cancella la proprietà age dall'oggetto user
-                        delete user.age;
-                        delete user["age"]; 
-                                                                     
-                       // Cancella il metodo parla dall'oggetto user
-                       delete user.parla;
-                    `}/>
-                </li>
-            </ul>
+            <p>Per manipolare un oggetto, possiamo operare in diversi modi:
+                <ul>
+                    <li>aggiungere una proprietà/chiave e/o un metodo:
+                        <JavascriptCode code={`
+                            // Aggiungere la proprietà age all'oggetto user
+                            user.age = 30;
+                            user["age"] = 30;
+                            
+                            // Aggiungere il metodo parla all'oggetto user
+                            user.parla = () => { console.log("Ciao!"); };  
+                        `}/>
+                    </li>
+                    <li>modificare una proprietà/chiave e/o un metodo:
+                        <JavascriptCode code={`
+                            // Modifica la proprietà age dell'oggetto user
+                            user.age = 40;
+                            user["age"] = 40;
+                            
+                            // Modifica il metodo parla dell'oggetto user
+                            user.parla = () => { console.log("Hello!"); };  
+                        `}/>
+                    </li>
+                    <li>resettare una proprietà/chiave e/o un metodo (usare sempre null, mai undefined):
+                        <JavascriptCode code={`
+                            // Resetta la proprietà age dell'oggetto user 
+                            user.age = null;
+                            user["age"] = null;
+                            
+                            // Resetta il metodo parla dell'oggetto user
+                            user.parla = null;
+                        `}/>
+                    </li>
+                    <li>cancellare una proprietà/chiave e/o un metodo:
+                        <JavascriptCode code={`
+                            // Cancella la proprietà age dall'oggetto user
+                            delete user.age;
+                            delete user["age"]; 
+                                                                         
+                           // Cancella il metodo parla dall'oggetto user
+                           delete user.parla;
+                        `}/>
+                    </li>
+                </ul>
+            </p>
+
+            <h3>Proprietà Dinamiche</h3>
+            <p>Le proprietà di un oggetto, in alcuni casi se necessario, possono anche essere dinamiche, ovvero possono
+                essere definite in fase di esecuzione del codice:
+            </p>
+            <JavascriptCode code={`
+                // Proprietà dinamiche
+                let keyDynamic = "data";
+                
+                const user = {
+                    [keyDynamic]: "John Doe"
+                };
+                
+                console.log(user.data);     // John Doe
+                
+                keyDynamic = "name";
+                
+                console.log(user.name);     // John Doe
+            `}/>
         </div>
     );
 };
