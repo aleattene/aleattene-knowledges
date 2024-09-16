@@ -220,6 +220,70 @@ const OOPJS: React.FC = () => {
                 user.firstName = "John";
                 console.log(user.firstName); // John
             `}/>
+
+            <h2>Classi</h2>
+            <p>Le classi sono un tamplate (stampino) per creare oggetti in JS. Sono un costrutto sintattico che
+                permette di creare oggetti strutturati (con proprietà ed oggetti) in modo più semplice e chiaro
+                rispetto ai Literal Object.
+            </p>
+            <p>Un primo importantissimo concetto legato alla OOP e le relative classi è quello che riguarda
+                l'ereditarietà (inheritance). Questo concetto permette di creare una classe figlia (child class)
+                che eredita le proprietà e i metodi della classe padre (parent class).
+            </p>
+            <p>Per creare una classe, si utilizza la parola chiave <code>class</code> seguita dal nome della classe.
+                Il nome della classe deve iniziare con la lettera maiuscola.
+            </p>
+            <JavascriptCode code={`
+                class User {
+                
+                    // Field (diventano proprietà all'interno del costruttore)
+                    firstName = 'Default';
+                    lastName = '';
+                    
+                    // Costruttore
+                    constructor(firstName, lastName) {
+                        this.firstName = firstName;
+                        this.lastName = lastName;
+                    }
+                    
+                    
+                    // Metodo
+                    getFullName() {
+                        return \`FULLNAME: \${this.firstName} \${this.lastName}\`;
+                    }
+                }
+                
+                // Creazione di un oggetto (istanza della classe User) con la parola chiave new   
+                const user = new User("John", "Doe");
+                console.log(user.getFullName());    // FULLNAME: John Doe
+            `}/>
+            <p>Nel momento in cui vogliamo creare una classe figlia, possiamo utilizzare la parola chiave
+                <code>extends</code> seguita dal nome della classe padre.
+            </p>
+            <JavascriptCode code={`
+                class Admin extends User {
+                    
+                    // Costruttore
+                    constructor(firstName, lastName) {
+                        super(firstName, lastName);     // Richiama il costruttore della classe padre
+                    }
+                    
+                    // Metodi
+                    setRole = (role) => { this.role = role; }
+                    
+                    // Override del metodo getFullName
+                    getFullName() {
+                        return \`FULLNAME: \${this.firstName} \${this.lastName}\ - ROLE: \${this.role}\`;
+                    }
+                }
+                
+                const admin = new Admin("John", "Doe");
+                admin.setRole("Admin");
+                console.log(admin.getFullName());   // FULLNAME: John Doe - ROLE: Admin
+            `}/>
+
+
+
         </div>
     );
 };
