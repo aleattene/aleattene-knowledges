@@ -490,7 +490,6 @@ const Javascript: React.FC = () => {
                 </ul>
             </p>
 
-
             <h3>Callback</h3>
             <p>Le callback sono molto utili in JS per gestire la programmazione asincrono.
                 Una callback è una funzione che viene passata come argomento ad un'altra funzione (che la valorizzerà

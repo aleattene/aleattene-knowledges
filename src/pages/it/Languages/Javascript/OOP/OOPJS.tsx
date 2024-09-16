@@ -173,6 +173,53 @@ const OOPJS: React.FC = () => {
                 
                 console.log(user.name);     // John Doe
             `}/>
+
+            <h3>THIS</h3>
+            <p>Il THIS è una parola chiave di JS che fa riferimento all'oggetto corrente (nella arrow function fare
+                attenzione perché si riferisce a window).</p>
+            <JavascriptCode code={`
+                const user = {
+                    firstName: "John",
+                    lastName: "Doe",
+                    setSex: (sex) => { this.sex = sex; },       // Attenzione perché this si riferisce a window
+                };
+                
+                user.setSex("M");   // TypeError: Cannot set property 'sex' of undefined
+                
+                // Soluzione
+                const user = {
+                    firstName: "John",
+                    lastName: "Doe",
+                    setSex: function(sex) { this.sex = sex; }
+                    getFullName: function() { return \`FULLNAME: \${this.firstName} \${this.lastName}\`; }
+                    
+                user.setSex("M");       // OK
+                console.log(user);      // { firstName: "John", lastName: "Doe", sex: "M" }
+                user.getFullName();     // FULLNAME: John Doe
+            `}/>
+
+            <h3>Setter e Getter</h3>
+            <p>I setter e getter sono metodi speciali che permettono di impostare e ottenere il valore di una proprietà
+                di un oggetto, che non vogliamo sia direttamente accessibile (e quindi anche manipolabile)
+                dall'esterno.
+            </p>
+            <JavascriptCode code={`
+                const user = {
+                    
+                    // Setter
+                    set firstName(value) {
+                        this._firstName = value;
+                    }   
+                    
+                    // Getter
+                    get firstName() {
+                        return this._firstName;
+                    }
+                };
+                
+                user.firstName = "John";
+                console.log(user.firstName); // John
+            `}/>
         </div>
     );
 };
