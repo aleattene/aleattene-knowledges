@@ -525,6 +525,88 @@ const Javascript: React.FC = () => {
                 console.log(calcola(5, 3, sottrazione));    // 2
             `}/>
 
+            <h2>Chaining</h2>
+            <p>Il chaining è una tecnica utilizzata per concatenare più metodi in una singola istruzione.
+                Questo permette di scrivere codice più conciso e leggibile ottenendo comunque lo stesso risultato.
+            </p>
+            <p>Esempio:</p>
+            <JavascriptCode code={`
+                // Senza chaining
+                const number = Math.random();
+                const numberWithCents = number.toFixed(2);
+                const  stringNumber = numberWithCents.toString();
+                console.log(numberRoundedDecimals);
+                
+                // Con chaining
+                const numberChained = Math.random().toFixed(2).toString();
+                console.log(numberChained); 
+            `}/>
+
+            <h2>Spread Operator</h2>
+            <p>Lo spread operator è un operatore che permette di espandere un array o un oggetto in un altro array
+                o oggetto. Questo operatore è molto utile per copiare (per referenza e non un nuovo oggetto) array e
+                oggetti in modo semplice e veloce, magari aggiungendo anche ulteriori elementi.
+            </p>
+            <p>
+                In gergo tecnico vien definita come shallow copy (copia superficiale) dove di fatto viene creato un
+                nuovo oggetto/array ma il riferimento è sempre all'oggetto/array originale.
+            </p>
+            <p>Esempio:</p>
+            <JavascriptCode code={`
+                // Spread Operator con Array
+                const numbers = [1, 2, 3];
+                const newNumbers = [...numbers, 4, 5];
+                console.log(newNumbers); // [1, 2, 3, 4, 5]
+                
+                // Spread Operator con Oggetto
+                const person = { name: 'John', age: 30 };
+                const newPerson = { ...person, city: 'Rome' };
+                console.log(newPerson); // { name: 'John', age: 30, city: 'Rome' }
+            `}/>
+            <p>Se volessimo creare un oggetto più indipendente si potrebbe ad esempio operare come segue:</p>
+            <JavascriptCode code={`
+                const person = { name: 'John', age: 30 };
+                const newPerson = { ...person, age: 31 };
+                
+                newPerson.age = 40;
+                console.log(person.age);        // 30   
+                console.log(newPerson.age);     // 40
+            `}/>
+            <p>Si potrebbe pensare che con il metodo <code>Object.assign()</code> si possa ottenere una copia profonda
+                (deep copy) ma in realtà non è così, poiché anche in questo caso si crea una copia superficiale.
+            </p>
+            <JavascriptCode code={`
+                const person = { name: 'John', age: 30 };
+                const newPerson = Object.assign({}, person);
+                
+                newPerson.age = 40;
+                console.log(person.age);        // 40
+                console.log(newPerson.age);     // 40
+            `}/>
+
+            <h2>Destructuring</h2>
+            <p>Il destructuring è una tecnica che permette di estrarre valori da array o oggetti e assegnarli a
+                variabili in modo conciso.
+            </p>
+            <p>Esempio:</p>
+            <JavascriptCode code={`
+                // Destructuring di un array
+                const numbers = [1, 2, 3];
+                const [a, b, c] = numbers;
+                console.log(a, b, c); // 1 2 3
+                
+                // Destrutturazione di un array con rest operator
+                const [x, ...y] = numbers;
+                console.log(x);     // 1
+                console.log(y);     // [2, 3]
+                
+                
+                // Destructuring di un oggetto
+                const person = { name: 'John', age: 30 };
+                const { name, age } = person;
+                console.log(name);  // John
+                console.log(age);   // 30
+            `}/>
 
         </div>
     );
