@@ -61,7 +61,7 @@ const Javascript: React.FC = () => {
                 <li><b>Rejected</b>: significa che l'operazione è fallita e viene restituito il tipo di errore.</li>
             </ul>
             <p>Come abbiamo visto la promisè può avere tre strati: pending, resolved, rejected. Questi stati sono
-                rappresentati da tre metodi che possiamo chiamare su una promise:</p>
+                rappresentati da tre metodi (handler) che possiamo chiamare su una promise:</p>
             <ul>
                 <li><code>promise.then()</code>: viene eseguito questo metodo quando la promise è risolta.</li>
                 <li><code>promise.catch()</code>: viene chiamato quando la promise è rigettata.</li>
@@ -118,7 +118,7 @@ const Javascript: React.FC = () => {
                     .catch(error => console.log(error))     // Cattura eventuali errori nella catena di chiamate
             `}/>
             <h3>Callback Hell</h3>
-            <p>Il problema delle callback hell si verifica quando si hanno troppe funzioni annidate l'una dentro
+            <p>Il problema delle callback hell si verifica quando si hanno troppe promise annidate l'una dentro
                 l'altra. Questo rende il codice difficile da leggere e da mantenere. Ecco un esempio:</p>
             <JavascriptCode code={`
                 const urlStart = 'https://randomuser.me/api/';
@@ -174,7 +174,7 @@ const Javascript: React.FC = () => {
                 sostituire le promise/then/catch, quanto per gestire meglio le chiamate asincrone sequenziali, ovvero
                 evitare il callback hell.
             </p>
-            <p>[TO FIX] Promise classica vd asincrona</p>
+            <p>[TO FIX] Promise classica vs asincrona</p>
 
             <h2>La Classe Promise</h2>
             <p>Ci sono {promiseStaticMethods.length} metodi statici della classe Promise:</p>
