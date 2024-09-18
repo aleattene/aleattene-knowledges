@@ -252,7 +252,9 @@ const EventJS: React.FC = () => {
                 Primo P cliccato!
             `}/>
 
+            {/* <h3>Pattern Delegation</h3> -> [TO COMPLETE] e.target.closest('button') for example */}
 
+             
 
         </div>
     );

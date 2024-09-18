@@ -1,5 +1,6 @@
 import React from "react";
 import JavascriptCode from "../../../../../components/Code/JavascriptCode/JavascriptCode.tsx";
+import TerminalCode from "../../../../../components/Code/TerminalCode/TerminalCode.tsx";
 
 const OOPJS: React.FC = () => {
     return (
@@ -282,8 +283,101 @@ const OOPJS: React.FC = () => {
                 console.log(admin.getFullName());   // FULLNAME: John Doe - ROLE: Admin
             `}/>
 
-
-
+            <h2>Metodi Bind, Call e Apply</h2>
+            <p>Per affrontare nel migliore dei modi i concetti che sono alla base di call e apply, partiamo da un
+                esempio:
+            </p>
+            <JavascriptCode code={`
+                const user = {
+                    firstName: "John",
+                    lastName: "Doe",
+                    getFullName: function() { return \`FULLNAME: \${this.firstName} \${this.lastName}\`; }
+                };
+                
+                console.log(user.getFullName());    // FULLNAME: John Doe
+            `}/>
+            <p>A questo punto diventa interessante aggiungere una function da agganciare al nostro oggetto user:</p>
+            <JavascriptCode code={`
+                function registerUser() {
+                    console.log(this);
+                }
+                
+                registerUser();
+            `}/>
+            <p>Il risultato sarà <code>Window</code> poiché la funzione <code>registerUser()</code> è stata chiamata
+                direttamente dal contesto globale (window).
+            </p>
+            <TerminalCode code={`
+                Window {
+                    parent: Window,
+                    opener: null,
+                    ...
+                }
+            `}/>
+            <p>Ecco che allora per agganciare la funzione <code>registerUser()</code> all'oggetto <code>user</code>,
+                dobbiamo utilizzare il metodo <code>bind()</code>:
+            </p>
+            <JavascriptCode code={`
+                const user = {
+                    firstName: "John",
+                    lastName: "Doe",
+                    getFullName: function() { return \`FULLNAME: \${this.firstName} \${this.lastName}\`; }
+                };
+                
+                function registerUser(username, password) {
+                    // in questo caso this si riferirà all'oggetto user (passato all'interno di bind)
+                    console.log(this, username, password);  
+                }
+                
+                const registerUserBound = registerUser.bind(user, "john", "doe");
+                registerUserBound();
+            `}/>
+            <p>Il risultato sarà proprio l'oggetto <code>user</code> seguito dai parametri passati alla funzione:</p>
+            <TerminalCode code={`
+                { firstName: "John", lastName: "Doe", getFullName: ƒ }, "john", "doe"
+            `}/>
+            <p>Qualora invece non volessimo salvare la funzione in una variabile (nel nostro caso registerUserBound),
+                è possibile chiamare direttamente la funzione con il metodo <code>call()</code>:
+            </p>
+            <JavascriptCode code={`
+                const user = {
+                    firstName: "John",
+                    lastName: "Doe",
+                    getFullName: function() { return \`FULLNAME: \${this.firstName} \${this.lastName}\`; }
+                };
+                
+                function registerUser(username, password) {
+                    // in questo caso this si riferirà all'oggetto user (passato all'interno di call)
+                    console.log(this, username, password);  
+                }
+                
+                registerUser.call(user, username, password);
+            `}/>
+            <p>ed il risultato sarà sempre l'oggetto <code>user</code> seguito da username e password:</p>
+            <TerminalCode code={`
+                { firstName: "John", lastName: "Doe", getFullName: ƒ }, "john", "doe"
+            `}/>
+            <p>Infine, qualora volessimo passare i parametri alla funzione in un array, possiamo utilizzare il metodo
+                <code>apply()</code>:
+            </p>
+            <JavascriptCode code={`
+                const user = {
+                    firstName: "John",
+                    lastName: "Doe",
+                    getFullName: function() { return \`FULLNAME: \${this.firstName} \${this.lastName}\`; }
+                };
+                
+                function registerUser(username, password) {
+                    // in questo caso this si riferirà all'oggetto user (passato all'interno di apply)
+                    console.log(this, username, password);  
+                }
+                
+                registerUser.apply(user, ["john", "doe"]);
+            `}/>
+            <p>ed anche in questo caso il risultato sarà sempre lo stesso:</p>
+            <TerminalCode code={`
+                { firstName: "John", lastName: "Doe", getFullName: ƒ }, "john", "doe"
+            `}/>
         </div>
     );
 };
