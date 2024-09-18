@@ -193,6 +193,15 @@ const ArrayJS: React.FC = () => {
                     console.log(array3);    // [1, 2, 3, 4, 5, 6]
                 `}/>
             </p>
+            <p>Esiste poi un altro modo per concatenare due array, ovvero utilizzando l'operatore di spread
+                (spread operator):
+                <JavascriptCode code={`
+                    const array1 = [1, 2, 3];
+                    const array2 = [4, 5, 6];
+                    const array3 = [...array1, ...array2];
+                    console.log(array3);    // [1, 2, 3, 4, 5, 6]
+                `}/>
+            </p>
 
             <h2>Trovare l'indice di un elemento in un Array</h2>
             <p>Per trovare l'indice di un elemento in un array possiamo utilizzare il metodo <code>indexOf()</code>:
@@ -225,6 +234,29 @@ const ArrayJS: React.FC = () => {
                 che l'elemento da ricercare sia presumibilmente più vicino all'iniizo dell'array, si può utilizzare
                 <code>indexOf()</code>, altrimenti <code>lastIndexOf()</code>.
             </p>
+
+            <h2>Destrutturazione di un Array</h2>
+            <p>La destrutturazione di un array è una tecnica che permette di estrarre valori da un array
+                (o da un oggetto) e assegnarli a variabili separate.
+                <JavascriptCode code={`
+                    const array = [1, 2, 3];
+                    const [a, b, c] = array;
+                    console.log(a); // 1
+                    console.log(b); // 2
+                    console.log(c); // 3
+                    
+                    // Ignorare un elemento
+                    const [a, , c] = array;
+                    console.log(a); // 1
+                    console.log(c); // 3
+                    
+                    // Assegnare i valori restanti ad un altro array
+                    const [a, ...rest] = array;
+                    console.log(a); // 1
+                    console.log(rest); // [2, 3]
+                `}/>
+            </p>
+
         </div>
     );
 };

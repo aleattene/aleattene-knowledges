@@ -250,7 +250,11 @@ const ArrayMethods: React.FC = () => {
                 La funzione di callback viene eseguita per ogni elemento dell'array e restituisce true o false.
             </p>
             <h2>Sintassi:</h2>
-            <JavascriptCode code={`array.find(callback)`}/>
+            <JavascriptCode code={`
+                array.find(callback)
+                
+                array.find((element, index, array) => { ... });
+            `}/>
             <p>dove <code>callback</code> è la funzione che viene eseguita per ogni elemento dell'array e che
                 restituisce true o false.
                 Il metodo <code>find</code> restituisce il primo elemento per il quale la funzione di callback
@@ -280,7 +284,11 @@ const ArrayMethods: React.FC = () => {
                 Se nessun elemento soddisfa la condizione, il metodo restituisce -1.
             </p>
             <h2>Sintassi:</h2>
-            <JavascriptCode code={`array.findIndex(callback)`}/>
+            <JavascriptCode code={`
+                array.findIndex(callback)
+                
+                array.findIndex((element, index, array) => { ... });
+            `}/>
             <p>dove <code>callback</code> è la funzione che viene eseguita per ogni elemento dell'array e che
                 restituisce true o false.
                 Il metodo <code>findIndex</code> restituisce l'indice del primo elemento per il quale la funzione di
@@ -391,7 +399,11 @@ const ArrayMethods: React.FC = () => {
                 elemento dell'array su cui viene eseguito il metodo stesso.
             </p>
             <h2>Sintassi:</h2>
-            <JavascriptCode code={`array.forEach(callback)`}/>
+            <JavascriptCode code={`
+                array.forEach(callback)
+                
+                array.forEach((element, index, array) => { ... });
+            `}/>
             <p>dove <code>callback</code> è la funzione da eseguire per ogni elemento dell'array.</p>
             <h3>Esempio:</h3>
             <JavascriptCode code={`
@@ -662,11 +674,14 @@ const ArrayMethods: React.FC = () => {
             </p>
             <h2>Sintassi:</h2>
             <JavascriptCode code={`
-                const newArray = array.map(callback, index, array);
+                const newArray = array.map(callback);
+                
+                const newArray = array.map((element, index, array) => { ... });
             `}/>
             <p>dove:
                 <ul>
                     <li><code>callback</code> è la funzione da eseguire per ogni elemento dell'array</li>
+                    <li><code>element</code> è l'elemento corrente che viene processato</li>
                     <li><code>index</code> (opzionale) è l'indice dell'elemento corrente che viene processato
                     </li>
                     <li><code>array</code> (opzionale) è l'array su cui viene eseguito il metodo
@@ -1049,7 +1064,7 @@ console.log(squaredNumbers);
                     <code className='documentation-link'> sort </code>
                 </a>
             </h2>
-            <p>Questo metodo modifica un array ordinandone gli elementi.
+            <p>Questo metodo modifica un array (originale) ordinandone gli elementi.
                 Di default, il metodo ordina gli elementi come stringhe e li ordina in ordine crescente.
             </p>
             <h2>Sintassi:</h2>
