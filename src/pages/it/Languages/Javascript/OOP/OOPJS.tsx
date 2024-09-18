@@ -378,6 +378,191 @@ const OOPJS: React.FC = () => {
             <TerminalCode code={`
                 { firstName: "John", lastName: "Doe", getFullName: ƒ }, "john", "doe"
             `}/>
+
+            <h2>Costruttori</h2>
+            <p>Sappiamo che le funzioni sono un speciale tipo di oggetto in JS. Vediamo un esempio:</p>
+            <JavascriptCode code={`
+                function User(firstName, lastName) {
+                    this.firstName = firstName;
+                    this.lastName = lastName;
+                    this.getFullName = function() { return \`FULLNAME: \${this.firstName} \${this.lastName}\`; }
+                }
+                
+                // Chiamata standard di funzione
+                const user = User("John", "Doe");
+                console.log(user);      // undefined
+                
+                // Chiamata di funzione con la keyword new
+                const user = new User("John", "Doe");
+                console.log(user);                  // User { firstName: "John", lastName: "Doe" }
+                console.log(user.getFullName());    // FULLNAME: John Doe
+            `}/>
+            <p>Questo esempio ci mostra come la keyword <code>new</code> posta davanti ad una funzione, fa in modo che
+                venga creata una nuova istanza di un oggetto, che eredita le proprietà e i metodi della funzione
+                stessa.
+            </p>
+
+            <h2>Prototipi</h2>
+            <p>Il prototype è un oggetto che viene creato automaticamente quando viene creata una funzione in JS.
+                Questo oggetto contiene tutte le proprietà e i metodi che possono essere condivisi da tutte le
+                istanze della funzione.
+            </p>
+            <JavascriptCode code={`
+                function User(firstName, lastName) {
+                    this.firstName = firstName;
+                    this.lastName = lastName;
+                    this.getFullName = function() { return \`FULLNAME: \${this.firstName} \${this.lastName}\`; }
+                }
+                
+                user = new User("Mario", "Rossi");
+                user2 = new User("Luca", "Verdi");
+                
+                
+                consolle.log(user.getFullName === user2.getFullName);    // false               
+            `}/>
+            <p>Otteniamo come risultato <code>false</code> poiché ogni istanza della funzione <code>User</code> ha
+                un proprio metodo <code>getFullName</code> salvato in una differente area di memoria. Per poter fare
+                in modo che ogni oggetto condivida la stessa area di memoria per lo stesso metodo, possiamo utilizzare
+                appunto il <code>prototype</code> disponibile per ogni funzione:
+            </p>
+            <JavascriptCode code={`
+                function User(firstName, lastName) {
+                    this.firstName = firstName;
+                    this.lastName = lastName;
+                }
+                
+                // Aggiunta di un metodo al prototype della funzione User (condiviso da tutte le istanze)
+                User.prototype.getFullName = function() {
+                    return \`FULLNAME: \${this.firstName} \${this.lastName}\`;
+                };
+                
+                user = new User("Mario", "Rossi");
+                user2 = new User("Luca", "Verdi");
+                
+                console.log(user.getFullName === user2.getFullName);    // true
+            `}/>
+            <p>Questo aspetto è anche evidenziabile andando a stampare l'oggetto <code>user</code>:</p>
+            <JavascriptCode code={`
+                console.log(user);
+            `}/>
+            <p>Output:</p>
+            <TerminalCode code={`
+                User { 
+                    firstName: "Mario", 
+                    lastName: "Rossi" }
+                    __proto__: 
+                        getFullName: ƒ ()
+                        constructor: ƒ User(firstName, lastName)
+                        __proto__: Object
+                        ...
+            `}/>
+            <p>Per comprendere ancora meglio questo aspetto del <code>prototype</code>, possiamo fare un esempio
+                con oggetti built-in di JS, come ad esempio un array:
+            </p>
+            <JavascriptCode code={`
+                const array = [1,2];
+                console.log(array);
+            `}/>
+            <p>Output:</p>
+            <TerminalCode code={`
+                (3) [1, 2, 3]
+                    0: 1
+                    1: 2
+                    length: 
+                    // Inizio della catena di prototype
+                    __proto__: Array(0)
+                        concat: ƒ concat()
+                        constructor: ƒ Array()
+                        copyWithin: ƒ copyWithin()
+                        map: ƒ map()
+                        pop: ƒ pop()
+                        push: ƒ push()
+                        reverse: ƒ reverse()
+                        ...
+                        __proto__: Object 
+                            ...
+            `}/>
+            <p>Da questo output possiamo osservare la presenza di un prototype (<code>__proto__</code>) contenente
+                tutti i metodi che possono essere utilizzati su un array, sino ad arrivare al prototype di base
+                di tutti gli oggetti di JS.
+            </p>
+            <p>Parliamo infatti di una catena di prototype, dove infatti in questo caso il nostro specifico array
+                è costruito su un prototype di Array che a sua volta è costruito su un prototype di Object (che è il
+                prototype di base di tutti gli oggetti JS, quindi ultimo della catena di prototype).
+            </p>
+            <p>Un discorso simile (che può anche essere ingannevole) vale anche per le primitive:</p>
+            <JavascriptCode code={`
+                const string = new String("Hello");
+                console.log(string);
+            `}/>
+            <p>Output:</p>
+            <TerminalCode code={`
+                String {"Hello"}
+                    0: "H"
+                    1: "e"
+                    2: "l"
+                    3: "l"
+                    4: "o"
+                    length: 
+                    // Inizio della catena di prototype
+                    __proto__: String
+                        anchor: ƒ anchor()
+                        big: ƒ big()
+                        blink: ƒ blink()
+                        bold: ƒ bold()
+                        toUpperCase: ƒ toUpperCase()
+                        ...
+                        __proto__: Object
+                            ...
+                        [[PrimitiveValue]]: "Hello"
+            `}/>
+
+            <h3>Ereditarietà dei Prototipi (prototype chain)</h3>
+            <p>La cosa più semplice da cui partire è proprio un esempio di ereditarietà tra due funzioni:</p>
+            <JavascriptCode code={`
+                function User(name) {
+                    this.name = name;
+                }
+                
+                User.prototype.getName = function() {
+                    return \`NAME: \${this.name}\`;
+                };
+                
+                function Admin(role, name) {
+                    User.call(this.name);
+                    this.role = role;
+                }
+                
+                Admin.prototype = Object.create(User.prototype);
+                
+                const admin = new Admin("Admin", "John");
+                console.log(admin);          
+            `}/>
+            <p>Output:</p>
+            <TerminalCode code={`
+                Admin { 
+                    name: "John", 
+                    role: "Admin" }
+                    __proto__: User
+                        getName: ƒ ()
+                        constructor: ƒ User(name)
+                        __proto__: Object
+                            ...
+            `}/>
+            <p>Qui possiamo osservare come l'oggetto <code>admin</code> è costruito sul prototype di User, a sua volta
+                costruito sul prototype di Object.
+            </p>
+            <p>Volendo verificare che effettivamente l'oggetto <code>admin</code> abbia ereditato anche il metodo
+                <code>getName()</code> di User, possiamo fare:</p>
+            <JavascriptCode code={`
+                console.log(admin.getName());
+            `}/>
+            <p>ed ottenere il risultato atteso:</p>
+            <TerminalCode code={`
+                NAME: John
+            `}/>
+
+
         </div>
     );
 };
