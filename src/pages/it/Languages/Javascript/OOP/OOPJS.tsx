@@ -562,6 +562,95 @@ const OOPJS: React.FC = () => {
                 NAME: John
             `}/>
 
+            <h2>Classi</h2>
+            <p>Le classi in JS sono un costrutto sintattico (zucchero sintattico) che permette di creare oggetti in
+                modo più chiaro e semplice rispetto alle funzioni costruttrici e ai prototipi.
+            </p>
+            <p>L'esempio precedente con le funzioni costruttrici e i prototipi, può essere riscritto in modo più
+                chiaro e semplice con le classi:</p>
+            <JavascriptCode code={`
+                class User {
+                    constructor(name) {
+                        this.name = name;
+                    }
+                    
+                    getName() {
+                        return \`NAME: \${this.name}\`;
+                    }
+                }
+                
+                class Admin extends User {
+                    constructor(role, name) {
+                        super(name);
+                        this.role = role;
+                    }
+                }
+                
+                const admin = new Admin("Admin", "John");
+                console.log(admin);          
+            `}/>
+            <p>Output:</p>
+            <TerminalCode code={`
+                Admin { 
+                    name: "John", 
+                    role: "Admin" }
+                    __proto__: User
+                        getName: ƒ ()
+                        constructor: ƒ User(name)
+                        __proto__: Object
+                            ...
+            `}/>
+            <p>Sostanzialmente abbiamo trasformato:</p>
+            <JavascriptCode code={`
+                // Funzione costruttrice
+                function User(name) {
+                    this.name = name;
+                }
+            `}/>
+            <p>in:</p>
+            <JavascriptCode code={`
+                // Classe
+                class User {
+                    constructor(name) {
+                        this.name = name;
+                    }
+                }
+            `}/>
+            <p>e:</p>
+            <JavascriptCode code={`
+                // Prototipo
+                User.prototype.getName = function() {
+                    return \`NAME: \${this.name}\`;
+                };
+            `}/>
+            <p>in:</p>
+            <JavascriptCode code={`
+                class User {
+                    ...
+                    
+                    // Metodo
+                    getName() {
+                        return \`NAME: \${this.name}\`;
+                    }
+                }
+            `}/>
+            <p>ed infine:</p>
+            <JavascriptCode code={`
+                // Funzione costruttrice
+                function Admin(role, name) {
+                    User.call(this.name);
+                    this.role = role;
+                }
+            `}/>
+            <p>in:</p>
+            <JavascriptCode code={`
+                class Admin extends User {
+                    constructor(role, name) {
+                        super(name);
+                        this.role = role;
+                    }
+                }
+            `}/>
 
         </div>
     );
