@@ -562,6 +562,33 @@ const OOPJS: React.FC = () => {
                 NAME: John
             `}/>
 
+            <h3>Modificare un prototype</h3>
+            <p>E' ad esempio possibile modificare il prototype di un oggetto Stringa, nel seguente modo:</p>
+            <JavascriptCode code={`
+                String.prototype.maiuscolo = function() {
+                    return this.toUpperCase();
+                };
+                
+                const string = new String("Hello");
+                console.log(string.maiuscolo());   // HELLO
+            `}/>
+            <p>e qualora stampassimo l'oggetto <code>string</code> otterremo quando segue:</p>
+            <TerminalCode code={`
+                String {"Hello"}
+                    0: "H"
+                    ...
+                    length: 5
+                    maiuscolo: ƒ maiuscolo()
+                    __proto__: String
+                        anchor: ƒ anchor()
+                        big: ƒ big()
+                        ...
+                        __proto__: Object
+                            ...
+                        [[PrimitiveValue]]: "Hello"
+            `}/>
+
+
             <h2>Classi</h2>
             <p>Le classi in JS sono un costrutto sintattico (zucchero sintattico) che permette di creare oggetti in
                 modo più chiaro e semplice rispetto alle funzioni costruttrici e ai prototipi.
@@ -651,6 +678,8 @@ const OOPJS: React.FC = () => {
                     }
                 }
             `}/>
+
+
 
         </div>
     );
