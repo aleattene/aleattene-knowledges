@@ -607,6 +607,70 @@ const Javascript: React.FC = () => {
                 console.log(age);   // 30
             `}/>
 
+            <h2>Codice Sincrono e Asincrono</h2>
+            <p>Partiamo con l'osservare che JS è single-threaded, ovvero esegue il codice step-by-step, riga per riga,
+                nell'esatto ordine sequenziale in cui è scritto (ricordando però che ad esempio le function vengono
+                elaborate riservando loro una specifica area di memoria, prima di tutto il resto del codice, seppur
+                non eseguite fino a quando non vengono realmente chiamate).
+            </p>
+            <p>E' infatti proprio questo il motivo per cui anche se richiamiamo nel codice una funzione che è dichiarata
+                successivamente, il codice non va in errore, poiché la funzione è stata comunque caricata in memoria
+                prima di tutto il resto del codice (ricordando però che la stessa cosa non vale per le arrow function).
+            </p>
+            <p>Ora il problema nasce quando determinati task o linee di codice richiedono più tempo per essere eseguiti
+                (ad esempio elaborazioni complesse, richieste Http ad un server, ecc.), poiché in questo caso non avendo
+                pieno controllo su queste azioni potrebbe anche capitare che si blocchi tutto il restante codice e
+                magari non venga neanche mai eseguito.
+            </p>
+            <p>Per evitare tutto questo si fa ricorso alla programmazione asincrona, ovvero si eseguono determinate
+                ovverosia si fa uso delle funzioni asincrone le quali non appena hanno terminato la loro esecuzione
+                chiamano una callback (funzione di callback) che si occuperà di gestire il risultato dell'elaborazione
+                asincrona.
+            </p>
+            <p>Un esempio di codice asincrono è il seguente:</p>
+            <JavascriptCode code={`
+                console.log('Inizio');
+                
+                setTimeout(() => {
+                    console.log('Timer Pronto');
+                }, 500);
+                
+                let tot = 0;
+                for (let i = 0; i < 1000000000; i++) { tot += i; }
+                console.log(\`Totale: \${tot}\`);
+                
+                console.log('Fine');                
+            `}/>
+            <p>Output:</p>
+            <JavascriptCode code={`
+                Inizio
+                Totale: 499999999500000000
+                Fine
+                Timer Pronto
+            `}/>
+            {/*[TO FIX] animazione funzionamento codice JS single thread applicato al codice */}
+            <p>Quello che sicuramente si nota è che il codice all'interno del <code>setTimeout</code> viene eseguito
+                solo alla fine, questo perché:
+                <ul>
+                    <li>il primo console.log va nello stack e viene eseguito subito stampando la stringa Inizio</li>
+                    <li>poi appena il codice incontra il <code>setTimeout</code> viene spostato nel browser API e
+                        inizia il conteggio del timer (500ms), al termine del quale il codice viene spostato nella
+                        coda di callback (in questo caso non può essere subito eseguito perché il main thread è
+                        occupato, alias lo stack non è vuoto)
+                    </li>
+                    <li>nel frattempo il codice continua con il ciclo for che somma i numeri fino a 1 miliardo
+                        impiegando un certo tempo, tenendo quindo occupato il main thread (stack)
+                    </li>
+                    <li>una volta terminato il ciclo for, il codice esegue il console.log con il totale
+                        stampando il risultato
+                    </li>
+                    <li>infine il codice esegue l'ultimo console.log con la stringa Fine</li>
+                    <li>solo a questo punto l'event-loop vede che lo stack è libero e quindi può spostare la
+                        callback del <code>setTimeout</code> nello stack, il modo che il main thread possa eseguire
+                        il codice al suo interno stampando la stringa Timer Pronto
+                    </li>
+                </ul>
+            </p>
         </div>
     );
 };
