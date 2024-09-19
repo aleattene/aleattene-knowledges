@@ -1,6 +1,7 @@
 import React from 'react';
 import './Javascript.css'
 import JavascriptCode from "../../../../components/Code/JavascriptCode/JavascriptCode.tsx";
+import TerminalCode from "../../../../components/Code/TerminalCode/TerminalCode.tsx";
 
 
 const Javascript: React.FC = () => {
@@ -671,6 +672,137 @@ const Javascript: React.FC = () => {
                     </li>
                 </ul>
             </p>
+
+            {/* [TO FIX ] XMLHttpRequest -> valutare se meritevole di approfondimento */}
+
+            <h2>Moduli</h2>
+            <p>I moduli sono una tecnica utilizzata per organizzare il codice in file separati, in modo da renderlo
+                più modulare e riutilizzabile.
+            </p>
+            <p>Un modulo è un file JavaScript che esporta una o più funzioni, variabili o classi, in modo che possano
+                essere importate ed utilizzate in altri file.
+            </p>
+            <p>Esempio:</p>
+            <JavascriptCode code={`
+                // File HTML
+                <script type="module" src="main.js"></script>
+            `}/>
+            <JavascriptCode code={`
+                // File main.js
+                import { greet } from './greet.js';
+                greet('John');
+            `}/>
+            <JavascriptCode code={`
+                // File greet.js
+                export function greet(name) {
+                    console.log(\`Hello, \${name}\`);
+                }
+            `}/>
+            <p>Output:</p>
+            <JavascriptCode code={`
+                Hello, John
+            `}/>
+            <p>Una cosa interessante che è possibile osservare è la seguente:</p>
+            <JavascriptCode code={`
+                // File main.js
+                greet('John');
+                import { greet } from './greet.js';
+            `}/>
+            <p>Output (???):</p>
+            <TerminalCode code={`
+                Hello, John
+            `}/>
+            <p>ovvero tutto continua a funzionare correttamente, poiché come accadeva con le funzioni dichiarate
+                anche in questo caso il codice relativo all'import viene comunque caricato in memoria prima di tutto
+                il resto del codice (???).
+            </p>
+
+            <h3>Export Multiplo</h3>
+            <p>Un modulo può esportare più funzioni, variabili o classi utilizzando la sintassi:</p>
+            <JavascriptCode code={`
+                export { function1, ... , functionN };
+            `}/>
+            <p>Esempio:</p>
+            <JavascriptCode code={`
+                // File greet.js
+                function greet(name) {
+                    console.log(\`Hello, \${name}\`);
+                }
+                
+                function sayGoodbye(name) {
+                    console.log(\`Goodbye, \${name}\`);
+                }
+                
+                export { greet, sayGoodbye };
+            `}/>
+            <p>per poi importarle in un altro file con la sintassi:</p>
+            <JavascriptCode code={`
+                import { function1, ... , functionN } from './file.js';
+            `}/>
+            <p>Esempio:</p>
+            <JavascriptCode code={`
+                // File main.js
+                import { greet, sayGoodbye } from './greet.js';
+            `}/>
+
+            <h3>Alias</h3>
+            <p>E' possibile assegnare un alias ad una funzione, variabile o classe importata da un modulo utilizzando
+                la sintassi:</p>
+            <JavascriptCode code={`
+                import { function1 as alias1, ... , functionN as aliasN } from './file.js';
+                
+                alias1();
+                ...
+                aliasN();    
+            `}/>
+            <p>Esempio:</p>
+            <JavascriptCode code={`
+                // File main.js
+                import { greet as hello, sayGoodbye as bye } from './greet.js';
+                
+                hello('John');
+                bye('John');
+            `}/>
+
+            <h3>Wild Card</h3>
+            <p>Con l'operatore (???) wildcard (*) è possibile importare tutte le funzioni, variabili o classi esportate da
+                un modulo utilizzando la sintassi:</p>
+            <JavascriptCode code={`
+                import * as alias from './file.js';
+            `}/>
+            <p>Esempio:</p>
+            <JavascriptCode code={`
+                // File main.js
+                import * as Utils from './greet.js';
+                
+                Utils.greet('John');
+                Utils.sayGoodbye('John');
+            `}/>
+
+            <h3>Default Export</h3>
+            <p>Un modulo può esportare una funzione, variabile o classe di default utilizzando la sintassi:</p>
+            <JavascriptCode code={`
+                export default function() { ... };
+            `}/>
+            <p>Esempio:</p>
+            <JavascriptCode code={`
+                // File greet.js
+                export default function(name) {
+                    console.log(\`Hello, \${name}\`);
+                }
+            `}/>
+            <p>per poi importarla in un altro file con la sintassi:</p>
+            <JavascriptCode code={`
+                import alias from './file.js';
+            `}/>
+            <p>In sostanza siamo liberi di importare la funzione esportata di default con il nome che preferiamo,
+                senza in questo caso dover utilizzare le parentesi graffe e/o l'alias.
+            </p>
+
+
+
+
+
         </div>
     );
 };

@@ -146,7 +146,7 @@ const Javascript: React.FC = () => {
                     try {
                         const url = \`\${baseUrl}/users/\${userId}\`;
                         console.log('Fetching user with id: ', userId);
-                        // Qui si aspetta fino a promise risolta/fullfilled (se rigettata, errore catturato dal catch)
+                        // Qui si aspetta fino a promise risolta/full-filled (se rigettata, errore catturato dal catch)
                         const response = await fetch(url);  
                         console.log('Successfully User fetched: ', response);
                     } catch (error) {

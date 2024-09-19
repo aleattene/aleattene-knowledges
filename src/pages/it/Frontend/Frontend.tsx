@@ -17,7 +17,7 @@ const Frontend: React.FC = () => {
             </ul>
 
             <h2>Fetch</h2>
-            <p>La funzione fetch() è una funzione nativa di JavaScript che permette di effettuare richieste HTTP
+            <p>La funzione fetch() è una funzione nativa presente nel Browser che permette di effettuare richieste HTTP
                 asincrone verso un server, comportandosi come una Promise. Questo significa che è possibile utilizzare
                 il metodo .then() per gestire la risposta della richiesta ed il metodo .catch() per gestire eventuali
                 errori.
