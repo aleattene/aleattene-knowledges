@@ -63,12 +63,12 @@ const Javascript: React.FC = () => {
 
             {/* JS Academy - Start */}
             <p>Si tratta di un linguaggio di scripting orientato agli oggetti ed agli eventi (???) che riga per riga
-                viene entrapretati a runtime (in tempo reale) dal browser.
+                viene interpretato a runtime (in tempo reale) dal browser.
                 Come abbiamo visto, non ha nulla a che vedere con Java, se non i primi 5 caratteri del nome (anche se
                 in merito l'origine del nome sembra comunque volesse richiamare l'allora popolarità di Java).
             </p>
-            {/* <p> [TO IX} Immagine Di un Documento HTML, browser, request, response di come funziona JS</p> */}
-            <p>Di base, JS nasce per rendere dinamiche le nostre pagine web, poichè prima dells sua nascita erano
+            {/* <p> [TO FIX] Immagine Di un Documento HTML, browser, request, response di come funziona JS</p> */}
+            <p>Di base, JS nasce per rendere dinamiche le nostre pagine web, poiché prima dells sua nascita erano
                 statiche e non interattive. Infatti il trio base per la realizzazione di una semplice pagina web è
                 proprio composta da:
                 <ul>
@@ -99,7 +99,7 @@ const Javascript: React.FC = () => {
                     <li>Client-Side (browser):
                         <ul>
                             <li>riguarda tutto ciò che si trova nella macchina dell'utente</li>
-                            <li>dal client (browser) non è possibile accedere a file o database direttamente, poichè
+                            <li>dal client (browser) non è possibile accedere a file o database direttamente, poiché
                                 questi si trovano nel server
                             </li>
                         </ul>
@@ -287,7 +287,7 @@ const Javascript: React.FC = () => {
                 il codice e poi riprende.
             </p>
             <JavascriptCode code={`
-                <script async src="script.js"></script>
+                <\script async src="script.js"></script>
             `}/>
             <p>In presenza di più script async sequenziali viene sempre eseguito quello disponibile per primo, ovvero
                 quello il cui download si è rivelato essere più veloce.
@@ -301,7 +301,7 @@ const Javascript: React.FC = () => {
                 interactive ma prima del DOMContentLoaded.
             </p>
             <JavascriptCode code={`
-                <script defer src="script.js"></script>
+                <\script defer src="script.js"></script>
                 
             `}/>
             <p>A differenza di async, gli script con attributo defer vengono eseguiti rispettando l’ordine in cui sono
@@ -344,8 +344,8 @@ const Javascript: React.FC = () => {
             {/*
                 [TO FIX] Attenzione all'uguaglianza tra oggetti (pur essendo gli stessi, stesso nome e stesse
                  proprietà sono due oggetti diversi
-                 car1 == car2 -> SEMPRE false (perchè la reference è diversa)
-                 car1 === car2 -> SEMPRE false (perchè la reference è diversa)
+                 car1 == car2 -> SEMPRE false (perché la reference è diversa)
+                 car1 === car2 -> SEMPRE false (perché la reference è diversa)
                  car1.name === car2.name -> può anche essere true (se il valore è effettivamente lo stesso)
                  car1.name == car2.name -> può anche essere true (se il valore è effettivamente lo stesso)
               */}
@@ -479,7 +479,7 @@ const Javascript: React.FC = () => {
             <h2>Garbage Collection</h2>
             <p>La garbage collection è un processo automatico eseguito in background che si occupa di individuare e
                 rimuovere i dati non più utilizzati dal programma (non più referenziati), al fine di liberare spazio in
-                memoria, quando uesto non è più necessario che venga occupato.
+                memoria, quando questo non è più necessario che venga occupato.
             </p>
             <p>Il ciclo di vita di un oggetto in Javascript è diviso in quattro fasi:
                 <ul>
@@ -673,7 +673,7 @@ const Javascript: React.FC = () => {
                 </ul>
             </p>
 
-            {/* [TO FIX ] XMLHttpRequest -> valutare se meritevole di approfondimento */}
+            {/* [TO FIX] XMLHttpRequest -> valutare se meritevole di approfondimento */}
 
             <h2>Moduli</h2>
             <p>I moduli sono una tecnica utilizzata per organizzare il codice in file separati, in modo da renderlo
@@ -685,7 +685,7 @@ const Javascript: React.FC = () => {
             <p>Esempio:</p>
             <JavascriptCode code={`
                 // File HTML
-                <script type="module" src="main.js"></script>
+                <\script type="module" src="main.js"></script>
             `}/>
             <JavascriptCode code={`
                 // File main.js
@@ -798,6 +798,46 @@ const Javascript: React.FC = () => {
             <p>In sostanza siamo liberi di importare la funzione esportata di default con il nome che preferiamo,
                 senza in questo caso dover utilizzare le parentesi graffe e/o l'alias.
             </p>
+
+            <h2>ESLint</h2>
+            <p>ESLint è un cd code-quality-checker, ovvero strumento di analisi statica del codice JavaScript che
+                identifica e segnala i pattern problematici trovati nel codice.
+            </p>
+            <p>Per la sua installazione si può utilizzare il comando:</p>
+            <TerminalCode code={`
+                // Salvataggio nella DevDependencies (dipendenze solo di sviluppo e non di produzione)
+                npm install eslint --save-dev
+            `}/>
+            <p>e nel file package.json di progetto si potrà trovare la dipendenza aggiunta (il cui codice del package
+                e relative sotto dipendenze sarà ovviamente all'interno della cartella node_modules):
+            <JavascriptCode code={`
+                // Dipendenza di sviluppo (la versione potrebbe essere diversa)
+                "devDependencies": {
+                    "eslint": "^7.32.0"
+                }
+            `}/>
+            </p>
+            <p>Per configurare ESLint si può utilizzare npx (Node Package Execute) il comando:</p>
+            <TerminalCode code={`
+                npx eslint --init
+            `}/>
+            <p>che permetterà di scegliere tra diverse opzioni di configurazione, ad esempio:</p>
+            <ul>
+                <li>To check only syntax</li>
+                <li>To check syntax and find problems</li>
+                <li>To check syntax, find problems, and enforce code style</li>
+            </ul>
+            <p>Seguendo poi le ulteriori istruzioni a video si potrà configurare il file .eslintrc.js (o .eslintrc.json)
+                con le regole desiderate (tra le style-guide più famose troviamo Airbnb che è la più restrittiva,
+                seguita da Google ed infine la Standard).
+            </p>
+            <p>Per eseguire ESLint si può utilizzare il comando:</p>
+            <TerminalCode code={`
+                npx eslint file.js
+            `}/>
+
+            {/* [TO FIX] Webpack -> valutare se meritevole di trattazione */}
+
 
 
 
