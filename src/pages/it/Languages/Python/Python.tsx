@@ -252,6 +252,102 @@ const Python: React.FC = () => {
                 </a> (set): insiemi con elementi univoci non ripetibili
                 </li>
             </ul>
+
+            <h2>DocString</h2>
+            <p>La docstring è un'importante funzionalità di Python che permette di documentare moduli, classi, metodi e
+                funzioni direttamente nel codice.
+            </p>
+            <p>SI tratta di una stringa che si posizione subito dopo la definizione di una funzione, classe o modulo e
+                serve a descrivere il suo comportamento e le sue funzionalità.
+            </p>
+            <p>E' molto importante poiché utilizzata da:
+            </p>
+            <ul>
+                <li>strumenti in grado di generare documentazione automatica (come ad esempio Sphinx)</li>
+                <li>strumenti interattivi (come ad esempio la funzione <code>help()</code>)</li>
+            </ul>
+            <p>Esempio:</p>
+            <PythonCode code={`
+                def somma(a: int | float, b: int | float) -> int | float:
+                    """
+                    Effettua la somma tra due numeri.
+                    
+                    Parametri:
+                        a (int | float): il primo numero
+                        b (int | float): il secondo numero
+                        
+                    Ritorna:
+                        int | float: la somma tra a e b
+                        
+                    Solleva:
+                        TypeError: se a o b non sono numeri
+                        ZeroDivisionError: se b è uguale a 0    
+                    """
+                    return a + b
+            `}/>
+            <p>Osservando l'esempio è quindi facile osservare come le tre principali componenti (più due facoltative)
+                della docstring sono:
+                <ol>
+                    <li>Descrizione della funzione (cosa fa)</li>
+                    <li>Elenco dei parametri in ingresso alla funzione (ne specifica il tipo ed il loro scopo)</li>
+                    <li>Descrizione del valore di ritorno della funzione (ne specifica il tipo e la descrizione)</li>
+                    <li><i>Indicazioni su eventuali eccezioni sollevate</i></li>
+                    <li><i>Note aggiuntive di dettagliate (algoritmi, riferimenti, ecc.)</i></li>
+                </ol>
+            </p>
+            <p>Le linee guida relativamente alla docstring richiedono:
+               <ul>
+                   <li>posizionamento corretto: subito dopo la definizione della funzione, classe o modulo</li>
+                   <li>descrizione coincisa e chiara: la prima riga deve contenere una descrizione concisa e chiara,
+                       mentre eventuali dettagli possono essere inseriti nelle note aggiuntive</li>
+                   <li>uso del formato standard: Google, Sphinx (reStructuredText), NumPy</li>
+                   <li>stile grammaticale corretto: frasi all'indicativo ed al tempo presente, mantenendo uno stile
+                       neutro (evitando quindi frasi soggettive)</li>
+               </ul>
+            </p>
+            <p>Per quanto riguarda invece le PEP (Python Enhancement Proposals) relative alla docstring si possono
+                consultare:
+                <ul>
+                    <li><a href={"https://peps.python.org/pep-0287/"}>PEP 8</a> - Style Guide for Python Code (in
+                        maniera più generale)
+                    </li>
+                    <li><a href={"https://peps.python.org/pep-0257/"}>PEP 257</a> - Docstring Conventions (in maniera
+                        più specifica e dettagliata) la quale ha i seguenti punti salienti:
+                        <ul>
+                            <li>ogni modulo, funzione, classe o metodo pubblico deve avere una docstring</li>
+                            <li>la prima riga di una docstring dovrebbe essere una descrizione coincisa</li>
+                            <li>utilizzare triple virgolette per le docstring anche se contengono una sola riga</li>
+                            <li>le docstring a una riga dovrebbero terminare sulla stessa riga di apertura</li>
+                            <li>le docstring multi-linea dovrebbero avere una riga vuota prima e dopo il testo</li>
+                        </ul>
+                    </li>
+                </ul>
+            </p>
+            <p>Come è possibile validare il nostro codice python è anche possibile validare le nostre docstring per
+                vedere se sono compliant con le linee guida della PEP 257 e PEP 8. Per farlo è possibile utilizzare
+                3 tool:
+                <ul>
+                    <li><a href={'https://pypi.org/project/pydocstyle/'}>pydocstyle</a>
+                        <PythonCode code={`
+                            # Installazione pydocstyle
+                            $ pip install pydocstyle
+                            
+                            # Utilizzo pydocstyle
+                            $ pydocstyle nome_file.py
+                        `}/>
+                        <TerminalCode code={`
+                            // Warning di esempio
+                            nome_file.py:1 at module level:
+                                D100: Missing docstring in public module
+                                D400: First line should end with a period (not 'a')
+                        `}/>
+                        Se non viene segnalato nulla, significa che la validazione è andata a buon fine.
+                    </li>
+                    <li><a href={'https://pypi.org/project/flake8-docstrings/'}>flake8-docstrings</a></li>
+                    <li><a href={'https://www.sphinx-doc.org/en/master/'}>Sphinx</a></li>
+                </ul>
+            </p>
+
         </div>
     );
 };
