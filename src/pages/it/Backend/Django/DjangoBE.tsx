@@ -817,9 +817,121 @@ const DjangoBE: React.FC = () => {
             </p>
             {/* [TO FIX] img funzionalità Form e Widget Django 4.2.11 vs 5 */}
 
+            <h2>Middleware</h2>
+            <p>IL middleware in Django è componente importantissimo che permette di eseguire specifiche operazioni
+                (elaborazione della richiesta, manipolazione della risposta, aggiunta di header personalizzati,
+                gestione delle sessioni, autenticazione, etc.) durante il processo di gestione delle richieste e
+                delle risposte HTTP.
+            </p>
+            <p>Il middleware in Django è implementato come una serie di classi Python, ognuno delle quali definisce
+                uno specifico comportamento da eseguire durante il ciclo di vita di una richiesta/risposta HTTP.
+                Importante sottolineare che queste classi devono implementare almeno uno dei metodi definiti
+                dall'interfaccio di middleware, come ad esempio __init__, __call__, process_request(),
+                process_response(), etc.
+            </p>
+            <h3>Middleware di Default</h3>
+            <p>Django fornisce una serie di middleware di default che vengono abilitati automaticamente all'interno
+                di un nuovo progetto e si occupano di svolgere funzionalità comuni come:
+                <ul>
+                    <li>gestione delle sessioni</li>
+                    <li>protezione contro attacchi CSRF</li>
+                    <li>compressione delle risposte</li>
+                    <li>controllo della cache</li>
+                    <li>ecc.</li>
+                </ul>
+            </p>
+            <p>Naturalmente nulla vieta la creazione di middleware personalizzati per gestire funzionalità specifiche.
+                Per far ciò è necessario :
+                <ul>
+                    <li>creare una nuova classe Python che implementi i metodi appropriati</li>
+                    <li>aggiungere il percorso della classe middleware al file settings.py del progetto, all'interno
+                        della lista MIDDLEWARE
+                    </li>
+                </ul>
+            </p>
+            <h3>Configurazione del Middleware</h3>
+            <p>Per abilitare o disabilitare un middleware in Django è necessario modificare il file settings.py del
+                progetto, all'interno del quale è presente la lista MIDDLEWARE contenente tutti i percorsi delle
+                classi middleware che si desidera utilizzare all'interno del progetto, nell'ordine specificato.
+            </p>
+            <PythonCode code={`
+                # settings.py
+                MIDDLWARE = [
+                    django.middleware.security.SecurityMiddleware',
+                    'django.contrib.sessions.middleware.SessionMiddleware',
+                    'django.contrib.staticfiles.middleware.StaticFilesMiddleware',
+                    ...
+                    'django.contrib.auth.middleware.AuthenticationMiddleware',
+                    ...
+                    'myapp.middleware.AddUUIDMiddleware',
+                    'myapp.middleware.AddCustomHeaderMiddleware',
+                    ...
+                    'django.middleware.csrf.CsrfRequestMiddleware',
+                    'django.middleware.csrf.CsrfResponseMiddleware',
+                ]     
+            `}/>
+            <p>Questo ultimo aspetto (ordine di esecuzione) è molto importante da tenere in considerazione in quanto
+                un middleware può influenzare il comportamento di un altro middleware se viene eseguito prima
+                piuttosto che dopo.
+            </p>
 
-     </div>
-    );
+            <h3>Modifica delle richieste</h3>
+            <p>Un middleware può essere utilizzato per intercettare e modificare le richieste HTTP in arrivo prima che
+                queste vengano inviate alle view, per esempio per:
+                <ul>
+                    <li>eseguire controlli di sicurezza aggiuntivi</li>
+                    <li>aggiungere header personalizzati</li>
+                    <li>applicare trasformazioni ai dati della richiesta</li>
+                    <li>ecc.</li>
+                </ul>
+            </p>
+            <p>Ad esempio si potrebbe aver necessità di creare un middleware che aggiunga un ID univoco ad ogni
+                richiesta in arrivo:
+                <PythonCode code={`
+                    # middleware.py
+                    class AddUUIDMiddleware:
+                        def __init__(self, get_response):
+                            self.get_response = get_response
+                            
+                        def __call__(self, request):
+                            request.id = uuid.uuid4()
+                            response = self.get_response(request)
+                            return response
+                `}/>
+            </p>
+
+            <h3>Modifica delle risposte</h3>
+            <p>Un middleware può essere utilizzato anche per intercettare e modificare le risposte HTTP in uscita prima
+                che queste vengano inviate al client, per esempio per:
+                <ul>
+                    <li>aggiungere header personalizzati</li>
+                    <li>applicare trasformazioni ai dati della risposta</li>
+                    <li>loggare informazioni aggiuntive</li>
+                    <li>ecc.</li>
+                </ul>
+            </p>
+            <p>Ad esempio si potrebbe aver necessità di creare un middleware che aggiunga un header personalizzato
+                ad ogni risposta:
+                <PythonCode code={`
+                    # middleware.py
+                    class AddCustomHeaderMiddleware:
+                        def __init__(self, get_response):
+                            self.get_response = get_response
+                            
+                        def __call__(self, request):
+                            response = self.get_response(request)
+                            # Add a custom header to the response
+                            response['X-Custom-Header'] = 'Custom Value'
+                            return response
+                `}/>
+            </p>
+
+            {/* [TO FIX] img funzionalità Middleware Django 4.2.11 vs 5 */}
+
+
+
+        </div>
+);
 }
 
 export default DjangoBE;
