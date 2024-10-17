@@ -708,6 +708,116 @@ const DjangoBE: React.FC = () => {
                 </li>
             </p>
             {/* [TO FIX] img funzionalità Template Tag e Filtro Django 4.2.11 vs 5 */}
+
+            <h2>Gestione dei Fom</h2>
+            <p>La gestione dei form è sicuramente un aspetto fondamentale per la creazione di UI interattive e per la
+                raccolta dei dati dagli utenti. Per tale motivo, sempre in ottica di essere un framework "a batterie
+                incluse", Django fornisce un sistema di gestione dei form che semplifica notevolmente la creazione,
+                la validazione e l'elaborazione dei form all'interno delle applicazioni web.
+            </p>
+            <p>Per gestire i form sono necessari alcuni passaggi fondamentali:
+                <ul>
+                    <li>definizione del form: lo si può fare utilizzando una classe Python che erediti da:
+                        <ul>
+                            <li>django.forms.Form se si vuole creare un form personalizzato
+                                <PythonCode code={`
+                                    # forms.py
+                                    from django import forms
+                                    
+                                    class ContactForm(forms.Form):
+                                        name = forms.CharField(max_length=100)
+                                        email = forms.EmailField()
+                                `}/>
+                            </li>
+                            <li>django.forms.ModelForm se si vuole creare un form basato su un modello esistente come
+                                sua base
+                            </li>
+                        </ul>
+                    </li>
+                    <li>rendering del form: utilizzando il sistema di template di Django, in modo da poterlo
+                        renderizzare all'interno di una pagina HTML. A riguardo si tenga bene a mente che è possibile
+                        utilizzare il tag &lbrace;% csrf_input %&gbrace; per aggiungere un campo di tipo hidden
+                        (nascosto) contenente il token CSRF per proteggere appunto il form da attacchi di tipo CSRF:
+                        <PythonCode code={`
+                            <\!-- template.html -->
+                            <form method="post">
+                                {% csrf_input %}
+                                {{ form.as_p }}
+                                <button type="submit">Invia</button>
+                            </form>
+                        `}/>
+                    </li>
+                    <li>elaborazione del form: nella view associata al form, è necessario gestire sia la richiesta
+                        iniziale per la visualizzazione che la sua successiva sottomissione verificando anche la sua
+                        validità, come di seguito mostrato utilizzando il metodo is_valid():
+                        <PythonCode code={`
+                            # views.py
+                            from django.shortcuts import render
+                            from .forms import ContactForm
+                            
+                            def contact_view(request):
+                                if request.method == 'POST':
+                                    form = ContactForm(request.POST)
+                                    if form.is_valid():
+                                        # Process the form data
+                                        name = form.cleaned_data['name']
+                                        email = form.cleaned_data['email']
+                                        # Do something with the data...
+                                else:
+                                    form = ContactForm()
+                                return render(request, 'contact_template.html', {'form': form})
+                        `}/>
+                    </li>
+                    <li>validazione dei dati del form: tramite il sistema di validazione integrato in Django (ma nulla
+                        vieta comunque di definire eventualmente altri metodi di validazione personalizzati):
+                        <PythonCode code={`
+                            # forms.py
+                            from django import forms
+                            from django.core.validators import validate_email
+                            
+                            class ContactForm(forms.Form):
+                                name = forms.CharField(max_length=100)
+                                email = forms.EmailField(validators=[validate_email])
+                                
+                                def clean_name(self):
+                                    name = self.cleaned_data['name']
+                                    if len(name) < 3:
+                                        raise forms.ValidationError('Il nome deve contenere almeno 3 caratteri.')
+                                    return name
+                        `}/>
+                    </li>
+                    <li>restituzione dei dati del form al template: in caso il form non sia valido deve infatti essere
+                        data la possibilità all'utente di correggere gli eventuali errori:
+                        <PythonCode code={`
+                            # views.py
+                            def contact_view(request):
+                                if request.method == 'POST':
+                                    form = ContactForm(request.POST)
+                                    if form.is_valid():
+                                        name = form.cleaned_data['name']
+                                        email = form.cleaned_data['email']
+                                        # Do something with the data...
+                                    else:
+                                        # Return the form with the form data
+                                        return render(request, 'contact_template.html', {'form': form})
+                                else:
+                                    form = ContactForm()
+                                return render(request, 'contact_template.html', {'form': form})
+                        `}/>
+                    </li>
+                </ul>
+            </p>
+            <p>In definitiva quindi la gestione del forma in Django necessita quindi di quattro fasi fondamentali:
+                <ol>
+                    <li>la definizione</li>
+                    <li>il rendering all'interno di un template HTML</li>
+                    <li>l'elaborazione all'interno di una view</li>
+                    <li>la validazione</li>
+                </ol>
+            </p>
+            {/* [TO FIX] img funzionalità Form e Widget Django 4.2.11 vs 5 */}
+
+
      </div>
     );
 }
