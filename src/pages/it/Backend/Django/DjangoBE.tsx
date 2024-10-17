@@ -431,14 +431,115 @@ const DjangoBE: React.FC = () => {
 
             {/* [TO FIX] img funzionalità QuerySet, Json, Ordinamento, Validatori  Django 4.2.11 vs 5 */}
 
-
-
-
-
-
-
-
-        </div>
+            <h2>ORM e QuerySet</h2>
+            <p>L'ORM (Object-Relational Mapping) di Django è un componente fondamentale del framework che permette di
+                tradurre automaticamente le operazioni sui modelli Python in istruzioni SQL che interagiscono
+                direttamente con il database. Attraverso l'ORM è possibile quindi effettuare una vasta gamma di
+                operazioni sul database, tra cui:
+                <ul>
+                    <li>creazione di nuovi record: creando e salvando nuove istanze dei modelli Python corrispondenti
+                    </li>
+                    <li>lettura di dati: utilizzando metodi di query come .all(), .filter(), .get(), ecc. forniti dai
+                        manager dei modelli
+                    </li>
+                    <li>aggiornamento di dati: modificando le proprietà degli oggetti dei modelli Python e salvando le
+                        modifiche
+                    </li>
+                    <li>eliminazione dei record: utilizzando il metodo .delete() sui modelli Python
+                    </li>
+                </ul>
+            </p>
+            <p>Aspetto importante da non dimenticare è che l'ORM di Django oltre a semplificare l'interazione con il
+                database, fornisce anche funzionalità avanzate come la gestione delle transazioni, la prevenzione degli
+                attacchi di SQL injection e la gestione delle relazioni tra i modelli.
+            </p>
+            <p>Per l'interrogazione del database ed il recupero dei dati Django si serve di QuerySet, ovvero una serie
+                di risultato di query su un modello specifico o su più modelli correlati.
+                Un QuerySet può essere creato utilizzando i manager dei modelli Django, ad esempio:
+                <ul>
+                    <li>recupero di tutti gli articoli dal database
+                        <PythonCode code={`
+                            articles = Article.objects.all()
+                        `}/>
+                    </li>
+                    <li>filtraggio dei risultati in base a determinati criteri (metodo filter() ed exclude())
+                        <PythonCode code={`
+                            # Recupera tutti gli articoli scritti da un determinato autore
+                            articles = Article.objects.filter(author='Alessandro')
+                            
+                            # Recupera tutti gli articoli tranne quelli scritti da un determinato autore
+                            articles = Article.objects.exclude(author='Alessandro')
+                            
+                            # Recupera tutti gli articoli scritti dopo il primo Gennaio 2024
+                            articles = Article.objects.filter(date__gt='2024-01-01')
+                        `}/>
+                    </li>
+                    <li>ordinamento dei risultati (metodo order_by())
+                        <PythonCode code={`
+                            # Recupera tutti gli articoli ordinati per data di creazione
+                            articles = Article.objects.order_by('date')
+                        `}/>
+                    </li>
+                    <li>recupero di un singolo oggetto (metodo get())
+                        <PythonCode code={`
+                            # Recupera l'articolo con ID 77
+                            article = Article.objects.get(id=77)
+                        `}/>
+                    </li>
+                    <li>limitazione di risultati (slice)
+                        <PythonCode code={`
+                            # Recupera i primi 10 articoli dal database
+                            first_ten_articles = Article.objects.all()[:10]
+                        `}/>
+                    </li>
+                    <li>concatenazione di QuerySet (operatore AND e OR) per combinare più filtri
+                        <PythonCode code={`
+                            # Recupera tutti gli articoli scritti da Alessandro e pubblicati dopo il 01/01/2024
+                            articles = Article.objects.filter(author='Alessandro') & 
+                                        Article.objects.filter(date__gt='2024-01-01')
+                                        
+                            # Recupera tutti gli articoli scritti da Alessandro o pubblicati prima del 01/01/2024  
+                            articles = Article.objects.filter(author='Alessandro') | 
+                                        Article.objects.filter(date__lt='2024-01-01')          
+                        `}/>
+                    </li>
+                    <li>esecuzione di query complesse (annidate, di aggregazione, più condizioni, ecc.)</li>
+                </ul>
+            </p>
+            <p>Di fatto i QuerySet rappresentano una collezione di oggetti che soddisfano determinati criteri di query;
+                di seguito un esempio di utilizzo:
+                <PythonCode code={`
+                    from myapp.models import Article
+                    
+                    # Recupera tutti gli articoli dal database
+                    articles = Article.objects.all()
+                    
+                    # Recupera gli articoli scritti da Alessandro (filtraggio)
+                    articles = Article.objects.filter(author='Alessandro')
+                    
+                    # Ordinamento degli articoli per data di creazione
+                    articles = Article.objects.order_by('date')
+                    
+                    # Recupera un singolo articolo
+                    article_77 = Article.objects.get(pk=77)
+                    
+                    Aggiornamento singolo articolo
+                    article_77.title = 'Title updated'
+                    article_77.save()
+                    
+                    # Eliminazione singolo articolo
+                    article_77.delete()
+                `}/>
+            </p>
+            <p>Una cosa importante che possiamo osservare è che i QuerySet sono lazy, ovvero non vengono eseguiti
+                effettivamente sino a quando non si richiedono i risultati, rendendo conseguentemente la loro esecuzione
+                molto efficace e performante.
+            </p>
+            <p>Inoltre essi possono anche essere concatenati tra loro per creare query più complesse, andando ad
+                eseguire operazioni successive su risultati ottenuti da una query precedente.
+            </p>
+            {/* [TO FIX] img differenze ORM e QUeryset Django 4.2.11 vs 5 */}
+     </div>
     );
 }
 
