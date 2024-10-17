@@ -429,7 +429,7 @@ const DjangoBE: React.FC = () => {
                 </ul>
             </p>
 
-            {/* [TO FIX] img funzionalità QuerySet, Json, Ordinamento, Validatori  Django 4.2.11 vs 5 */}
+            {/* [TO FIX] img funzionalità QuerySet, Json, Ordinamento, Validatori Django 4.2.11 vs 5 */}
 
             <h2>ORM e QuerySet</h2>
             <p>L'ORM (Object-Relational Mapping) di Django è un componente fondamentale del framework che permette di
@@ -539,6 +539,175 @@ const DjangoBE: React.FC = () => {
                 eseguire operazioni successive su risultati ottenuti da una query precedente.
             </p>
             {/* [TO FIX] img differenze ORM e QUeryset Django 4.2.11 vs 5 */}
+
+            <h2>Template</h2>
+            <p>I Template in Django sono file di testo contenenti markup HTML insieme a tag e filtri speciali di Django
+                che permettono di definire la presentazione dei dati all'interno di un'applicazione web. Il loro ruolo
+                principale è quello di generare dinamicamente pagine HTML basate sui dati forniti dalle View.
+            </p>
+            <p>In sostanza quando un utente fa una HTTP request ad un'applicazione Django, viene cercato il Template
+                corrispondente e processato per generare la risposta HTML da inviare al browser dell'utente.
+                Durante questo processo i Template (tag e variabili) vengono popolati con i dati forniti dalle View e i
+                risultati custom restituiti al client.
+            </p>
+            <p>I template supportano una vasta gamma di funzionalità, tra cui:
+                <ul>
+                    <li>variabili: consentono di inserire dati dinamicamente all'interno del template
+                        <PythonCode code={`
+                            <\h1>Benvenuto {{ user_name }}.</h1>
+                        `}/>
+                    </li>
+                    <li>strutture di controllo: permettono di eseguire operazioni condizionali o iterazioni sui dati
+                        all'interno del template, ad esempio:
+                        <PythonCode code={`
+                            <\\ul>
+                                {% for article in articles %}
+                                    <li>{{ article.title }}</li>
+                                {% endfor %}
+                            </ul>
+                        `}/>
+                    </li>
+                    <li>includere altri template: utilizzando il tag %lbrace% include %rbrace% cosi da poter
+                        suddividere il codice HTML in moduli riutilizzabili
+                        <PythonCode code={`
+                            {% include 'header.html' %}
+                        `}/>
+                    </li>
+                    <li>estensione dei template: è una tecnica che permette di definere un layout di base e di
+                        estenderlo o personalizzarlo in base alle esigenze specifiche di ciascuna pagina, promuovendo la
+                        manutenibilità e la riusabilità del codice
+                        <PythonCode code={`
+                            {% extends 'base.html' %}
+                        `}/>
+                    </li>
+                    <li>filtraggio dei dati: grazie ai filtri è possibile modificare o formattare i dati all'interno del
+                        template prime che vengano visualizzati
+                        <PythonCode code={`
+                            <\h1>{{ testo|upper }}</h1>
+                        `}/>
+                    </li>
+                </ul>
+            </p>
+            <p>Per utilizzare i template è necessario definirne uno che descriva la struttura dell'output HTML
+                desiderato e incorporare i dati dinamici forniti dalle view, utilizzando come sappiamo i tag e i
+                filtri speciali di Django. Di seguito un esempio di template che potremmo chiamare articles_list.html:
+                <PythonCode code={`
+                    <\!DOCTYPE html>
+                    <html lang="it">
+                        <head>
+                            <meta charset="UTF-8">
+                            <title>Lista Articoli</title>
+                        </head>
+                        <body>
+                            <h1>Lista dei miei Articoli</h1>
+                            <ul>
+                                {% for article in articles %}
+                                    <li>
+                                        <a href="{% url 'article_detail' article.id %}">{{ article.title }}</a>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        </body>
+                    </html>
+                `}/>
+            </p>
+            <p>Osserviamo in questo caso come attraverso il tag &lbrace;% url ... %&rbrace; sia possibile generare URL
+                dinamici all'interno del template al fine di visualizzare i dettagli di ciascun specifico articolo.
+            </p>
+            <p>Inoltre è fondamentale che al template vengano passati dalla view i dati necessari relativa alla lista
+                degli articoli, in modo che questi possano essere visualizzati correttamente. La nostra view potrà
+                quindi essere simile alla seguente:
+                <PythonCode code={`
+                    from django.shortcuts import render
+                    from .models import Article
+                  
+                    def articles_list(request):
+                        # Recupera tutti gli articoli dal database
+                        articles = Article.objects.all()
+                        # Passa gli articoli al template articles_list.html
+                        return render(request, 'articles_list.html', {'articles': articles})
+                `}/>
+            </p>
+            <p>In questo caso, quando l'utente visita la pagina article_list, Django esegue la view articles_list
+                associata, la quale recupererà tutti gli articoli dal database per passarli poi al template, il quale
+                a sua volta elaborerà i dati forniti generando dinamicamente la pagina HTML corrispondente per
+                restituirla infine al browser dell'utente.
+            </p>
+            <p>Altro aspetto molto importante da considerare è che nell'organizzazione e strutturazione dei template è
+                importante adottare una metodologia che renda la presentazione dei dati efficiente, manutenibile e
+                flessibile; per far ciò esistono alcune pratiche consigliate:
+                <li>separazione dei template per le pagine: i template devono quindi essere organizzati in modo tale che
+                    ciascun template rappresenti una pagina o una sezione specifica dell'applicazione (ad esempio un
+                    template per la homepage, uno per la pagina di contatto, etc)
+                </li>
+                <li>utilizzo di blocchi e layout di base: è buona norma definire un layout di base che includa gli
+                    elementi comuni a tutte le pagine dell'applicazione (ad esempio header, footer, navbar, ecc.),
+                    dopodiché grazie all'utilizzo di blocchi sarà consentito ai template specifici di sovrascrivere
+                    parti di layout base in modo da personalizzarle in base alle esigenze specifiche, ad esempio come
+                    di seguito mostrato:
+                    <PythonCode code={`
+                        <-- layout_base.html -->
+                        <\!DOCTYPE html>
+                        <html lang="it">
+                            <head>
+                                <meta charset="UTF-8">
+                                <title>{% block title %}My Site{% endblock %}</title>
+                            </head>
+                            <body>
+                                <header>
+                                    {% block header %} {% include 'header.html' %} {% endblock %}
+                                </header>
+                                
+                                <main>
+                                    {% block content %} {% endblock %}
+                                </main>
+                                
+                                <footer>
+                                    {% block footer %} {% include 'footer.html' %} {% endblock %}
+                                </footer>
+                            </body>
+                        </html>
+                    `}/>
+                    <PythonCode code={`
+                        <-- homepage.html -->
+                        {% extends 'layout_base.html' %}
+                        
+                        {% block title %}Homepage{% endblock %}
+                        
+                        {% block content %}
+                            <h1>Benvenuto nella Homepage</h1>
+                            <!-- Altri contenuti specifici della homepage -->
+                        {% endblock %}
+                    `}/>
+                </li>
+                <li>riutilizzo di blocchi con include: è infatti possibile utilizzare il tag include per riutilizzare
+                    parti di codice comuni in diversi template, ad esempio:
+                    <PythonCode code={`
+                        <-- article.html -->
+                        <div class="article">
+                            <h2>{{ article.title }}</h2>
+                            <p>{{ article.content }}</p>
+                        </div>
+                    `}/>
+                    <PythonCode code={`
+                        <-- article_list.html -->
+                        {% for article in articles %}
+                            {% include 'article.html' %}
+                        {% endfor %}
+                    `}/>
+                </li>
+                <li>organizzazione dei template per app: è consigliabile organizzare i template in cartelle separate per
+                    ciascuna app dell'applicazione, ad esempio creando ad esempio una cartella templates all'interno
+                    di ogni singola applicazione che possa contenere i template relativi a quella specifica app.
+                </li>
+                <li>utilizzo di blocchi condizionali: per visualizzare o meno elementi basati sullo stato
+                    dell'applicazione o sui dati forniti dalle view
+                </li>
+                <li>separazione dei compiti: assicurarsi che i template siano responsabili solo della presentazione dei
+                    dati e non della logica di business
+                </li>
+            </p>
+            {/* [TO FIX] img funzionalità Template Tag e Filtro Django 4.2.11 vs 5 */}
      </div>
     );
 }
