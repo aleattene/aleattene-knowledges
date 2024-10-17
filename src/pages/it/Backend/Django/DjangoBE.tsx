@@ -297,6 +297,142 @@ const DjangoBE: React.FC = () => {
                 HTML generata al browser dell'utente.
             </p>
 
+            <h2>URL e View</h2>
+            <p>Le URL (Uniform Resource Locator) sono stringhe di testo uniche che identificano risorse specifiche
+               all'interno di un'applicazione web, infatti ogniqualvolta un utente digita una URL nel browser Django
+               usa le definizioni URL (attraverso i file urls.py) per determinare quale View eseguire per rispondere
+               alla richiesta.
+            </p>
+            <p>In questi file urls.py è possibile definire le URL dell'applicazione e associarle alle View
+                corrispondenti con una sintassi costituita da una stringa di testo statico o da parti variabili
+                (parametri dinamici) che consentono di passare dati specifici alla view, come ad esempio ID di un
+                utente.
+            </p>
+            <p>Le URLs possono inoltre essere organizzate in modo gerarchico o modulare allo scopo di adattarsi alle
+                esigenze specifiche dell'applicazione rendendo la struttura più efficiente, chiara ed organizzata.
+            </p>
+            <p>Esempio - file urls.py dell'applicazione:</p>
+            <PythonCode code={`
+                from django.urls import path
+                from . import views
+                
+                urlpatterns = [
+                    path('', views.article_list, name='article_list'),
+                    path('articles/<\int:article_id>/', views.article_detail, name='article_detail'),
+                ]
+            `}/>
+            <p>I due punti più importante che dobbiamo osservare in questo codice sono:
+                <ul>
+                    <li>la funzione path() che definisce un URL e associa ad esso una View specifica</li>
+                    <li>il parametro dinamico &lt;int:article_id&gt; presente nella URL che rappresenta l'ID
+                        dell'articolo e che verrà passato come argomento alla View associata
+                    </li>
+                    <li>il parametro name che fornisce un identificativo per la specifica View, utile successivamente
+                        per riferirsi ad essa e generare URL dinamici all'interno del Template
+                    </li>
+                </ul>
+            </p>
+            <p>Esempio (file urls del progetto):</p>
+            <PythonCode code={`
+                from django.contrib import admin
+                from django.urls import path, include
+                
+                urlpatterns = [
+                    path('admin/', admin.site.urls),
+                    path('articles/', include('myapp.urls')),
+            `}/>
+            <p>In questo caso la funzione include() permette di includere le definizioni URL dell'applicazione
+                myapp.urls all'interno delle definizioni URL del progetto principale, dando vita come già preannunciato
+                ad una struttura gerarchica di routing.
+            </p>
+
+            {/* [TO FIX] img funzionalità Django 4.2.11 vs 5 */}
+
+            <h2>Model</h2>
+            <p>In Django i Model sono utilizzati per definire la struttura dei dati dell'applicazione e per interagire
+                con il database. Per la loro definizione è necessario creare una classe Python che erediti le
+                funzionalità principali da models.Model (indicando tra le altre cose a Django che si tratta di classi
+                che devono essere salvate nel database) e che definisca gli attributi della classe come campi del
+                modello.
+            </p>
+            <p>Esempio:</p>
+            <PythonCode code={`
+                from django.db import models
+                
+                class Article(models.Model):
+                    title = models.CharField(max_length=100)
+                    content = models.TextField()
+                    author = models.ForeignKey('Author', on_delete=models.CASCADE)
+                    date = models.DateTimeField(auto_now_add=True)
+                    
+                class Author(models.Model):
+                    name = models.CharField(max_length=50)
+                    surname = models.CharField(max_length=50)
+                    email = models.EmailField()
+            `}/>
+            <p>La cosa più semplice da osservare immediatamente è che di fatto questi modelli altro non fanno che essere
+                mappati direttamente su tabelle nel database relazionale, sulla base sia della struttura del modello
+                stesso che dalle sue relazioni con altri modelli.
+            </p>
+            <p>Questo mapping, come già più volte ripetuto, viene effettuato automaticamente da Django attraverso il
+                proprio ORM (Object Relational Mapping) che si occupa di tradurre le operazioni sui modelli in query SQL
+                che interagiscono direttamente con il database.
+            </p>
+            <p>Questo mapping avviene nel seguente modo:
+                <ul>
+                    <li>definizione del modello python che rappresenta la struttura dei dati dell'applicazione
+                        <PythonCode code={`
+                            from django.db import models
+                            
+                            class User(models.Model):
+                                name = models.CharField(max_length=100)
+                                email = models.EmailField(unique=True)
+                        `}/>
+                    </li>
+                    <li>creazione delle migrazioni del database contenenti le istruzioni SQL necessarie per creare o
+                        aggiornare il database
+                        <TerminalCode code={`
+                            python manage.py makemigrations
+                        `}/>
+                    </li>
+                    <li>applicazione delle migrazioni per interagire effettivamente con il database
+                        <TerminalCode code={`
+                            python manage.py migrate
+                        `}/>
+                    </li>
+                    <li>manipolazione dei dati attraverso l'ORM stesso, come ad esempio per la creazione di un nuovo
+                        utente
+                        <PythonCode code={`
+                            user = User(name='Alessandro', email='example@example.com')
+                            user.save()
+                        `}/>
+                    </li>
+                    <li>recupero dei dati dal database, sfruttando i metodi di query forniti dall'ORM
+                        <PythonCode code={`
+                            # Recover all users from the database
+                            users = User.objects.all()
+                        `}/>
+                    </li>
+                    <li>Aggiornamento ed eliminazione dei dati
+                        <PythonCode code={`
+                            # Modify the name of the user with name 'Alessandro' to 'Alessio'
+                            user = User.objects.get(name='Alessandro')
+                            user.name = 'Alessio'
+                            user.save()
+                            
+                            # Delete the user with name 'Mario'
+                            user = User.objects.get(name='Mario')
+                            user.delete()   
+                        `}/>
+
+                    </li>
+                </ul>
+            </p>
+
+            {/* [TO FIX] img funzionalità QuerySet, Json, Ordinamento, Validatori  Django 4.2.11 vs 5 */}
+
+
+
 
 
 
