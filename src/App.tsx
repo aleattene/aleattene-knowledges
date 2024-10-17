@@ -45,6 +45,7 @@ import Promise from "./pages/it/Languages/Javascript/Promises/Promise.tsx";
 import Aria from "./pages/it/Frontend/Html/ARIA/Aria.tsx";
 import CssFe from "./pages/it/Frontend/Css/CssFe.tsx";
 import StreamNode from "./pages/it/Backend/NodeJs/Streams/StreamNode.tsx";
+import DjangoBE from "./pages/it/Backend/Django/DjangoBE.tsx";
 
 
 const App: React.FC = () => {
@@ -109,6 +110,8 @@ const App: React.FC = () => {
 
                         <Route path="/it/backend/express" element={<Express/>} />
                         <Route path="/it/backend/fastify" element={<Fastify/>} />
+
+                        <Route path="/it/backend/django" element={<DjangoBE/>} />
 
                         <Route path="/it/http" element={<Http/>} />
                         <Route path="/it/http/statuscodes" element={<HttpStatusCodes/>} />
