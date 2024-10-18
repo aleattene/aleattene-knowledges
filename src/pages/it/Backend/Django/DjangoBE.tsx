@@ -1013,6 +1013,84 @@ const DjangoBE: React.FC = () => {
             </p>
             {/* [TO FIX] img funzionalità Django Admin Django 4.2.11 vs 5 */}
 
+            <h2>Contenuti Statici</h2>
+            <p>Per contenuti statici possiamo intendere immagini, fogli di stile CSS, file JavaScript, ecc, che
+                vengono serviti direttamente al client senza alcun processo di elaborazione da parte del server.
+                Per gestire e servire efficientemente questi contenuti, Django fornisce un sistema di gestione le cui
+                impostazioni vengono definite nel file settings.py del progetto.
+            </p>
+            <p>In particolare, Django ci mette a disposizione:
+                <ol>
+                    <li>un'apposita variabile STATIC_URL: nella quale specificare la URL da utilizzare per servire i
+                        file statici
+                    </li>
+                    <li>un'altra variabile STATIC_ROOT: nella quale specificare la directory in cui i file statici
+                        saranno raccolti durante il processo di deployment
+                    </li>
+                    <li>un'ulteriore variabile STATICFILES_DIRS: nella quale specificare una lista di directory in cui
+                        cercare i file statici, magari provenienti da diverse directory (come ad esempio file CSS e
+                        JavaScript proveniente da terze parti)
+                    </li>
+                </ol>
+            </p>
+            <p>Ma non solo, Django fornisce anche un sistema di gestione dei file statici che consente di organizzarli
+                e gestirli modularmente, definendo i percorsi di questi file all'interno delle applicazioni ed
+                utilizzando la cartella static presente in ognuna di esse. Sarà poi Django che cercherà automaticamente
+                i file all'interno di queste cartelle nel momento specifico della raccolta.
+            </p>
+            <p>In merito a questo è bene però osservare che durante lo sviluppo, Django offre una vista di servizio dei
+                file statici integrata (in modo da lavorarci più agevolmente), mentre in produzione è consigliabile
+                utilizzare un server web dedicato o un servizio di hosting dei file statici (come ad esempio Amazon S3
+                o Google Cloud Storage) per poterli gestire e servire in modo più efficiente e scalabile.
+            </p>
+            <p>Esempio:</p>
+            <PythonCode code={`
+                # settings.py
+                # Descrizione URB base per file statici
+                STATIC_URL = '/static/'
+                
+                # Definizione directory radice per file statici raccolti
+                STATIC_ROOT = os.path.join(BASE_DIR, 'static-files')
+                
+                # Definizione directory aggiuntive dei file statici
+                STATICFILES_DIRS = [
+                    os.path.join(BASE_DIR, 'static'),
+                ]
+            `}/>
+            <p>A questo punto potremmo supporre di avere un'applicazione chiamata myapp con un file CSS chiamato
+                style.css all'interno della cartella myapp/static/css. Per poterlo utilizzare in un template HTML
+                potremmo procedere nel seguente modo:
+                <PythonCode code={`
+                    <\DOCTYPE html>
+                    <html lang="it">
+                        <head>
+                            <meta charset="UTF-8">
+                            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                            <title>My Site</title>
+                            <!-- Inclusione file CSS -->
+                            <link rel="stylesheet" href="{% static 'cdd/style.css' %}">
+                        </head>
+                        <body>
+                            <h1>Benvenuto nel mio sito</h1>
+                            <!-- Inclusione immagine -->
+                            <img src="{% static 'images/logo.png' %}" alt="Logo">
+                            <!-- Inclusione file JavaScript -->
+                            <script src="{% static 'js/script.js' %}"></script>
+                        </body>
+                    </html>
+                `}/>
+            </p>
+            <p>Abbiamo parlato di file statici raccolti, ma come possiamo fare per raccoglierli? Semplicemente eseguendo
+                il comando collectstatic fornito da Django, durante il deployment dell'applicazione:
+                <TerminalCode code={`
+                    python manage.py collectstatic
+                `}/>
+            </p>
+            <p>Così facendo, Django raccoglierà tutti i file statici dalle directory specificate nelle impostazioni e
+                li copierà nella directory specificata da STATIC_ROOT, pronti per essere serviti dal server web.
+            </p>
+            {/* [TO FIX] img funzionalità Contenuti Statici Django 4.2.11 vs 5 */}
+
 
         </div>
     );
