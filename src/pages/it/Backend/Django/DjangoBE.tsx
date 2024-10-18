@@ -1091,6 +1091,157 @@ const DjangoBE: React.FC = () => {
             </p>
             {/* [TO FIX] img funzionalità Contenuti Statici Django 4.2.11 vs 5 */}
 
+            <h2>Sessione e Autenticazione</h2>
+            <h3>Gestione delle Sessioni</h3>
+            <p>Gestire una sessione significa consentire di mantenere lo stato dell'utente tra le varie richieste HTTP.
+                Succede infatti che ogniqualvolta un utente accede al nostro sito, Django crea automaticamente una
+                sessione univoca per quell'utente, assegnandogli un cookie. Grazie all'invio di questo cookie ad ogni
+                richiesta successiva, Django è in grado di identificare l'utente e ripristinare conseguentemente i dati
+                della sessione.
+            </p>
+            <p>Per abilitare le sessioni in Django è necessario configurare correttamente le impostazioni del
+                progetto all'interno del file settings.py. Django offre infatti diverse opzioni per la memorizzazione
+                dei dati di sessione, tra cui:
+                <ul>
+                    <li>database</li>
+                    <li>cache</li>
+                    <li>cookie firmato</li>
+                </ul>
+            </p>
+            <p>E' possibile specificare queste opzioni attraverso la variabile SESSION_ENGINE:
+                <PythonCode code={`
+                    # settings.py
+                    # memorizzazione dei dati di sessione nel database
+                    SESSION_ENGINE = 'django.contrib.sessions.backends.db'
+                `}/>
+            </p>
+            <p>Il conseguente accesso ai dati di sessione sarà possibile all'interno delle view attraverso l'oggetto
+                request, contenente l'attributo session:
+                <PythonCode code={`
+                    def my_view(request):
+                        # Legge il valore di 'my_key' dalla sessione
+                        my_value = request.session.get('my_key')
+                        # Imposta il valore di 'my_key' nella sessione
+                        request.session['my_key'] = 'my_value'
+                `}/>
+            </p>
+            <h3>Autenticazione</h3>
+            <p>L'autenticazione in Django è gestita attraverso il modulo django.contrib.auth, che fornisce le doverose
+                funzionalità richieste allo scopo, quali ad esempio:
+                <ul>
+                    <li>registrazione e autenticazione degli utenti</li>
+                    <li>gestione delle password</li>
+                    <li>logout</li>
+                    <li>ecc.</li>
+                </ul>
+            </p>
+            <p>Anche in questo caso per poterne far uso è necessario configurare correttamente il backend di
+                autenticazione all'interno del file settings.py (considerando comunque che Django supporta
+                l'autenticazione basata su database, su servizi esterni come OAuth2, su token, etc):
+                <PythonCode code={`
+                    # settings.py
+                    # Autenticazione basata su database (default)
+                    AUTHENTICATION_BACKENDS = [
+                        'django.contrib.auth.backends.ModelBackend',
+                    ]
+                `}/>
+            </p>
+            <p>Una volta configurato correttamente il backend. è possibile utilizzare queste funzionalità nelle view e
+                nei template sfruttando i decoratori di view forniti da Django, come ad esempio @login_required in grado
+                di proteggere le view riservate agli utenti autenticati fornendo contestualmente funzioni di utilità
+                come authenticate() e login() per gestire il processo di autenticazione e login degli utenti.
+            </p>
+            <p>Cerchiamo a questo punto di vedere i passaggi fondamentali necessari per implementare un sistema di
+                autenticazione in Django, utilizzando il modulo django.contrib.auth:
+                <ol>
+                    <li>configurare il backend di autenticazione: necessario specificarlo nel file settings.py
+                        utilizzando la variabile AUTHENTICATION_BACKENDS. IL backend di default è basata su database
+                        (quindi django.contrib.auth.backends.ModelBackend) mentre la variabile AUTH_USER_MODEL permette
+                        di definire il modello utente personalizzato da utilizzare (per usare lo standard la riga va
+                        rimossa:
+                        <PythonCode code={`
+                            # settings.
+                            # Autenticazione basata su database (default)
+                            AUTHENTICATION_BACKENDS = [
+                                'django.contrib.auth.backends.ModelBackend',
+                            ]
+                            
+                            # Definizione del modello utente personalizzato (rimuove la riga per usare auth default)
+                            AUTH_USER_MODEL = 'myapp.CustomUser'
+                        `}/>
+                    </li>
+                    <li>creare un sistema di registrazione e login: lo si può fare utilizzando le viste fornite da
+                        django.contrib.auth.views:
+                        <PythonCode code={`
+                            # views.py
+                            from django.contrib.auth import authenticate, login
+                            from django.shortcuts import render, redirect
+                            from .forms import RegistrationForm, LoginForm
+                            
+                            def register_view(request):
+                                if request.method == 'POST':
+                                    form = RegistrationForm(request.POST)
+                                    if form.is_valid():
+                                        form.save()
+                                        return redirect('login')
+                                else:
+                                    form = RegistrationForm()
+                                return render(request, 'register.html', {'form': form})
+                                
+                            def user_login(request):
+                                if request.method == 'POST':
+                                    form = LoginForm(request.POST)
+                                    if form.is_valid():
+                                        username = form.cleaned_data['username']
+                                        password = form.cleaned_data['password']
+                                        user = authenticate(username=username, password=password)
+                                        if user is not None:
+                                            login(request, user)
+                                            return redirect('dashboard')
+                                else:
+                                    form = LoginForm()
+                                return render(request, 'login.html', {'form':form})
+                        `}/>
+                    </li>
+                    <li>creare dei moduli per la registrazione e login: è possibile farlo utilizzando i moduli forniti
+                        da Django:
+                        <ul>
+                            <li>UserCreationForm per la registrazione</li>
+                            <li>AuthenticationForm per il login</li>
+                        </ul>
+                        <PythonCode code={`
+                            # forms.py
+                            from django import forms
+                            from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+                            from django.apps import apps
+                            
+                            User = apps.get_model('auth', 'User')
+                            
+                            class RegistrationForm(UserCreationForm):
+                                class Meta:
+                                    model = User
+                                    fields = ['username', 'password1', 'password2']
+                            
+                            class LoginForm(AuthenticationForm):
+                                class Meta:
+                                    model = User
+                                    fields = ['username', 'password']  
+                        `}/>
+                    </li>
+                    <li>creazione dei template HTML per la registrazione e login utenti</li>
+                    <li>protezione delle view riservate agli utenti autenticati: utilizzando il decoratore
+                        @login_required fornito da Django (django.contrib.auth):
+                        <PythonCode code={`
+                            # views.py
+                            from django.contrib.auth.decorators import login_required
+                            
+                            @login_required
+                            def dashboard_view(request):
+                                return render(request, 'dashboard.html')
+                        `}/>
+                    </li>
+                </ol>
+            </p>
 
         </div>
     );
