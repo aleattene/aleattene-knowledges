@@ -1243,6 +1243,122 @@ const DjangoBE: React.FC = () => {
                 </ol>
             </p>
 
+            <h2>Deployment</h2>
+            <p>Il deployment di un'applicazione Django è il processo di pubblicazione dell'applicazione su un server
+                web in modo che sia accessibile al pubblico. Questo processo può variare a seconda delle esigenze
+                specifiche dell'applicazione e dell'infrastruttura di hosting utilizzata, ma in linea generale
+                la prima cosa da fare è configurare l'ambiente di produzione per ospitare l'applicazione, ovvero:
+                <ul>
+                    <li>scegliere e configurare un server web: Apache, Nginx, etc. Solitamente questo processo comporta
+                        il dover configurare un file nginx.conf o apache2.conf cosi da poter instradare le richieste
+                        HTTP al server di applicazioni corretto
+                        Esempio do configurazione di Nginx per instradare richieste HTTP a Gunicorn:
+                        <PythonCode code={`
+                            server {
+                                listen 80;
+                                server_name example.com;
+                                
+                                location / {
+                                    proxy_pass http://127.0.0.1:8000;
+                                    proxy_set_header Host $host;
+                                    proxy_set_header X-Real-IP $remote_addr;
+                                    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+                                }
+                            }
+                        `}/>
+                    </li>
+                    <li>configurare correttamente un server di applicazioni: Gunicorn, uWSGI, etc. Questo renderà
+                        possibile l'esecuzione corretta dell'applicazione Django in un ambiente di produzione ma
+                        potrebbe richiedere durante la fase di configurazione la definizione del numero di processi e
+                        thread, la gestione del caricamento degli script WSGI e altre eventuali impostazioni di tuning
+                        delle prestazioni
+                    </li>
+                    <li>accertarsi di aver gestito correttamente le dipendenze di progetto: fortemente consigliato
+                        l'utilizzo di pip (Python Package Installer) ed un file requirements.txt da generare nel
+                        seguente modo:
+                        <TerminalCode code={`
+                            pip freeze > requirements.txt
+                        `}/>
+                        <TerminalCode code={`
+                            # requirements.txt
+                            Python==3.10.1
+                            ...
+                            Django==4.2.11
+                            ...
+                            psycopg2==2.9.1
+                        `}/>
+                        Ed eventualmente poi, per installare le dipendenze lanciare il comando:
+                        <TerminalCode code={`
+                            pip install -r requirements.txt
+                        `}/>
+                        Sempre consigliato utilizzare un ambiente virtuale (virtual environment) per isolare le
+                        dipendenze del progetto da quelle del sistema host.
+                    </li>
+                    <li>adottare corrette configurazioni di sicurezza: assicurandoci di proteggere l'applicazione da
+                        attacchi comuni come SQL injection, XSS, CSRF, etc, ad esempio impostando a True le seguenti
+                        variabili presenti nel file settings.py:
+                        <PythonCode code={`
+                            # Impostazioni di Sicurezza
+                            SECURE_BROWSER_XSS_FILTER = True
+                            SECURE_CONTENT_TYPE_NOSNIFF = True
+                            ...
+                            DEBUG = False
+                            ALLOWED_HOSTS = ['example.com']
+                        `}/>
+                        Non dimenticandoci poi di utilizzare HTTPS per crittografare la comunicazione server-client.
+                    </li>
+                    <li>configurare un database: PostgreSQL, MySQL, etc.</li>
+                    <li>esecuzione di eventuali migrazioni: utilizzando il comando migrate di Django al fine di
+                        avere sicurezza circa il fatto che lo schema del database sia allineato con i modelli definiti
+                        nel momento corrente
+                    </li>
+                    <li>configurare correttamente le variabili d'ambiente (secret-key, credenziali db, etc) in linea
+                        con l'ambiente di produzione, magari servendosi anche di un file .env dedicato
+                        <PythonCode code={`
+                            # settings.py
+                            import os
+                            
+                            SECRET_KEY = os.environ.get('SECRET_KEY')
+                            DATABASE_URL = os.environ.get('DATABASE_URL')
+                        `}/>
+                        Volendo è possibile gestire queste variabili in maniera ancora più sicura utilizzando ad esempio
+                        il package django-environ:
+                        <TerminalCode code={`
+                            # Installazione django-environ
+                            pip install django-environ
+                        `}/>
+                        <PythonCode code={`
+                            # .env
+                            SECRET_KEY=your_secret_key
+                            DATABASE_URL=your_database_url
+                        `}/>
+                        <PythonCode code={`
+                            # settings.py
+                            import environ
+                            # Inizializza istanza di environ
+                            env = environ.Env()
+                            
+                            # Se presente, legge le variabili d'ambiente da un file .env
+                            environ.Env.read_env()
+                            
+                            SECRET_KEY = env('SECRET_KEY')
+                            DATABASE_URL = env('DATABASE_URL')
+                        `}/>
+                    </li>
+                    <li>raccogliere i file statici: utilizzando il comando collectstatic che copierà conseguentemente
+                        tutti i file statici definiti nell'applicazione nella directory specificata da STATIC_ROOT
+                        (pronti per essere serviti dal server web)
+                    </li>
+                </ul>
+            </p>
+            <p>Va poi ricordato che una volta che l'applicazione è stata distribuita in produzione, è importante:
+                <ul>
+                    <li>monitorare le prestazioni e la stabilità al fine di identificare eventuali problemi o degrado
+                        delle prestazioni stesse
+                    </li>
+                    <li>eseguire regolarmente aggiornamenti di sicurezza e manutenzione</li>
+                </ul>
+            </p>
         </div>
     );
 }
