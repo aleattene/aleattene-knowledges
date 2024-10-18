@@ -928,10 +928,94 @@ const DjangoBE: React.FC = () => {
 
             {/* [TO FIX] img funzionalità Middleware Django 4.2.11 vs 5 */}
 
+            <h2>Django Admin</h2>
+            <p>Django Admin è un componente integrato (seppur personalizzabile qualora necessario) di Django che
+                fornisce un'interfaccia di amministrazione generata automaticamente per gestire i dati presenti nel
+                database dell'applicazione, basandosi sui modelli definiti nell'applicazione stessa.
+                Da questa interfaccia sarà quindi possibile:
+                <ul>
+                    <li>visualizzare dati in dettaglio</li>
+                    <li>aggiungere nuovi dati</li>
+                    <li>modificare dati esistenti</li>
+                    <li>eliminare dati</li>
+                    <li>ecc.</li>
+                </ul>
+            </p>
+            <p>Per utilizzare Django Admin è necessario:
+                <ul>
+                    <li>definire i modelli all'interno dell'applicazione
+                        <PythonCode code={`
+                            # models.py
+                            from django.db import models
+                            
+                            class Article(models.Model):
+                                title = models.CharField(max_length=100)
+                                content = models.TextField()
+                                date = models.DateTimeField(auto_now_add=True)
+                        `}/>
+                    </li>
+                    <li>registrare i modelli all'interno del file admin.py dell'applicazione
+                        <PythonCode code={`
+                            # admin.py
+                            from django.contrib import admin
+                            from .models import Article
+                            
+                            admin.site.register(Article)
+                        `}/>
+                    </li>
+                    <li>creare un superuser per accedere all'interfaccia di amministrazione
+                        {/* [TO FIX] How Create Super User */}
+                    </li>
+                </ul>
+            </p>
+            <p>Come abbiamo accennato inizialmente l'interfaccia di amministrazione può anche essere personalizzata
+                per soddisfare requisiti specifici dell'applicazione; in questo caso proviamo ad esempio ad aggiungere
+                un filtro per data di pubblicazione e un campo di ricerca articoli per titolo:
+                <PythonCode code={`
+                    # admin.py
+                    from django.contrib import admin
+                    from .models import Article
+
+                    class ArticleAdmin(admin.ModelAdmin):
+                        list_display = ('title', 'date')
+                        list_filter = ('date',)
+                        search_fields = ('title',)
+                        
+                    admin.site.register(Article, ArticleAdmin)
+                `}/>
+            </p>
+            <p>A seguito di questo aggiornamento sarà ora possibile vedere nella nostra interfaccia di amministrazione:
+                <ul>
+                    <li>un filtro per data di pubblicazione sulla barra laterale sinistra</li>
+                    <li>un campo di ricerca per titolo sopra l'elenco degli articoli</li>
+                </ul>
+            </p>
+            {/* [TO FIX] img Django Admin Real */}
+            <p>Esiste anche la possibilità di aggiungere azioni personalizzate per eseguire ad esempio operazioni su
+                più articoli contemporaneamente, come ad esempio:
+                <PythonCode code={`
+                    # admin.py
+                    from django.contrib import admin
+                    from .models import Article
+
+                    class ArticleAdmin(admin.ModelAdmin):
+                        list_display = ('title', 'date')
+                        list_filter = ('date',)
+                        search_fields = ('title',)
+                        actions = [make_published]
+                        
+                        # Imposta lo stato degli articoli selezionati come 'Pubblicato'
+                        def publish_article(self, request, queryset):
+                            queryset.update(published=True)
+                                                    
+                    admin.site.register(Article, ArticleAdmin)
+                `}/>
+            </p>
+            {/* [TO FIX] img funzionalità Django Admin Django 4.2.11 vs 5 */}
 
 
         </div>
-);
+    );
 }
 
 export default DjangoBE;
