@@ -1359,6 +1359,8 @@ const DjangoBE: React.FC = () => {
                     <li>eseguire regolarmente aggiornamenti di sicurezza e manutenzione</li>
                 </ul>
             </p>
+
+            {/* [TO FIX] 01 - Handle Products Project */}
         </div>
     );
 }
