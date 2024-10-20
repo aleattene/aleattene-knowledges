@@ -173,6 +173,205 @@ const TemplateDjango: React.FC = () => {
                     <li>ecc.</li>
                 </ul>
             </p>
+
+            <h3>Tag nei Template</h3>
+            <p>I tag nei template rappresentano lo strumento essenziale per la manipolazione dinamica del contenuto
+                HTML, basata su dati e condizioni specifiche. I tag possono infatti essere utilizzati per:
+                <ul>
+                    <li>controllare il flusso del programma: tramite cicli, condizioni, ecc.</li>
+                    <li>manipolare le variabili</li>
+                    <li>iterare attraverso collezioni di dati</li>
+                    <li>importare altri template</li>
+                    <li>definire blocchi di contenuto</li>
+                    <li>ecc.</li>
+                </ul>
+            </p>
+            <p>Tra tutti, possiamo considerare i seguenti come i più significativi:
+                <ul>
+                    <li>&lbrace;% csrf_token %&brace; (django 4): utilizzato per la generazione di un token CSRF per un
+                        form HTML,
+                        necessario a proteggere un sito web da attacchi di tipo CSRF (Cross-Site Request Forgery).
+                        Deprecato per le versioni successive a favore di &lbrace;% csrf_input %&brace;
+                        <PythonCode code={`
+                            <\form method="post">
+                                &lbrace;% csrf_token %&brace;
+                                <!-- Eventuali altri campi del form -->
+                                <button type="submit"> Invia </button>
+                            </form>
+                        `}/>
+                    </li>
+                    <li>&lbrace;% if %&rbrace;: utilizzato per eseguire un blocco di codice a seguito del verificarsi
+                        di una condizione (vera)
+                        <PythonCode code={`
+                            {% if user.is_authenticated %}
+                                <\p> Benvenuto, {{ user.username }}!</p>
+                            {% else %}
+                                <\p> Benvenuto, Ospite!</p>
+                            {% endif %}
+                        `}/>
+                    </li>
+                    <li>&lbrace;% for %&rbrace;: utilizzato per iterare su una sequenza di elementi ed eseguire a sua
+                        volta un blocco di codice per ogni elemento
+                        <PythonCode code={`
+                            <\\ul>
+                                {% for item in items %}
+                                    <li>{{ item }}</li>
+                                {% endfor %}
+                            <\\ul>
+                        `}/>
+                    </li>
+                    <li>&lbrace;% block %&rbrace; e &lbrace;% extends %&rbrace;: utilizzati per la creazione della
+                        struttura di un template estendibile, consentendo di conseguenza di definire blocchi di
+                        contenuto che possono essere sovrascritti da template figli
+                        <PythonCode code={`
+                            # base.html
+                            <\!DOCTYPE html>
+                            <html lang="it">
+                                <head>
+                                    <meta charset="UTF-8">
+                                    <title>{% block title %}Titolo Predefinito{% endblock %}</title>
+                                </head>
+                                <body>
+                                    <header>
+                                        {% block header %}
+                                            <!-- Contenuto dell'intestazione -->
+                                        {% endblock %}
+                                    </header>
+                                    <main>
+                                        {% block content %}
+                                            <!-- Contenuto principale -->
+                                        {% endblock %}
+                                    </main>
+                                    <footer>
+                                        {% block footer %}
+                                            <!-- Contenuto del piè di pagina -->
+                                        {% endblock %}
+                                    </footer>
+                                </body>
+                            </html>
+                        `}/>
+                        <PythonCode code={`
+                            # child_template.html
+                            {% extends "base.html" %}
+                            
+                            {% block title %}Titolo Personalizzato{% endblock %}
+                             
+                            {% block content %}
+                                <\h1>Contenuto Personalizzato</h1>
+                                <!-- Altri contenuti personalizzati -->
+                            {% endblock %}
+                            
+                            {% block footer %}
+                                <p>Piè di Pagina Personalizzato</p>
+                            {% endblock %}
+                        `}/>
+                    </li>
+                    <li>&lbrace;% url 'website:page' %&rbrace;: utilizzato per generare un URL-reverse a partire da un
+                        nome di vista specifico, permettendo così agli sviluppatori la creazione di link dinamici alle
+                        diverse viste del progetto
+                        <PythonCode code={`
+                            <a href="{% url 'website:home' %}">Go to Page</a>
+                        `}/>
+                    </li>
+                    <li>&lbrace;% ifequal %&rbrace; e &lbrace;% ifnotequal %&rbrace;: utilizzati per confrontare due
+                        valori ed eseguire un blocco di codice a seguito del verificarsi l'uguaglianza piuttosto che la
+                        disuguaglianza
+                        <PythonCode code={`
+                            {% ifequal user.role 'admin' %}
+                                <\p> Accesso Amministratore</p>
+                            {% else %}
+                                <\p> Accesso Utente</p>
+                            {% endifequal %}
+                        `}/>
+                    </li>
+                    <li>&lbrace;% include %&rbrace;: utilizzato per importare un template all'interno del template
+                        corrente, consentendo di riutilizzare blocchi di codice comuni a più template
+                        <PythonCode code={`
+                            {% include 'header.html' %}
+                                <!-- Altri contenuti -->
+                            {% include 'footer.html' %}
+                        `}/>
+                    </li>
+                    <li>&lbrace;% with %&rbrace;: utilizzato per assegnare un valore ad una variabile all'interno del
+                        blocco, rendendo più leggibile e conciso il codice del template
+                        <PythonCode code={`
+                            {% with total_price=product.price*quantity %}
+                                <\p> Prezzo Totale: {{ total_price }}</p>
+                            {% endwith %}
+                        `}/>
+                    </li>
+                    <li>&lbrace;% comment %&rbrace;: utile per inserire commenti all'interno del codice del template,
+                        senza che questi vengano poi visualizzati nella pagina HTML risultante
+                        <PythonCode code={`
+                            {% comment %}
+                                Questo è un commento che non verrà visualizzato nel codice HTML
+                            {% endcomment %}
+                        `}/>
+                    </li>
+                    <li>&lbrace;% now %&rbrace;: restituisce la data e l'ora corrente, formattata in base al formato
+                        specificato
+                        <PythonCode code={`
+                            <\p> Data e Ora Corrente: {% now "Y-m-d H:i" %}</p>
+                        `}/>
+                    </li>
+                    &lbrace;% timezone %&rbrace;: utilizzato per regolare la rappresentazione di un oggetto
+                    datetime in base al fuso orario specificato
+                    <PythonCode code={`
+                            {% timezone "Europe/Rome" %}
+                                <\p> Data e Ora Corrente: {{ value }}</p>
+                            {% endtimezone %}
+                        `}/>
+                    <li>&lbrace;% spaceless %&rbrace;: rimuove tutti gli spazi vuoti superflui dal contenuto generato
+                        all'interno del blocco, riducendo la dimensione del codice HTML risultante
+                        <PythonCode code={`
+                            {% spaceless %}
+                                <\div>
+                                    <p>Testo con spazi vuoti superflui</p>
+                                </div>
+                            {% endspaceless %}
+                        `}/>
+                    </li>
+                    <li>&lbrace;% verbatim %&rbrace;: utilizzato per includere testo che non deve essere interpretato
+                        all'interno del template ed è particolarmente utile quando si desidera evitare l'interpretazione
+                        di alcuni caratteri speciali piuttosto che di codice JS
+                        <PythonCode code={`
+                            {% verbatim %}
+                                <\script>
+                                    // Codice JavaScript che non deve essere interpretato
+                                    const x = 10;
+                                </script>
+                            {% endverbatim %}
+                        `}/>
+                    </li>
+                    <li>&lbrace;% urlize %&rbrace;: ... {/*TO FIX */}</li>
+                    <li>&lbrace;% widthratio %&rbrace;: ... {/*TO FIX */}</li>
+                    <li>&lbrace;% templatetag %&rbrace;: ... {/*TO FIX */}</li>
+                    {/*TO Tag di Commento FIX */}
+                    <li>&lbrace;% regroup %&rbrace;: ... {/*TO FIX */}</li>
+                    <li>&lbrace;% ssi %&rbrace;: ... {/*TO FIX */}</li>
+                    <li>&lbrace;% unordered_list %&rbrace;: ... {/*TO FIX */}</li>
+
+                    {/*TO FIX -> Nuovi tag disponibili solo in Django 5 */}
+                    <li>&lbrace;% lorem %&rbrace;: ... {/*TO FIX */}</li>
+                    <li>&lbrace;% ifchanged %&rbrace;: ... {/*TO FIX */}</li>
+                    <li>&lbrace;% csrf_input %&rbrace;: ... {/*TO FIX */}</li>
+                    <li>&lbrace;% autoescape %&rbrace;: ... {/*TO FIX */}</li>
+                    <li>&lbrace;% cycle %&rbrace;: ... {/*TO FIX */}</li>
+                    <li>&lbrace;% truncatechars %&rbrace;: ... {/*TO FIX */}</li>
+                    <li>&lbrace;% truncatewords %&rbrace;: ... {/*TO FIX */}</li>
+                    <li>&lbrace;% striptags %&rbrace;: ... {/*TO FIX */}</li>
+                    <li>&lbrace;% pluralize %&rbrace;: ... {/*TO FIX */}</li>
+                    <li>&lbrace;% date %&rbrace;: ... {/*TO FIX */}</li>
+                    <li>&lbrace;% time %&rbrace;: ... {/*TO FIX */}</li>
+                    <li>&lbrace;% filesizeformat %&rbrace;: ... {/*TO FIX */}</li>
+                    <li>&lbrace;% shuffle %&rbrace;: ... {/*TO FIX */}</li>
+                    <li>&lbrace;% slice %&rbrace;: ... {/*TO FIX */}</li>
+                    <li>&lbrace;% humanize_timesince %&rbrace;: ... {/*TO FIX */}</li>
+                    <li>&lbrace;% firstof %&rbrace;: ... {/*TO FIX */}</li>
+                    <li>&lbrace;% istrip %&rbrace; e &lbrace;% rstrip %&rbrace;: ... {/*TO FIX */}</li>
+                    <li>&lbrace;% phone2numeric %&rbrace;: ... {/*TO FIX */}</li>
+                </ul>
+            </p>
         </>
     );
 }
