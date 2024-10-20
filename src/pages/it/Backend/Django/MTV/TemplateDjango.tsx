@@ -98,6 +98,81 @@ const TemplateDjango: React.FC = () => {
                 </ul>
             </p>
 
+            <h3>Filtri nei Template</h3>
+            <p>Vengono utilizzati per formattare e manipolare dati in modo efficiente e pulito all'interno dei template,
+                mantenendo la logica di presentazione separata dalla logica di business e adattando quindi i dati al
+                contesto di visualizzazione desiderato.
+            </p>
+            <p>Tra la vasta gamma di operazioni possibili abbiamo:
+                <ul>
+                    <li>formattazione delle date e delle stringhe, per esempio:
+                        <ul>
+                            <li>date: formatta una data in un formato specifico
+                                <PythonCode code={`
+                                    <\p> Data di Registrazione: {{ registration_date|date:"d/m/Y" }}</p>
+                                `}/>
+                            </li>
+                            <li>time: formatta un'ora in un formato specifico
+                                <PythonCode code={`
+                                    <\p> Ora di Inizio: {{ start_time|time:"H:i" }}</p>
+                                `}/>
+                            </li>
+                            <li>capfirst: rende maiuscola la prima lettera di una stringa
+                                <PythonCode code={`
+                                    <\p> Nome: {{ name|capfirst }}</p>
+                                `}/>
+                            </li>
+                            <li>lower e upper: rendono rispettivamente minuscola e maiuscola una stringa (django 5)
+                                <PythonCode code={`
+                                    <\p> Username: {{ username|lower }}</p>
+                                    <\p> Password: {{ password|upper }}</p>
+                                `}/>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>manipolazione delle liste e dei numeri:
+                        <ul>
+                            <li>length: restituisce la lunghezza di una lista
+                                <PythonCode code={`
+                                    <\p> Numero di Prodotti: {{ products|length }}</p>
+                                `}/>
+                            </li>
+                            <li>slice: restituisce una porzione di una lista
+                                <PythonCode code={`
+                                    <\\ul>
+                                        {% for product in products|slice:":3" %}
+                                            <li>{{ product }}</li>
+                                        {% endfor %}
+                                    <\\ul>
+                                `}/>
+                            </li>
+                            <li>floatformat: formatta un numero in virgola mobile (django 5)
+                                <PythonCode code={`
+                                    <\p> Prezzo: {{ price|floatformat:"2" }}</p>
+                                `}/>
+                            </li>
+                            <li>intcomma: inserisce una virgola ogni tre cifre di un numero intero (django 5)
+                                <PythonCode code={`
+                                    <\p> Prezzo: {{ price|intcomma }}</p>
+                                `}/>
+                            </li>
+                            <li>truncatechars: tronca una stringa al numero di caratteri specificato
+                                <PythonCode code={`
+                                    <\p> Descrizione: {{ description|truncatechars:100 }}</p>
+                                `}/>
+                            </li>
+                            <li>wordcount: conta il numero di parole in una stringa
+                                <PythonCode code={`
+                                    <\p> Numero di Parole: {{ text|wordcount }}</p>
+                                `}/>
+
+                            </li>
+                        </ul>
+
+                    </li>
+                    <li>ecc.</li>
+                </ul>
+            </p>
         </>
     );
 }
