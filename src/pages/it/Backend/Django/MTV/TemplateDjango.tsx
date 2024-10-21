@@ -470,6 +470,100 @@ const TemplateDjango: React.FC = () => {
                     <li>migliorando la manutenibilità e la scalabilità del progetto</li>
                 </ul>
             </p>
+
+            <h3>Filtri Personalizzati nei Template</h3>
+            <p>I filtri personalizzati nei template consentono di estendere le funzionalità standard dei filtri inclusi
+                in Django ed il loro utilizzo è particolarmente utile quando si desidera eseguire operazioni specifiche
+                sui dati prima della loro visualizzazione (senza dover scrivere codice aggiuntivo nel backend).
+            </p>
+            <p>Il ciclo di vita di un filtro personalizzato nei template si compone di tre fasi principali:
+                <ol>
+                    <li>definire una funzione o più in un modulo Python dedicato (ad esempio una funzione che
+                        accetta in input una stringa e restituisce in output la stessa stringa con la prima lettera di
+                        ogni parola in maiuscolo)
+                    </li>
+                    <li>registrare la funzione (o le funzioni) utilizzando il decoratore
+                        &lbrace;% register.filter() %&rbrace;
+                    </li>
+                    <li>utilizzo della funzione (o delle funzioni) all'interno del template tramite la sintassi | (pipe)
+
+
+
+                    </li>
+                </ol>
+                <PythonCode code={`
+                    # templates/custom_filters.py
+                    from django import template
+                    
+                    register = template.Library()
+                    
+                    @register.filter(name=capitalize_words, ignore_lower=False)
+                    def capitalize_words(value):
+                        """
+                            Capitalizza la prima lettera di ogni parola in una stringa,
+                            fatta eccezione per quelli specificate nell'argomento ignore_lower.
+                        """
+                        words = value.split()
+                        capitalized_words = []
+                        for word in words:
+                            if word not ignore_lower or word.lower() not in ignore_lower:
+                                word = word.capitalize()
+                            capitalized_words.append(word)
+                        return ' '.join(capitalized_words)
+                            
+                        `}/>
+                <PythonCode code={`
+                    <\!-- template.html -->
+                    
+                    {% load custom_filters %}
+                    
+                    <h2>Commenti Utenti:</h2>
+                    <ul>
+                        {% for comment in comments %}
+                            <li>{{ comment.text|capitalize_words:"a tutti, di" }}</li>
+                        {% endfor %}
+                    </ul>
+                `}/>
+            </p>
+            <p>Come si può osservare questo approccio è molto interessante poiché consente di mantenere la logica di
+                formattazione dei dati direttamente nel template.
+            </p>
+            <p>Inoltre altro aspetto interessante riguarda la possibilità di accettare parametri/argomenti aggiuntivi
+                rendendo conseguentemente i filtri personalizzati ancora più flessibili, potenti e quantomai adattabili
+                ad una vasta gamma di casi d'uso. Nel nostro caso ad esempio le parole "a tutti" e "di" rimarranno in
+                minuscolo anche se dovessero trovarsi all'inizio di una frase, mentre le altre parole verranno
+                capitalizzate.
+            </p>
+            <p>Osserviamo infine che Django 5 offre alcune nuove funzionalità per la gestione dei filtri personalizzati
+                nei template, tra cui:
+                <ul>
+                    <li>funzione &lbrace;% register.filter %&rbrace;: utilizzato per registrare filtri personalizzati
+                        a livello globale
+                    </li>
+                    <li>decoratore template_filter;: utilizzato per definire filtri personalizzati direttamente nelle
+                        viste
+                    </li>
+                </ul>
+            </p>
+            <p>Esempio:</p>
+            <PythonCode code={`
+                from django.template import Library, TemplateSyntaxError
+                
+                # Definizione del filtro personalizzato utilizzando il decoratore template_filter
+                @template_filter
+                def custom_filter(value):
+                    # Codice del filtro personalizzato
+                    return value
+                    
+                # Funzione utilizzato per registrare il filtro personalizzato a livello globale    
+                def register_custom_filter(template_library):
+                    template_library.register_filter('custom_filter', custom_filter)
+                    
+                # ...
+                
+                register = Library()
+                register_custom_filter(register)
+            `}/>
         </>
     );
 }
