@@ -488,7 +488,6 @@ const TemplateDjango: React.FC = () => {
                     <li>utilizzo della funzione (o delle funzioni) all'interno del template tramite la sintassi | (pipe)
 
 
-
                     </li>
                 </ol>
                 <PythonCode code={`
@@ -564,6 +563,90 @@ const TemplateDjango: React.FC = () => {
                 register = Library()
                 register_custom_filter(register)
             `}/>
+
+            <h3>Variabili di Contesto nei Template</h3>
+            <p>Le variabili di contesto consentono di passare dati dinamici dalle views (viste) ai template, permettendo
+                così di visualizzare i dati in modo dinamico e personalizzato. Vediamo subito un esempio pratico:
+                <ul>
+                    <li>nella view: si crea un dizionario contenente le variabili di contesto da passare al template
+                        <PythonCode code={`
+                            # views.py
+                            from django.shortcuts import render
+                            
+                            def my_view(request):
+                                context = {
+                                    'title': 'Home',
+                                    'description': 'Benvenuto nella nostra pagina web!'
+                                }
+                                return render(request, 'home.html', context)
+                        `}/>
+                    </li>
+                    <li>nel template: si può avere accesso alla variabile di contesto utilizzando la sintassi
+                        &lbrace;&lbrace; variabile &rbrace;&rbrace;
+                        <PythonCode code={`
+                            <\!-- home.html -->
+                            
+                            <\!DOCTYPE html>
+                            <html lang="it">
+                                <head>
+                                    <meta charset="UTF-8">
+                                    <title>{{ title }}</title>
+                                </head>
+                                <body>
+                                    <h1>{{ description }}</h1>
+                                </body>
+                            </html>
+                        `}/>
+                    </li>
+                </ul>
+            </p>
+            <p>Nell'esempio appena mostrato abbiamo passato due variabili di contesto (title e description) al
+                template home.html, consentendo così di visualizzare dinamicamente il titolo e la descrizione della
+                pagina a seconda dei dati personalizzati forniti dalla view, provenienti a loro volta dal backend e
+                dipendenti anche dal contesto specifico.
+            </p>
+
+            <h3>I Reverse URL</h3>
+            <p>Sono dei link all'interno di un template che si riferiscono ad una view specifica. Possono essere creati
+                per generare URL dinamicamente all'interno di un template senza dover conoscere lo URL esatto di una
+                determinata view.
+                In sostanza, invece di codificarli manualmente all'interno dei template, è possibile utilizzare il nome
+                associato alla view e lasciare che poi sia Django ad occuparsi della generazione dello URL corretto.
+            </p>
+            <p>Esempio:
+                <ol>
+                    <li>definizione URLs: nel file urls.py assegnamo un nome a ciascuna view utilizzando il parametro
+                        name:
+                        <PythonCode code={`
+                            # urls.py
+                            from django.urls import path
+                            from . import views
+                            
+                            app_name = 'website'
+                            urlpatterns = [
+                                path('', views.home, name='home'),
+                                path('articles/', views.articles_list, name='articles_list'),
+                                path('articles/<\int:id>/', views.article_detail, name='article_detail'),
+                            ]
+                        `}/>
+                    </li>
+                    <li>utilizzo dei reverse URL: all'interno del template possiamo utilizzare il tag
+                        &lbrace;% url %&rbrace; per generare URL dinamicamente in base al nome della view
+                        <PythonCode code={`
+                            # template.html
+                            <\a href="{% url 'website:home' %}">Home</a>
+                            <a href="{% url 'website:articles_list' %}">Articles List</a>
+                            <a href="{% url 'website:article_detail' id=1 %}">Article Detail</a>
+                        `}/>
+                    </li>
+                </ol>
+            </p>
+            <p>Questo approccio è molto interessante, non solo perch+ ci evita di dover manualmente scrivere e
+                ricordare la url corretta di una view, ma anche perché una qualsiasi modifica allo URL di una view
+                si rifletterà automaticamente su tutti i link che fanno riferimento a quella view. Viceversa, sarebbe
+                molto rischioso e poco efficiente dover modificare manualmente ogni singolo URL all'interno dei template
+                che dovessero far riferimento ad una specifica view, sempre sperando di non dimenticarne nessuno.
+            </p>
         </>
     );
 }
