@@ -647,6 +647,67 @@ const TemplateDjango: React.FC = () => {
                 molto rischioso e poco efficiente dover modificare manualmente ogni singolo URL all'interno dei template
                 che dovessero far riferimento ad una specifica view, sempre sperando di non dimenticarne nessuno.
             </p>
+
+            <h3>Django Admin e i Template</h3>
+            <p>Sappiamo che Django Admin fornisce di default un'interfaccia predefinita per il pannello di
+                amministrazione, tuttavia è possibile personalizzarne l'aspetto e il comportamento, ovvero consentono:
+                <ul>
+                    <li>personalizzazione visiva: modificare il layout, i colori, i font, ecc. per adattarla
+                        all'aspetto generale dell'applicazione
+                    </li>
+                    <li>estensione delle funzionalità: aggiungendo nuovi elementi o sezioni (pulsanti, collegamenti,
+                        ecc)
+                    </li>
+                    <li>aggiunta di istruzioni personalizzate: per esempio aggiungendo anche messaggi di aiuto per gli
+                        utenti, fornendo loro indicazioni su come utilizzare correttamente determinate funzionalità
+                        o eseguire determinate azioni
+                    </li>
+                    <li>creazione di viste personalizzate: in grado di mostrare informazioni specifiche o di eseguire
+                        operazioni personalizzate sui dati presenti nel pannello di controllo
+                    </li>
+                </ul>
+            </p>
+            <p>In sintesi quindi i template del pannello di controllo consentono di personalizzare l'aspetto ed il
+                comportamento del pannello di amministrazione di Django, per adattarle alle esigenze specifiche di
+                progetto offrendo contestualmente un'esperienza di amministrazione più intuitiva ed efficiente agli
+                utenti.
+            </p>
+            <p>Esempio:</p>
+            <PythonCode code={`
+                <\!-- admin/base_site.html -->
+                
+                <!-- Estensione del template base di Django Admin (modificando eventualmente il contenuto esistente) -->
+                {% extends 'admin/base.html' %}
+                
+                <!-- Personalizzazione intestazione pannello di controllo (sostituendo il nome predefinito) -->
+                {% block branding %}
+                    <h1 id="site-name"> Welcome ti Admin Panel </h1>
+                {% endblock %}
+                
+                <!-- Aggiunta di un nuovo collegamento personalizzato nella navbar -->
+                {% block nav-global %} 
+                    <!-- Aggiunta di un nuovo collegamento personalizzato nella navbar -->
+                    <ul class="nav">
+                        <li><a href="{% url 'admin:index' %}">Home</a></li>
+                        <li><a href="{% url 'admin:logout' %}">Logout</a></li>
+                    </ul>
+                {% endblock %}
+                
+                <!-- Personalizzazione del contenuto principale del pannello di controllo -->
+                {% block content %}
+                    <div id="content">
+                        <!-- Contenuto personalizzato -->
+                        <p>Welcome {{ user. username }} to the Admin Panel.</p>
+                        <p>Here you can handle all the data of your website.</p>
+                        <!-- Altri contenuti personalizzati -->
+                        {{ block.super }}
+                    </div>
+                {% endblock %}
+                
+            `}/>
+
+            {/*TO FIX -> Vantaggi e Differenze tra Django 4.2.11 e 5 */}
+            {/*TO FIX -> Q&A Template */}
         </>
     );
 }
