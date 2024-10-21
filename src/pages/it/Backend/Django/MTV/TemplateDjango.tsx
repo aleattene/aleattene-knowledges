@@ -372,6 +372,104 @@ const TemplateDjango: React.FC = () => {
                     <li>&lbrace;% phone2numeric %&rbrace;: ... {/*TO FIX */}</li>
                 </ul>
             </p>
+
+            <h3>Gestione delle inclusioni</h3>
+            <p>Come abbiamo già avuto modo di dire, le inclusioni consentono di suddividere i template in porzioni più
+                piccole e riutilizzabili, rendendo così il codice più modulare e facile da gestire. Vien da se
+                comprendere come questo strumento diventi quindi particolarmente utile quando si desidera includere
+                lo stesso pezzo di codice HTML in più parti dell'applicazione.
+            </p>
+            <p>Sappiamo inoltre che le inclusioni vengono implementate con il tag &lbrace;% include %&rbrace; che
+                permette appunto di importare un altro template direttamente all'interno del template corrente.
+            </p>
+            <PythonCode code={`
+                <\!-- header.html -->
+                
+                <header>
+                    <h1>Web Site</h1>
+                    <!-- Altri elementi dell'header -->
+                </header>
+            `}/>
+            <PythonCode code={`
+                <\!-- template.html -->
+                
+                {% include 'header.html' %}
+                <div>
+                    <p>Contenuto della Pagina</p>
+                </div>
+            `}/>
+            <p>In questo caso succederà quindi che il contenuto del file header.html verrà importato all'interno del
+                file template.html, esattamente nel punto in cui abbiamo posizionato il tag &lbrace;% include %&rbrace;.
+            </p>
+
+            <h3>Gestione degli Eredi e dei Blocchi</h3>
+            <p>Abbiamo anche in questo caso avuto modo di anticipare che Django offre la possibilità di creare template
+                base che possono essere estesi da template figli, permettendo così di definire blocchi di contenuto che
+                possono essere sovrascritti dai template figli.
+            </p>
+            <p>In Django questo concetto è implementato attraverso i tag:
+                <ul>
+                    <li>&lbrace;% block %&rbrace;</li>
+                    <li>&lbrace;% extends %&rbrace;</li>
+                </ul>
+            </p>
+            <p>Esempio di funzionamento:</p>
+            <PythonCode code={`
+                <\!-- Template base.html -->
+                
+                <\!DOCTYPE html>
+                <html lang="it">
+                    <head>
+                        <meta charset="UTF-8">
+                        <title>{% block title %}Titolo Predefinito{% endblock %}</title>
+                    </head>
+                    <body>
+                        <header>
+                            {% block header %}
+                                <!-- Contenuto predefinito dell'intestazione -->
+                            {% endblock %}
+                        </header>
+                        <main>
+                            {% block content %}
+                                <!-- Contenuto predefinito per il body principale -->
+                            {% endblock %}
+                        </main>
+                        <footer>
+                            {% block footer %}
+                                <!-- Contenuto predefinito del piè di pagina -->
+                            {% endblock %}
+                        </footer>
+                    </body>
+                </html>
+            `}/>
+            <PythonCode code={`
+                <\!-- Template child.html -->
+                
+                {% extends "base.html" %}
+                
+                {% block title %}Titolo Personalizzato{% endblock %}
+                
+                {% block header %}
+                    <!-- Contenuto personalizzato dell'intestazione -->
+                {% endblock %}
+                
+                {% block content %}
+                    <!-- Contenuto personalizzato per il body principale -->
+                {% endblock %}
+                
+                {% block footer %}
+                    <!-- Contenuto personalizzato del piè di pagina -->
+                {% endblock %}
+            `}/>
+            <p>Quello che succederà in questo caso è che il template child.html (figlio) erediterà il template
+                base.html (padre) sovrascrivendo i blocchi &lbrace;% block &rbrace; con i propri contenuti
+                personalizzati:
+                <ul>
+                    <li>mantenendo una struttura coerente</li>
+                    <li>riducendo la duplicazione del codice</li>
+                    <li>migliorando la manutenibilità e la scalabilità del progetto</li>
+                </ul>
+            </p>
         </>
     );
 }
