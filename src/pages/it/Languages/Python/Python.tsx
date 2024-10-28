@@ -348,6 +348,44 @@ const Python: React.FC = () => {
                 </ul>
             </p>
 
+        <hr/>
+        <h1>Schema Riassuntivo</h1>
+        <h2>Tipi di Dato (Data Types)</h2>
+        <ul>
+            <li><strong>int</strong>: interi (es. <PythonCode code={'42'} />)</li>
+            <li><strong>float</strong>: numeri decimali (es. <PythonCode code={'3.14'} />)</li>
+            <li><strong>str</strong>: stringhe (es. <PythonCode code={"'Hello, World!'"} />)</li>
+            <li><strong>bool</strong>: booleani (es. <PythonCode code={'True / False'} />)</li>
+            <li><strong>list</strong>: liste (es. <PythonCode code={'[1, 2, 3]'} />)</li>
+            <li><strong>tuple</strong>: tuple (es. <PythonCode code={'(1, 2, 3)'} />)</li>
+            <li><strong>dict</strong>: dizionari (es. <PythonCode code={'{\'a\': 1, \'b\': 2}'} />)</li>
+            <li><strong>set</strong>: insiemi (es. <PythonCode code={'{1, 2, 3}'} />)</li>
+        </ul>
+        <h2>Operatori</h2>
+        <ul>
+            <li><strong>Aritmetici</strong>:
+                <PythonCode code={`+ - * / // (divisione intera) % (modulo) ** (potenza)`} />
+            </li>
+            <li><strong>Assegnamento</strong>:
+                <PythonCode code={`= += -= *= /= //= %= **=`} />
+            </li>
+            <li><strong>Comparazione (confronto)</strong>:
+                <PythonCode code={`== != < > <= >=`} />
+            </li>
+            <li><strong>Logici</strong>:
+                <PythonCode code={`and or not`} />
+            </li>
+            <li><strong>Appartenenza</strong>:
+                <PythonCode code={`in not in`} />
+            </li>
+            <li><strong>Identità</strong>:
+                <PythonCode code={`is is not`} />
+            </li>
+            <li><strong>Bitwise</strong>:
+                <PythonCode code={`& | ^ ~ << >>`} />
+            </li>
+        </ul>
+
         </div>
     );
 };
