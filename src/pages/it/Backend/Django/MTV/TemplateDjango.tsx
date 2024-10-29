@@ -4,7 +4,7 @@ import PythonCode from "../../../../../components/Code/PythonCode/PythonCode.tsx
 
 const TemplateDjango: React.FC = () => {
     return (
-        <>
+        <div>
             <h1>Template</h1>
             <p>Possiamo immaginare il template in Django come un modello, uno schema predefinito, che consente di
                 organizzare presentare le informazioni in modo coerente e strutturato.
@@ -708,7 +708,7 @@ const TemplateDjango: React.FC = () => {
 
             {/*TO FIX -> Vantaggi e Differenze tra Django 4.2.11 e 5 */}
             {/*TO FIX -> Q&A Template */}
-        </>
+        </div>
     );
 }
 

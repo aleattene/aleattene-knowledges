@@ -1,5 +1,6 @@
 import React from 'react';
 import TypescriptCode from "../../../../components/Code/TypescriptCode/TypescriptCode.tsx";
+import TerminalCode from "../../../../components/Code/TerminalCode/TerminalCode.tsx";
 
 const ReactFe: React.FC = () => {
     return (
@@ -236,6 +237,87 @@ const ReactFe: React.FC = () => {
                     .createRoot(document.getElementById('root'))    
                     .render(<App />);
             `}/>
+            <h2>Progetto React</h2>
+            <p>La struttura di un progetto React non è fatta solo da una pagina HTML che include il codice JavaScript,
+                ma c’è molto di più.
+                Infatti, è necessario un server che ci mostri l’applicazione e che si aggiorni in automatico dopo ogni
+                modifica operata sui file sorgente dell’applicazione. File che, a loro volta, devono essere separati e
+                indipendenti, così da dividere logicamente i componenti dell’applicazione e svilupparli in stato di
+                isolamento.
+            </p>
+            <p>Chiaramente serviranno poi strumenti di analisi specializzati per React in modo da essere in grado di
+                capire quali informazioni stanno ricevendo i componenti e perché si stanno comportando in un certo modo.
+            </p>
+            <p>Altro aspetto molto importante è quello che riguarda l’esecuzione/aggiornamento dell’applicazione che
+                deve essere per ovvi motivi sempre preceduto da una conversione del codice JSX in normale JavaScript,
+                poiché altrimenti il browser non sarebbe in grado di eseguirlo.
+            </p>
+            <p>Fortunatamente in merito a ciò esiste uno strumento per farlo in modo automatico, ovvero
+                <a href={'https://babeljs.io/docs/en/#babel-is-a-javascript-compiler'}>
+                    <code className={'documentation-link'}>Babel</code>
+                </a>
+                il quale che si occupa di trasformare per noi questo codice JSX in codice JavaScript valido, senza
+                appunto alcun intervento da parte nostra.
+                Il codice JavaScript prodotto da Babel sarà quindi interpretabile dal browser senza necessità di
+                intervento da parte di ulteriori strumenti.
+                <i>Tra le altre cose va considerato anche che Babel nel nostro caso trasformerà il codice JSX in
+                    normale codice JavaScript, senza la necessità di configurare nulla, poiché il supporto per JSX è
+                    già attivato nella sua configurazione di default.</i>
+            </p>
+            <h3>Creazione Progetto</h3>
+            <TerminalCode code={`
+                // Creazione Progetto React usando create-react-app (obsoleto, ora consigliato Vite)
+                npx create-react-app nome-progetto
+                cd nome-progetto
+                npm start
+            `}/>
+            <h3>Struttura Progetto</h3>
+            <p>La struttura di un progetto React creato con <code>create-react-app</code> è la seguente:</p>
+            <TerminalCode code={`
+                nome-progetto/
+                    README.md
+                    node_modules/
+                    package.json
+                    .gitignore
+                    public/
+                        index.html
+                        favicon.ico
+                    src/
+                        App.css
+                        App.js
+                        App.test.js
+                        index.css
+                        index.js
+                        logo.svg
+            `}/>
+            <p>Nello specifico abbiamo:</p>
+            <ul>
+                <li><code>node_modules/</code>: è la directory dove risiedono tutte le dipendenza del progetto,
+                    installate tramite npm (o yarn)
+                </li>
+                <li><code>public/</code>: contiene tutti i file statici esposti dal server di sviluppo</li>
+                <li><code>public/index.html</code>: è l’entry point dell’applicazione, l’unico file HTML che viene
+                    scaricato dal browser e che contiene i riferimenti al resto del codice dell’applicazione.
+                </li>
+                <li><code>public/favicon.ico</code>: è la favicon, ovvero l'iconcina che compare nel titolo della
+                    scheda del browser.
+                </li>
+                <li><code>src/</code>: contiene tutti i sorgenti del nostro progetto.</li>
+                <li><code>src/index.js</code>: contiene il codice di collegamento tra React e il DOM, cioè la funzione
+                    <code>createRoot</code> e la relativa <code>render</code> (come visto in precedenza).
+                </li>
+                <li><code>src/App.js</code>: contiene il codice dei componenti (???)</li>
+                <li><code>.gitignore</code>: è un file contenente i path e i nomi dei file che devono essere ignorati
+                    da git e quindi non messi sotto controllo di versione.
+                </li>
+                <li><code>package.json</code>: è il file in cui sono definite le dipendenze del nostro progetto e gli
+                    script per eseguirlo.
+                </li>
+                <li><code>package-lock.json</code>: è la versione estesa del <code>package.json</code>, che salva
+                    automaticamente le versioni esatte delle dipendenze (dirette e indirette) del nostro progetto.
+                    Serve in sostanza a garantire che queste versioni rimangano inalterate nel tempo.
+                </li>
+            </ul>
         </div>
     );
 };
