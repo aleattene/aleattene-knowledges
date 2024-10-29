@@ -38,6 +38,7 @@ export const subSections: Record<string, string[]> = {
     nodejs: ['Stream', 'Concorrenza', 'Dipendenze', 'QA'], // 'CoreModules', 'ErrorFirst','Chaining',
     express: [],
     fastify: [],
+    django: ['View', 'Template'],
 };
 
 export const subSectionsRedirect: Record<string,string> = {
@@ -81,6 +82,9 @@ export const subSectionsRedirect: Record<string,string> = {
     express: 'express',
     /* Fastify */
     fastify: 'fastify',
+    /* Django */
+    view: 'view',
+    template: 'template',
 
 }
 

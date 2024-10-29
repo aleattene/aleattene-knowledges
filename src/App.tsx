@@ -46,6 +46,9 @@ import Aria from "./pages/it/Frontend/Html/ARIA/Aria.tsx";
 import CssFe from "./pages/it/Frontend/Css/CssFe.tsx";
 import StreamNode from "./pages/it/Backend/NodeJs/Streams/StreamNode.tsx";
 import DjangoBE from "./pages/it/Backend/Django/DjangoBE.tsx";
+import ViewDjango from "./pages/it/Backend/Django/MTV/ViewDjango.tsx";
+import TemplateDjango from "./pages/it/Backend/Django/MTV/TemplateDjango.tsx";
+import CommitsHistory from "./components/History/CommitsHistory.tsx";
 
 
 const App: React.FC = () => {
@@ -112,6 +115,8 @@ const App: React.FC = () => {
                         <Route path="/it/backend/fastify" element={<Fastify/>} />
 
                         <Route path="/it/backend/django" element={<DjangoBE/>} />
+                        <Route path="/it/backend/django/view" element={<ViewDjango/>} />
+                        <Route path="/it/backend/django/template" element={<TemplateDjango/>} />
 
                         <Route path="/it/http" element={<Http/>} />
                         <Route path="/it/http/statuscodes" element={<HttpStatusCodes/>} />
@@ -124,9 +129,12 @@ const App: React.FC = () => {
                         <Route path="/" element={
                             <div>
                                 <h1>Benvenuto!</h1>
-                                <p>Seleziona una sezione dalla navbar.</p>
+                                {/* <p>Seleziona una sezione dalla navbar.</p>*/}
+                                <CommitsHistory />
+
+
                             </div>
-                        } />
+                        }/>
                     </Routes>
                 </div>
             </div>
